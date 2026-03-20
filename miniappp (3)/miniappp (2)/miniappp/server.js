@@ -934,9 +934,13 @@ app.post('/api/admin/login', (req, res) => {
 
 // Admin V2 Route (New)
 app.get('/khaidz', (req, res) => {
-    // Serve admin panel but force HTML content type so browser renders it instead of downloading
-    res.setHeader('Content-Type', 'text/html');
-    res.sendFile(path.join(__dirname, 'khaidz', 'index.php'));
+    const adminAppPath = path.join(__dirname, 'dist', 'khaidz', 'index.html');
+
+    if (!fs.existsSync(adminAppPath)) {
+        return res.status(503).send('Admin app is not built yet. Run "npm run build" first.');
+    }
+
+    res.sendFile(adminAppPath);
 });
 
 app.get('/api/admin/data', adminMiddleware, async (req, res) => {
@@ -966,7 +970,9 @@ app.get('/api/admin/data', adminMiddleware, async (req, res) => {
             accountNumber: w.accountNumber,
             vnd: w.vndAmount,
             qrUrl: w.qrUrl,
-            status: w.status
+            status: w.status,
+            createdAt: w.createdAt,
+            message: w.message || ''
         }));
 
         let totalGold = 0;

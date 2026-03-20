@@ -26,6 +26,12 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist"),
     emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: path.resolve(import.meta.dirname, "index.html"),
+        khaidz: path.resolve(import.meta.dirname, "khaidz", "index.html"),
+      },
+    },
   },
   server: {
     port,
