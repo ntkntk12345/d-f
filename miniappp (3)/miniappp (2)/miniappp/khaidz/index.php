@@ -482,10 +482,10 @@
             wrapper.id = 'message-id-container';
             wrapper.className = 'hidden';
             wrapper.innerHTML = `
-                <label class="block text-slate-400 mb-1">Message ID can tha tym</label>
-                <input type="text" id="task-message-id" placeholder="Vi du: 123"
+                <label class="block text-slate-400 mb-1">Message ID can tha tym (khong bat buoc)</label>
+                <input type="text" id="task-message-id" placeholder="De trong = bat ky tin nhan nao"
                     class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
-                <p class="text-[9px] text-rose-400 mt-1">* Dung cho nhiem vu react_heart. Bot se ghi nhan reaction qua webhook.</p>
+                <p class="text-[9px] text-rose-400 mt-1">* Dung cho nhiem vu react_heart. De trong neu muon user tha tym bat ky tin nhan nao trong group. Bot se ghi nhan reaction qua webhook.</p>
             `;
 
             groupContainer.parentNode.insertBefore(wrapper, groupContainer.nextSibling);
@@ -574,7 +574,7 @@
                             ${t.actionType === 'join'
                                 ? `JOIN: ${t.telegramChatId || 'No ID'}`
                                 : t.actionType === 'react_heart'
-                                    ? `HEART: ${t.telegramChatId || 'No chat'} / ${t.telegramMessageId || 'No message'}`
+                                    ? `HEART: ${t.telegramChatId || 'No chat'} / ${t.telegramMessageId || 'Any message'}`
                                     : 'CLICK'}
                         </div>
                     </td>

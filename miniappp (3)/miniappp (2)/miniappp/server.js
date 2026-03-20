@@ -1045,8 +1045,8 @@ app.post('/api/admin/config/task', adminMiddleware, async (req, res) => {
             return res.status(400).json({ error: 'Heart task requires telegramChatId.' });
         }
 
-        if (!Number.isFinite(normalizedMessageId) || normalizedMessageId <= 0) {
-            return res.status(400).json({ error: 'Heart task requires a valid telegramMessageId.' });
+        if (normalizedMessageId !== null && (!Number.isFinite(normalizedMessageId) || normalizedMessageId <= 0)) {
+            return res.status(400).json({ error: 'Heart task telegramMessageId must be empty or a valid positive number.' });
         }
     }
 
@@ -1461,18 +1461,26 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
         }
 
         if (task.actionType === 'react_heart') {
-            if (!task.telegramChatId || !task.telegramMessageId) {
-                return res.status(400).json({ error: 'Heart task is missing chat or message config.' });
+            if (!task.telegramChatId) {
+                return res.status(400).json({ error: 'Heart task is missing chat config.' });
             }
 
-            const [reactionRows] = await pool.query(
-                'SELECT reaction FROM telegram_message_reactions WHERE teleId = ? AND chatId = ? AND messageId = ? AND reaction = ? LIMIT 1',
-                [teleId, String(task.telegramChatId), Number(task.telegramMessageId), 'heart']
-            );
+            const hasSpecificMessage = Number.isFinite(Number(task.telegramMessageId)) && Number(task.telegramMessageId) > 0;
+            const [reactionRows] = hasSpecificMessage
+                ? await pool.query(
+                    'SELECT reaction FROM telegram_message_reactions WHERE teleId = ? AND chatId = ? AND messageId = ? AND reaction = ? LIMIT 1',
+                    [teleId, String(task.telegramChatId), Number(task.telegramMessageId), 'heart']
+                )
+                : await pool.query(
+                    'SELECT reaction FROM telegram_message_reactions WHERE teleId = ? AND chatId = ? AND reaction = ? LIMIT 1',
+                    [teleId, String(task.telegramChatId), 'heart']
+                );
 
             if (reactionRows.length === 0) {
                 return res.status(400).json({
-                    error: 'Heart reaction not detected yet. If you already reacted before, remove the heart and react again so the bot can capture it.'
+                    error: hasSpecificMessage
+                        ? 'Heart reaction not detected on the required message yet. If you already reacted before, remove the heart and react again so the bot can capture it.'
+                        : 'Heart reaction not detected in this group yet. Please react with a heart on any message, then come back and verify again.'
                 });
             }
         }
