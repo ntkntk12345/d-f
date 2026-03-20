@@ -913,8 +913,7 @@ export function FlappyGameView({ store }: { store: GameStore }) {
           ref={canvasRef}
           width={W}
           height={H}
-          onClick={jump}
-          onTouchStart={(event) => {
+          onPointerDown={(event) => {
             event.preventDefault();
             jump();
           }}
@@ -922,7 +921,7 @@ export function FlappyGameView({ store }: { store: GameStore }) {
           style={{
             boxShadow: "0 0 60px rgba(66,165,245,0.25), 0 20px 60px rgba(0,0,0,0.7)",
             cursor: "pointer",
-            touchAction: "manipulation",
+            touchAction: "none",
             outline: flashDead ? "4px solid rgba(255,80,80,0.8)" : "none",
             transition: "outline 0.05s",
           }}
