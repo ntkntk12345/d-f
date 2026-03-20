@@ -1,21 +1,24 @@
+import createAdHandler from "monetag-tg-sdk";
+
 const ADSGRAM_REWARD_BLOCK_ID = "int-23213";
 const ADSGRAM_SEQUENCE_BLOCK_IDS = ["int-23213", "int-23325", "int-23213"] as const;
+const MONETAG_MAIN_ZONE_ID = 9917411;
 
-type FlyInterstitialOptions = {
+type MonetagInterstitialOptions = {
   type: "inApp";
   inAppSettings: {
     frequency: number;
     capping: number;
     interval: number;
     timeout: number;
-    everyPage: boolean;
+    everyPage?: boolean;
   };
 };
 
-type FlyRewardedFn = {
+type MonetagRewardedFn = {
   (): Promise<unknown>;
   (mode: "pop"): Promise<unknown>;
-  (config: FlyInterstitialOptions): Promise<unknown> | void;
+  (config: MonetagInterstitialOptions): Promise<unknown> | void;
 };
 
 type AdsgramShowResult = {
@@ -26,9 +29,21 @@ function sleep(ms: number) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
 
-function getFlyRewarded() {
-  const candidate = (window as Window & { show_9917411?: FlyRewardedFn }).show_9917411;
-  return typeof candidate === "function" ? candidate : null;
+let monetagHandler: MonetagRewardedFn | null | undefined;
+
+function getMonetagHandler() {
+  if (monetagHandler !== undefined) {
+    return monetagHandler;
+  }
+
+  try {
+    monetagHandler = createAdHandler(MONETAG_MAIN_ZONE_ID) as MonetagRewardedFn;
+    return monetagHandler;
+  } catch (error) {
+    console.error("Monetag SDK init error", error);
+    monetagHandler = null;
+    return null;
+  }
 }
 
 async function showAdsgramRewarded(blockId = ADSGRAM_REWARD_BLOCK_ID) {
@@ -44,27 +59,27 @@ async function showAdsgramRewarded(blockId = ADSGRAM_REWARD_BLOCK_ID) {
   }
 }
 
-async function showFlyRewarded(mode?: "pop") {
-  const showFly = getFlyRewarded();
-  if (!showFly) return false;
+async function showMonetagRewarded(mode?: "pop") {
+  const showMonetag = getMonetagHandler();
+  if (!showMonetag) return false;
 
   try {
     if (mode === "pop") {
-      await showFly("pop");
+      await showMonetag("pop");
       return true;
     }
 
-    await showFly();
+    await showMonetag();
     return true;
   } catch (error) {
-    console.error("Fly rewarded error", error);
+    console.error("Monetag rewarded error", error);
     return false;
   }
 }
 
-async function showFlyRewardedSequence(count: number) {
+async function showMonetagRewardedSequence(count: number) {
   for (let i = 0; i < count; i += 1) {
-    const ok = await showFlyRewarded(i === count - 1 ? "pop" : undefined);
+    const ok = await showMonetagRewarded(i === count - 1 ? "pop" : undefined);
     if (!ok) return false;
 
     if (i < count - 1) {
@@ -77,16 +92,16 @@ async function showFlyRewardedSequence(count: number) {
 
 export async function showMiningRewardedAd() {
   if (await showAdsgramRewarded()) return true;
-  return showFlyRewarded();
+  return showMonetagRewarded();
 }
 
 export async function showReviveRewardedAd() {
   if (await showAdsgramRewarded()) return true;
-  return showFlyRewarded("pop");
+  return showMonetagRewarded("pop");
 }
 
 export async function showTaskRewardedSequence() {
-  const providers: Array<"adsgram" | "fly"> = ["adsgram", "fly"];
+  const providers: Array<"adsgram" | "monetag"> = ["adsgram", "monetag"];
   if (Math.random() >= 0.5) {
     providers.reverse();
   }
@@ -112,8 +127,8 @@ export async function showTaskRewardedSequence() {
       }
     }
 
-    if (provider === "fly") {
-      const ok = await showFlyRewardedSequence(ADSGRAM_SEQUENCE_BLOCK_IDS.length);
+    if (provider === "monetag") {
+      const ok = await showMonetagRewardedSequence(ADSGRAM_SEQUENCE_BLOCK_IDS.length);
       if (ok) return true;
     }
   }
@@ -121,12 +136,12 @@ export async function showTaskRewardedSequence() {
   return false;
 }
 
-export function bootFlyInAppAds() {
-  const showFly = getFlyRewarded();
-  if (!showFly) return;
+export function bootMonetagInAppAds() {
+  const showMonetag = getMonetagHandler();
+  if (!showMonetag) return;
 
   try {
-    void showFly({
+    void showMonetag({
       type: "inApp",
       inAppSettings: {
         frequency: 2,
@@ -137,6 +152,6 @@ export function bootFlyInAppAds() {
       },
     });
   } catch (error) {
-    console.error("Fly in-app ads init error", error);
+    console.error("Monetag in-app ads init error", error);
   }
 }

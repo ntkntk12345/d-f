@@ -19,6 +19,7 @@
     "express": "^5.2.1",
     "fs-extra": "^11.3.3",
     "lucide-react": "^0.545.0",
+    "monetag-tg-sdk": "^1.0.2",
     "mysql2": "^3.16.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",

@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowLeft, Coins, Gem, Trophy } from "lucide-react";
+import { ArrowLeft, CircleAlert, Coins, Gem, Sparkles, Trophy } from "lucide-react";
 
 import type { GameStore } from "@/hooks/use-game-store";
-import { toast } from "@/hooks/use-toast";
 import { formatNumber } from "@/lib/utils";
 import { showReviveRewardedAd } from "@/lib/ad-service";
 
@@ -21,6 +20,16 @@ const BEST_SCORE_KEY = "miniappp-flappy-best-score";
 const REVIVE_INVINCIBLE_FRAMES = 80;
 
 type GameState = "idle" | "playing" | "dead";
+type GameNoticeTone = "record" | "success" | "error";
+
+interface GameNotice {
+  id: number;
+  tone: GameNoticeTone;
+  title: string;
+  description?: string;
+  gold?: number;
+  diamonds?: number;
+}
 
 interface Bird {
   y: number;
@@ -55,6 +64,46 @@ interface Cloud {
 }
 
 const STAR_COLORS = ["#FFD700", "#FF8C00", "#FF6B6B", "#7BFF7B", "#87CEEB"];
+const GAME_NOTICE_STYLES: Record<
+  GameNoticeTone,
+  {
+    panelBackground: string;
+    panelBorder: string;
+    panelShadow: string;
+    iconBackground: string;
+    iconColor: string;
+    titleColor: string;
+    descriptionColor: string;
+  }
+> = {
+  record: {
+    panelBackground: "linear-gradient(135deg, rgba(36,24,6,0.94), rgba(86,38,0,0.88))",
+    panelBorder: "1px solid rgba(255,215,64,0.35)",
+    panelShadow: "0 14px 34px rgba(0,0,0,0.42), 0 0 24px rgba(255,183,0,0.18)",
+    iconBackground: "linear-gradient(135deg, rgba(255,215,64,0.26), rgba(255,143,0,0.3))",
+    iconColor: "#FFD54F",
+    titleColor: "#FFF3C4",
+    descriptionColor: "rgba(255,244,214,0.84)",
+  },
+  success: {
+    panelBackground: "linear-gradient(135deg, rgba(6,28,48,0.94), rgba(10,74,120,0.84))",
+    panelBorder: "1px solid rgba(103,232,249,0.3)",
+    panelShadow: "0 14px 34px rgba(0,0,0,0.42), 0 0 24px rgba(34,211,238,0.12)",
+    iconBackground: "linear-gradient(135deg, rgba(34,211,238,0.22), rgba(59,130,246,0.28))",
+    iconColor: "#A5F3FC",
+    titleColor: "#E0F7FF",
+    descriptionColor: "rgba(220,244,255,0.82)",
+  },
+  error: {
+    panelBackground: "linear-gradient(135deg, rgba(54,10,16,0.95), rgba(87,17,29,0.88))",
+    panelBorder: "1px solid rgba(248,113,113,0.28)",
+    panelShadow: "0 14px 34px rgba(0,0,0,0.42), 0 0 24px rgba(248,113,113,0.12)",
+    iconBackground: "linear-gradient(135deg, rgba(248,113,113,0.18), rgba(239,68,68,0.28))",
+    iconColor: "#FCA5A5",
+    titleColor: "#FFE4E6",
+    descriptionColor: "rgba(255,228,230,0.82)",
+  },
+};
 
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
@@ -494,6 +543,7 @@ export function FlappyGameView({ store }: { store: GameStore }) {
   const reviveUsedRef = useRef(false);
   const invincibleFramesRef = useRef(0);
   const scoreSubmittedRef = useRef(false);
+  const noticeTimeoutRef = useRef<number | null>(null);
 
   const [uiState, setUiState] = useState<GameState>("idle");
   const [score, setScore] = useState(0);
@@ -502,6 +552,43 @@ export function FlappyGameView({ store }: { store: GameStore }) {
   const [canRevive, setCanRevive] = useState(true);
   const [isReviving, setIsReviving] = useState(false);
   const [bestRewardSummary, setBestRewardSummary] = useState<{ gold: number; diamonds: number } | null>(null);
+  const [gameNotice, setGameNotice] = useState<GameNotice | null>(null);
+
+  const clearGameNotice = useCallback(() => {
+    if (noticeTimeoutRef.current) {
+      window.clearTimeout(noticeTimeoutRef.current);
+      noticeTimeoutRef.current = null;
+    }
+    setGameNotice(null);
+  }, []);
+
+  const showGameNotice = useCallback(
+    (
+      notice: Omit<GameNotice, "id">,
+      duration = notice.tone === "record" ? 3600 : 2800,
+    ) => {
+      if (noticeTimeoutRef.current) {
+        window.clearTimeout(noticeTimeoutRef.current);
+      }
+
+      const noticeId = Date.now();
+      setGameNotice({ ...notice, id: noticeId });
+      noticeTimeoutRef.current = window.setTimeout(() => {
+        setGameNotice((current) => (current?.id === noticeId ? null : current));
+        noticeTimeoutRef.current = null;
+      }, duration);
+    },
+    [],
+  );
+
+  useEffect(
+    () => () => {
+      if (noticeTimeoutRef.current) {
+        window.clearTimeout(noticeTimeoutRef.current);
+      }
+    },
+    [],
+  );
 
   const spawnScoreParticles = (x: number, y: number) => {
     for (let i = 0; i < 16; i += 1) {
@@ -553,7 +640,8 @@ export function FlappyGameView({ store }: { store: GameStore }) {
     setCanRevive(true);
     setIsReviving(false);
     setBestRewardSummary(null);
-  }, []);
+    clearGameNotice();
+  }, [clearGameNotice]);
 
   const submitScoreIfNeeded = useCallback(async () => {
     if (scoreSubmittedRef.current) return;
@@ -566,7 +654,11 @@ export function FlappyGameView({ store }: { store: GameStore }) {
     const result = await store.submitFlappyScore(finalScore);
     if (!result.success) {
       scoreSubmittedRef.current = false;
-      toast({ description: result.error || "Khong the luu diem Flappy luc nay." });
+      showGameNotice({
+        tone: "error",
+        title: "Khong luu duoc diem",
+        description: result.error || "Khong the luu diem Flappy luc nay.",
+      });
       return;
     }
 
@@ -577,17 +669,17 @@ export function FlappyGameView({ store }: { store: GameStore }) {
     if (result.isNewBest) {
       const rewardGold = result.rewardGold || 0;
       const rewardDiamonds = result.rewardDiamonds || 0;
-      setBestRewardSummary({ gold: rewardGold, diamonds: rewardDiamonds });
-
-      if (rewardGold > 0 || rewardDiamonds > 0) {
-        toast({
-          description: `Pha ky luc moi: +${formatNumber(rewardGold)} vang, +${formatNumber(rewardDiamonds)} KC`,
-        });
-      } else {
-        toast({ description: "Ban vua pha ky luc best moi!" });
-      }
+      const hasReward = rewardGold > 0 || rewardDiamonds > 0;
+      setBestRewardSummary(hasReward ? { gold: rewardGold, diamonds: rewardDiamonds } : null);
+      showGameNotice({
+        tone: "record",
+        title: "Pha ky luc moi!",
+        description: hasReward ? "Thuong ky luc da duoc cong vao tai khoan." : "Best cua ban vua duoc cap nhat.",
+        gold: hasReward ? rewardGold : 0,
+        diamonds: hasReward ? rewardDiamonds : 0,
+      });
     }
-  }, [store.submitFlappyScore]);
+  }, [showGameNotice, store.submitFlappyScore]);
 
   const startRound = useCallback(() => {
     resetGame();
@@ -671,7 +763,11 @@ export function FlappyGameView({ store }: { store: GameStore }) {
     setIsReviving(true);
     const rewarded = await showReviveRewardedAd();
     if (!rewarded) {
-      toast({ description: "Khong mo duoc quang cao hoi sinh. Thu lai nhe." });
+      showGameNotice({
+        tone: "error",
+        title: "Chua mo duoc quang cao",
+        description: "Khong mo duoc quang cao hoi sinh. Thu lai nhe.",
+      });
       setIsReviving(false);
       return;
     }
@@ -702,8 +798,12 @@ export function FlappyGameView({ store }: { store: GameStore }) {
     setUiState("playing");
     stateRef.current = "playing";
     setIsReviving(false);
-    toast({ description: "Hoi sinh thanh cong. Bay tiep nao!" });
-  }, [canRevive, isReviving, uiState]);
+    showGameNotice({
+      tone: "success",
+      title: "Hoi sinh thanh cong",
+      description: "Bay tiep nao! Ban dang an toan trong vai giay dau.",
+    });
+  }, [canRevive, isReviving, showGameNotice, uiState]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -899,6 +999,121 @@ export function FlappyGameView({ store }: { store: GameStore }) {
       </div>
 
       <div className="relative z-10 w-full max-w-[400px]" style={{ userSelect: "none" }}>
+        {gameNotice && (
+          <div className="pointer-events-none absolute inset-x-3 top-3 z-30 flex justify-center">
+            <div
+              aria-live="polite"
+              style={{
+                width: "min(100%, 330px)",
+                borderRadius: 20,
+                border: GAME_NOTICE_STYLES[gameNotice.tone].panelBorder,
+                background: GAME_NOTICE_STYLES[gameNotice.tone].panelBackground,
+                boxShadow: GAME_NOTICE_STYLES[gameNotice.tone].panelShadow,
+                backdropFilter: "blur(16px)",
+                padding: "12px 14px",
+                animation: "noticeIn 0.28s cubic-bezier(0.22, 1, 0.36, 1)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                <div
+                  style={{
+                    width: 38,
+                    height: 38,
+                    borderRadius: 12,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                    background: GAME_NOTICE_STYLES[gameNotice.tone].iconBackground,
+                    color: GAME_NOTICE_STYLES[gameNotice.tone].iconColor,
+                    boxShadow: "inset 0 1px 0 rgba(255,255,255,0.16)",
+                  }}
+                >
+                  {gameNotice.tone === "record" ? (
+                    <Trophy size={18} />
+                  ) : gameNotice.tone === "error" ? (
+                    <CircleAlert size={18} />
+                  ) : (
+                    <Sparkles size={18} />
+                  )}
+                </div>
+
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <p
+                    style={{
+                      margin: 0,
+                      color: GAME_NOTICE_STYLES[gameNotice.tone].titleColor,
+                      fontSize: 14,
+                      fontWeight: 900,
+                      letterSpacing: 0.2,
+                    }}
+                  >
+                    {gameNotice.title}
+                  </p>
+
+                  {gameNotice.description && (
+                    <p
+                      style={{
+                        margin: "4px 0 0",
+                        color: GAME_NOTICE_STYLES[gameNotice.tone].descriptionColor,
+                        fontSize: 12,
+                        lineHeight: 1.45,
+                        fontWeight: 600,
+                      }}
+                    >
+                      {gameNotice.description}
+                    </p>
+                  )}
+
+                  {(gameNotice.gold || gameNotice.diamonds) && (
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
+                      {Boolean(gameNotice.gold) && (
+                        <div
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 6,
+                            borderRadius: 999,
+                            padding: "6px 10px",
+                            background: "rgba(255,215,0,0.14)",
+                            border: "1px solid rgba(255,215,0,0.16)",
+                            color: "#FFE082",
+                            fontSize: 11,
+                            fontWeight: 800,
+                          }}
+                        >
+                          <Coins size={12} />
+                          +{formatNumber(gameNotice.gold || 0)}
+                        </div>
+                      )}
+
+                      {Boolean(gameNotice.diamonds) && (
+                        <div
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 6,
+                            borderRadius: 999,
+                            padding: "6px 10px",
+                            background: "rgba(34,211,238,0.14)",
+                            border: "1px solid rgba(34,211,238,0.16)",
+                            color: "#A5F3FC",
+                            fontSize: 11,
+                            fontWeight: 800,
+                          }}
+                        >
+                          <Gem size={12} />
+                          +{formatNumber(gameNotice.diamonds || 0)}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div
           style={{
             position: "absolute",
@@ -1200,6 +1415,11 @@ export function FlappyGameView({ store }: { store: GameStore }) {
         @keyframes popIn {
           from { transform: scale(0.7); opacity: 0; }
           to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes noticeIn {
+          from { transform: translateY(-10px) scale(0.96); opacity: 0; }
+          to { transform: translateY(0) scale(1); opacity: 1; }
         }
       `}</style>
     </div>

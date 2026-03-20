@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { bootFlyInAppAds } from "@/lib/ad-service";
+import { bootMonetagInAppAds } from "@/lib/ad-service";
 
 import { useGameStore } from "@/hooks/use-game-store";
 import { BottomNav } from "@/components/BottomNav";
@@ -30,7 +30,7 @@ function GameApp() {
   const isGamePage = store.currentPage === "flappy";
 
   useEffect(() => {
-    bootFlyInAppAds();
+    bootMonetagInAppAds();
   }, []);
 
   const renderPage = () => {
