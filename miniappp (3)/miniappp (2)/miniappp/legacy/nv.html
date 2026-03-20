@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nhiệm Vụ</title>
+  <link rel="icon" href="https://gomxudaovang.online/favicon.ico" />
+
+  <!-- CSS build gốc (Tailwind từ Vue) -->
+  <link rel="stylesheet" href="https://gomxudaovang.online/assets/index-CnB0sf6N.css">
+  <link rel="stylesheet" href="https://gomxudaovang.online/assets/Toast-DCHUybN2.css">
+
+  <!-- Reset + fix layout -->
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    #app {
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    nav {
+      left: 0;
+      right: 0;
+    }
+  </style>
+</head>
+
+<body>
+<div id="app">
+
+  <main class="pt-14 pb-20 w-full min-h-screen bg-gradient-to-r from-[#EAB308] via-[#10B981] to-[#047857]">
+    <div class="p-4 space-y-6 min-h-screen w-full">
+
+      <!-- Xem quảng cáo -->
+      <section class="shadow-md rounded-xl p-4 bg-yellow-200/30">
+        <h2 class="text-xl font-bold mb-2 text-yellow-800">🎬 Xem quảng cáo</h2>
+        <span class="text-sm text-yellow-900/70 mb-4 block">
+          Cứ sau 15 phút bạn có thể nhận vàng hoặc kim cương 1 lần
+        </span>
+
+        <div class="flex gap-4">
+          <div class="flex-1">
+            <p class="font-semibold text-yellow-900 mb-1">Vàng: 20.000</p>
+            <button class="w-full py-2 rounded-lg text-white font-semibold bg-yellow-500 hover:bg-yellow-600">
+              Nhận Vàng
+            </button>
+          </div>
+
+          <div class="flex-1">
+            <p class="font-semibold text-blue-900 mb-1">Kim cương: 50</p>
+            <button class="w-full py-2 rounded-lg text-white font-semibold bg-blue-500 hover:bg-blue-600">
+              Nhận Kim cương
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Nhiệm vụ thêm -->
+      <section class="shadow-md rounded-xl p-4 bg-purple-200/30">
+        <h2 class="text-xl font-bold mb-2 text-purple-800">🎯 Nhiệm vụ thêm</h2>
+
+        <div class="flex items-center justify-between border rounded-lg p-4 bg-purple-100/40">
+          <div>
+            <h3 class="font-semibold text-purple-900">
+              Tham gia nhiệm vụ để kiếm vàng
+            </h3>
+            <p class="text-sm text-purple-900/60">
+              Nhận tối đa 10,000,000 vàng
+            </p>
+          </div>
+
+          <button class="py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-green-600">
+            Tham gia
+          </button>
+        </div>
+      </section>
+
+      <!-- Telegram -->
+      <section class="shadow-md rounded-xl p-4 bg-green-200/30">
+        <h2 class="text-xl font-bold mb-2 text-green-800">
+          📢 Tham gia kênh Telegram
+        </h2>
+        <p class="text-center text-green-900/70 py-4 italic">
+          Không còn kênh nào để tham gia
+        </p>
+      </section>
+
+      <!-- Thành tích -->
+      <section class="shadow-md rounded-xl p-4 bg-blue-200/30">
+        <h2 class="text-xl font-bold mb-2 text-blue-800">🏆 Thành tích</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- để trống như bản gốc -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav
+    class="fixed bottom-0 left-0 w-full bg-gradient-to-t from-yellow-800 to-yellow-600
+           text-white flex justify-around items-center py-2
+           border-t-2 border-yellow-400 shadow-lg rounded-t-2xl z-50">
+
+    <a href="#" class="flex flex-col items-center gap-1 text-sm hover:text-yellow-400">
+      <img src="https://img.icons8.com/external-colorful-filled-outline-dmitry-mirolyubov/44/external-blockchain-bitcoin-and-mining-colorful-filled-outline-dmitry-mirolyubov-5.png"
+           class="w-7 h-7">
+      <span>Khai Thác</span>
+    </a>
+
+    <a href="#" class="flex flex-col items-center gap-1 text-sm hover:text-yellow-400">
+      <img src="https://img.icons8.com/papercut/60/exchange.png" class="w-7 h-7">
+      <span>Quy Đổi</span>
+    </a>
+
+    <a href="#" class="flex flex-col items-center gap-1 text-sm text-yellow-300">
+      <img src="https://img.icons8.com/arcade/64/gift.png" class="w-7 h-7">
+      <span>Nhiệm Vụ</span>
+    </a>
+
+    <a href="#" class="flex flex-col items-center gap-1 text-sm hover:text-yellow-400">
+      <img src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-referral-marketing-technology-flaticons-lineal-color-flat-icons.png"
+           class="w-7 h-7">
+      <span>Mời Bạn Bè</span>
+    </a>
+
+    <a href="#" class="flex flex-col items-center gap-1 text-sm hover:text-yellow-400">
+      <img src="https://img.icons8.com/stickers/100/wallet.png" class="w-7 h-7">
+      <span>Rút Tiền</span>
+    </a>
+
+  </nav>
+
+</div>
+</body>
+</html>

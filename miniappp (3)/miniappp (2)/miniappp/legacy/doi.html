@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quy Đổi & Giftcode</title>
+  <link rel="icon" href="https://gomxudaovang.online/favicon.ico" />
+
+  <!-- CSS build từ site gốc (Tailwind build) -->
+  <link rel="stylesheet" href="https://gomxudaovang.online/assets/index-CnB0sf6N.css">
+  <link rel="stylesheet" href="https://gomxudaovang.online/assets/Toast-DCHUybN2.css">
+  <link rel="stylesheet" href="https://gomxudaovang.online/assets/Exchange-Dihl3UwV.css">
+
+  <!-- Fix layout + reset -->
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    #app {
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    nav {
+      left: 0;
+      right: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+
+    <main class="pt-14 pb-20 w-full min-h-screen bg-gradient-to-r from-[#EAB308] via-[#10B981] to-[#047857]">
+      <div class="min-h-screen flex flex-col items-center py-10 px-4 text-white w-full">
+
+        <h1 class="text-3xl font-bold mb-8 drop-shadow-md">
+          💎 Quy Đổi & Giftcode
+        </h1>
+
+        <!-- Quy đổi -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl shadow-lg p-6 w-full max-w-md mb-8">
+          <h2 class="text-xl font-semibold mb-4 text-yellow-200">
+            💎 Quy Đổi Vàng Sang Kim Cương
+          </h2>
+
+          <div class="mb-4">
+            <label class="block text-sm mb-2 text-yellow-100">
+              Nhập số vàng muốn quy đổi:
+            </label>
+            <input type="number" min="0"
+              class="w-full p-2 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              placeholder="Nhập số vàng...">
+          </div>
+
+          <div class="flex justify-between items-center mb-4">
+            <p>
+              Tỷ lệ:
+              <span class="font-semibold text-yellow-300">
+                125 vàng = 1 kim cương
+              </span>
+            </p>
+            <p class="text-lg font-bold">💎 0 kim cương</p>
+          </div>
+
+          <button disabled
+            class="w-full py-2 rounded-lg font-semibold transition bg-gray-400 cursor-not-allowed">
+            🔄 Xác Nhận Quy Đổi
+          </button>
+        </div>
+
+        <!-- Giftcode -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl shadow-lg p-6 w-full max-w-md">
+          <h2 class="text-xl font-semibold mb-4 text-yellow-200">
+            🎁 Nhập Giftcode
+          </h2>
+
+          <div class="flex gap-2">
+            <input type="text"
+              class="flex-1 p-2 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-emerald-400 uppercase"
+              placeholder="Nhập mã giftcode...">
+            <button
+              class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 font-semibold shadow-md">
+              🎉 Nhận
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Bottom navigation -->
+    <nav
+      class="fixed bottom-0 left-0 w-full bg-gradient-to-t from-yellow-800 to-yellow-600
+             text-white flex justify-around items-center py-2
+             border-t-2 border-yellow-400 shadow-lg rounded-t-2xl z-50">
+
+      <a href="#" class="flex flex-col items-center gap-1 text-sm hover:text-yellow-400">
+        <img src="https://img.icons8.com/external-colorful-filled-outline-dmitry-mirolyubov/44/external-blockchain-bitcoin-and-mining-colorful-filled-outline-dmitry-mirolyubov-5.png"
+             class="w-7 h-7">
+        <span>Khai Thác</span>
+      </a>
+
+      <a href="#" class="flex flex-col items-center gap-1 text-sm text-yellow-300">
+        <img src="https://img.icons8.com/papercut/60/exchange.png" class="w-7 h-7">
+        <span>Quy Đổi</span>
+      </a>
+
+      <a href="#" class="flex flex-col items-center gap-1 text-sm hover:text-yellow-400">
+        <img src="https://img.icons8.com/arcade/64/gift.png" class="w-7 h-7">
+        <span>Nhiệm Vụ</span>
+      </a>
+
+      <a href="#" class="flex flex-col items-center gap-1 text-sm hover:text-yellow-400">
+        <img src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-referral-marketing-technology-flaticons-lineal-color-flat-icons.png"
+             class="w-7 h-7">
+        <span>Mời Bạn Bè</span>
+      </a>
+
+      <a href="#" class="flex flex-col items-center gap-1 text-sm hover:text-yellow-400">
+        <img src="https://img.icons8.com/stickers/100/wallet.png" class="w-7 h-7">
+        <span>Rút Tiền</span>
+      </a>
+
+    </nav>
+
+  </div>
+</body>
+</html>

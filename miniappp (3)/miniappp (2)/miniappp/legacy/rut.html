@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rút Tiền</title>
+  <link rel="icon" href="https://gomxudaovang.online/favicon.ico" />
+
+  <!-- CSS build gốc từ Vue (Tailwind) -->
+  <link rel="stylesheet" href="https://gomxudaovang.online/assets/index-CnB0sf6N.css">
+  <link rel="stylesheet" href="https://gomxudaovang.online/assets/Toast-DCHUybN2.css">
+  <link rel="stylesheet" href="https://gomxudaovang.online/assets/Withdraw-B43tLGah.css">
+
+  <!-- Reset + fix layout -->
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    #app {
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    nav {
+      left: 0;
+      right: 0;
+    }
+  </style>
+</head>
+
+<body>
+<div id="app">
+
+  <main class="pt-14 pb-20 w-full min-h-screen bg-gradient-to-r from-[#EAB308] via-[#10B981] to-[#047857]">
+    <div class="w-full min-h-screen p-4 flex flex-col items-center">
+
+      <h1 class="text-xl font-bold text-white mb-2 text-center">
+        💸 Rút Tiền
+      </h1>
+
+      <span class="text-sm text-yellow-100 mb-3">
+        Tỉ lệ quy đổi 1 vàng = 0.0005 VND
+      </span>
+
+      <!-- Tabs -->
+      <div class="flex mb-6 space-x-4">
+        <button class="bg-yellow-500 text-white font-semibold px-4 py-2 rounded-full shadow-md">
+          Ngân Hàng
+        </button>
+        <button class="bg-white/20 text-white font-semibold px-4 py-2 rounded-full hover:bg-white/30">
+          Ví Điện Tử
+        </button>
+      </div>
+
+      <!-- Form -->
+      <div class="w-full max-w-md bg-white/10 backdrop-blur-lg p-6 rounded-2xl shadow-lg space-y-4">
+        <div class="flex flex-col space-y-3">
+          <input type="text" placeholder="Ngân hàng" class="withdraw-input">
+          <input type="text" placeholder="Số tài khoản" class="withdraw-input">
+          <input type="text" placeholder="Chủ tài khoản" class="withdraw-input">
+          <input type="number" placeholder="Số vàng rút" class="withdraw-input">
+          <input type="text" placeholder="Số tiền nhận được" class="withdraw-input" disabled>
+
+          <button
+            class="w-full bg-gradient-to-r from-yellow-500 to-amber-500
+                   text-white font-semibold py-2 rounded-full
+                   shadow-md hover:scale-105 transition">
+            Rút về Ngân Hàng
+          </button>
+        </div>
+      </div>
+
+      <span class="text-sm text-white font-bold text-center mt-3 max-w-md">
+        ⚠️ Mỗi thiết bị chỉ được sử dụng 1 tài khoản.
+        Gian lận hoặc dùng nhiều tài khoản sẽ bị từ chối thanh toán.
+      </span>
+
+      <!-- History -->
+      <div class="w-full max-w-2xl mt-8 bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg p-5">
+        <h2 class="text-lg font-semibold text-yellow-200 mb-4 flex items-center gap-2">
+          📜 Lịch Sử Rút Tiền
+        </h2>
+        <div class="text-center text-white/70 py-4 italic">
+          Chưa có lịch sử rút tiền nào.
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav
+    class="fixed bottom-0 left-0 w-full bg-gradient-to-t from-yellow-800 to-yellow-600
+           text-white flex justify-around items-center py-2
+           border-t-2 border-yellow-400 shadow-lg rounded-t-2xl z-50">
+
+    <a href="#" class="flex flex-col items-center gap-1 text-sm hover:text-yellow-400">
+      <img src="https://img.icons8.com/external-colorful-filled-outline-dmitry-mirolyubov/44/external-blockchain-bitcoin-and-mining-colorful-filled-outline-dmitry-mirolyubov-5.png"
+           class="w-7 h-7">
+      <span>Khai Thác</span>
+    </a>
+
+    <a href="#" class="flex flex-col items-center gap-1 text-sm hover:text-yellow-400">
+      <img src="https://img.icons8.com/papercut/60/exchange.png" class="w-7 h-7">
+      <span>Quy Đổi</span>
+    </a>
+
+    <a href="#" class="flex flex-col items-center gap-1 text-sm hover:text-yellow-400">
+      <img src="https://img.icons8.com/arcade/64/gift.png" class="w-7 h-7">
+      <span>Nhiệm Vụ</span>
+    </a>
+
+    <a href="#" class="flex flex-col items-center gap-1 text-sm hover:text-yellow-400">
+      <img src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-referral-marketing-technology-flaticons-lineal-color-flat-icons.png"
+           class="w-7 h-7">
+      <span>Mời Bạn Bè</span>
+    </a>
+
+    <a href="#" class="flex flex-col items-center gap-1 text-sm text-yellow-300">
+      <img src="https://img.icons8.com/stickers/100/wallet.png" class="w-7 h-7">
+      <span>Rút Tiền</span>
+    </a>
+
+  </nav>
+
+</div>
+</body>
+</html>
