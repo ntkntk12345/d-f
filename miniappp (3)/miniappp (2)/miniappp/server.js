@@ -1029,14 +1029,11 @@ app.post('/api/admin/flappy/config', adminMiddleware, async (req, res) => {
 
 // Update Task
 app.post('/api/admin/config/task', adminMiddleware, async (req, res) => {
-    const { id, title, icon, rewardType, rewardAmount, url, type, actionType, telegramChatId, telegramMessageId } = req.body;
+    const { id, title, icon, rewardType, rewardAmount, url, type, actionType, telegramChatId } = req.body;
     const normalizedActionType = ['click', 'join', 'react_heart'].includes(actionType) ? actionType : 'click';
     const normalizedType = ['community', 'daily', 'one_time', 'ad'].includes(type) ? type : 'community';
     const normalizedRewardType = rewardType === 'diamond' || rewardType === 'diamonds' ? 'diamond' : 'gold';
     const normalizedChatId = telegramChatId ? String(telegramChatId).trim() : null;
-    const normalizedMessageId = telegramMessageId !== undefined && telegramMessageId !== null && String(telegramMessageId).trim() !== ''
-        ? Number(telegramMessageId)
-        : null;
 
     if (!id || !title) {
         return res.status(400).json({ error: 'Missing task id or title.' });
@@ -1049,10 +1046,6 @@ app.post('/api/admin/config/task', adminMiddleware, async (req, res) => {
     if (normalizedActionType === 'react_heart') {
         if (!normalizedChatId) {
             return res.status(400).json({ error: 'Heart task requires telegramChatId.' });
-        }
-
-        if (normalizedMessageId !== null && (!Number.isFinite(normalizedMessageId) || normalizedMessageId <= 0)) {
-            return res.status(400).json({ error: 'Heart task telegramMessageId must be empty or a valid positive number.' });
         }
     }
 
@@ -1069,7 +1062,7 @@ app.post('/api/admin/config/task', adminMiddleware, async (req, res) => {
                 normalizedType,
                 normalizedActionType,
                 normalizedChatId,
-                normalizedActionType === 'react_heart' ? normalizedMessageId : null,
+                null,
                 title,
                 icon,
                 normalizedRewardType,
@@ -1078,7 +1071,7 @@ app.post('/api/admin/config/task', adminMiddleware, async (req, res) => {
                 normalizedType,
                 normalizedActionType,
                 normalizedChatId,
-                normalizedActionType === 'react_heart' ? normalizedMessageId : null
+                null
             ]
         );
         res.json({ success: true });
@@ -1471,22 +1464,14 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                 return res.status(400).json({ error: 'Heart task is missing chat config.' });
             }
 
-            const hasSpecificMessage = Number.isFinite(Number(task.telegramMessageId)) && Number(task.telegramMessageId) > 0;
-            const [reactionRows] = hasSpecificMessage
-                ? await pool.query(
-                    'SELECT reaction FROM telegram_message_reactions WHERE teleId = ? AND chatId = ? AND messageId = ? AND reaction = ? LIMIT 1',
-                    [teleId, String(task.telegramChatId), Number(task.telegramMessageId), 'heart']
-                )
-                : await pool.query(
-                    'SELECT reaction FROM telegram_message_reactions WHERE teleId = ? AND chatId = ? AND reaction = ? LIMIT 1',
-                    [teleId, String(task.telegramChatId), 'heart']
-                );
+            const [reactionRows] = await pool.query(
+                'SELECT reaction FROM telegram_message_reactions WHERE teleId = ? AND chatId = ? AND reaction = ? LIMIT 1',
+                [teleId, String(task.telegramChatId), 'heart']
+            );
 
             if (reactionRows.length === 0) {
                 return res.status(400).json({
-                    error: hasSpecificMessage
-                        ? 'Heart reaction not detected on the required message yet. If you already reacted before, remove the heart and react again so the bot can capture it.'
-                        : 'Heart reaction not detected in this group yet. Please react with a heart on any message, then come back and verify again.'
+                    error: 'Heart reaction not detected in this group yet. Please react with a heart on any message, then come back and verify again.'
                 });
             }
         }

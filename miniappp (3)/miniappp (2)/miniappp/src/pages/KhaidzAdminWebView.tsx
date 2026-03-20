@@ -207,12 +207,12 @@ const TABS: Array<{ id: AdminTab; label: string; icon: LucideIcon; accent: strin
 const DEFAULT_TASK_FORM: TaskFormState = {
   id: "",
   title: "",
-  icon: "🎯",
+  icon: "📢",
   rewardType: "gold",
   rewardAmount: "1000",
   url: "",
   type: "community",
-  actionType: "click",
+  actionType: "react_heart",
   telegramChatId: "",
   telegramMessageId: "",
 };
@@ -454,9 +454,7 @@ function getTaskActionLabel(task: TaskItem) {
   }
 
   if (task.actionType === "react_heart") {
-    return `Thả tim · ${task.telegramChatId || "Chưa có group"} · ${
-      task.telegramMessageId || "Bất kỳ tin nhắn"
-    }`;
+    return `Thả tim · ${task.telegramChatId || "Chưa có group"} · Bất kỳ tin nhắn`;
   }
 
   return "Click link";
@@ -993,7 +991,7 @@ export function KhaidzAdminWebView() {
           type: taskForm.type,
           actionType: taskForm.actionType,
           telegramChatId: taskForm.telegramChatId.trim(),
-          telegramMessageId: taskForm.telegramMessageId.trim(),
+          telegramMessageId: "",
         }),
       });
 
@@ -1772,19 +1770,21 @@ export function KhaidzAdminWebView() {
               <ShellCard>
                 <SectionHeading
                   icon={Swords}
-                  title="Tạo hoặc cập nhật task"
-                  description="Luồng này thay thế form JS cũ, giữ đủ action click, join và react_heart."
+                  title="Thêm Nhiệm Vụ Mới"
+                  description="Giữ đúng bộ field của form cũ để thêm task click, join và react_heart nhanh hơn."
                 />
 
                 <form className="grid gap-4 px-5 py-5 sm:px-6" onSubmit={handleTaskSubmit}>
                   <div>
-                    <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">ID nhiệm vụ</label>
+                    <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                      ID Nhiệm Vụ (Duy nhất, không dấu)
+                    </label>
                     <input
                       type="text"
                       value={taskForm.id}
                       onChange={(event) => setTaskForm((current) => ({ ...current, id: event.target.value }))}
                       className={INPUT_CLASS}
-                      placeholder="join_group_v2"
+                      placeholder="Ví dụ: join_group_v2"
                       required
                     />
                   </div>
@@ -1796,26 +1796,26 @@ export function KhaidzAdminWebView() {
                       value={taskForm.title}
                       onChange={(event) => setTaskForm((current) => ({ ...current, title: event.target.value }))}
                       className={INPUT_CLASS}
-                      placeholder="Tham gia group"
+                      placeholder="Ví dụ: Tham gia Group"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Icon</label>
+                    <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Icon (URL/Emoji)</label>
                     <input
                       type="text"
                       value={taskForm.icon}
                       onChange={(event) => setTaskForm((current) => ({ ...current, icon: event.target.value }))}
                       className={INPUT_CLASS}
-                      placeholder="🎯 hoặc https://..."
+                      placeholder="https://... hoặc 📢"
                       required
                     />
                   </div>
 
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Loại thưởng</label>
+                      <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Loại Thưởng</label>
                       <select
                         value={taskForm.rewardType}
                         onChange={(event) =>
@@ -1826,13 +1826,13 @@ export function KhaidzAdminWebView() {
                         }
                         className={INPUT_CLASS}
                       >
-                        <option value="gold">Gold</option>
-                        <option value="diamonds">Diamonds</option>
+                        <option value="gold">Gold (Vàng)</option>
+                        <option value="diamonds">Diamonds (KC)</option>
                       </select>
                     </div>
 
                     <div>
-                      <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Số lượng</label>
+                      <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Số Lượng</label>
                       <input
                         type="number"
                         min="0"
@@ -1845,7 +1845,9 @@ export function KhaidzAdminWebView() {
 
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Action type</label>
+                      <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                        Cách Check (Hành Động)
+                      </label>
                       <select
                         value={taskForm.actionType}
                         onChange={(event) =>
@@ -1861,29 +1863,29 @@ export function KhaidzAdminWebView() {
                         }
                         className={INPUT_CLASS}
                       >
-                        <option value="react_heart">react_heart</option>
-                        <option value="click">click</option>
-                        <option value="join">join</option>
+                        <option value="react_heart">React tym (Check tha tym)</option>
+                        <option value="click">Click (Chi can nhan link)</option>
+                        <option value="join">Join check (Xac minh tham gia)</option>
                       </select>
                     </div>
 
                     <div>
-                      <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Loại nhiệm vụ</label>
+                      <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Loại NV</label>
                       <select
                         value={taskForm.type}
                         onChange={(event) => setTaskForm((current) => ({ ...current, type: event.target.value as TaskType }))}
                         className={INPUT_CLASS}
                       >
-                        <option value="community">community</option>
-                        <option value="daily">daily</option>
-                        <option value="one_time">one_time</option>
-                        <option value="ad">ad</option>
+                        <option value="community">Thường/Cộng đồng</option>
+                        <option value="daily">Hàng ngày (Reset 24h)</option>
+                        <option value="one_time">Làm 1 lần</option>
+                        <option value="ad">Xem quảng cáo</option>
                       </select>
                     </div>
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Link khi nhấn</label>
+                    <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Link (Mở khi nhấn)</label>
                     <input
                       type="text"
                       value={taskForm.url}
@@ -1895,7 +1897,9 @@ export function KhaidzAdminWebView() {
 
                   {taskForm.actionType === "join" || taskForm.actionType === "react_heart" ? (
                     <div>
-                      <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Telegram Chat ID</label>
+                      <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                        ID Group/Channel (Bắt đầu bằng -100...)
+                      </label>
                       <input
                         type="text"
                         value={taskForm.telegramChatId}
@@ -1908,30 +1912,14 @@ export function KhaidzAdminWebView() {
                         className={INPUT_CLASS}
                         placeholder="-100123456789"
                       />
-                      <p className="mt-2 text-xs leading-5 text-slate-400">Bot phải là admin của group/channel này để xác minh.</p>
-                    </div>
-                  ) : null}
-
-                  {taskForm.actionType === "react_heart" ? (
-                    <div>
-                      <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
-                        Message ID có thể thả tim
-                      </label>
-                      <input
-                        type="text"
-                        value={taskForm.telegramMessageId}
-                        onChange={(event) =>
-                          setTaskForm((current) => ({
-                            ...current,
-                            telegramMessageId: event.target.value,
-                          }))
-                        }
-                        className={INPUT_CLASS}
-                        placeholder="Để trống = bất kỳ tin nhắn nào"
-                      />
                       <p className="mt-2 text-xs leading-5 text-slate-400">
-                        Dùng cho `react_heart`. Để trống nếu muốn user thả tim bất kỳ tin nhắn nào trong group.
+                        * Bot phải là Admin của Group này mới check được.
                       </p>
+                      {taskForm.actionType === "react_heart" ? (
+                        <p className="mt-2 text-xs leading-5 text-cyan-200/70">
+                          * Nhiệm vụ react_heart sẽ ghi nhận khi user thả tim bất kỳ tin nhắn nào trong group này.
+                        </p>
+                      ) : null}
                     </div>
                   ) : null}
 
