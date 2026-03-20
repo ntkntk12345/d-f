@@ -29,6 +29,7 @@ interface GameNotice {
   description?: string;
   gold?: number;
   diamonds?: number;
+  duration: number;
 }
 
 interface Bird {
@@ -543,7 +544,6 @@ export function FlappyGameView({ store }: { store: GameStore }) {
   const reviveUsedRef = useRef(false);
   const invincibleFramesRef = useRef(0);
   const scoreSubmittedRef = useRef(false);
-  const noticeTimeoutRef = useRef<number | null>(null);
 
   const [uiState, setUiState] = useState<GameState>("idle");
   const [score, setScore] = useState(0);
@@ -555,40 +555,32 @@ export function FlappyGameView({ store }: { store: GameStore }) {
   const [gameNotice, setGameNotice] = useState<GameNotice | null>(null);
 
   const clearGameNotice = useCallback(() => {
-    if (noticeTimeoutRef.current) {
-      window.clearTimeout(noticeTimeoutRef.current);
-      noticeTimeoutRef.current = null;
-    }
     setGameNotice(null);
   }, []);
 
   const showGameNotice = useCallback(
     (
-      notice: Omit<GameNotice, "id">,
+      notice: Omit<GameNotice, "id" | "duration">,
       duration = notice.tone === "record" ? 3600 : 2800,
     ) => {
-      if (noticeTimeoutRef.current) {
-        window.clearTimeout(noticeTimeoutRef.current);
-      }
-
-      const noticeId = Date.now();
-      setGameNotice({ ...notice, id: noticeId });
-      noticeTimeoutRef.current = window.setTimeout(() => {
-        setGameNotice((current) => (current?.id === noticeId ? null : current));
-        noticeTimeoutRef.current = null;
-      }, duration);
+      setGameNotice({
+        ...notice,
+        duration,
+        id: Date.now() + Math.floor(Math.random() * 1000),
+      });
     },
     [],
   );
 
-  useEffect(
-    () => () => {
-      if (noticeTimeoutRef.current) {
-        window.clearTimeout(noticeTimeoutRef.current);
-      }
-    },
-    [],
-  );
+  useEffect(() => {
+    if (!gameNotice) return undefined;
+
+    const timeout = window.setTimeout(() => {
+      setGameNotice((current) => (current?.id === gameNotice.id ? null : current));
+    }, gameNotice.duration);
+
+    return () => window.clearTimeout(timeout);
+  }, [gameNotice]);
 
   const spawnScoreParticles = (x: number, y: number) => {
     for (let i = 0; i < 16; i += 1) {
@@ -1000,26 +992,26 @@ export function FlappyGameView({ store }: { store: GameStore }) {
 
       <div className="relative z-10 w-full max-w-[400px]" style={{ userSelect: "none" }}>
         {gameNotice && (
-          <div className="pointer-events-none absolute inset-x-3 top-3 z-30 flex justify-center">
+          <div className="pointer-events-none absolute right-3 top-3 z-30 flex justify-end">
             <div
               aria-live="polite"
               style={{
-                width: "min(100%, 330px)",
-                borderRadius: 20,
+                width: "min(72vw, 220px)",
+                borderRadius: 16,
                 border: GAME_NOTICE_STYLES[gameNotice.tone].panelBorder,
                 background: GAME_NOTICE_STYLES[gameNotice.tone].panelBackground,
                 boxShadow: GAME_NOTICE_STYLES[gameNotice.tone].panelShadow,
                 backdropFilter: "blur(16px)",
-                padding: "12px 14px",
+                padding: "9px 10px",
                 animation: "noticeIn 0.28s cubic-bezier(0.22, 1, 0.36, 1)",
               }}
             >
-              <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
                 <div
                   style={{
-                    width: 38,
-                    height: 38,
-                    borderRadius: 12,
+                    width: 30,
+                    height: 30,
+                    borderRadius: 10,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -1030,11 +1022,11 @@ export function FlappyGameView({ store }: { store: GameStore }) {
                   }}
                 >
                   {gameNotice.tone === "record" ? (
-                    <Trophy size={18} />
+                    <Trophy size={15} />
                   ) : gameNotice.tone === "error" ? (
-                    <CircleAlert size={18} />
+                    <CircleAlert size={15} />
                   ) : (
-                    <Sparkles size={18} />
+                    <Sparkles size={15} />
                   )}
                 </div>
 
@@ -1043,9 +1035,10 @@ export function FlappyGameView({ store }: { store: GameStore }) {
                     style={{
                       margin: 0,
                       color: GAME_NOTICE_STYLES[gameNotice.tone].titleColor,
-                      fontSize: 14,
+                      fontSize: 12,
                       fontWeight: 900,
                       letterSpacing: 0.2,
+                      lineHeight: 1.25,
                     }}
                   >
                     {gameNotice.title}
@@ -1054,10 +1047,10 @@ export function FlappyGameView({ store }: { store: GameStore }) {
                   {gameNotice.description && (
                     <p
                       style={{
-                        margin: "4px 0 0",
+                        margin: "2px 0 0",
                         color: GAME_NOTICE_STYLES[gameNotice.tone].descriptionColor,
-                        fontSize: 12,
-                        lineHeight: 1.45,
+                        fontSize: 10,
+                        lineHeight: 1.35,
                         fontWeight: 600,
                       }}
                     >
@@ -1066,23 +1059,23 @@ export function FlappyGameView({ store }: { store: GameStore }) {
                   )}
 
                   {(gameNotice.gold || gameNotice.diamonds) && (
-                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 7 }}>
                       {Boolean(gameNotice.gold) && (
                         <div
                           style={{
                             display: "inline-flex",
                             alignItems: "center",
-                            gap: 6,
+                            gap: 4,
                             borderRadius: 999,
-                            padding: "6px 10px",
+                            padding: "4px 8px",
                             background: "rgba(255,215,0,0.14)",
                             border: "1px solid rgba(255,215,0,0.16)",
                             color: "#FFE082",
-                            fontSize: 11,
+                            fontSize: 10,
                             fontWeight: 800,
                           }}
                         >
-                          <Coins size={12} />
+                          <Coins size={11} />
                           +{formatNumber(gameNotice.gold || 0)}
                         </div>
                       )}
@@ -1092,17 +1085,17 @@ export function FlappyGameView({ store }: { store: GameStore }) {
                           style={{
                             display: "inline-flex",
                             alignItems: "center",
-                            gap: 6,
+                            gap: 4,
                             borderRadius: 999,
-                            padding: "6px 10px",
+                            padding: "4px 8px",
                             background: "rgba(34,211,238,0.14)",
                             border: "1px solid rgba(34,211,238,0.16)",
                             color: "#A5F3FC",
-                            fontSize: 11,
+                            fontSize: 10,
                             fontWeight: 800,
                           }}
                         >
-                          <Gem size={12} />
+                          <Gem size={11} />
                           +{formatNumber(gameNotice.diamonds || 0)}
                         </div>
                       )}
