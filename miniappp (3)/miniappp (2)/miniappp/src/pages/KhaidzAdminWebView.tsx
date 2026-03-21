@@ -182,7 +182,8 @@ interface ScheduleFormState {
 
 const TOKEN_KEY = "admin_token";
 const USERS_PER_PAGE = 12;
-const REALTIME_INTERVAL_MS = 10_000;
+const REALTIME_RECONNECT_MS = 3_000;
+const ADMIN_ROUTE_PREFIX = "/khaidz";
 const PANEL_CLASS =
   "rounded-[28px] border border-cyan-200/10 bg-[linear-gradient(180deg,rgba(10,23,34,0.92)_0%,rgba(7,14,22,0.98)_100%)] shadow-[0_30px_80px_rgba(0,0,0,0.35)]";
 const INPUT_CLASS =
@@ -203,6 +204,28 @@ const TABS: Array<{ id: AdminTab; label: string; icon: LucideIcon; accent: strin
   { id: "withdrawals", label: "Rút tiền", icon: Wallet, accent: "from-orange-200 to-amber-400" },
   { id: "lucky_draw", label: "Vận may", icon: Trophy, accent: "from-violet-200 to-indigo-400" },
 ];
+
+function isAdminTab(value: string): value is AdminTab {
+  return TABS.some((tab) => tab.id === value);
+}
+
+function getAdminTabPath(tab: AdminTab) {
+  return tab === "dashboard" ? ADMIN_ROUTE_PREFIX : `${ADMIN_ROUTE_PREFIX}/${tab}`;
+}
+
+function getAdminTabFromPath(pathname: string) {
+  const normalizedPath = pathname.replace(/\/+$/, "") || ADMIN_ROUTE_PREFIX;
+  if (normalizedPath === ADMIN_ROUTE_PREFIX) {
+    return "dashboard" as const;
+  }
+
+  if (!normalizedPath.startsWith(`${ADMIN_ROUTE_PREFIX}/`)) {
+    return "dashboard" as const;
+  }
+
+  const maybeTab = normalizedPath.slice(ADMIN_ROUTE_PREFIX.length + 1);
+  return isAdminTab(maybeTab) ? maybeTab : ("dashboard" as const);
+}
 
 const DEFAULT_TASK_FORM: TaskFormState = {
   id: "",
@@ -301,7 +324,7 @@ function normalizeAdminSnapshot(payload: unknown): AdminSnapshot {
       rewardGold: toNumber(item.rewardGold),
       rewardDiamonds: toNumber(item.rewardDiamonds),
       maxUses: toNumber(item.maxUses),
-      currentUses: toNumber(item.currentUses),
+      currentUses: toNumber(item.currentUses ?? item.usedCount),
       createdAt: toText(item.createdAt),
     })),
     levels: asRecordArray(root.levels).map((item) => ({
@@ -586,6 +609,7 @@ function Modal({
 
 export function KhaidzAdminWebView() {
   const requestSeqRef = useRef(0);
+  const realtimeRefreshTimeoutRef = useRef<number | null>(null);
   const [token, setToken] = useState(() => {
     if (typeof window === "undefined") {
       return "";
@@ -593,7 +617,13 @@ export function KhaidzAdminWebView() {
 
     return window.localStorage.getItem(TOKEN_KEY) ?? "";
   });
-  const [selectedTab, setSelectedTab] = useState<AdminTab>("dashboard");
+  const [selectedTab, setSelectedTab] = useState<AdminTab>(() => {
+    if (typeof window === "undefined") {
+      return "dashboard";
+    }
+
+    return getAdminTabFromPath(window.location.pathname);
+  });
   const [credentials, setCredentials] = useState({ username: "", password: "" });
   const [loginError, setLoginError] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -601,6 +631,9 @@ export function KhaidzAdminWebView() {
   const [scheduleItems, setScheduleItems] = useState<LuckyScheduleItem[]>([]);
   const [isBootstrapping, setIsBootstrapping] = useState(Boolean(token));
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [realtimeState, setRealtimeState] = useState<"connecting" | "live" | "retrying">(
+    token ? "connecting" : "live",
+  );
   const [syncError, setSyncError] = useState("");
   const [lastUpdatedAt, setLastUpdatedAt] = useState<number | null>(null);
   const [notice, setNotice] = useState<NoticeState | null>(null);
@@ -640,6 +673,38 @@ export function KhaidzAdminWebView() {
     setNotice({ tone: "error", message });
   }, []);
 
+  const syncTabWithLocation = useCallback((replace = false) => {
+    if (typeof window === "undefined") {
+      return "dashboard" as const;
+    }
+
+    const nextTab = getAdminTabFromPath(window.location.pathname);
+    const expectedPath = getAdminTabPath(nextTab);
+
+    if (replace && window.location.pathname !== expectedPath) {
+      window.history.replaceState(null, "", expectedPath);
+    }
+
+    setSelectedTab(nextTab);
+    return nextTab;
+  }, []);
+
+  const navigateToTab = useCallback((tab: AdminTab, options?: { replace?: boolean }) => {
+    if (typeof window !== "undefined") {
+      const targetPath = getAdminTabPath(tab);
+
+      if (window.location.pathname !== targetPath) {
+        if (options?.replace) {
+          window.history.replaceState(null, "", targetPath);
+        } else {
+          window.history.pushState(null, "", targetPath);
+        }
+      }
+    }
+
+    setSelectedTab(tab);
+  }, []);
+
   const logout = useCallback(() => {
     if (typeof window !== "undefined") {
       window.localStorage.removeItem(TOKEN_KEY);
@@ -648,11 +713,12 @@ export function KhaidzAdminWebView() {
     setToken("");
     setSnapshot(null);
     setScheduleItems([]);
-    setSelectedTab("dashboard");
+    navigateToTab("dashboard", { replace: true });
     setSyncError("");
     setLastUpdatedAt(null);
     setLoginError("");
-  }, []);
+    setRealtimeState("live");
+  }, [navigateToTab]);
 
   const adminFetch = useCallback(
     async <T,>(endpoint: string, init?: RequestInit) => {
@@ -738,6 +804,21 @@ export function KhaidzAdminWebView() {
     [adminFetch, token],
   );
 
+  const scheduleSilentRefresh = useCallback(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    if (realtimeRefreshTimeoutRef.current !== null) {
+      return;
+    }
+
+    realtimeRefreshTimeoutRef.current = window.setTimeout(() => {
+      realtimeRefreshTimeoutRef.current = null;
+      void refreshAll({ silent: true });
+    }, 160);
+  }, [refreshAll]);
+
   const openReferrals = useCallback(
     async (user: AdminUser) => {
       setReferralState({
@@ -768,6 +849,32 @@ export function KhaidzAdminWebView() {
   );
 
   useEffect(() => {
+    return () => {
+      if (realtimeRefreshTimeoutRef.current !== null) {
+        window.clearTimeout(realtimeRefreshTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    syncTabWithLocation(true);
+
+    const handlePopState = () => {
+      syncTabWithLocation();
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [syncTabWithLocation]);
+
+  useEffect(() => {
     if (!notice) {
       return undefined;
     }
@@ -793,6 +900,7 @@ export function KhaidzAdminWebView() {
   useEffect(() => {
     if (!token) {
       setIsBootstrapping(false);
+      setRealtimeState("live");
       return;
     }
 
@@ -804,24 +912,76 @@ export function KhaidzAdminWebView() {
       return undefined;
     }
 
-    const runRealtimeSync = () => {
+    let isDisposed = false;
+    let reconnectTimer: number | null = null;
+    let source: EventSource | null = null;
+
+    const connect = () => {
+      if (isDisposed) {
+        return;
+      }
+
+      setRealtimeState("connecting");
+      source = new EventSource(`/api/admin/events?token=${encodeURIComponent(token)}`);
+
+      source.addEventListener("connected", () => {
+        setRealtimeState("live");
+        scheduleSilentRefresh();
+      });
+
+      source.addEventListener("admin-refresh", () => {
+        setRealtimeState("live");
+        scheduleSilentRefresh();
+      });
+
+      source.onerror = () => {
+        if (isDisposed) {
+          return;
+        }
+
+        if (reconnectTimer !== null) {
+          return;
+        }
+
+        setRealtimeState("retrying");
+        source?.close();
+        reconnectTimer = window.setTimeout(() => {
+          reconnectTimer = null;
+          connect();
+        }, REALTIME_RECONNECT_MS);
+      };
+    };
+
+    connect();
+
+    return () => {
+      isDisposed = true;
+
+      if (reconnectTimer !== null) {
+        window.clearTimeout(reconnectTimer);
+      }
+
+      source?.close();
+    };
+  }, [scheduleSilentRefresh, token]);
+
+  useEffect(() => {
+    const runForegroundSync = () => {
       if (document.visibilityState !== "visible") {
         return;
       }
 
-      void refreshAll({ silent: true });
+      scheduleSilentRefresh();
     };
 
-    const interval = window.setInterval(runRealtimeSync, REALTIME_INTERVAL_MS);
-    window.addEventListener("focus", runRealtimeSync);
-    document.addEventListener("visibilitychange", runRealtimeSync);
+    window.addEventListener("focus", runForegroundSync);
+    document.addEventListener("visibilitychange", runForegroundSync);
 
     return () => {
-      window.clearInterval(interval);
-      window.removeEventListener("focus", runRealtimeSync);
-      document.removeEventListener("visibilitychange", runRealtimeSync);
+      window.removeEventListener("focus", runForegroundSync);
+      document.removeEventListener("visibilitychange", runForegroundSync);
     };
-  }, [refreshAll, token]);
+  }, [scheduleSilentRefresh]);
 
   const filteredUsers = useMemo(() => {
     const keyword = userSearch.trim().toLowerCase();
@@ -935,8 +1095,9 @@ export function KhaidzAdminWebView() {
       window.localStorage.setItem(TOKEN_KEY, nextToken);
       setToken(nextToken);
       setIsBootstrapping(true);
-      setSelectedTab("dashboard");
+      navigateToTab(selectedTab, { replace: true });
       setCredentials({ username: "", password: "" });
+      setRealtimeState("connecting");
       setSuccessNotice("Đăng nhập admin thành công.");
     } catch (error) {
       setLoginError(error instanceof Error ? error.message : "Không thể đăng nhập admin.");
@@ -1194,6 +1355,14 @@ export function KhaidzAdminWebView() {
   };
 
   const realtimeLabel = lastUpdatedAt ? formatDateTime(new Date(lastUpdatedAt).toISOString()) : "--";
+  const realtimeStatusLabel =
+    realtimeState === "live" ? "Realtime SSE đang chạy" : realtimeState === "connecting" ? "Đang nối realtime" : "Mất kết nối, đang thử lại";
+  const realtimeDotClassName =
+    realtimeState === "live"
+      ? "bg-emerald-400 shadow-[0_0_12px_rgba(74,222,128,0.8)]"
+      : realtimeState === "connecting"
+        ? "bg-cyan-300 shadow-[0_0_12px_rgba(103,232,249,0.7)]"
+        : "bg-amber-300 shadow-[0_0_12px_rgba(252,211,77,0.7)]";
 
   if (!token) {
     return (
@@ -1219,9 +1388,13 @@ export function KhaidzAdminWebView() {
                     TSX chuẩn và realtime
                   </span>
                 </h1>
-                <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300/78 sm:text-lg">
+                <p className="hidden mt-5 max-w-2xl text-base leading-7 text-slate-300/78 sm:text-lg">
                   Web admin mới chạy bằng React + TypeScript, sync dữ liệu lại theo nhịp 10 giây, tự refresh khi tab
                   quay lại foreground và tránh ghi đè state cũ bằng request đến sau.
+                </p>
+                <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300/78 sm:text-lg">
+                  Web admin React + TypeScript nay vao bang router `/khaidz/*` va nhan push realtime tu backend, khong con
+                  phai doi vong poll cu de thay du lieu moi.
                 </p>
               </div>
 
@@ -1235,8 +1408,8 @@ export function KhaidzAdminWebView() {
                 />
                 <MetricCard
                   label="Realtime"
-                  value="10s"
-                  detail="Polling nền + focus sync lại ngay."
+                  value="SSE"
+                  detail="Push trực tiếp từ backend + focus sync."
                   icon={RefreshCcw}
                   accentClassName="text-emerald-200"
                 />
@@ -1345,9 +1518,10 @@ export function KhaidzAdminWebView() {
 
             <div className="mt-5 rounded-[24px] border border-cyan-200/10 bg-cyan-400/8 p-4">
               <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-100/70">Realtime status</p>
-              <div className="mt-3 flex items-center gap-2 text-sm text-slate-200">
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(74,222,128,0.8)]" />
-                Đồng bộ mỗi 10 giây
+              <div className="mt-3 flex items-center gap-2 text-sm text-transparent">
+                <span className={cn("h-2.5 w-2.5 rounded-full", realtimeDotClassName)} />
+                <span className="text-slate-200">{realtimeStatusLabel}</span>
+                Realtime SSE trực tiếp
               </div>
               <p className="mt-2 text-sm text-slate-300/72">Lần sync gần nhất: {realtimeLabel}</p>
             </div>
@@ -1362,7 +1536,7 @@ export function KhaidzAdminWebView() {
                 <button
                   key={tab.id}
                   type="button"
-                  onClick={() => setSelectedTab(tab.id)}
+                  onClick={() => navigateToTab(tab.id)}
                   className={cn(
                     "group flex items-center gap-3 rounded-[24px] border px-4 py-3 text-left transition",
                     isActive
@@ -1418,9 +1592,13 @@ export function KhaidzAdminWebView() {
                   <h2 className="mt-4 text-3xl font-black uppercase leading-none text-slate-50 sm:text-4xl">
                     Quản trị `khaidz`
                   </h2>
-                  <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300/75 sm:text-base">
+                  <p className="hidden mt-3 max-w-3xl text-sm leading-6 text-slate-300/75 sm:text-base">
                     Panel mới đang đọc trực tiếp API admin hiện tại và tự sync lại theo nhịp realtime. Khi tab được focus
                     lại, dữ liệu được kéo mới ngay thay vì chờ vòng poll cũ.
+                  </p>
+                  <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300/75 sm:text-base">
+                    Panel nay doc thang API admin hien tai, dong bo bang SSE realtime va van sync lai ngay khi tab duoc
+                    focus de tranh tre du lieu.
                   </p>
                 </div>
 
@@ -1450,7 +1628,7 @@ export function KhaidzAdminWebView() {
                     <button
                       key={tab.id}
                       type="button"
-                      onClick={() => setSelectedTab(tab.id)}
+                      onClick={() => navigateToTab(tab.id)}
                       className={cn(
                         "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] transition",
                         selectedTab === tab.id

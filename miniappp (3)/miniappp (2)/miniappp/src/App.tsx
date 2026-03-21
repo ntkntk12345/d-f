@@ -1,8 +1,6 @@
-import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { bootMonetagInAppAds } from "@/lib/ad-service";
 
 import { useGameStore } from "@/hooks/use-game-store";
 import { BottomNav } from "@/components/BottomNav";
@@ -28,10 +26,6 @@ function GameApp() {
   const store = useGameStore();
   const currentBackground = store.currentPage === "lucky" ? luckyBackground : otherPagesBackground;
   const isGamePage = store.currentPage === "flappy";
-
-  useEffect(() => {
-    bootMonetagInAppAds();
-  }, []);
 
   const renderPage = () => {
     switch (store.currentPage) {

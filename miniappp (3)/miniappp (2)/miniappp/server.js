@@ -20,6 +20,7 @@ if (Number.isNaN(PORT) || PORT <= 0) {
 const ADMIN_ID = "7711226652";
 const BOT_TOKEN = process.env.BOT_TOKEN || '8258255510:AAFjHCjP9C1VtGC06bvUx0eATQLJpMEPb6c';
 const ADMIN_PASSWORD = "Vjyy1234@"; // Updated per user request
+const adminEventClients = new Set();
 const HEART_REACTIONS = new Set(['❤', '❤️', '♥', '♥️']);
 
 
@@ -73,15 +74,82 @@ const authMiddleware = (req, res, next) => {
     }
 };
 
-const adminMiddleware = (req, res, next) => {
-    // Check for cookie or header token for web admin
+function getAdminPasswordFromRequest(req) {
     const authHeader = req.headers.authorization;
     if (authHeader && authHeader.startsWith('AdminPass ')) {
-        const pass = authHeader.split(' ')[1];
-        if (pass === ADMIN_PASSWORD) {
-            req.user = { id: ADMIN_ID, isWebAdmin: true }; // Fake admin user
-            return next();
+        return authHeader.slice('AdminPass '.length);
+    }
+
+    if (typeof req.query?.token === 'string') {
+        return req.query.token;
+    }
+
+    return '';
+}
+
+function sendSseEvent(res, eventName, payload) {
+    res.write(`event: ${eventName}\n`);
+    res.write(`data: ${JSON.stringify(payload)}\n\n`);
+}
+
+function broadcastAdminRefresh(reason, extra = {}) {
+    if (adminEventClients.size === 0) {
+        return;
+    }
+
+    const payload = {
+        reason,
+        at: Date.now(),
+        ...extra,
+    };
+
+    for (const client of Array.from(adminEventClients)) {
+        try {
+            sendSseEvent(client.res, 'admin-refresh', payload);
+        } catch (error) {
+            clearInterval(client.keepAlive);
+            adminEventClients.delete(client);
         }
+    }
+}
+
+function registerAdminEventClient(req, res) {
+    res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-cache, no-transform');
+    res.setHeader('Connection', 'keep-alive');
+    res.setHeader('X-Accel-Buffering', 'no');
+    res.flushHeaders?.();
+    res.write(': connected\n\n');
+
+    const client = {
+        res,
+        keepAlive: setInterval(() => {
+            try {
+                res.write(': ping\n\n');
+            } catch (error) {
+                clearInterval(client.keepAlive);
+                adminEventClients.delete(client);
+            }
+        }, 25000),
+    };
+
+    adminEventClients.add(client);
+    sendSseEvent(res, 'connected', { ok: true, at: Date.now() });
+
+    const cleanup = () => {
+        clearInterval(client.keepAlive);
+        adminEventClients.delete(client);
+    };
+
+    req.on('close', cleanup);
+    res.on('close', cleanup);
+}
+
+const adminMiddleware = (req, res, next) => {
+    const pass = getAdminPasswordFromRequest(req);
+    if (pass === ADMIN_PASSWORD) {
+        req.user = { id: ADMIN_ID, isWebAdmin: true }; // Fake admin user
+        return next();
     }
 
     authMiddleware(req, res, () => {
@@ -455,6 +523,7 @@ async function harvestMiningGold(teleId) {
         }
 
         await pool.query('UPDATE users SET isMining = FALSE, miningStartTime = NULL, miningShiftStart = NULL WHERE teleId = ?', [teleId]);
+        broadcastAdminRefresh('mining-shift-complete', { teleId });
         const [updatedUsers] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
         return updatedUsers[0];
     }
@@ -469,6 +538,7 @@ async function harvestMiningGold(teleId) {
         );
 
         await pool.query('UPDATE users SET miningStartTime = ? WHERE teleId = ?', [now, teleId]);
+        broadcastAdminRefresh('mining-checkpoint', { teleId });
 
         const [updatedUsers] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
         return updatedUsers[0];
@@ -571,6 +641,7 @@ app.post('/api/flappy/submit-score', authMiddleware, async (req, res) => {
         );
 
         const [updatedUsers] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
+        broadcastAdminRefresh('flappy-score-updated', { teleId });
         res.json({
             success: true,
             isNewBest: true,
@@ -615,6 +686,7 @@ app.post('/api/user/redeem', authMiddleware, async (req, res) => {
 
         const [users] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
         const updatedUser = users[0];
+        broadcastAdminRefresh('giftcode-redeemed', { teleId, code: cleanCode });
 
         res.json({
             success: true,
@@ -653,6 +725,7 @@ app.post('/api/withdraw/create', authMiddleware, async (req, res) => {
         console.log(`[WITHDRAW] New request from ${teleId}: ${amount} Gold -> ${vndAmount} VND`);
 
         const [users] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
+        broadcastAdminRefresh('withdraw-created', { teleId });
         res.json({ success: true, user: users[0] });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -681,6 +754,7 @@ app.post('/api/game/exchange', authMiddleware, async (req, res) => {
         );
 
         const [updatedUsers] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
+        broadcastAdminRefresh('exchange-completed', { teleId });
         res.json({ success: true, user: updatedUsers[0] });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -746,6 +820,7 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
             }
 
             const [newRows] = await pool.query('SELECT * FROM users WHERE teleId = ?', [userId]);
+            broadcastAdminRefresh('user-created', { teleId: userId });
             return res.json(newRows[0]);
         }
 
@@ -754,6 +829,7 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
             await pool.query('UPDATE users SET username = ?, tgHandle = ? WHERE teleId = ?', [realName, tgHandle, userId]);
             user.username = realName;
             user.tgHandle = tgHandle;
+            broadcastAdminRefresh('user-profile-synced', { teleId: userId });
         }
 
         // Save IP if not exists or update it (User requirement: "first time save first ip", but usually we track latest or first. 
@@ -761,6 +837,7 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
         const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
         if (!user.ip_address && clientIp) {
             await pool.query('UPDATE users SET ip_address = ? WHERE teleId = ?', [clientIp, userId]);
+            broadcastAdminRefresh('user-ip-captured', { teleId: userId });
         }
 
         const [withdraws] = await pool.query('SELECT * FROM withdrawals WHERE teleId = ? ORDER BY createdAt DESC', [userId]);
@@ -831,6 +908,7 @@ app.post('/api/game/start-mining', authMiddleware, async (req, res) => {
 
         const now = Date.now();
         await pool.query('UPDATE users SET isMining = TRUE, miningStartTime = ?, miningShiftStart = ? WHERE teleId = ?', [now, now, teleId]);
+        broadcastAdminRefresh('mining-started', { teleId });
 
         res.json({ success: true, miningStartTime: now, miningShiftStart: now });
     } catch (err) { res.status(500).json({ error: err.message }); }
@@ -854,6 +932,7 @@ app.post('/api/game/claim-mining', authMiddleware, async (req, res) => {
             'UPDATE users SET isMining = FALSE, miningStartTime = NULL WHERE teleId = ?',
             [teleId]
         );
+        broadcastAdminRefresh('mining-stopped', { teleId });
 
         const [finalUsers] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
         res.json({ success: true, reward: 0, gold: Number(finalUsers[0].gold) });
@@ -892,6 +971,7 @@ app.post('/api/game/upgrade', authMiddleware, async (req, res) => {
             await pool.query('UPDATE users SET upgradeCost = ? WHERE teleId = ?', [nextUpgradeCost, teleId]);
         }
 
+        broadcastAdminRefresh('miner-upgraded', { teleId, level: nextLevel });
         res.json({ success: true, level: nextLevel, miningRate: nextSetting.miningRate, diamonds: Number(user.diamonds) - Number(nextSetting.upgradeCost) });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -932,8 +1012,7 @@ app.post('/api/admin/login', (req, res) => {
 
 
 
-// Admin V2 Route (New)
-app.get('/khaidz', (req, res) => {
+function sendAdminApp(req, res) {
     const adminAppPath = path.join(__dirname, 'dist', 'khaidz', 'index.html');
 
     if (!fs.existsSync(adminAppPath)) {
@@ -941,10 +1020,77 @@ app.get('/khaidz', (req, res) => {
     }
 
     res.sendFile(adminAppPath);
+}
+
+async function getAdminSnapshot() {
+    const [users] = await pool.query('SELECT * FROM users');
+    const [giftCodes] = await pool.query('SELECT * FROM gift_codes ORDER BY createdAt DESC');
+    const [flappyConfigRows] = await pool.query('SELECT * FROM flappy_config WHERE id = 1');
+
+    const [pendingWithdraws] = await pool.query(`
+        SELECT w.*, u.username, u.tgHandle
+        FROM withdrawals w
+        JOIN users u ON w.teleId = u.teleId
+        WHERE w.status = 'Đang xử lý'
+        ORDER BY w.createdAt ASC
+    `);
+
+    const formattedWithdraws = pendingWithdraws.map((w) => ({
+        id: w.id,
+        userTeleId: w.teleId,
+        teleId: w.teleId,
+        username: w.username,
+        tgHandle: w.tgHandle || 'none',
+        accountName: w.accountName,
+        bankName: w.bankName,
+        accountNumber: w.accountNumber,
+        vnd: w.vndAmount,
+        qrUrl: w.qrUrl,
+        status: w.status,
+        createdAt: w.createdAt,
+        message: w.message || ''
+    }));
+
+    let totalGold = 0;
+    let totalDiamonds = 0;
+    users.forEach((u) => {
+        totalGold += Number(u.gold || 0);
+        totalDiamonds += Number(u.diamonds || 0);
+    });
+
+    const [levels] = await pool.query('SELECT * FROM level_settings ORDER BY level ASC');
+    const [tasks] = await pool.query('SELECT * FROM tasks');
+
+    return {
+        users,
+        totalGold,
+        totalDiamonds,
+        pendingWithdraws: formattedWithdraws,
+        giftCodes,
+        levels,
+        tasks,
+        flappyConfig: flappyConfigRows[0] || { rewardGold: 0, rewardDiamonds: 0 }
+    };
+}
+
+// Admin V2 Route (New)
+app.get('/admin.html', (req, res) => {
+    res.redirect(302, '/khaidz');
+});
+
+app.get('/khaidz/index.php', (req, res) => {
+    res.redirect(302, '/khaidz');
+});
+
+app.get(/^\/khaidz(?:\/.*)?$/, sendAdminApp);
+
+app.get('/api/admin/events', adminMiddleware, (req, res) => {
+    registerAdminEventClient(req, res);
 });
 
 app.get('/api/admin/data', adminMiddleware, async (req, res) => {
     try {
+        return res.json(await getAdminSnapshot());
         const [users] = await pool.query('SELECT * FROM users');
         const [giftCodes] = await pool.query('SELECT * FROM gift_codes ORDER BY createdAt DESC');
         const [flappyConfigRows] = await pool.query('SELECT * FROM flappy_config WHERE id = 1');
@@ -1008,6 +1154,7 @@ app.post('/api/admin/config/level', adminMiddleware, async (req, res) => {
             'INSERT INTO level_settings (level, miningRate, upgradeCost) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE miningRate = ?, upgradeCost = ?',
             [level, miningRate, upgradeCost, miningRate, upgradeCost]
         );
+        broadcastAdminRefresh('level-config-updated', { level });
         res.json({ success: true });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -1021,6 +1168,7 @@ app.post('/api/admin/flappy/config', adminMiddleware, async (req, res) => {
             'INSERT INTO flappy_config (id, rewardGold, rewardDiamonds) VALUES (1, ?, ?) ON DUPLICATE KEY UPDATE rewardGold = VALUES(rewardGold), rewardDiamonds = VALUES(rewardDiamonds)',
             [rewardGold, rewardDiamonds]
         );
+        broadcastAdminRefresh('flappy-config-updated');
         res.json({ success: true });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -1074,6 +1222,7 @@ app.post('/api/admin/config/task', adminMiddleware, async (req, res) => {
                 null
             ]
         );
+        broadcastAdminRefresh('task-config-updated', { taskId: id });
         res.json({ success: true });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -1082,6 +1231,7 @@ app.post('/api/admin/config/task', adminMiddleware, async (req, res) => {
 app.delete('/api/admin/config/task/:id', adminMiddleware, async (req, res) => {
     try {
         await pool.query('DELETE FROM tasks WHERE id = ?', [req.params.id]);
+        broadcastAdminRefresh('task-deleted', { taskId: req.params.id });
         res.json({ success: true });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -1103,6 +1253,7 @@ app.post('/api/admin/user/create', adminMiddleware, async (req, res) => {
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             newUser
         );
+        broadcastAdminRefresh('admin-user-created', { teleId });
         res.json({ success: true, message: 'User created', username: newUser[1] });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -1118,6 +1269,7 @@ app.post('/api/admin/adjust', adminMiddleware, async (req, res) => {
 
         const params = type === 'gold' ? [amount, amount, targetTeleId] : [amount, targetTeleId];
         await pool.query(query, params);
+        broadcastAdminRefresh('admin-balance-adjusted', { teleId: targetTeleId, resourceType: type });
         res.json({ success: true });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -1138,6 +1290,7 @@ app.post('/api/admin/withdraw/status', adminMiddleware, async (req, res) => {
             await pool.query('UPDATE withdrawals SET status = ? WHERE id = ?', [newStatus, withdrawId]);
         }
 
+        broadcastAdminRefresh('withdraw-status-updated', { withdrawId, status: newStatus });
         res.json({ success: true, message: 'Status updated' });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -1155,6 +1308,7 @@ app.post('/api/admin/user/update', adminMiddleware, async (req, res) => {
         );
         // If isBanned logic exists in DB schema (I don't recall seeing it in initDB but can add column if needed, 
         // user didn't explicitly ask for banning but "manage users". I'll skip banning column for now to avoid schema drift unless requested).
+        broadcastAdminRefresh('admin-user-updated', { teleId });
         res.json({ success: true });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -1166,6 +1320,7 @@ app.post('/api/admin/giftcode/add', adminMiddleware, async (req, res) => {
             'INSERT INTO gift_codes (code, rewardDiamonds, rewardGold, maxUses) VALUES (?, ?, ?, ?)',
             [code.trim().toUpperCase(), rewardDiamonds || 0, rewardGold || 0, maxUses]
         );
+        broadcastAdminRefresh('giftcode-created', { code: code.trim().toUpperCase() });
         res.json({ success: true });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -1176,6 +1331,7 @@ app.post('/api/admin/giftcode/delete', adminMiddleware, async (req, res) => {
     const { code } = req.body;
     try {
         await pool.query('DELETE FROM gift_codes WHERE code = ?', [code]);
+        broadcastAdminRefresh('giftcode-deleted', { code });
         res.json({ success: true });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -1222,6 +1378,7 @@ app.post('/api/lucky-draw/participate', authMiddleware, async (req, res) => {
         // Add entry fee to total prize pool
         await pool.query('UPDATE lucky_draw_config SET totalPrize = totalPrize + ? WHERE id = 1', [entryFee]);
 
+        broadcastAdminRefresh('lucky-draw-joined', { teleId });
         res.json({ success: true });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -1241,6 +1398,7 @@ app.post('/api/admin/lucky-draw/config', adminMiddleware, async (req, res) => {
             'UPDATE lucky_draw_config SET totalPrize=?, top1Percent=?, top2Percent=?, top3Percent=?, top4Percent=?, top5Percent=?, entryFee=?, drawHour=?, drawMinute=? WHERE id = 1',
             [totalPrize, top1Percent, top2Percent, top3Percent, top4Percent, top5Percent, entryFee, drawHour, drawMinute]
         );
+        broadcastAdminRefresh('lucky-draw-config-updated');
         res.json({ success: true });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -1266,6 +1424,7 @@ app.post('/api/admin/lucky-draw/schedule', adminMiddleware, async (req, res) => 
             'INSERT INTO lucky_draw_schedule (drawDate, rankPos, teleId, fakeName) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE teleId = VALUES(teleId), fakeName = VALUES(fakeName)',
             [date, rank, teleId || null, fakeName || null]
         );
+        broadcastAdminRefresh('lucky-draw-schedule-updated', { date, rank });
         res.json({ success: true });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -1273,6 +1432,7 @@ app.post('/api/admin/lucky-draw/schedule', adminMiddleware, async (req, res) => 
 app.delete('/api/admin/lucky-draw/schedule/:id', adminMiddleware, async (req, res) => {
     try {
         await pool.query('DELETE FROM lucky_draw_schedule WHERE id = ?', [req.params.id]);
+        broadcastAdminRefresh('lucky-draw-schedule-deleted', { scheduleId: req.params.id });
         res.json({ success: true });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -1390,6 +1550,7 @@ async function performLuckyDraw() {
         await connection.query('UPDATE lucky_draw_overrides SET teleId = NULL, fakeName = NULL');
 
         await connection.commit();
+        broadcastAdminRefresh('lucky-draw-finished');
         console.log("🎲 [LUCKY DRAW] Completed successfully.");
     } catch (err) {
         await connection.rollback();
@@ -1536,6 +1697,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
 
         // 6. Return updated data
         const [users] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
+        broadcastAdminRefresh('task-claimed', { teleId, taskId });
         res.json({ success: true, reward: { type: task.rewardType, amount: rewardAmount }, user: users[0] });
     } catch (err) {
         console.error('[TASK CLAIM ERROR]', err);
@@ -1555,6 +1717,7 @@ app.post('/api/admin/reset-db', adminMiddleware, async (req, res) => {
         await pool.query('DELETE FROM withdrawals');
         await pool.query('DELETE FROM referrals');
         await pool.query('DELETE FROM users');
+        broadcastAdminRefresh('database-reset');
         console.log("✅ [ADMIN] Database reset successfully.");
         res.json({ success: true, message: 'Đã xóa toàn bộ dữ liệu người dùng!' });
     } catch (err) {

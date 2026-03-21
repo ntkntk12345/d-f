@@ -1,24 +1,11 @@
-import createAdHandler from "monetag-tg-sdk";
-
+const ADSGRAM_SCRIPT_SRC = "https://sad.adsgram.ai/js/sad.min.js";
 const ADSGRAM_REWARD_BLOCK_ID = "int-23213";
 const ADSGRAM_SEQUENCE_BLOCK_IDS = ["int-23213", "int-23325", "int-23213"] as const;
 const MONETAG_MAIN_ZONE_ID = 9917411;
 
-type MonetagInterstitialOptions = {
-  type: "inApp";
-  inAppSettings: {
-    frequency: number;
-    capping: number;
-    interval: number;
-    timeout: number;
-    everyPage?: boolean;
-  };
-};
-
 type MonetagRewardedFn = {
   (): Promise<unknown>;
   (mode: "pop"): Promise<unknown>;
-  (config: MonetagInterstitialOptions): Promise<unknown> | void;
 };
 
 type AdsgramShowResult = {
@@ -30,24 +17,91 @@ function sleep(ms: number) {
 }
 
 let monetagHandler: MonetagRewardedFn | null | undefined;
+let monetagHandlerPromise: Promise<MonetagRewardedFn | null> | null = null;
+let adsgramReadyPromise: Promise<boolean> | null = null;
 
-function getMonetagHandler() {
+async function getMonetagHandler() {
   if (monetagHandler !== undefined) {
     return monetagHandler;
   }
 
-  try {
-    monetagHandler = createAdHandler(MONETAG_MAIN_ZONE_ID) as MonetagRewardedFn;
-    return monetagHandler;
-  } catch (error) {
-    console.error("Monetag SDK init error", error);
-    monetagHandler = null;
-    return null;
+  if (monetagHandlerPromise) {
+    return monetagHandlerPromise;
   }
+
+  monetagHandlerPromise = import("monetag-tg-sdk")
+    .then(({ default: createAdHandler }) => {
+      try {
+        monetagHandler = createAdHandler(MONETAG_MAIN_ZONE_ID) as MonetagRewardedFn;
+        return monetagHandler;
+      } catch (error) {
+        console.error("Monetag SDK init error", error);
+        monetagHandler = null;
+        return null;
+      }
+    })
+    .catch((error) => {
+      console.error("Monetag SDK load error", error);
+      monetagHandler = null;
+      return null;
+    })
+    .finally(() => {
+      monetagHandlerPromise = null;
+    });
+
+  return monetagHandlerPromise;
+}
+
+async function ensureAdsgramReady() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  if (window.Adsgram) {
+    return true;
+  }
+
+  if (adsgramReadyPromise) {
+    return adsgramReadyPromise;
+  }
+
+  adsgramReadyPromise = new Promise<boolean>((resolve) => {
+    const handleLoad = () => resolve(Boolean(window.Adsgram));
+    const handleError = () => {
+      console.error("Adsgram script load error");
+      adsgramReadyPromise = null;
+      resolve(false);
+    };
+
+    const existingScript = document.querySelector<HTMLScriptElement>('script[data-adsgram-sdk="true"]');
+    if (existingScript) {
+      existingScript.addEventListener("load", handleLoad, { once: true });
+      existingScript.addEventListener("error", handleError, { once: true });
+
+      if (window.Adsgram) {
+        resolve(true);
+      }
+
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = ADSGRAM_SCRIPT_SRC;
+    script.async = true;
+    script.dataset.adsgramSdk = "true";
+    script.addEventListener("load", handleLoad, { once: true });
+    script.addEventListener("error", handleError, { once: true });
+    document.head.appendChild(script);
+  });
+
+  return adsgramReadyPromise;
 }
 
 async function showAdsgramRewarded(blockId = ADSGRAM_REWARD_BLOCK_ID) {
-  if (!window.Adsgram) return false;
+  const isReady = await ensureAdsgramReady();
+  if (!isReady || !window.Adsgram) {
+    return false;
+  }
 
   try {
     const controller = window.Adsgram.init({ blockId });
@@ -59,9 +113,38 @@ async function showAdsgramRewarded(blockId = ADSGRAM_REWARD_BLOCK_ID) {
   }
 }
 
+async function showAdsgramRewardedSequence() {
+  const isReady = await ensureAdsgramReady();
+  if (!isReady || !window.Adsgram) {
+    return false;
+  }
+
+  try {
+    for (const [index, blockId] of ADSGRAM_SEQUENCE_BLOCK_IDS.entries()) {
+      const controller = window.Adsgram.init({ blockId });
+      const result = (await controller.show()) as AdsgramShowResult;
+
+      if (!result?.done) {
+        return false;
+      }
+
+      if (index < ADSGRAM_SEQUENCE_BLOCK_IDS.length - 1) {
+        await sleep(500);
+      }
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Adsgram sequence error", error);
+    return false;
+  }
+}
+
 async function showMonetagRewarded(mode?: "pop") {
-  const showMonetag = getMonetagHandler();
-  if (!showMonetag) return false;
+  const showMonetag = await getMonetagHandler();
+  if (!showMonetag) {
+    return false;
+  }
 
   try {
     if (mode === "pop") {
@@ -78,11 +161,14 @@ async function showMonetagRewarded(mode?: "pop") {
 }
 
 async function showMonetagRewardedSequence(count: number) {
-  for (let i = 0; i < count; i += 1) {
-    const ok = await showMonetagRewarded(i === count - 1 ? "pop" : undefined);
-    if (!ok) return false;
+  for (let index = 0; index < count; index += 1) {
+    const isLastAd = index === count - 1;
+    const ok = await showMonetagRewarded(isLastAd ? "pop" : undefined);
+    if (!ok) {
+      return false;
+    }
 
-    if (i < count - 1) {
+    if (!isLastAd) {
       await sleep(500);
     }
   }
@@ -91,67 +177,25 @@ async function showMonetagRewardedSequence(count: number) {
 }
 
 export async function showMiningRewardedAd() {
-  if (await showAdsgramRewarded()) return true;
+  if (await showAdsgramRewarded()) {
+    return true;
+  }
+
   return showMonetagRewarded();
 }
 
 export async function showReviveRewardedAd() {
-  if (await showAdsgramRewarded()) return true;
+  if (await showAdsgramRewarded()) {
+    return true;
+  }
+
   return showMonetagRewarded("pop");
 }
 
 export async function showTaskRewardedSequence() {
-  const providers: Array<"adsgram" | "monetag"> = ["adsgram", "monetag"];
-  if (Math.random() >= 0.5) {
-    providers.reverse();
+  if (await showAdsgramRewardedSequence()) {
+    return true;
   }
 
-  for (const provider of providers) {
-    if (provider === "adsgram" && window.Adsgram) {
-      try {
-        for (const [index, blockId] of ADSGRAM_SEQUENCE_BLOCK_IDS.entries()) {
-          const controller = window.Adsgram.init({ blockId });
-          const result = (await controller.show()) as AdsgramShowResult;
-          if (!result?.done) {
-            return false;
-          }
-
-          if (index < ADSGRAM_SEQUENCE_BLOCK_IDS.length - 1) {
-            await sleep(500);
-          }
-        }
-
-        return true;
-      } catch (error) {
-        console.error("Adsgram sequence error", error);
-      }
-    }
-
-    if (provider === "monetag") {
-      const ok = await showMonetagRewardedSequence(ADSGRAM_SEQUENCE_BLOCK_IDS.length);
-      if (ok) return true;
-    }
-  }
-
-  return false;
-}
-
-export function bootMonetagInAppAds() {
-  const showMonetag = getMonetagHandler();
-  if (!showMonetag) return;
-
-  try {
-    void showMonetag({
-      type: "inApp",
-      inAppSettings: {
-        frequency: 2,
-        capping: 0.1,
-        interval: 30,
-        timeout: 5,
-        everyPage: false,
-      },
-    });
-  } catch (error) {
-    console.error("Monetag in-app ads init error", error);
-  }
+  return showMonetagRewardedSequence(ADSGRAM_SEQUENCE_BLOCK_IDS.length);
 }
