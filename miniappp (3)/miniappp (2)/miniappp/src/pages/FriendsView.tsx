@@ -6,7 +6,10 @@ import { Award, Copy, Share2, Sparkles, UserPlus, Users } from "lucide-react";
 export function FriendsView({ store }: { store: GameStore }) {
   const [copied, setCopied] = useState(false);
   const invitedCount = Math.max(store.referrals.length, store.referralCount);
-  const totalBonus = store.referrals.reduce((sum, item) => sum + item.goldReward, 0);
+  const totalGoldBonus = store.referrals.reduce((sum, item) => sum + item.goldReward, 0);
+  const totalDiamondBonus = store.referrals.reduce((sum, item) => sum + item.diamondReward, 0);
+  const perInviteGold = store.economyConfig.referralRewardGold;
+  const perInviteDiamonds = store.economyConfig.referralRewardDiamonds;
 
   const handleCopy = async () => {
     const success = await store.copyInviteLink();
@@ -46,7 +49,7 @@ export function FriendsView({ store }: { store: GameStore }) {
         </h1>
 
         <p className="mt-3 max-w-[18rem] text-sm leading-6 text-yellow-100/80">
-          Mời người chơi mới tham gia để nhận thưởng vàng ngay khi họ vào game.
+          Mời người chơi mới tham gia để nhận thưởng theo cấu hình referral hiện tại của hệ thống.
         </p>
       </div>
 
@@ -64,7 +67,7 @@ export function FriendsView({ store }: { store: GameStore }) {
               <div className="text-base font-extrabold text-[#fff3d4]">Mỗi lượt mời thành công</div>
               <div className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-yellow-300/15 bg-yellow-100/8 px-3 py-1 text-sm font-black text-yellow-100">
                 <Sparkles className="h-3.5 w-3.5 text-yellow-400" />
-                Thưởng theo dữ liệu referral từ backend
+                +{formatNumber(perInviteGold)} vàng{perInviteDiamonds > 0 ? ` · +${formatNumber(perInviteDiamonds)} KC` : ""}
               </div>
             </div>
           </div>
@@ -83,9 +86,12 @@ export function FriendsView({ store }: { store: GameStore }) {
               <div className="mt-2 text-[10px] font-bold uppercase tracking-[0.26em] text-yellow-100/50">
                 Tổng thưởng
               </div>
-              <div className="mt-1 text-2xl font-black text-emerald-200">
-                {formatNumber(totalBonus)}
+              <div className="mt-1 text-xl font-black text-emerald-200">
+                +{formatNumber(totalGoldBonus)} vàng
               </div>
+              {totalDiamondBonus > 0 ? (
+                <div className="mt-1 text-sm font-black text-cyan-100">+{formatNumber(totalDiamondBonus)} KC</div>
+              ) : null}
             </div>
           </div>
 
@@ -165,7 +171,8 @@ export function FriendsView({ store }: { store: GameStore }) {
                         </div>
 
                         <div className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-yellow-300/15 bg-yellow-100/8 px-3 py-1 text-sm font-black text-yellow-100">
-                          +{formatNumber(friend.goldReward)}
+                          +{formatNumber(friend.goldReward)} vàng
+                          {friend.diamondReward > 0 ? ` · +${formatNumber(friend.diamondReward)} KC` : ""}
                         </div>
                       </div>
 

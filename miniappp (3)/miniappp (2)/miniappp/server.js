@@ -171,6 +171,19 @@ const dbConfig = {
 
 let pool;
 
+const DEFAULT_ECONOMY_CONFIG = Object.freeze({
+    newUserGold: 1000,
+    newUserDiamonds: 1000,
+    referralRewardGold: 50000,
+    referralRewardDiamonds: 0,
+    exchangeGoldPerDiamond: 125,
+    withdrawMinGold: 6000000,
+    withdrawVndPerGold: 0.0005,
+    taskMilestoneCount: 0,
+    taskMilestoneRewardGold: 0,
+    taskMilestoneRewardDiamonds: 0,
+});
+
 async function initDB() {
     console.log("🛠️ Initializing Database...");
     try {
@@ -218,10 +231,15 @@ async function initDB() {
                 inviterId BIGINT,
                 invitedId BIGINT,
                 goldReward DECIMAL(65, 0) DEFAULT 50000,
+                diamondReward DECIMAL(65, 0) DEFAULT 0,
                 createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 UNIQUE KEY (invitedId)
             ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
         `);
+        await safeAlter("ALTER TABLE referrals CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        await safeAlter("ALTER TABLE referrals MODIFY COLUMN goldReward DECIMAL(65,0) DEFAULT 50000");
+        await safeAlter("ALTER TABLE referrals ADD COLUMN diamondReward DECIMAL(65,0) DEFAULT 0 AFTER goldReward");
+        await safeAlter("ALTER TABLE referrals MODIFY COLUMN diamondReward DECIMAL(65,0) DEFAULT 0");
         await safeAlter("ALTER TABLE users CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
         await safeAlter("ALTER TABLE users ADD COLUMN tgHandle VARCHAR(255)");
         await safeAlter("ALTER TABLE users MODIFY COLUMN gold DECIMAL(65,0) DEFAULT 0");
@@ -336,6 +354,29 @@ async function initDB() {
         `);
 
         await connection.query(`
+            CREATE TABLE IF NOT EXISTS task_claim_events (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                teleId BIGINT,
+                taskId VARCHAR(50),
+                claimedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                INDEX idx_task_claim_events_tele_date (teleId, claimedAt),
+                FOREIGN KEY (taskId) REFERENCES tasks(id) ON DELETE CASCADE
+            ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+        `);
+
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS task_milestone_rewards (
+                teleId BIGINT,
+                rewardDate DATE,
+                taskCount INT DEFAULT 0,
+                rewardGold DECIMAL(65, 0) DEFAULT 0,
+                rewardDiamonds DECIMAL(65, 0) DEFAULT 0,
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (teleId, rewardDate)
+            ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+        `);
+
+        await connection.query(`
             CREATE TABLE IF NOT EXISTS telegram_message_reactions (
                 teleId BIGINT,
                 chatId VARCHAR(100),
@@ -423,6 +464,69 @@ async function initDB() {
         await safeAlter("ALTER TABLE flappy_config MODIFY COLUMN rewardDiamonds DECIMAL(65,0) DEFAULT 25");
         await connection.query("INSERT IGNORE INTO flappy_config (id, rewardGold, rewardDiamonds) VALUES (1, 15000, 25)");
 
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS economy_config (
+                id INT PRIMARY KEY DEFAULT 1,
+                newUserGold DECIMAL(65, 0) DEFAULT 1000,
+                newUserDiamonds DECIMAL(65, 0) DEFAULT 1000,
+                referralRewardGold DECIMAL(65, 0) DEFAULT 50000,
+                referralRewardDiamonds DECIMAL(65, 0) DEFAULT 0,
+                exchangeGoldPerDiamond DECIMAL(65, 0) DEFAULT 125,
+                withdrawMinGold DECIMAL(65, 0) DEFAULT 6000000,
+                withdrawVndPerGold DECIMAL(18, 8) DEFAULT 0.0005,
+                taskMilestoneCount INT DEFAULT 0,
+                taskMilestoneRewardGold DECIMAL(65, 0) DEFAULT 0,
+                taskMilestoneRewardDiamonds DECIMAL(65, 0) DEFAULT 0
+            ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+        `);
+        await safeAlter("ALTER TABLE economy_config CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN newUserGold DECIMAL(65,0) DEFAULT 1000");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN newUserDiamonds DECIMAL(65,0) DEFAULT 1000");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN referralRewardGold DECIMAL(65,0) DEFAULT 50000 AFTER newUserDiamonds");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN referralRewardGold DECIMAL(65,0) DEFAULT 50000");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN referralRewardDiamonds DECIMAL(65,0) DEFAULT 0 AFTER referralRewardGold");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN referralRewardDiamonds DECIMAL(65,0) DEFAULT 0");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN exchangeGoldPerDiamond DECIMAL(65,0) DEFAULT 125 AFTER referralRewardDiamonds");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN exchangeGoldPerDiamond DECIMAL(65,0) DEFAULT 125");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN withdrawMinGold DECIMAL(65,0) DEFAULT 6000000 AFTER exchangeGoldPerDiamond");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN withdrawMinGold DECIMAL(65,0) DEFAULT 6000000");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN withdrawVndPerGold DECIMAL(18,8) DEFAULT 0.0005 AFTER withdrawMinGold");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN withdrawVndPerGold DECIMAL(18,8) DEFAULT 0.0005");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN taskMilestoneCount INT DEFAULT 0 AFTER withdrawVndPerGold");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN taskMilestoneCount INT DEFAULT 0");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN taskMilestoneRewardGold DECIMAL(65,0) DEFAULT 0 AFTER taskMilestoneCount");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN taskMilestoneRewardGold DECIMAL(65,0) DEFAULT 0");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN taskMilestoneRewardDiamonds DECIMAL(65,0) DEFAULT 0 AFTER taskMilestoneRewardGold");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN taskMilestoneRewardDiamonds DECIMAL(65,0) DEFAULT 0");
+        await connection.query(
+            `INSERT IGNORE INTO economy_config (
+                id,
+                newUserGold,
+                newUserDiamonds,
+                referralRewardGold,
+                referralRewardDiamonds,
+                exchangeGoldPerDiamond,
+                withdrawMinGold,
+                withdrawVndPerGold,
+                taskMilestoneCount,
+                taskMilestoneRewardGold,
+                taskMilestoneRewardDiamonds
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+                1,
+                DEFAULT_ECONOMY_CONFIG.newUserGold,
+                DEFAULT_ECONOMY_CONFIG.newUserDiamonds,
+                DEFAULT_ECONOMY_CONFIG.referralRewardGold,
+                DEFAULT_ECONOMY_CONFIG.referralRewardDiamonds,
+                DEFAULT_ECONOMY_CONFIG.exchangeGoldPerDiamond,
+                DEFAULT_ECONOMY_CONFIG.withdrawMinGold,
+                DEFAULT_ECONOMY_CONFIG.withdrawVndPerGold,
+                DEFAULT_ECONOMY_CONFIG.taskMilestoneCount,
+                DEFAULT_ECONOMY_CONFIG.taskMilestoneRewardGold,
+                DEFAULT_ECONOMY_CONFIG.taskMilestoneRewardDiamonds,
+            ]
+        );
+
         // Populate Default Levels if empty or incomplete
         const [levs] = await connection.query("SELECT COUNT(*) as count FROM level_settings");
         if (levs[0].count < 100) {
@@ -496,6 +600,35 @@ app.use(cors());
 app.use(express.json());
 
 // --- HELPERS ---
+
+function normalizeEconomyConfig(row = {}) {
+    const toInt = (value, fallback) => {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? Math.max(0, Math.floor(parsed)) : fallback;
+    };
+    const toRate = (value, fallback) => {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
+    };
+
+    return {
+        newUserGold: toInt(row.newUserGold, DEFAULT_ECONOMY_CONFIG.newUserGold),
+        newUserDiamonds: toInt(row.newUserDiamonds, DEFAULT_ECONOMY_CONFIG.newUserDiamonds),
+        referralRewardGold: toInt(row.referralRewardGold, DEFAULT_ECONOMY_CONFIG.referralRewardGold),
+        referralRewardDiamonds: toInt(row.referralRewardDiamonds, DEFAULT_ECONOMY_CONFIG.referralRewardDiamonds),
+        exchangeGoldPerDiamond: Math.max(1, toInt(row.exchangeGoldPerDiamond, DEFAULT_ECONOMY_CONFIG.exchangeGoldPerDiamond)),
+        withdrawMinGold: toInt(row.withdrawMinGold, DEFAULT_ECONOMY_CONFIG.withdrawMinGold),
+        withdrawVndPerGold: toRate(row.withdrawVndPerGold, DEFAULT_ECONOMY_CONFIG.withdrawVndPerGold),
+        taskMilestoneCount: toInt(row.taskMilestoneCount, DEFAULT_ECONOMY_CONFIG.taskMilestoneCount),
+        taskMilestoneRewardGold: toInt(row.taskMilestoneRewardGold, DEFAULT_ECONOMY_CONFIG.taskMilestoneRewardGold),
+        taskMilestoneRewardDiamonds: toInt(row.taskMilestoneRewardDiamonds, DEFAULT_ECONOMY_CONFIG.taskMilestoneRewardDiamonds),
+    };
+}
+
+async function getEconomyConfig() {
+    const [rows] = await pool.query('SELECT * FROM economy_config WHERE id = 1 LIMIT 1');
+    return normalizeEconomyConfig(rows[0] || {});
+}
 
 async function harvestMiningGold(teleId) {
     const [users] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
@@ -598,6 +731,12 @@ app.get('/api/config/tasks', authMiddleware, async (req, res) => {
             LEFT JOIN task_claims c ON t.id = c.taskId AND c.teleId = ?
         `, [teleId]);
         res.json(rows);
+    } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.get('/api/config/economy', authMiddleware, async (req, res) => {
+    try {
+        res.json(await getEconomyConfig());
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
@@ -706,12 +845,15 @@ app.post('/api/withdraw/create', authMiddleware, async (req, res) => {
 
     try {
         const user = await harvestMiningGold(teleId);
+        const economyConfig = await getEconomyConfig();
         if (!user) return res.status(404).json({ error: 'User not found' });
 
-        if (Number(amount) < 6000000) return res.json({ success: false, message: 'Rút tối thiểu 6.000.000 Gold!' });
+        if (Number(amount) < economyConfig.withdrawMinGold) {
+            return res.json({ success: false, message: `Rút tối thiểu ${economyConfig.withdrawMinGold.toLocaleString('vi-VN')} Gold!` });
+        }
         if (Number(user.gold) < Number(amount)) return res.json({ success: false, message: 'Số dư không đủ!' });
 
-        const vndAmount = Math.floor(parseInt(amount) * 0.0005);
+        const vndAmount = Math.floor(parseInt(amount) * economyConfig.withdrawVndPerGold);
         const qrUrl = bankBin ? `https://img.vietqr.io/image/${bankBin}-${accountNumber}-compact2.png?amount=${vndAmount}&addInfo=Bot%20Kiem%20Tien%20Done%20${teleId}&accountName=${encodeURIComponent(accountName)}` : null;
 
         await pool.query('UPDATE users SET gold = gold - ?, goldBeforeShift = goldBeforeShift - ? WHERE teleId = ?', [amount, amount, teleId]);
@@ -741,11 +883,12 @@ app.post('/api/game/exchange', authMiddleware, async (req, res) => {
 
     try {
         const user = await harvestMiningGold(teleId);
+        const economyConfig = await getEconomyConfig();
         if (!user) return res.status(404).json({ error: 'User not found' });
 
         if (Number(user.gold) < Number(amount)) return res.status(400).json({ error: 'Số dư không đủ!' });
 
-        const diamonds = Math.floor(amount / 125);
+        const diamonds = Math.floor(amount / economyConfig.exchangeGoldPerDiamond);
         if (diamonds <= 0) return res.status(400).json({ error: 'Số lượng quá nhỏ!' });
 
         await pool.query(
@@ -772,6 +915,7 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
 
     try {
         const user = await harvestMiningGold(userId);
+        const economyConfig = await getEconomyConfig();
 
         // Sync name from Telegram data
         const tgUser = req.user;
@@ -782,7 +926,9 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
         const tgHandle = tgUser?.username || 'none';
 
         if (!user) {
-            const newUser = [userId, realName, tgHandle, 1000, 1000, 1000, 1, 7, 5000, false, null, null, 0, null, 0];
+            const startingGold = economyConfig.newUserGold;
+            const startingDiamonds = economyConfig.newUserDiamonds;
+            const newUser = [userId, realName, tgHandle, startingGold, startingGold, startingDiamonds, 1, 7, 5000, false, null, null, 0, null, 0];
             await pool.query(
                 `INSERT INTO users (teleId, username, tgHandle, gold, goldBeforeShift, diamonds, level, miningRate, upgradeCost, isMining, miningStartTime, miningShiftStart, referrals, lastTaskClaim, flappyBestScore)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -800,19 +946,21 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
                     console.log(`[REFERRAL CHECK] Inviter ${referralId} exists? ${inviters.length > 0}`);
 
                     if (inviters.length > 0) {
-                        const reward = 50000;
+                        const rewardGold = economyConfig.referralRewardGold;
+                        const rewardDiamonds = economyConfig.referralRewardDiamonds;
                         // 2. Reward inviter
                         await pool.query(
-                            'UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ?, referrals = referrals + 1 WHERE teleId = ?',
-                            [reward, reward, referralId]
+                            'UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ?, diamonds = diamonds + ?, referrals = referrals + 1 WHERE teleId = ?',
+                            [rewardGold, rewardGold, rewardDiamonds, referralId]
                         );
                         // 3. Record referral
                         const [refResult] = await pool.query(
-                            'INSERT IGNORE INTO referrals (inviterId, invitedId, goldReward) VALUES (?, ?, ?)',
-                            [referralId, userId, reward]
+                            'INSERT IGNORE INTO referrals (inviterId, invitedId, goldReward, diamondReward) VALUES (?, ?, ?, ?)',
+                            [referralId, userId, rewardGold, rewardDiamonds]
                         );
                         console.log(`🎁 Referral record result for ${userId}:`, refResult);
-                        console.log(`🎁 Referral reward of ${reward} gold sent to ${referralId} for inviting ${userId}`);
+                        console.log(`🎁 Referral reward sent to ${referralId} for inviting ${userId}: ${rewardGold} gold / ${rewardDiamonds} KC`);
+                        broadcastAdminRefresh('referral-awarded', { inviterId: referralId, invitedId: userId });
                     }
                 } catch (refErr) {
                     console.error('[REFERRAL ERROR]', refErr);
@@ -1026,6 +1174,7 @@ async function getAdminSnapshot() {
     const [users] = await pool.query('SELECT * FROM users');
     const [giftCodes] = await pool.query('SELECT * FROM gift_codes ORDER BY createdAt DESC');
     const [flappyConfigRows] = await pool.query('SELECT * FROM flappy_config WHERE id = 1');
+    const economyConfig = await getEconomyConfig();
 
     const [pendingWithdraws] = await pool.query(`
         SELECT w.*, u.username, u.tgHandle
@@ -1071,6 +1220,7 @@ async function getAdminSnapshot() {
         levels,
         tasks,
         flappyConfig: flappyConfigRows[0] || { rewardGold: 0, rewardDiamonds: 0 },
+        economyConfig,
         serverTime
     };
 }
@@ -1122,6 +1272,55 @@ app.post('/api/admin/flappy/config', adminMiddleware, async (req, res) => {
         );
         broadcastAdminRefresh('flappy-config-updated');
         res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/api/admin/economy-config', adminMiddleware, async (req, res) => {
+    const config = normalizeEconomyConfig(req.body || {});
+
+    try {
+        await pool.query(
+            `INSERT INTO economy_config (
+                id,
+                newUserGold,
+                newUserDiamonds,
+                referralRewardGold,
+                referralRewardDiamonds,
+                exchangeGoldPerDiamond,
+                withdrawMinGold,
+                withdrawVndPerGold,
+                taskMilestoneCount,
+                taskMilestoneRewardGold,
+                taskMilestoneRewardDiamonds
+            ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+                newUserGold = VALUES(newUserGold),
+                newUserDiamonds = VALUES(newUserDiamonds),
+                referralRewardGold = VALUES(referralRewardGold),
+                referralRewardDiamonds = VALUES(referralRewardDiamonds),
+                exchangeGoldPerDiamond = VALUES(exchangeGoldPerDiamond),
+                withdrawMinGold = VALUES(withdrawMinGold),
+                withdrawVndPerGold = VALUES(withdrawVndPerGold),
+                taskMilestoneCount = VALUES(taskMilestoneCount),
+                taskMilestoneRewardGold = VALUES(taskMilestoneRewardGold),
+                taskMilestoneRewardDiamonds = VALUES(taskMilestoneRewardDiamonds)`,
+            [
+                config.newUserGold,
+                config.newUserDiamonds,
+                config.referralRewardGold,
+                config.referralRewardDiamonds,
+                config.exchangeGoldPerDiamond,
+                config.withdrawMinGold,
+                config.withdrawVndPerGold,
+                config.taskMilestoneCount,
+                config.taskMilestoneRewardGold,
+                config.taskMilestoneRewardDiamonds,
+            ]
+        );
+        broadcastAdminRefresh('economy-config-updated');
+        res.json({ success: true, config });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -1638,6 +1837,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
         } else {
             await pool.query('INSERT INTO task_claims (teleId, taskId) VALUES (?, ?)', [teleId, taskId]);
         }
+        await pool.query('INSERT INTO task_claim_events (teleId, taskId) VALUES (?, ?)', [teleId, taskId]);
 
         // 5. Award Reward
         const rewardAmount = Math.floor(Number(task.rewardAmount) || 0);
@@ -1647,10 +1847,69 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
             await pool.query('UPDATE users SET diamonds = diamonds + ? WHERE teleId = ?', [rewardAmount, teleId]);
         }
 
+        let milestoneReward = null;
+        const economyConfig = await getEconomyConfig();
+        const milestoneHasReward = economyConfig.taskMilestoneRewardGold > 0 || economyConfig.taskMilestoneRewardDiamonds > 0;
+        if (economyConfig.taskMilestoneCount > 0 && milestoneHasReward) {
+            const rewardDate = vnNow.toISOString().split('T')[0];
+            const [existingMilestoneRewards] = await pool.query(
+                'SELECT teleId FROM task_milestone_rewards WHERE teleId = ? AND rewardDate = ? LIMIT 1',
+                [teleId, rewardDate]
+            );
+
+            if (existingMilestoneRewards.length === 0) {
+                const [milestoneCountRows] = await pool.query(
+                    'SELECT COUNT(*) AS total FROM task_claim_events WHERE teleId = ? AND DATE(DATE_ADD(claimedAt, INTERVAL 7 HOUR)) = ?',
+                    [teleId, rewardDate]
+                );
+                const completedCount = Number(milestoneCountRows[0]?.total || 0);
+
+                if (completedCount >= economyConfig.taskMilestoneCount) {
+                    if (economyConfig.taskMilestoneRewardGold > 0) {
+                        await pool.query(
+                            'UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ? WHERE teleId = ?',
+                            [economyConfig.taskMilestoneRewardGold, economyConfig.taskMilestoneRewardGold, teleId]
+                        );
+                    }
+
+                    if (economyConfig.taskMilestoneRewardDiamonds > 0) {
+                        await pool.query(
+                            'UPDATE users SET diamonds = diamonds + ? WHERE teleId = ?',
+                            [economyConfig.taskMilestoneRewardDiamonds, teleId]
+                        );
+                    }
+
+                    await pool.query(
+                        'INSERT INTO task_milestone_rewards (teleId, rewardDate, taskCount, rewardGold, rewardDiamonds) VALUES (?, ?, ?, ?, ?)',
+                        [
+                            teleId,
+                            rewardDate,
+                            completedCount,
+                            economyConfig.taskMilestoneRewardGold,
+                            economyConfig.taskMilestoneRewardDiamonds,
+                        ]
+                    );
+
+                    milestoneReward = {
+                        count: economyConfig.taskMilestoneCount,
+                        completedCount,
+                        gold: economyConfig.taskMilestoneRewardGold,
+                        diamonds: economyConfig.taskMilestoneRewardDiamonds,
+                    };
+                    broadcastAdminRefresh('task-milestone-earned', { teleId, taskId, completedCount });
+                }
+            }
+        }
+
         // 6. Return updated data
         const [users] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
         broadcastAdminRefresh('task-claimed', { teleId, taskId });
-        res.json({ success: true, reward: { type: task.rewardType, amount: rewardAmount }, user: users[0] });
+        res.json({
+            success: true,
+            reward: { type: task.rewardType, amount: rewardAmount },
+            milestoneReward,
+            user: users[0]
+        });
     } catch (err) {
         console.error('[TASK CLAIM ERROR]', err);
         res.status(500).json({ error: err.message });
@@ -1664,6 +1923,8 @@ app.post('/api/admin/reset-db', adminMiddleware, async (req, res) => {
     try {
         console.log("⚠️ [ADMIN] Resetting entire database...");
         await pool.query('DELETE FROM task_claims'); // Also clear task history
+        await pool.query('DELETE FROM task_claim_events');
+        await pool.query('DELETE FROM task_milestone_rewards');
         await pool.query('DELETE FROM telegram_message_reactions');
         await pool.query('DELETE FROM gift_code_usage');
         await pool.query('DELETE FROM withdrawals');

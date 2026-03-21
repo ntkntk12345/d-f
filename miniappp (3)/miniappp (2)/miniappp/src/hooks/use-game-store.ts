@@ -30,6 +30,7 @@ export interface ReferralRecord {
   invitedId: number;
   invitedName: string;
   goldReward: number;
+  diamondReward: number;
   createdAt: string;
 }
 
@@ -63,6 +64,19 @@ export interface FlappyConfig {
   rewardGold: number;
   rewardDiamonds: number;
   bestScore: number;
+}
+
+export interface EconomyConfig {
+  newUserGold: number;
+  newUserDiamonds: number;
+  referralRewardGold: number;
+  referralRewardDiamonds: number;
+  exchangeGoldPerDiamond: number;
+  withdrawMinGold: number;
+  withdrawVndPerGold: number;
+  taskMilestoneCount: number;
+  taskMilestoneRewardGold: number;
+  taskMilestoneRewardDiamonds: number;
 }
 
 export interface WithdrawHistoryItem {
@@ -168,6 +182,12 @@ interface TaskClaimResult extends ApiResult {
   reward?: {
     type: "gold" | "diamond";
     amount: number;
+  };
+  milestoneReward?: {
+    count?: number;
+    completedCount?: number;
+    gold?: number;
+    diamonds?: number;
   };
   user?: ApiUser;
 }
@@ -297,6 +317,19 @@ const EMPTY_FLAPPY_CONFIG: FlappyConfig = {
   bestScore: 0,
 };
 
+const EMPTY_ECONOMY_CONFIG: EconomyConfig = {
+  newUserGold: 1000,
+  newUserDiamonds: 1000,
+  referralRewardGold: 50000,
+  referralRewardDiamonds: 0,
+  exchangeGoldPerDiamond: 125,
+  withdrawMinGold: 6000000,
+  withdrawVndPerGold: 0.0005,
+  taskMilestoneCount: 0,
+  taskMilestoneRewardGold: 0,
+  taskMilestoneRewardDiamonds: 0,
+};
+
 export const SHIFT_DURATION_MS = 6 * 60 * 60 * 1000;
 
 function toNumber(value: unknown, fallback = 0): number {
@@ -361,6 +394,7 @@ export function useGameStore() {
   const [referrals, setReferrals] = useState<ReferralRecord[]>([]);
   const [luckyDraw, setLuckyDraw] = useState<LuckyDrawInfo>(EMPTY_LUCKY_DRAW);
   const [flappyConfig, setFlappyConfig] = useState<FlappyConfig>(EMPTY_FLAPPY_CONFIG);
+  const [economyConfig, setEconomyConfig] = useState<EconomyConfig>(EMPTY_ECONOMY_CONFIG);
   const [withdrawHistory, setWithdrawHistory] = useState<WithdrawHistoryItem[]>([]);
   const [referralCount, setReferralCount] = useState(0);
   const [adminData, setAdminData] = useState<AdminData>({
@@ -507,6 +541,7 @@ export function useGameStore() {
       invitedId: number;
       invitedName: string;
       goldReward: number | string;
+      diamondReward?: number | string;
       createdAt: string;
     }>;
 
@@ -515,6 +550,7 @@ export function useGameStore() {
         invitedId: toNumber(row.invitedId),
         invitedName: row.invitedName || `Người dùng ${row.invitedId}`,
         goldReward: toNumber(row.goldReward),
+        diamondReward: toNumber(row.diamondReward),
         createdAt: row.createdAt,
       })),
     );
@@ -557,6 +593,25 @@ export function useGameStore() {
       rewardGold: toNumber(data.rewardGold),
       rewardDiamonds: toNumber(data.rewardDiamonds),
       bestScore: toNumber(data.bestScore),
+    });
+  }, [apiFetch]);
+
+  const fetchEconomyConfig = useCallback(async () => {
+    const data = (await apiFetch("/api/config/economy")) as Partial<EconomyConfig>;
+    setEconomyConfig({
+      newUserGold: toNumber(data.newUserGold, EMPTY_ECONOMY_CONFIG.newUserGold),
+      newUserDiamonds: toNumber(data.newUserDiamonds, EMPTY_ECONOMY_CONFIG.newUserDiamonds),
+      referralRewardGold: toNumber(data.referralRewardGold, EMPTY_ECONOMY_CONFIG.referralRewardGold),
+      referralRewardDiamonds: toNumber(data.referralRewardDiamonds, EMPTY_ECONOMY_CONFIG.referralRewardDiamonds),
+      exchangeGoldPerDiamond: Math.max(1, toNumber(data.exchangeGoldPerDiamond, EMPTY_ECONOMY_CONFIG.exchangeGoldPerDiamond)),
+      withdrawMinGold: toNumber(data.withdrawMinGold, EMPTY_ECONOMY_CONFIG.withdrawMinGold),
+      withdrawVndPerGold: toNumber(data.withdrawVndPerGold, EMPTY_ECONOMY_CONFIG.withdrawVndPerGold),
+      taskMilestoneCount: toNumber(data.taskMilestoneCount, EMPTY_ECONOMY_CONFIG.taskMilestoneCount),
+      taskMilestoneRewardGold: toNumber(data.taskMilestoneRewardGold, EMPTY_ECONOMY_CONFIG.taskMilestoneRewardGold),
+      taskMilestoneRewardDiamonds: toNumber(
+        data.taskMilestoneRewardDiamonds,
+        EMPTY_ECONOMY_CONFIG.taskMilestoneRewardDiamonds,
+      ),
     });
   }, [apiFetch]);
 
@@ -649,7 +704,7 @@ export function useGameStore() {
       try {
         await fetchLevels();
         await syncFromBackend();
-        await Promise.all([fetchTasks(), fetchReferralHistory(), fetchLuckyDrawInfo(), fetchFlappyConfig()]);
+        await Promise.all([fetchTasks(), fetchReferralHistory(), fetchLuckyDrawInfo(), fetchFlappyConfig(), fetchEconomyConfig()]);
       } catch (err) {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : "Không thể tải dữ liệu từ backend.");
@@ -664,7 +719,7 @@ export function useGameStore() {
     return () => {
       cancelled = true;
     };
-  }, [fetchFlappyConfig, fetchLevels, fetchLuckyDrawInfo, fetchReferralHistory, fetchTasks, initData, syncFromBackend, teleId]);
+  }, [fetchEconomyConfig, fetchFlappyConfig, fetchLevels, fetchLuckyDrawInfo, fetchReferralHistory, fetchTasks, initData, syncFromBackend, teleId]);
 
   useEffect(() => {
     if (!isLoaded || !initData) return;
@@ -673,7 +728,7 @@ export function useGameStore() {
       void fetchTasks();
     }
     if (currentPage === "friends") {
-      void fetchReferralHistory();
+      void Promise.all([fetchReferralHistory(), fetchEconomyConfig()]);
     }
     if (currentPage === "lucky") {
       void fetchLuckyDrawInfo();
@@ -681,13 +736,31 @@ export function useGameStore() {
     if (currentPage === "flappy") {
       void fetchFlappyConfig();
     }
+    if (currentPage === "exchange") {
+      void fetchEconomyConfig();
+    }
     if (currentPage === "withdraw") {
-      void syncFromBackend();
+      void Promise.all([syncFromBackend(), fetchEconomyConfig()]);
+    }
+    if (currentPage === "tasks") {
+      void fetchEconomyConfig();
     }
     if (currentPage === "admin" && teleId && String(teleId) === ADMIN_ID) {
       void fetchAdminData();
     }
-  }, [currentPage, fetchAdminData, fetchFlappyConfig, fetchLuckyDrawInfo, fetchReferralHistory, fetchTasks, initData, isLoaded, syncFromBackend, teleId]);
+  }, [
+    currentPage,
+    fetchAdminData,
+    fetchEconomyConfig,
+    fetchFlappyConfig,
+    fetchLuckyDrawInfo,
+    fetchReferralHistory,
+    fetchTasks,
+    initData,
+    isLoaded,
+    syncFromBackend,
+    teleId,
+  ]);
 
   useEffect(() => {
     if (!isMining || !miningStartTime) {
@@ -802,7 +875,7 @@ export function useGameStore() {
         await fetchTasks();
         triggerConfetti();
 
-        return { success: true, reward: data.reward };
+        return { success: true, reward: data.reward, milestoneReward: data.milestoneReward };
       } catch (err) {
         return { success: false, error: err instanceof Error ? err.message : "Không thể nhận thưởng." };
       }
@@ -1055,6 +1128,7 @@ export function useGameStore() {
     referralCount,
     luckyDraw,
     flappyConfig,
+    economyConfig,
     withdrawHistory,
     adminData,
     inviteLink,

@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
+  Coins,
   Copy,
   Crown,
   Gift,
@@ -36,7 +37,7 @@ import {
 } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 
-type AdminTab = "dashboard" | "users" | "tasks" | "giftcodes" | "withdrawals" | "lucky_draw";
+type AdminTab = "dashboard" | "economy" | "users" | "tasks" | "giftcodes" | "withdrawals" | "lucky_draw";
 type NoticeTone = "success" | "error";
 type TaskActionType = "click" | "join" | "react_heart";
 type TaskType = "community" | "daily" | "one_time" | "ad";
@@ -101,6 +102,19 @@ interface FlappyConfig {
   rewardDiamonds: number;
 }
 
+interface EconomyConfig {
+  newUserGold: number;
+  newUserDiamonds: number;
+  referralRewardGold: number;
+  referralRewardDiamonds: number;
+  exchangeGoldPerDiamond: number;
+  withdrawMinGold: number;
+  withdrawVndPerGold: number;
+  taskMilestoneCount: number;
+  taskMilestoneRewardGold: number;
+  taskMilestoneRewardDiamonds: number;
+}
+
 interface LevelSetting {
   level: number;
   miningRate: number;
@@ -131,6 +145,7 @@ interface AdminSnapshot {
   levels: LevelSetting[];
   tasks: TaskItem[];
   flappyConfig: FlappyConfig;
+  economyConfig: EconomyConfig;
   serverTime: number;
 }
 
@@ -178,6 +193,25 @@ interface FlappyFormState {
   rewardDiamonds: string;
 }
 
+interface EconomyFormState {
+  newUserGold: string;
+  newUserDiamonds: string;
+  referralRewardGold: string;
+  referralRewardDiamonds: string;
+  exchangeGoldPerDiamond: string;
+  withdrawMinGold: string;
+  withdrawVndPerGold: string;
+  taskMilestoneCount: string;
+  taskMilestoneRewardGold: string;
+  taskMilestoneRewardDiamonds: string;
+}
+
+interface LevelRowState {
+  level: number;
+  miningRate: string;
+  upgradeCost: string;
+}
+
 interface ScheduleFormState {
   date: string;
   rank: string;
@@ -205,6 +239,7 @@ const DANGER_BUTTON_CLASS =
 
 const TABS: Array<{ id: AdminTab; label: string; icon: LucideIcon; accent: string }> = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, accent: "from-cyan-300 to-sky-400" },
+  { id: "economy", label: "Kinh tế", icon: Coins, accent: "from-amber-200 to-yellow-400" },
   { id: "users", label: "Người dùng", icon: Users, accent: "from-yellow-200 to-amber-400" },
   { id: "tasks", label: "Nhiệm vụ", icon: Swords, accent: "from-fuchsia-200 to-rose-400" },
   { id: "giftcodes", label: "Gift code", icon: Gift, accent: "from-emerald-200 to-teal-400" },
@@ -254,6 +289,32 @@ const DEFAULT_GIFTCODE_FORM: GiftCodeFormState = {
   maxUses: "100",
 };
 
+const EMPTY_ECONOMY_CONFIG: EconomyConfig = {
+  newUserGold: 1000,
+  newUserDiamonds: 1000,
+  referralRewardGold: 50000,
+  referralRewardDiamonds: 0,
+  exchangeGoldPerDiamond: 125,
+  withdrawMinGold: 6000000,
+  withdrawVndPerGold: 0.0005,
+  taskMilestoneCount: 0,
+  taskMilestoneRewardGold: 0,
+  taskMilestoneRewardDiamonds: 0,
+};
+
+const DEFAULT_ECONOMY_FORM: EconomyFormState = {
+  newUserGold: String(EMPTY_ECONOMY_CONFIG.newUserGold),
+  newUserDiamonds: String(EMPTY_ECONOMY_CONFIG.newUserDiamonds),
+  referralRewardGold: String(EMPTY_ECONOMY_CONFIG.referralRewardGold),
+  referralRewardDiamonds: String(EMPTY_ECONOMY_CONFIG.referralRewardDiamonds),
+  exchangeGoldPerDiamond: String(EMPTY_ECONOMY_CONFIG.exchangeGoldPerDiamond),
+  withdrawMinGold: String(EMPTY_ECONOMY_CONFIG.withdrawMinGold),
+  withdrawVndPerGold: String(EMPTY_ECONOMY_CONFIG.withdrawVndPerGold),
+  taskMilestoneCount: String(EMPTY_ECONOMY_CONFIG.taskMilestoneCount),
+  taskMilestoneRewardGold: String(EMPTY_ECONOMY_CONFIG.taskMilestoneRewardGold),
+  taskMilestoneRewardDiamonds: String(EMPTY_ECONOMY_CONFIG.taskMilestoneRewardDiamonds),
+};
+
 function getTodayInputValue() {
   return new Date().toISOString().slice(0, 10);
 }
@@ -294,6 +355,28 @@ function toText(value: unknown, fallback = "") {
   return fallback;
 }
 
+function formatDecimalNumber(value: number, maximumFractionDigits = 8) {
+  return new Intl.NumberFormat("vi-VN", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits,
+  }).format(value);
+}
+
+function toEconomyForm(config: EconomyConfig): EconomyFormState {
+  return {
+    newUserGold: String(config.newUserGold),
+    newUserDiamonds: String(config.newUserDiamonds),
+    referralRewardGold: String(config.referralRewardGold),
+    referralRewardDiamonds: String(config.referralRewardDiamonds),
+    exchangeGoldPerDiamond: String(config.exchangeGoldPerDiamond),
+    withdrawMinGold: String(config.withdrawMinGold),
+    withdrawVndPerGold: String(config.withdrawVndPerGold),
+    taskMilestoneCount: String(config.taskMilestoneCount),
+    taskMilestoneRewardGold: String(config.taskMilestoneRewardGold),
+    taskMilestoneRewardDiamonds: String(config.taskMilestoneRewardDiamonds),
+  };
+}
+
 function isAdminUserMiningActive(user: Pick<AdminUser, "isMining" | "miningStartTime" | "miningShiftStart">) {
   return Boolean(user.isMining && user.miningStartTime && (user.miningShiftStart ?? user.miningStartTime));
 }
@@ -321,6 +404,7 @@ function getProjectedAdminUserGold(
 
 function normalizeAdminSnapshot(payload: unknown): AdminSnapshot {
   const root = isRecord(payload) ? payload : {};
+  const economyRoot = isRecord(root.economyConfig) ? root.economyConfig : {};
 
   return {
     users: asRecordArray(root.users).map((item) => ({
@@ -383,6 +467,35 @@ function normalizeAdminSnapshot(payload: unknown): AdminSnapshot {
     flappyConfig: {
       rewardGold: toNumber(isRecord(root.flappyConfig) ? root.flappyConfig.rewardGold : 0),
       rewardDiamonds: toNumber(isRecord(root.flappyConfig) ? root.flappyConfig.rewardDiamonds : 0),
+    },
+    economyConfig: {
+      newUserGold: toNumber(economyRoot.newUserGold ?? EMPTY_ECONOMY_CONFIG.newUserGold),
+      newUserDiamonds: toNumber(economyRoot.newUserDiamonds ?? EMPTY_ECONOMY_CONFIG.newUserDiamonds),
+      referralRewardGold: toNumber(economyRoot.referralRewardGold ?? EMPTY_ECONOMY_CONFIG.referralRewardGold),
+      referralRewardDiamonds: toNumber(
+        economyRoot.referralRewardDiamonds ?? EMPTY_ECONOMY_CONFIG.referralRewardDiamonds,
+      ),
+      exchangeGoldPerDiamond: Math.max(
+        1,
+        toNumber(economyRoot.exchangeGoldPerDiamond ?? EMPTY_ECONOMY_CONFIG.exchangeGoldPerDiamond),
+      ),
+      withdrawMinGold: Math.max(0, toNumber(economyRoot.withdrawMinGold ?? EMPTY_ECONOMY_CONFIG.withdrawMinGold)),
+      withdrawVndPerGold: Math.max(
+        0,
+        toNumber(economyRoot.withdrawVndPerGold ?? EMPTY_ECONOMY_CONFIG.withdrawVndPerGold),
+      ),
+      taskMilestoneCount: Math.max(
+        0,
+        toNumber(economyRoot.taskMilestoneCount ?? EMPTY_ECONOMY_CONFIG.taskMilestoneCount),
+      ),
+      taskMilestoneRewardGold: Math.max(
+        0,
+        toNumber(economyRoot.taskMilestoneRewardGold ?? EMPTY_ECONOMY_CONFIG.taskMilestoneRewardGold),
+      ),
+      taskMilestoneRewardDiamonds: Math.max(
+        0,
+        toNumber(economyRoot.taskMilestoneRewardDiamonds ?? EMPTY_ECONOMY_CONFIG.taskMilestoneRewardDiamonds),
+      ),
     },
     serverTime: toNumber(root.serverTime || Date.now()),
   };
@@ -686,6 +799,10 @@ export function KhaidzAdminWebView() {
   const [isSavingGiftCode, setIsSavingGiftCode] = useState(false);
   const [flappyForm, setFlappyForm] = useState<FlappyFormState>({ rewardGold: "0", rewardDiamonds: "0" });
   const [isSavingFlappy, setIsSavingFlappy] = useState(false);
+  const [economyForm, setEconomyForm] = useState<EconomyFormState>(DEFAULT_ECONOMY_FORM);
+  const [isSavingEconomy, setIsSavingEconomy] = useState(false);
+  const [levelRows, setLevelRows] = useState<LevelRowState[]>([]);
+  const [savingLevel, setSavingLevel] = useState<number | null>(null);
   const [withdrawDateFilter, setWithdrawDateFilter] = useState("all");
   const [busyWithdrawId, setBusyWithdrawId] = useState<number | null>(null);
   const [rejectTarget, setRejectTarget] = useState<AdminWithdrawItem | null>(null);
@@ -703,6 +820,7 @@ export function KhaidzAdminWebView() {
   const pendingWithdraws = snapshot?.pendingWithdraws ?? [];
   const levels = snapshot?.levels ?? [];
   const flappyConfig = snapshot?.flappyConfig ?? { rewardGold: 0, rewardDiamonds: 0 };
+  const economyConfig = snapshot?.economyConfig ?? EMPTY_ECONOMY_CONFIG;
   const liveNowMs = liveTickMs + serverOffsetMs;
   const activeMiningUsersCount = useMemo(() => users.filter((user) => isAdminUserMiningActive(user)).length, [users]);
   const projectedTotalGold = useMemo(
@@ -941,6 +1059,33 @@ export function KhaidzAdminWebView() {
       rewardDiamonds: String(flappyConfig.rewardDiamonds),
     });
   }, [flappyConfig.rewardDiamonds, flappyConfig.rewardGold]);
+
+  useEffect(() => {
+    setEconomyForm(toEconomyForm(economyConfig));
+  }, [
+    economyConfig.exchangeGoldPerDiamond,
+    economyConfig.newUserDiamonds,
+    economyConfig.newUserGold,
+    economyConfig.referralRewardDiamonds,
+    economyConfig.referralRewardGold,
+    economyConfig.taskMilestoneCount,
+    economyConfig.taskMilestoneRewardDiamonds,
+    economyConfig.taskMilestoneRewardGold,
+    economyConfig.withdrawMinGold,
+    economyConfig.withdrawVndPerGold,
+  ]);
+
+  useEffect(() => {
+    setLevelRows(
+      [...levels]
+        .sort((a, b) => a.level - b.level)
+        .map((level) => ({
+          level: level.level,
+          miningRate: String(level.miningRate),
+          upgradeCost: String(level.upgradeCost),
+        })),
+    );
+  }, [levels]);
 
   useEffect(() => {
     setUserPage(1);
@@ -1363,6 +1508,61 @@ export function KhaidzAdminWebView() {
     }
   };
 
+  const handleEconomySubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSavingEconomy(true);
+
+    try {
+      await adminFetch("/api/admin/economy-config", {
+        method: "POST",
+        body: JSON.stringify({
+          newUserGold: Math.max(0, Math.floor(Number(economyForm.newUserGold || 0))),
+          newUserDiamonds: Math.max(0, Math.floor(Number(economyForm.newUserDiamonds || 0))),
+          referralRewardGold: Math.max(0, Math.floor(Number(economyForm.referralRewardGold || 0))),
+          referralRewardDiamonds: Math.max(0, Math.floor(Number(economyForm.referralRewardDiamonds || 0))),
+          exchangeGoldPerDiamond: Math.max(1, Math.floor(Number(economyForm.exchangeGoldPerDiamond || 1))),
+          withdrawMinGold: Math.max(0, Math.floor(Number(economyForm.withdrawMinGold || 0))),
+          withdrawVndPerGold: Math.max(0, Number(economyForm.withdrawVndPerGold || 0)),
+          taskMilestoneCount: Math.max(0, Math.floor(Number(economyForm.taskMilestoneCount || 0))),
+          taskMilestoneRewardGold: Math.max(0, Math.floor(Number(economyForm.taskMilestoneRewardGold || 0))),
+          taskMilestoneRewardDiamonds: Math.max(
+            0,
+            Math.floor(Number(economyForm.taskMilestoneRewardDiamonds || 0)),
+          ),
+        }),
+      });
+
+      await refreshAll({ silent: true });
+      setSuccessNotice("Đã cập nhật cấu hình kinh tế.");
+    } catch (error) {
+      setErrorNotice(error instanceof Error ? error.message : "Không thể lưu cấu hình kinh tế.");
+    } finally {
+      setIsSavingEconomy(false);
+    }
+  };
+
+  const handleLevelRowSave = async (row: LevelRowState) => {
+    setSavingLevel(row.level);
+
+    try {
+      await adminFetch("/api/admin/config/level", {
+        method: "POST",
+        body: JSON.stringify({
+          level: row.level,
+          miningRate: Math.max(0, Math.floor(Number(row.miningRate || 0))),
+          upgradeCost: Math.max(0, Math.floor(Number(row.upgradeCost || 0))),
+        }),
+      });
+
+      await refreshAll({ silent: true });
+      setSuccessNotice(`Đã cập nhật level ${row.level}.`);
+    } catch (error) {
+      setErrorNotice(error instanceof Error ? error.message : `Không thể lưu level ${row.level}.`);
+    } finally {
+      setSavingLevel(null);
+    }
+  };
+
   const handleScheduleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSavingSchedule(true);
@@ -1624,6 +1824,7 @@ export function KhaidzAdminWebView() {
                     <div className="text-sm font-bold uppercase tracking-[0.16em]">{tab.label}</div>
                     <div className="mt-1 text-xs text-slate-400/85">
                       {tab.id === "dashboard" ? "Toàn cảnh hệ thống" : null}
+                      {tab.id === "economy" ? "Set vàng, KC, giá và mốc thưởng" : null}
                       {tab.id === "users" ? "Tìm user và chỉnh tài nguyên" : null}
                       {tab.id === "tasks" ? "Task click, join, react heart" : null}
                       {tab.id === "giftcodes" ? "Code thưởng đang hoạt động" : null}
@@ -1891,6 +2092,354 @@ export function KhaidzAdminWebView() {
                           </div>
                         ))
                       )}
+                    </div>
+                  </ShellCard>
+                </div>
+              </div>
+            </>
+          ) : null}
+
+          {!isBootstrapping && selectedTab === "economy" ? (
+            <>
+              <div className="grid gap-4 xl:grid-cols-4">
+                <MetricCard
+                  label="Mời bạn"
+                  value={`+${formatNumber(economyConfig.referralRewardGold)}`}
+                  detail={
+                    economyConfig.referralRewardDiamonds > 0
+                      ? `Them ${formatNumber(economyConfig.referralRewardDiamonds)} KC cho moi ref.`
+                      : "Thuong vang moi khi tao ref thanh cong."
+                  }
+                  icon={Users}
+                  accentClassName="text-amber-100"
+                />
+                <MetricCard
+                  label="Quy đổi"
+                  value={formatNumber(economyConfig.exchangeGoldPerDiamond)}
+                  detail="So vang can de doi 1 KC."
+                  icon={Coins}
+                  accentClassName="text-cyan-100"
+                />
+                <MetricCard
+                  label="Rút tối thiểu"
+                  value={formatNumber(economyConfig.withdrawMinGold)}
+                  detail={`${formatDecimalNumber(economyConfig.withdrawVndPerGold, 6)} VND / 1 vang`}
+                  icon={Wallet}
+                  accentClassName="text-emerald-100"
+                />
+                <MetricCard
+                  label="Mốc task"
+                  value={
+                    economyConfig.taskMilestoneCount > 0
+                      ? formatNumber(economyConfig.taskMilestoneCount)
+                      : "Tat"
+                  }
+                  detail={
+                    economyConfig.taskMilestoneCount > 0
+                      ? `${formatNumber(economyConfig.taskMilestoneRewardGold)} vang · ${formatNumber(
+                          economyConfig.taskMilestoneRewardDiamonds,
+                        )} KC`
+                      : "Khong co thuong them theo moc task."
+                  }
+                  icon={CheckCircle2}
+                  accentClassName="text-violet-100"
+                />
+              </div>
+
+              <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+                <ShellCard>
+                  <SectionHeading
+                    icon={Coins}
+                    title="Cấu hình kinh tế"
+                    description="Set các chỉ số vàng, KC, tỷ giá, ref và mốc thưởng task từ ngay trong admin."
+                  />
+
+                  <form className="space-y-5 px-5 py-5 sm:px-6" onSubmit={handleEconomySubmit}>
+                    <div className="rounded-[24px] border border-white/8 bg-white/4 p-4">
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">User mới và mời bạn</p>
+                      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                        <div>
+                          <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                            Vàng user mới
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={economyForm.newUserGold}
+                            onChange={(event) =>
+                              setEconomyForm((current) => ({ ...current, newUserGold: event.target.value }))
+                            }
+                            className={INPUT_CLASS}
+                          />
+                        </div>
+
+                        <div>
+                          <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                            KC user mới
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={economyForm.newUserDiamonds}
+                            onChange={(event) =>
+                              setEconomyForm((current) => ({ ...current, newUserDiamonds: event.target.value }))
+                            }
+                            className={INPUT_CLASS}
+                          />
+                        </div>
+
+                        <div>
+                          <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                            Thưởng ref vàng
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={economyForm.referralRewardGold}
+                            onChange={(event) =>
+                              setEconomyForm((current) => ({ ...current, referralRewardGold: event.target.value }))
+                            }
+                            className={INPUT_CLASS}
+                          />
+                        </div>
+
+                        <div>
+                          <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                            Thưởng ref KC
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={economyForm.referralRewardDiamonds}
+                            onChange={(event) =>
+                              setEconomyForm((current) => ({ ...current, referralRewardDiamonds: event.target.value }))
+                            }
+                            className={INPUT_CLASS}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="rounded-[24px] border border-white/8 bg-white/4 p-4">
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Quy đổi và rút tiền</p>
+                      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                        <div>
+                          <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                            Vàng / 1 KC
+                          </label>
+                          <input
+                            type="number"
+                            min="1"
+                            value={economyForm.exchangeGoldPerDiamond}
+                            onChange={(event) =>
+                              setEconomyForm((current) => ({ ...current, exchangeGoldPerDiamond: event.target.value }))
+                            }
+                            className={INPUT_CLASS}
+                          />
+                        </div>
+
+                        <div>
+                          <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                            Rút tối thiểu
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={economyForm.withdrawMinGold}
+                            onChange={(event) =>
+                              setEconomyForm((current) => ({ ...current, withdrawMinGold: event.target.value }))
+                            }
+                            className={INPUT_CLASS}
+                          />
+                        </div>
+
+                        <div className="sm:col-span-2">
+                          <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                            VND / 1 vàng
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            step="0.000001"
+                            value={economyForm.withdrawVndPerGold}
+                            onChange={(event) =>
+                              setEconomyForm((current) => ({ ...current, withdrawVndPerGold: event.target.value }))
+                            }
+                            className={INPUT_CLASS}
+                          />
+                          <p className="mt-2 text-sm text-slate-400/80">
+                            Muc hien tai: {formatDecimalNumber(economyConfig.withdrawVndPerGold, 6)} VND cho moi 1 vang.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="rounded-[24px] border border-white/8 bg-white/4 p-4">
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Mốc thưởng task theo ngày</p>
+                      <div className="mt-4 grid gap-4 sm:grid-cols-3">
+                        <div>
+                          <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                            So task can dat
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={economyForm.taskMilestoneCount}
+                            onChange={(event) =>
+                              setEconomyForm((current) => ({ ...current, taskMilestoneCount: event.target.value }))
+                            }
+                            className={INPUT_CLASS}
+                          />
+                        </div>
+
+                        <div>
+                          <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                            Thưởng vàng
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={economyForm.taskMilestoneRewardGold}
+                            onChange={(event) =>
+                              setEconomyForm((current) => ({
+                                ...current,
+                                taskMilestoneRewardGold: event.target.value,
+                              }))
+                            }
+                            className={INPUT_CLASS}
+                          />
+                        </div>
+
+                        <div>
+                          <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                            Thưởng KC
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={economyForm.taskMilestoneRewardDiamonds}
+                            onChange={(event) =>
+                              setEconomyForm((current) => ({
+                                ...current,
+                                taskMilestoneRewardDiamonds: event.target.value,
+                              }))
+                            }
+                            className={INPUT_CLASS}
+                          />
+                        </div>
+                      </div>
+
+                      <p className="mt-3 text-sm leading-6 text-slate-400/80">
+                        Moc nay tinh theo ngay gio Viet Nam. Dat 0 o so task neu muon tat thuong moc.
+                      </p>
+                    </div>
+
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                      <p className="text-sm leading-6 text-slate-300/70">
+                        Luu xong se ap dung cho user moi, ref, exchange, withdraw va task ngay lap tuc.
+                      </p>
+
+                      <button type="submit" disabled={isSavingEconomy} className={PRIMARY_BUTTON_CLASS}>
+                        {isSavingEconomy ? <LoadingSpinner /> : <Save className="h-4 w-4" />}
+                        {isSavingEconomy ? "Đang lưu..." : "Lưu cấu hình"}
+                      </button>
+                    </div>
+                  </form>
+                </ShellCard>
+
+                <div className="space-y-6">
+                  <ShellCard>
+                    <SectionHeading
+                      icon={Crown}
+                      title="Level mining"
+                      description="Set mining rate va gia nang cap cho tung level ngay trong admin."
+                    />
+
+                    <div className="space-y-4 px-5 py-5 sm:px-6">
+                      {levelRows.length === 0 ? (
+                        <div className="rounded-[24px] border border-white/8 bg-white/4 px-4 py-5 text-sm text-slate-300/72">
+                          Chua co cau hinh level nao.
+                        </div>
+                      ) : (
+                        levelRows.map((row) => (
+                          <div key={row.level} className="rounded-[24px] border border-white/8 bg-white/4 p-4">
+                            <div className="grid gap-4 xl:grid-cols-[120px_1fr_1fr_auto] xl:items-end">
+                              <div className="rounded-[20px] border border-cyan-200/12 bg-cyan-400/8 px-4 py-3">
+                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-cyan-100/65">Level</p>
+                                <p className="mt-2 text-2xl font-black text-slate-50">{row.level}</p>
+                              </div>
+
+                              <div>
+                                <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                                  Mining rate
+                                </label>
+                                <input
+                                  type="number"
+                                  min="0"
+                                  value={row.miningRate}
+                                  onChange={(event) =>
+                                    setLevelRows((current) =>
+                                      current.map((item) =>
+                                        item.level === row.level ? { ...item, miningRate: event.target.value } : item,
+                                      ),
+                                    )
+                                  }
+                                  className={INPUT_CLASS}
+                                />
+                              </div>
+
+                              <div>
+                                <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                                  Giá nâng cấp
+                                </label>
+                                <input
+                                  type="number"
+                                  min="0"
+                                  value={row.upgradeCost}
+                                  onChange={(event) =>
+                                    setLevelRows((current) =>
+                                      current.map((item) =>
+                                        item.level === row.level ? { ...item, upgradeCost: event.target.value } : item,
+                                      ),
+                                    )
+                                  }
+                                  className={INPUT_CLASS}
+                                />
+                              </div>
+
+                              <button
+                                type="button"
+                                onClick={() => void handleLevelRowSave(row)}
+                                disabled={savingLevel === row.level}
+                                className={PRIMARY_BUTTON_CLASS}
+                              >
+                                {savingLevel === row.level ? <LoadingSpinner /> : <Save className="h-4 w-4" />}
+                                {savingLevel === row.level ? "Đang lưu..." : "Lưu level"}
+                              </button>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </ShellCard>
+
+                  <ShellCard>
+                    <SectionHeading
+                      icon={Sparkles}
+                      title="Ghi chú nhanh"
+                      description="Nhung phan thuong khac van co the set ngay tren panel hien tai."
+                    />
+
+                    <div className="space-y-3 px-5 py-5 text-sm text-slate-300/78 sm:px-6">
+                      <div className="rounded-[22px] border border-white/8 bg-white/4 px-4 py-3">
+                        Thuong tung task van set o tab <span className="font-bold text-slate-50">Nhiem vu</span>.
+                      </div>
+                      <div className="rounded-[22px] border border-white/8 bg-white/4 px-4 py-3">
+                        Gift code set o tab <span className="font-bold text-slate-50">Gift code</span>.
+                      </div>
+                      <div className="rounded-[22px] border border-white/8 bg-white/4 px-4 py-3">
+                        Thuong Flappy dang o tab <span className="font-bold text-slate-50">Van may</span>.
+                      </div>
                     </div>
                   </ShellCard>
                 </div>

@@ -112,8 +112,10 @@ export function WithdrawView({ store }: { store: GameStore }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [withdrawTargets, setWithdrawTargets] = useState<WithdrawTarget[]>(FALLBACK_TARGETS);
 
-  const MIN_WITHDRAW = 6000000;
+  const MIN_WITHDRAW = Math.max(0, store.economyConfig.withdrawMinGold);
+  const WITHDRAW_RATE = store.economyConfig.withdrawVndPerGold > 0 ? store.economyConfig.withdrawVndPerGold : 0.0005;
   const withdrawAmount = parseInt(amount.replace(/\D/g, ""), 10) || 0;
+  const estimatedVnd = Math.floor(withdrawAmount * WITHDRAW_RATE);
   const selectedTarget = useMemo(
     () => withdrawTargets.find((target) => target.id === selectedTargetId),
     [selectedTargetId, withdrawTargets],
@@ -348,7 +350,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
             />
             {withdrawAmount >= MIN_WITHDRAW && (
               <p className="mt-2 inline-flex items-center gap-2 rounded-full border border-emerald-300/18 bg-emerald-950/25 px-3 py-1 text-sm font-bold text-emerald-200">
-                Ước tính nhận khoảng {formatNumber(withdrawAmount * 0.0005)} VNĐ
+                Ước tính nhận khoảng {formatNumber(estimatedVnd)} VNĐ
               </p>
             )}
           </div>

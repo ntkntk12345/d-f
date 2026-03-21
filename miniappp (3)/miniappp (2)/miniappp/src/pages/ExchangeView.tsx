@@ -1,19 +1,7 @@
 import { useState } from "react";
 import type { GameStore } from "@/hooks/use-game-store";
 import { cn, formatNumber } from "@/lib/utils";
-import {
-  ArrowRightLeft,
-  ChevronRight,
-  Coins,
-  Gem,
-  Gift,
-  Info,
-  Sparkles,
-  TrendingUp,
-} from "lucide-react";
-
-const RATE = 125;
-const PRESETS = [1250, 6250, 12500, 62500];
+import { ArrowRightLeft, ChevronRight, Coins, Gem, Gift, Info, Sparkles, TrendingUp } from "lucide-react";
 
 type Notice = {
   type: "success" | "error";
@@ -24,16 +12,18 @@ export function ExchangeView({ store }: { store: GameStore }) {
   const [goldAmount, setGoldAmount] = useState("");
   const [exchangeNotice, setExchangeNotice] = useState<Notice | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const rate = Math.max(1, store.economyConfig.exchangeGoldPerDiamond || 125);
+  const presets = [rate * 10, rate * 50, rate * 100, rate * 500];
 
   const amount = parseInt(goldAmount.replace(/\D/g, ""), 10) || 0;
-  const willGet = Math.floor(amount / RATE);
-  const canExchange = amount >= RATE && amount <= store.gold;
+  const willGet = Math.floor(amount / rate);
+  const canExchange = amount >= rate && amount <= store.gold;
 
   const handleExchange = async () => {
-    if (amount < RATE) {
+    if (amount < rate) {
       setExchangeNotice({
         type: "error",
-        text: `Tối thiểu ${formatNumber(RATE)} vàng để đổi kim cương.`,
+        text: `Tối thiểu ${formatNumber(rate)} vàng để đổi kim cương.`,
       });
       return;
     }
@@ -89,7 +79,7 @@ export function ExchangeView({ store }: { store: GameStore }) {
         <div className="mt-3 flex items-center justify-between gap-3 rounded-[22px] border border-cyan-200/12 bg-black/16 px-4 py-4">
           <div className="inline-flex items-center gap-2 rounded-full border border-yellow-300/15 bg-yellow-100/8 px-3 py-1 text-sm font-black text-yellow-100">
             <Coins className="h-3.5 w-3.5" />
-            {formatNumber(RATE)} vàng
+            {formatNumber(rate)} vàng
           </div>
           <ArrowRightLeft className="h-5 w-5 text-white/40" />
           <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/15 bg-cyan-100/8 px-3 py-1 text-sm font-black text-cyan-100">
@@ -132,7 +122,7 @@ export function ExchangeView({ store }: { store: GameStore }) {
             </div>
 
             <div className="mt-3 grid grid-cols-4 gap-2">
-              {PRESETS.map((preset) => (
+              {presets.map((preset) => (
                 <button
                   key={preset}
                   onClick={() => {

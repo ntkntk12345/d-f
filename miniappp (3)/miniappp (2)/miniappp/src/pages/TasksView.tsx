@@ -104,6 +104,11 @@ function renderReward(task: Task) {
 export function TasksView({ store }: { store: GameStore }) {
   const [preparedTasks, setPreparedTasks] = useState<Set<string>>(new Set());
   const [pendingTaskId, setPendingTaskId] = useState<string | null>(null);
+  const taskMilestoneCount = Math.max(0, store.economyConfig.taskMilestoneCount || 0);
+  const taskMilestoneRewardGold = Math.max(0, store.economyConfig.taskMilestoneRewardGold || 0);
+  const taskMilestoneRewardDiamonds = Math.max(0, store.economyConfig.taskMilestoneRewardDiamonds || 0);
+  const hasTaskMilestone =
+    taskMilestoneCount > 0 && (taskMilestoneRewardGold > 0 || taskMilestoneRewardDiamonds > 0);
 
   const sections = useMemo(
     () =>
@@ -142,7 +147,33 @@ export function TasksView({ store }: { store: GameStore }) {
 
     const amount = result.reward?.amount ?? task.reward;
     const rewardType = result.reward?.type ?? task.rewardType;
-    alert(`Nhận thưởng thành công: +${formatNumber(amount)} ${rewardType === "gold" ? "🪙" : "💎"}`);
+    const alertLines = [
+      `Nhan thuong thanh cong: +${formatNumber(amount)} ${rewardType === "gold" ? "vang" : "KC"}`,
+    ];
+    const milestoneGold = Math.max(0, result.milestoneReward?.gold ?? 0);
+    const milestoneDiamonds = Math.max(0, result.milestoneReward?.diamonds ?? 0);
+
+    if (milestoneGold > 0 || milestoneDiamonds > 0) {
+      const rewardParts: string[] = [];
+      const completedCount = Math.max(0, result.milestoneReward?.completedCount ?? 0);
+      const milestoneCount = Math.max(taskMilestoneCount, result.milestoneReward?.count ?? 0);
+
+      if (milestoneGold > 0) {
+        rewardParts.push(`+${formatNumber(milestoneGold)} vang`);
+      }
+
+      if (milestoneDiamonds > 0) {
+        rewardParts.push(`+${formatNumber(milestoneDiamonds)} KC`);
+      }
+
+      alertLines.push(`Thuong moc task: ${rewardParts.join(" + ")}`);
+
+      if (milestoneCount > 0) {
+        alertLines.push(`Hom nay da dat ${formatNumber(completedCount || milestoneCount)}/${formatNumber(milestoneCount)} task.`);
+      }
+    }
+
+    alert(alertLines.join("\n"));
     return true;
   };
 
@@ -357,6 +388,26 @@ export function TasksView({ store }: { store: GameStore }) {
       </div>
 
       <div className="relative z-10 space-y-8">
+        {hasTaskMilestone ? (
+          <div className="rounded-[28px] border border-cyan-300/18 bg-[linear-gradient(180deg,rgba(17,62,75,0.72)_0%,rgba(7,25,31,0.94)_100%)] px-4 py-4 shadow-[0_16px_34px_rgba(0,0,0,0.28)]">
+            <div className="flex items-start gap-3">
+              <div className="rounded-[18px] border border-cyan-200/20 bg-cyan-400/10 p-3 text-cyan-100">
+                <CheckCircle2 className="h-5 w-5" />
+              </div>
+
+              <div className="min-w-0">
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-cyan-100/65">Moc task hom nay</p>
+                <p className="mt-2 text-sm leading-6 text-cyan-50/90">
+                  Hoan thanh {formatNumber(taskMilestoneCount)} task de nhan them{" "}
+                  {taskMilestoneRewardGold > 0 ? `${formatNumber(taskMilestoneRewardGold)} vang` : null}
+                  {taskMilestoneRewardGold > 0 && taskMilestoneRewardDiamonds > 0 ? " + " : null}
+                  {taskMilestoneRewardDiamonds > 0 ? `${formatNumber(taskMilestoneRewardDiamonds)} KC` : null}.
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
         {sections.length > 0 ? (
           sections.map((section) => <div key={section.key}>{renderTaskGroup(section.title, section.tasks)}</div>)
         ) : (
