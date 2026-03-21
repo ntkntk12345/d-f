@@ -1060,6 +1060,7 @@ async function getAdminSnapshot() {
 
     const [levels] = await pool.query('SELECT * FROM level_settings ORDER BY level ASC');
     const [tasks] = await pool.query('SELECT * FROM tasks');
+    const serverTime = Date.now();
 
     return {
         users,
@@ -1069,7 +1070,8 @@ async function getAdminSnapshot() {
         giftCodes,
         levels,
         tasks,
-        flappyConfig: flappyConfigRows[0] || { rewardGold: 0, rewardDiamonds: 0 }
+        flappyConfig: flappyConfigRows[0] || { rewardGold: 0, rewardDiamonds: 0 },
+        serverTime
     };
 }
 
@@ -1090,57 +1092,7 @@ app.get('/api/admin/events', adminMiddleware, (req, res) => {
 
 app.get('/api/admin/data', adminMiddleware, async (req, res) => {
     try {
-        return res.json(await getAdminSnapshot());
-        const [users] = await pool.query('SELECT * FROM users');
-        const [giftCodes] = await pool.query('SELECT * FROM gift_codes ORDER BY createdAt DESC');
-        const [flappyConfigRows] = await pool.query('SELECT * FROM flappy_config WHERE id = 1');
-
-        // Fetch all pending withdrawals from the dedicated table
-        const [pendingWithdraws] = await pool.query(`
-            SELECT w.*, u.username, u.tgHandle 
-            FROM withdrawals w
-            JOIN users u ON w.teleId = u.teleId
-            WHERE w.status = 'Đang xử lý'
-            ORDER BY w.createdAt ASC
-        `);
-
-        // Map to expected format
-        const formattedWithdraws = pendingWithdraws.map(w => ({
-            id: w.id,
-            userTeleId: w.teleId,
-            teleId: w.teleId, // Alias
-            username: w.username,
-            tgHandle: w.tgHandle || 'none',
-            accountName: w.accountName,
-            bankName: w.bankName,
-            accountNumber: w.accountNumber,
-            vnd: w.vndAmount,
-            qrUrl: w.qrUrl,
-            status: w.status,
-            createdAt: w.createdAt,
-            message: w.message || ''
-        }));
-
-        let totalGold = 0;
-        let totalDiamonds = 0;
-        users.forEach(u => {
-            totalGold += Number(u.gold || 0);
-            totalDiamonds += Number(u.diamonds || 0);
-        });
-
-        const [levels] = await pool.query('SELECT * FROM level_settings ORDER BY level ASC');
-        const [tasks] = await pool.query('SELECT * FROM tasks');
-
-        res.json({
-            users,
-            totalGold,
-            totalDiamonds,
-            pendingWithdraws: formattedWithdraws,
-            giftCodes,
-            levels,
-            tasks,
-            flappyConfig: flappyConfigRows[0] || { rewardGold: 0, rewardDiamonds: 0 }
-        });
+        res.json(await getAdminSnapshot());
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

@@ -52,6 +52,10 @@ interface AdminUser {
   ipAddress: string;
   referrals: number;
   flappyBestScore: number;
+  isMining: boolean;
+  miningRate: number;
+  miningStartTime: number | null;
+  miningShiftStart: number | null;
 }
 
 interface GiftCodeItem {
@@ -127,6 +131,7 @@ interface AdminSnapshot {
   levels: LevelSetting[];
   tasks: TaskItem[];
   flappyConfig: FlappyConfig;
+  serverTime: number;
 }
 
 interface NoticeState {
@@ -183,6 +188,8 @@ interface ScheduleFormState {
 const TOKEN_KEY = "admin_token";
 const USERS_PER_PAGE = 12;
 const REALTIME_RECONNECT_MS = 3_000;
+const LIVE_GOLD_TICK_MS = 1_000;
+const SHIFT_DURATION_MS = 6 * 60 * 60 * 1000;
 const ADMIN_ROUTE_PREFIX = "/khaidz";
 const PANEL_CLASS =
   "rounded-[28px] border border-cyan-200/10 bg-[linear-gradient(180deg,rgba(10,23,34,0.92)_0%,rgba(7,14,22,0.98)_100%)] shadow-[0_30px_80px_rgba(0,0,0,0.35)]";
@@ -287,6 +294,31 @@ function toText(value: unknown, fallback = "") {
   return fallback;
 }
 
+function isAdminUserMiningActive(user: Pick<AdminUser, "isMining" | "miningStartTime" | "miningShiftStart">) {
+  return Boolean(user.isMining && user.miningStartTime && (user.miningShiftStart ?? user.miningStartTime));
+}
+
+function getProjectedAdminUserGold(
+  user: Pick<AdminUser, "gold" | "isMining" | "miningRate" | "miningStartTime" | "miningShiftStart">,
+  nowMs: number,
+) {
+  const baseGold = toNumber(user.gold);
+
+  if (!isAdminUserMiningActive(user)) {
+    return baseGold;
+  }
+
+  const shiftStart = toNumber(user.miningShiftStart ?? user.miningStartTime);
+  const miningStart = toNumber(user.miningStartTime ?? shiftStart);
+  const cappedShiftElapsed = Math.min(Math.max(0, nowMs - shiftStart), SHIFT_DURATION_MS);
+  const elapsedBeforeCheckpoint = Math.max(0, miningStart - shiftStart);
+  const localElapsed = Math.max(0, cappedShiftElapsed - elapsedBeforeCheckpoint);
+  const miningRate = user.miningRate == null ? 7 : Math.max(0, toNumber(user.miningRate));
+  const projectedEarned = Math.floor((localElapsed / 1000) * miningRate);
+
+  return baseGold + projectedEarned;
+}
+
 function normalizeAdminSnapshot(payload: unknown): AdminSnapshot {
   const root = isRecord(payload) ? payload : {};
 
@@ -301,6 +333,10 @@ function normalizeAdminSnapshot(payload: unknown): AdminSnapshot {
       ipAddress: toText(item.ip_address, ""),
       referrals: toNumber(item.referrals),
       flappyBestScore: toNumber(item.flappyBestScore),
+      isMining: item.isMining === true || toNumber(item.isMining) === 1,
+      miningRate: item.miningRate == null ? 7 : toNumber(item.miningRate),
+      miningStartTime: item.miningStartTime ? toNumber(item.miningStartTime) : null,
+      miningShiftStart: item.miningShiftStart ? toNumber(item.miningShiftStart) : null,
     })),
     totalGold: toNumber(root.totalGold),
     totalDiamonds: toNumber(root.totalDiamonds),
@@ -348,6 +384,7 @@ function normalizeAdminSnapshot(payload: unknown): AdminSnapshot {
       rewardGold: toNumber(isRecord(root.flappyConfig) ? root.flappyConfig.rewardGold : 0),
       rewardDiamonds: toNumber(isRecord(root.flappyConfig) ? root.flappyConfig.rewardDiamonds : 0),
     },
+    serverTime: toNumber(root.serverTime || Date.now()),
   };
 }
 
@@ -628,6 +665,8 @@ export function KhaidzAdminWebView() {
   const [loginError, setLoginError] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [snapshot, setSnapshot] = useState<AdminSnapshot | null>(null);
+  const [serverOffsetMs, setServerOffsetMs] = useState(0);
+  const [liveTickMs, setLiveTickMs] = useState(() => Date.now());
   const [scheduleItems, setScheduleItems] = useState<LuckyScheduleItem[]>([]);
   const [isBootstrapping, setIsBootstrapping] = useState(Boolean(token));
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -664,6 +703,12 @@ export function KhaidzAdminWebView() {
   const pendingWithdraws = snapshot?.pendingWithdraws ?? [];
   const levels = snapshot?.levels ?? [];
   const flappyConfig = snapshot?.flappyConfig ?? { rewardGold: 0, rewardDiamonds: 0 };
+  const liveNowMs = liveTickMs + serverOffsetMs;
+  const activeMiningUsersCount = useMemo(() => users.filter((user) => isAdminUserMiningActive(user)).length, [users]);
+  const projectedTotalGold = useMemo(
+    () => users.reduce((sum, user) => sum + getProjectedAdminUserGold(user, liveNowMs), 0),
+    [liveNowMs, users],
+  );
 
   const setSuccessNotice = useCallback((message: string) => {
     setNotice({ tone: "success", message });
@@ -781,10 +826,14 @@ export function KhaidzAdminWebView() {
           return;
         }
 
-        setSnapshot(normalizeAdminSnapshot(adminDataPayload));
+        const normalizedSnapshot = normalizeAdminSnapshot(adminDataPayload);
+        const receivedAt = Date.now();
+        setSnapshot(normalizedSnapshot);
+        setServerOffsetMs(normalizedSnapshot.serverTime - receivedAt);
+        setLiveTickMs(receivedAt);
         setScheduleItems(normalizeScheduleItems(schedulePayload));
         setSyncError("");
-        setLastUpdatedAt(Date.now());
+        setLastUpdatedAt(receivedAt);
       } catch (error) {
         if (requestSeqRef.current !== sequence) {
           return;
@@ -901,11 +950,27 @@ export function KhaidzAdminWebView() {
     if (!token) {
       setIsBootstrapping(false);
       setRealtimeState("live");
+      setServerOffsetMs(0);
+      setLiveTickMs(Date.now());
       return;
     }
 
     void refreshAll();
   }, [refreshAll, token]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || activeMiningUsersCount === 0) {
+      return undefined;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setLiveTickMs(Date.now());
+    }, LIVE_GOLD_TICK_MS);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [activeMiningUsersCount]);
 
   useEffect(() => {
     if (!token) {
@@ -1690,8 +1755,12 @@ export function KhaidzAdminWebView() {
                 />
                 <MetricCard
                   label="Tổng vàng"
-                  value={formatNumber(snapshot?.totalGold ?? 0)}
-                  detail="Lưu thông toàn hệ thống hiện tại."
+                  value={formatNumber(projectedTotalGold)}
+                  detail={
+                    activeMiningUsersCount > 0
+                      ? `Đang cộng realtime cho ${formatNumber(activeMiningUsersCount)} user đang đào.`
+                      : "Lưu thông toàn hệ thống hiện tại."
+                  }
                   icon={Crown}
                   accentClassName="text-amber-100"
                 />
@@ -1869,46 +1938,57 @@ export function KhaidzAdminWebView() {
                         </td>
                       </tr>
                     ) : (
-                      pagedUsers.map((user) => (
-                        <tr key={user.teleId} className="bg-white/[0.015]">
-                          <td className="px-5 py-4 font-mono text-xs text-slate-400 sm:px-6">{user.teleId}</td>
-                          <td className="px-5 py-4 sm:px-6">
-                            <p className="font-bold text-slate-50">{user.username}</p>
-                            <p className="mt-1 text-xs text-cyan-200/75">{user.tgHandle ? `@${user.tgHandle}` : "@none"}</p>
-                          </td>
-                          <td className="px-5 py-4 sm:px-6">
-                            <div className="flex flex-col gap-1">
-                              <span className="text-amber-100">{formatNumber(user.gold)} vàng</span>
-                              <span className="text-cyan-100">{formatNumber(user.diamonds)} KC</span>
-                            </div>
-                          </td>
-                          <td className="px-5 py-4 font-bold text-slate-100 sm:px-6">Level {user.level}</td>
-                          <td className="px-5 py-4 text-xs text-slate-400 sm:px-6">{user.ipAddress || "Chưa có"}</td>
-                          <td className="px-5 py-4 sm:px-6">
-                            <div className="flex flex-wrap gap-2">
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  setUserEdit({
-                                    teleId: user.teleId,
-                                    username: user.username,
-                                    gold: String(user.gold),
-                                    diamonds: String(user.diamonds),
-                                  })
-                                }
-                                className={SECONDARY_BUTTON_CLASS}
-                              >
-                                <Save className="h-4 w-4" />
-                                Sửa
-                              </button>
-                              <button type="button" onClick={() => void openReferrals(user)} className={SECONDARY_BUTTON_CLASS}>
-                                <Users className="h-4 w-4" />
-                                Ref
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))
+                      pagedUsers.map((user) => {
+                        const projectedGold = getProjectedAdminUserGold(user, liveNowMs);
+                        const projectedDelta = Math.max(0, projectedGold - user.gold);
+                        const isMiningActive = isAdminUserMiningActive(user);
+
+                        return (
+                          <tr key={user.teleId} className="bg-white/[0.015]">
+                            <td className="px-5 py-4 font-mono text-xs text-slate-400 sm:px-6">{user.teleId}</td>
+                            <td className="px-5 py-4 sm:px-6">
+                              <p className="font-bold text-slate-50">{user.username}</p>
+                              <p className="mt-1 text-xs text-cyan-200/75">{user.tgHandle ? `@${user.tgHandle}` : "@none"}</p>
+                            </td>
+                            <td className="px-5 py-4 sm:px-6">
+                              <div className="flex flex-col gap-1">
+                                <span className="text-amber-100">{formatNumber(projectedGold)} vàng</span>
+                                {isMiningActive ? (
+                                  <span className="text-[11px] text-emerald-200/72">
+                                    Đang đào realtime +{formatNumber(projectedDelta)}
+                                  </span>
+                                ) : null}
+                                <span className="text-cyan-100">{formatNumber(user.diamonds)} KC</span>
+                              </div>
+                            </td>
+                            <td className="px-5 py-4 font-bold text-slate-100 sm:px-6">Level {user.level}</td>
+                            <td className="px-5 py-4 text-xs text-slate-400 sm:px-6">{user.ipAddress || "Chưa có"}</td>
+                            <td className="px-5 py-4 sm:px-6">
+                              <div className="flex flex-wrap gap-2">
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    setUserEdit({
+                                      teleId: user.teleId,
+                                      username: user.username,
+                                      gold: String(user.gold),
+                                      diamonds: String(user.diamonds),
+                                    })
+                                  }
+                                  className={SECONDARY_BUTTON_CLASS}
+                                >
+                                  <Save className="h-4 w-4" />
+                                  Sửa
+                                </button>
+                                <button type="button" onClick={() => void openReferrals(user)} className={SECONDARY_BUTTON_CLASS}>
+                                  <Users className="h-4 w-4" />
+                                  Ref
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })
                     )}
                   </tbody>
                 </table>
@@ -2355,14 +2435,18 @@ export function KhaidzAdminWebView() {
                                     teleId: withdraw.teleId,
                                     username: withdraw.username,
                                     tgHandle: withdraw.tgHandle,
-                                    gold: 0,
-                                    diamonds: 0,
-                                    level: 0,
-                                    ipAddress: "",
-                                    referrals: 0,
-                                    flappyBestScore: 0,
-                                  },
-                                )
+                                  gold: 0,
+                                  diamonds: 0,
+                                  level: 0,
+                                  ipAddress: "",
+                                  referrals: 0,
+                                  flappyBestScore: 0,
+                                  isMining: false,
+                                  miningRate: 0,
+                                  miningStartTime: null,
+                                  miningShiftStart: null,
+                                },
+                              )
                               }
                               className={SECONDARY_BUTTON_CLASS}
                             >

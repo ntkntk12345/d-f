@@ -452,7 +452,129 @@
 
     <script>
         const API_BASE = '/api';
+        const SHIFT_DURATION_MS = 6 * 60 * 60 * 1000;
         let TOKEN = localStorage.getItem('admin_token');
+        let currentView = 'dashboard';
+        let latestAdminData = null;
+        let adminServerOffset = 0;
+        let liveGoldInterval = null;
+        let adminEventSource = null;
+        let adminReconnectTimer = null;
+        let usersCache = [];
+        let giftCodesCache = [];
+
+        function toFiniteNumber(value, fallback = 0) {
+            const parsed = Number(value);
+            return Number.isFinite(parsed) ? parsed : fallback;
+        }
+
+        function setAdminServerClock(serverTime) {
+            adminServerOffset = toFiniteNumber(serverTime, Date.now()) - Date.now();
+        }
+
+        function getAdminNow() {
+            return Date.now() + adminServerOffset;
+        }
+
+        function isMiningUserActive(user) {
+            return Boolean(user && (user.isMining === true || toFiniteNumber(user.isMining) === 1) && user.miningStartTime && (user.miningShiftStart || user.miningStartTime));
+        }
+
+        function getProjectedGold(user) {
+            const baseGold = toFiniteNumber(user && user.gold);
+            if (!isMiningUserActive(user)) return baseGold;
+
+            const shiftStart = toFiniteNumber(user.miningShiftStart || user.miningStartTime);
+            const miningStart = toFiniteNumber(user.miningStartTime || shiftStart);
+            const cappedShiftElapsed = Math.min(Math.max(0, getAdminNow() - shiftStart), SHIFT_DURATION_MS);
+            const elapsedBeforeCheckpoint = Math.max(0, miningStart - shiftStart);
+            const localElapsed = Math.max(0, cappedShiftElapsed - elapsedBeforeCheckpoint);
+            const projectedEarned = Math.floor((localElapsed / 1000) * Math.max(0, toFiniteNumber(user.miningRate, 7)));
+
+            return baseGold + projectedEarned;
+        }
+
+        function getProjectedTotalGold(users) {
+            return (users || []).reduce((sum, user) => sum + getProjectedGold(user), 0);
+        }
+
+        function stopLiveGoldTicker() {
+            if (liveGoldInterval) {
+                clearInterval(liveGoldInterval);
+                liveGoldInterval = null;
+            }
+        }
+
+        function syncLiveGoldTicker() {
+            stopLiveGoldTicker();
+            if (!usersCache.some(isMiningUserActive)) return;
+
+            liveGoldInterval = setInterval(() => {
+                if (currentView === 'dashboard') renderDashboard();
+                if (currentView === 'users') renderUsers();
+            }, 1000);
+        }
+
+        function applyAdminSnapshot(data) {
+            latestAdminData = data || null;
+            usersCache = Array.isArray(data?.users) ? data.users : [];
+            giftCodesCache = Array.isArray(data?.giftCodes) ? data.giftCodes : [];
+            setAdminServerClock(data?.serverTime);
+            syncLiveGoldTicker();
+        }
+
+        function disconnectAdminRealtime() {
+            if (adminReconnectTimer) {
+                clearTimeout(adminReconnectTimer);
+                adminReconnectTimer = null;
+            }
+
+            if (adminEventSource) {
+                adminEventSource.close();
+                adminEventSource = null;
+            }
+        }
+
+        function refreshCurrentView() {
+            if (!TOKEN) return;
+
+            if (currentView === 'dashboard') return loadDashboard();
+            if (currentView === 'users') return loadUsers();
+            if (currentView === 'giftcodes') return loadGiftCodes();
+            if (currentView === 'withdrawals') return loadWithdrawals();
+            if (currentView === 'lucky_draw') return loadLuckyDraw();
+            if (currentView === 'tasks') return loadTasks();
+        }
+
+        function connectAdminRealtime() {
+            if (!TOKEN || adminEventSource) return;
+
+            const source = new EventSource(`${API_BASE}/admin/events?token=${encodeURIComponent(TOKEN)}`);
+            adminEventSource = source;
+
+            source.addEventListener('connected', () => {
+                refreshCurrentView();
+            });
+
+            source.addEventListener('admin-refresh', () => {
+                refreshCurrentView();
+            });
+
+            source.onerror = () => {
+                if (adminEventSource === source) {
+                    adminEventSource = null;
+                }
+
+                source.close();
+
+                if (!TOKEN || adminReconnectTimer) return;
+
+                adminReconnectTimer = setTimeout(() => {
+                    adminReconnectTimer = null;
+                    connectAdminRealtime();
+                }, 3000);
+            };
+        }
 
         function toggleGroupInput() {
             const actionType = document.getElementById('task-action-type').value;
@@ -482,25 +604,24 @@
             wrapper.id = 'message-id-container';
             wrapper.className = 'hidden';
             wrapper.innerHTML = `
-                <label class="block text-slate-400 mb-1">Message ID can tha tym (khong bat buoc)</label>
-                <input type="text" id="task-message-id" placeholder="De trong = bat ky tin nhan nao"
-                    class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
-                <p class="text-[9px] text-rose-400 mt-1">* Dung cho nhiem vu react_heart. De trong neu muon user tha tym bat ky tin nhan nao trong group. Bot se ghi nhan reaction qua webhook.</p>
+                <p class="rounded-lg border border-rose-400/20 bg-rose-500/8 px-3 py-2 text-[11px] leading-4 text-rose-200">
+                    Nhiem vu react_heart chi can user tha tym o bat ky tin nhan nao trong group nay, khong can nhap message id.
+                </p>
             `;
 
             groupContainer.parentNode.insertBefore(wrapper, groupContainer.nextSibling);
         }
-        let usersCache = [];
-        let giftCodesCache = [];
-
         // --- Auth ---
         function checkAuth() {
             if (TOKEN) {
                 document.getElementById('login-modal').classList.add('hidden');
                 document.getElementById('sidebar').classList.remove('hidden');
                 document.getElementById('main-content').classList.remove('hidden');
+                connectAdminRealtime();
                 router('dashboard'); // Default
             } else {
+                disconnectAdminRealtime();
+                stopLiveGoldTicker();
                 document.getElementById('login-modal').classList.remove('hidden');
             }
         }
@@ -528,12 +649,15 @@
         });
 
         function logout() {
+            disconnectAdminRealtime();
+            stopLiveGoldTicker();
             localStorage.removeItem('admin_token');
             location.reload();
         }
 
         // --- Router ---
         function router(page) {
+            currentView = page;
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('aside nav button').forEach(el => el.classList.remove('nav-active'));
 
@@ -551,6 +675,7 @@
         // --- TASKS MANAGEMENT ---
         async function loadTasks() {
             const data = await fetchAdmin('/admin/data');
+            applyAdminSnapshot(data);
             const tasks = data.tasks || [];
             
             const html = tasks.map(t => `
@@ -574,7 +699,7 @@
                             ${t.actionType === 'join'
                                 ? `JOIN: ${t.telegramChatId || 'No ID'}`
                                 : t.actionType === 'react_heart'
-                                    ? `HEART: ${t.telegramChatId || 'No chat'} / ${t.telegramMessageId || 'Any message'}`
+                                    ? `HEART: ${t.telegramChatId || 'No chat'} / Any message`
                                     : 'CLICK'}
                         </div>
                     </td>
@@ -599,7 +724,7 @@
                 type: document.getElementById('task-type').value,
                 actionType: document.getElementById('task-action-type').value,
                 telegramChatId: document.getElementById('task-group-id').value.trim(),
-                telegramMessageId: document.getElementById('task-message-id').value.trim()
+                telegramMessageId: ''
             };
             
             const res = await fetchAdmin('/admin/config/task', 'POST', body);
@@ -642,12 +767,10 @@
 
         // --- Pages ---
 
-        async function loadDashboard() {
-            const data = await fetchAdmin('/admin/data');
-            const totalPending = data.pendingWithdraws.length;
-            const totalUsers = data.users.length;
-            const totalGold = data.totalGold;
-
+        function renderDashboard() {
+            const totalPending = latestAdminData?.pendingWithdraws?.length || 0;
+            const totalUsers = usersCache.length;
+            const totalGold = getProjectedTotalGold(usersCache);
             document.getElementById('stats-grid').innerHTML = `
                 <div class="glass p-6 rounded-xl border-l-4 border-cyan-500">
                     <h3 class="text-slate-400 text-xs uppercase font-bold">Total Users</h3>
@@ -664,10 +787,16 @@
             `;
         }
 
+        async function loadDashboard() {
+            const data = await fetchAdmin('/admin/data');
+            applyAdminSnapshot(data);
+            renderDashboard();
+        }
+
         // --- USERS MANAGEMENT ---
         async function loadUsers() {
             const data = await fetchAdmin('/admin/data');
-            usersCache = data.users || [];
+            applyAdminSnapshot(data);
             renderUsers();
         }
 
@@ -691,7 +820,10 @@
                         <div class="font-bold text-white">${u.username || 'N/A'}</div>
                         <div class="text-[10px] text-cyan-400">@${u.tgHandle || 'none'}</div>
                     </td>
-                    <td class="p-4 text-yellow-400 font-mono">${Number(u.gold).toLocaleString()}</td>
+                    <td class="p-4">
+                        <div class="text-yellow-400 font-mono">${getProjectedGold(u).toLocaleString()}</div>
+                        ${isMiningUserActive(u) ? `<div class="mt-1 text-[10px] text-emerald-300">Dang dao realtime +${Math.max(0, getProjectedGold(u) - toFiniteNumber(u.gold)).toLocaleString()}</div>` : ''}
+                    </td>
                     <td class="p-4 text-cyan-400 font-mono">${Number(u.diamonds).toLocaleString()}</td>
                     <td class="p-4 text-white font-bold">Lvl ${u.level}</td>
                     <td class="p-4 text-xs text-slate-500">${u.ip_address || 'N/A'}</td>
@@ -739,8 +871,7 @@
         // --- GIFT CODES MANAGEMENT ---
         async function loadGiftCodes() {
             const data = await fetchAdmin('/admin/data');
-            // Assuming giftCodes are returned in data
-            giftCodesCache = data.giftCodes || [];
+            applyAdminSnapshot(data);
 
             const html = giftCodesCache.map(g => `
                 <tr class="hover:bg-slate-800/50 transition border-b border-slate-800">
@@ -789,6 +920,7 @@
 
         async function loadWithdrawals() {
             const data = await fetchAdmin('/admin/data');
+            applyAdminSnapshot(data);
             let list = data.pendingWithdraws || [];
             
             // Collect unique dates from the list for the filter dropdown
