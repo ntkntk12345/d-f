@@ -579,37 +579,12 @@
         function toggleGroupInput() {
             const actionType = document.getElementById('task-action-type').value;
             const groupContainer = document.getElementById('group-id-container');
-            const messageContainer = document.getElementById('message-id-container');
 
             if (actionType === 'join' || actionType === 'react_heart') {
                 groupContainer.classList.remove('hidden');
             } else {
                 groupContainer.classList.add('hidden');
             }
-
-            if (actionType === 'react_heart') {
-                messageContainer.classList.remove('hidden');
-            } else {
-                messageContainer.classList.add('hidden');
-            }
-        }
-
-        function ensureHeartTaskFields() {
-            if (document.getElementById('message-id-container')) return;
-
-            const groupContainer = document.getElementById('group-id-container');
-            if (!groupContainer || !groupContainer.parentNode) return;
-
-            const wrapper = document.createElement('div');
-            wrapper.id = 'message-id-container';
-            wrapper.className = 'hidden';
-            wrapper.innerHTML = `
-                <p class="rounded-lg border border-rose-400/20 bg-rose-500/8 px-3 py-2 text-[11px] leading-4 text-rose-200">
-                    Nhiem vu react_heart chi can user tha tym o bat ky tin nhan nao trong group nay, khong can nhap message id.
-                </p>
-            `;
-
-            groupContainer.parentNode.insertBefore(wrapper, groupContainer.nextSibling);
         }
         // --- Auth ---
         function checkAuth() {
@@ -734,7 +709,6 @@
                 document.getElementById('task-action-type').value = 'click';
                 toggleGroupInput();
                 document.getElementById('group-id-container').classList.add('hidden');
-                document.getElementById('message-id-container').classList.add('hidden');
                 loadTasks();
             } else {
                 alert('Lỗi: ' + (res.message || res.error));
@@ -1157,7 +1131,6 @@
         }
 
         // Init
-        ensureHeartTaskFields();
         document.getElementById('task-action-type').value = 'click';
         toggleGroupInput();
         checkAuth();
