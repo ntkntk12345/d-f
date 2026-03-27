@@ -848,11 +848,11 @@ export function Home() {
             <div>
               <div className="inline-flex items-center gap-2 rounded-full bg-[#fff1d9] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-[#b45309]">
                 <Sparkles className="h-3.5 w-3.5" />
-                Noi Bat
+                Nổi Bật
               </div>
-              <h2 className="mt-3 text-2xl font-black text-foreground">Bai viet noi bat tu admin</h2>
+              <h2 className="mt-3 text-2xl font-black text-foreground">Bài viết nổi bật từ admin</h2>
               <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                Bai viet moi se hien ngay tren web va duoc dong bo sang bot de gui lai theo chu ky.
+                Bài viết mới sẽ hiện ngay trên web và được đồng bộ sang bot để gửi lại theo chu kỳ.
               </p>
             </div>
           </div>

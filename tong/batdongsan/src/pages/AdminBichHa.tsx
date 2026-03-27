@@ -348,8 +348,8 @@ export function AdminBichHa() {
       : [];
 
   const getFeaturedPostAddress = (post: DashboardFeaturedPost) => post.address?.trim() || post.title;
-  const getFeaturedPostRoomType = (post: DashboardFeaturedPost) => post.roomType?.trim() || "Phong cho thue";
-  const getFeaturedPostPriceLabel = (post: DashboardFeaturedPost) => post.priceLabel?.trim() || post.summary || "Lien he";
+  const getFeaturedPostRoomType = (post: DashboardFeaturedPost) => post.roomType?.trim() || "Phòng cho thuê";
+  const getFeaturedPostPriceLabel = (post: DashboardFeaturedPost) => post.priceLabel?.trim() || post.summary || "Liên hệ";
 
   const resetFeaturedPostForm = () => {
     setFeaturedContent("");
@@ -374,12 +374,12 @@ export function AdminBichHa() {
     }
 
     if (featuredImageDataUrls.length >= MAX_FEATURED_IMAGE_COUNT) {
-      setError(`Moi bai viet chi duoc toi da ${MAX_FEATURED_IMAGE_COUNT} anh.`);
+      setError(`Mỗi bài viết chỉ được tối đa ${MAX_FEATURED_IMAGE_COUNT} ảnh.`);
       return;
     }
 
     if (files.some((file) => !file.type.startsWith("image/"))) {
-      setError("Anh bai viet khong hop le");
+      setError("Ảnh bài viết không hợp lệ");
       return;
     }
 
@@ -397,7 +397,7 @@ export function AdminBichHa() {
         });
 
         if (getDataUrlByteSize(nextImageDataUrl) > 5 * 1024 * 1024) {
-          setError("Moi anh bai viet phai nho hon 5MB sau khi nen.");
+          setError("Mỗi ảnh bài viết phải nhỏ hơn 5MB sau khi nén.");
           return;
         }
 
@@ -411,7 +411,7 @@ export function AdminBichHa() {
       );
 
       if (totalBytes > MAX_TOTAL_FEATURED_IMAGE_BYTES) {
-        setError("Tong dung luong anh dang vuot gioi han. Vui long bot anh hoac chon anh nhe hon.");
+        setError("Tổng dung lượng ảnh đang vượt giới hạn. Vui lòng bớt ảnh hoặc chọn ảnh nhẹ hơn.");
         return;
       }
 
@@ -419,10 +419,10 @@ export function AdminBichHa() {
       setError(null);
 
       if (files.length > nextFiles.length) {
-        setError(`Chi giu toi da ${MAX_FEATURED_IMAGE_COUNT} anh dau tien cho moi bai viet.`);
+        setError(`Chỉ giữ tối đa ${MAX_FEATURED_IMAGE_COUNT} ảnh đầu tiên cho mỗi bài viết.`);
       }
     } catch {
-      setError("Khong the xu ly anh bai viet. Vui long thu anh khac.");
+      setError("Không thể xử lý ảnh bài viết. Vui lòng thử ảnh khác.");
     } finally {
       setIsProcessingFeaturedImage(false);
     }
@@ -505,7 +505,7 @@ export function AdminBichHa() {
       return;
     }
 
-    const confirmed = window.confirm("Xoa bai viet nay khoi web va bot?");
+    const confirmed = window.confirm("Xóa bài viết này khỏi web và bot?");
     if (!confirmed) {
       return;
     }
@@ -762,22 +762,22 @@ export function AdminBichHa() {
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 rounded-full bg-sky-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-sky-700">
                 <Link2 className="h-3.5 w-3.5" />
-                Link lien he
+                Link liên hệ
               </div>
-              <h2 className="mt-3 text-xl font-black text-slate-900">Link cho nut Lien he Zalo</h2>
+              <h2 className="mt-3 text-xl font-black text-slate-900">Link cho nút Liên hệ Zalo</h2>
               <p className="mt-2 text-sm text-slate-500">
-                Doi tai day thi nut lien he o navbar, PropertyCard va trang chi tiet se dung link moi nay.
+                Đổi tại đây thì nút liên hệ ở navbar, PropertyCard và trang chi tiết sẽ dùng link mới này.
               </p>
               <p className="mt-2 text-sm text-slate-500">
-                {dashboard?.contactControl.message || "Chua co link lien he."}
+                {dashboard?.contactControl.message || "Chưa có link liên hệ."}
               </p>
               <p className="mt-2 text-xs text-slate-400">
-                Cap nhat gan nhat: {dashboard?.contactControl.updatedAt ? formatDateTime(dashboard.contactControl.updatedAt) : "--"}
+                Cập nhật gần nhất: {dashboard?.contactControl.updatedAt ? formatDateTime(dashboard.contactControl.updatedAt) : "--"}
               </p>
             </div>
 
             <div className="w-full max-w-xl space-y-3">
-              <label className="block text-sm font-semibold text-slate-700">Link lien he</label>
+              <label className="block text-sm font-semibold text-slate-700">Link liên hệ</label>
               <input
                 type="url"
                 value={contactLinkInput}
@@ -787,7 +787,7 @@ export function AdminBichHa() {
                 autoComplete="off"
               />
               <p className="text-xs text-slate-400">
-                Co the nhap `https://zalo.me/...`, `zalo://...`, `tel:...` hoac domain day du.
+                Có thể nhập `https://zalo.me/...`, `zalo://...`, `tel:...` hoặc domain đầy đủ.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <Button
@@ -797,7 +797,7 @@ export function AdminBichHa() {
                   className="h-12 rounded-2xl bg-sky-600 px-5 text-sm font-bold text-white hover:bg-sky-700"
                 >
                   <Link2 className="mr-2 h-4 w-4" />
-                  {isSavingContactLink ? "Dang luu..." : "Luu link lien he"}
+                  {isSavingContactLink ? "Đang lưu..." : "Lưu link liên hệ"}
                 </Button>
                 {dashboard?.contactControl.contactLink && (
                   <a
@@ -806,7 +806,7 @@ export function AdminBichHa() {
                     rel="noreferrer"
                     className="text-sm font-semibold text-sky-700 hover:underline"
                   >
-                    Mo link hien tai
+                    Mở link hiện tại
                   </a>
                 )}
               </div>
@@ -819,20 +819,20 @@ export function AdminBichHa() {
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-amber-700">
                 <ImagePlus className="h-3.5 w-3.5" />
-                Bai viet noi bat
+                Bài viết nổi bật
               </div>
-              <h2 className="mt-3 text-xl font-black text-slate-900">Dang bai len web va bot</h2>
+              <h2 className="mt-3 text-xl font-black text-slate-900">Đăng bài lên web và bot</h2>
               <p className="mt-2 text-sm text-slate-500">
-                Bai viet tao tai day se hien o trang chu va duoc bot gui lai 4 ngay 1 lan cho den khi bi xoa.
+                Bài viết tạo tại đây sẽ hiện ở trang chủ và được bot gửi lại 4 ngày 1 lần cho đến khi bị xóa.
               </p>
               <p className="mt-2 text-sm text-slate-500">
-                Ngoai web se hien nhu mot can phong rut gon: loai phong, xac minh, dia chi va gia. Phan "Thong tin gui" duoc dung lam mo ta khi mo chi tiet va noi dung bot gui.
+                Ngoài web sẽ hiện như một căn phòng rút gọn: loại phòng, xác minh, địa chỉ và giá. Phần "Thông tin gửi" được dùng làm mô tả khi mở chi tiết và nội dung bot gửi.
               </p>
               <p className="mt-2 text-sm text-slate-500">
-                Keyword la truong bat buoc de bot dinh tuyen nhom dung logic nhu hien tai.
+                Keyword là trường bắt buộc để bot định tuyến nhóm đúng logic như hiện tại.
               </p>
               <p className="mt-2 text-sm text-slate-500">
-                De bot gui that qua Zalo, can chay them <code>sender.py</code>. Bai moi se vao queue trong khoang 5 phut dau tien neu sender dang chay.
+                Để bot gửi thật qua Zalo, cần chạy thêm <code>sender.py</code>. Bài mới sẽ vào queue trong khoảng 5 phút đầu tiên nếu sender đang chạy.
               </p>
             </div>
             <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
@@ -843,42 +843,42 @@ export function AdminBichHa() {
           <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
             <div className="space-y-4 rounded-[24px] border border-slate-200 bg-slate-50 p-4 sm:p-5">
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">Thong tin gui</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">Thông tin gửi</label>
                 <textarea
                   value={featuredContent}
                   onChange={(event) => setFeaturedContent(event.target.value)}
                   className="min-h-[170px] w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-amber-500"
-                  placeholder="Phan mo ta khi xem phong va noi dung bot se gui..."
+                  placeholder="Phần mô tả khi xem phòng và nội dung bot sẽ gửi..."
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">Gia</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">Giá</label>
                 <input
                   value={featuredPriceLabel}
                   onChange={(event) => setFeaturedPriceLabel(event.target.value)}
                   className="h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm outline-none transition focus:border-amber-500"
-                  placeholder="Vi du: 4tr3/thang"
+                  placeholder="Ví dụ: 4tr3/tháng"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">Dia chi</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">Địa chỉ</label>
                 <input
                   value={featuredAddress}
                   onChange={(event) => setFeaturedAddress(event.target.value)}
                   className="h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm outline-none transition focus:border-amber-500"
-                  placeholder="Vi du: So 30 ngo 165 Cho Kham Thien, Dong Da"
+                  placeholder="Ví dụ: Số 30 ngõ 165 Chợ Khâm Thiên, Đống Đa"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">Loai phong</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">Loại phòng</label>
                 <input
                   value={featuredRoomType}
                   onChange={(event) => setFeaturedRoomType(event.target.value)}
                   className="h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm outline-none transition focus:border-amber-500"
-                  placeholder="Vi du: Studio"
+                  placeholder="Ví dụ: Studio"
                 />
               </div>
 
@@ -888,15 +888,15 @@ export function AdminBichHa() {
                   value={featuredKeywords}
                   onChange={(event) => setFeaturedKeywords(event.target.value)}
                   className="min-h-[96px] w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-amber-500"
-                  placeholder="Nhap keyword cach nhau bang dau phay hoac xuong dong. Vi du: My Dinh, Nam Tu Liem"
+                  placeholder="Nhập keyword cách nhau bằng dấu phẩy hoặc xuống dòng. Ví dụ: Mỹ Đình, Nam Từ Liêm"
                 />
                 <p className="mt-2 text-xs text-slate-400">
-                  Bot se dung danh sach keyword nay de gui vao cac nhom dung nhu logic binh thuong.
+                  Bot sẽ dùng danh sách keyword này để gửi vào các nhóm đúng như logic bình thường.
                 </p>
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">Anh bai viet</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">Ảnh bài viết</label>
                 <input
                   type="file"
                   accept="image/png,image/jpeg,image/webp"
@@ -905,10 +905,10 @@ export function AdminBichHa() {
                   className="block w-full rounded-2xl border border-dashed border-slate-300 bg-white px-4 py-3 text-sm text-slate-500 file:mr-3 file:rounded-full file:border-0 file:bg-amber-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-amber-700"
                 />
                 <p className="mt-2 text-xs text-slate-400">
-                  Anh se duoc nen tu dong truoc khi upload. Moi bai toi da {MAX_FEATURED_IMAGE_COUNT} anh va tong dung luong nen toi da khoang 6MB.
+                  Ảnh sẽ được nén tự động trước khi upload. Mỗi bài tối đa {MAX_FEATURED_IMAGE_COUNT} ảnh và tổng dung lượng nén tối đa khoảng 6MB.
                 </p>
                 {isProcessingFeaturedImage ? (
-                  <p className="mt-2 text-xs font-semibold text-amber-700">Dang xu ly anh...</p>
+                  <p className="mt-2 text-xs font-semibold text-amber-700">Đang xử lý ảnh...</p>
                 ) : null}
                 {featuredImageDataUrls.length > 0 ? (
                   <div className="mt-3 space-y-3">
@@ -917,22 +917,22 @@ export function AdminBichHa() {
                         <div key={`${imageDataUrl.slice(0, 32)}-${index}`} className="overflow-hidden rounded-[22px] border border-slate-200 bg-white">
                           <img src={imageDataUrl} alt="" className="h-36 w-full object-cover" />
                           <div className="flex items-center justify-between border-t border-slate-100 px-3 py-2">
-                            <span className="text-xs font-semibold text-slate-500">Anh {index + 1}</span>
+                            <span className="text-xs font-semibold text-slate-500">Ảnh {index + 1}</span>
                             <button
                               type="button"
                               onClick={() => handleRemoveFeaturedImage(index)}
                               className="text-xs font-semibold text-red-600 hover:text-red-700"
                             >
-                              Xoa
+                              Xóa
                             </button>
                           </div>
                         </div>
                       ))}
                     </div>
                     <p className="text-xs text-slate-400">
-                      Da chon {featuredImageDataUrls.length} anh / {Math.round(
+                      Đã chọn {featuredImageDataUrls.length} ảnh / {Math.round(
                         featuredImageDataUrls.reduce((sum, imageDataUrl) => sum + getDataUrlByteSize(imageDataUrl), 0) / 1024,
-                      )}KB sau khi nen
+                      )}KB sau khi nén
                     </p>
                   </div>
                 ) : null}
@@ -947,25 +947,25 @@ export function AdminBichHa() {
                 >
                   <Plus className="mr-2 h-4 w-4" />
                   {isCreatingFeaturedPost
-                    ? "Dang tao bai..."
+                    ? "Đang tạo bài..."
                     : isProcessingFeaturedImage
-                      ? "Dang xu ly anh..."
-                      : "Dang bai noi bat"}
+                      ? "Đang xử lý ảnh..."
+                      : "Đăng bài nổi bật"}
                 </Button>
                 <button
                   type="button"
                   onClick={resetFeaturedPostForm}
                   className="text-sm font-semibold text-slate-500 hover:text-slate-700"
                 >
-                  Xoa form
+                  Xóa form
                 </button>
               </div>
             </div>
 
             <div className="rounded-[24px] border border-slate-200 bg-white">
               <div className="border-b border-slate-200 px-4 py-4">
-                <h3 className="text-lg font-black text-slate-900">Danh sach bai dang hoat dong</h3>
-                <p className="mt-1 text-sm text-slate-500">Xoa o day thi web an bai va bot ngung gui o chu ky tiep theo.</p>
+                <h3 className="text-lg font-black text-slate-900">Danh sách bài đăng hoạt động</h3>
+                <p className="mt-1 text-sm text-slate-500">Xóa ở đây thì web ẩn bài và bot ngừng gửi ở chu kỳ tiếp theo.</p>
               </div>
 
               <div className="max-h-[820px] overflow-auto p-4">
@@ -983,7 +983,7 @@ export function AdminBichHa() {
                             />
                             {getFeaturedPostImageUrls(post).length > 1 ? (
                               <div className="absolute right-3 top-3 rounded-full bg-white/90 px-2 py-1 text-[11px] font-bold text-slate-700 shadow">
-                                {getFeaturedPostImageUrls(post).length} anh
+                                {getFeaturedPostImageUrls(post).length} ảnh
                               </div>
                             ) : null}
                           </div>
@@ -994,13 +994,13 @@ export function AdminBichHa() {
                               <div className="flex flex-wrap items-center gap-2">
                                 <h4 className="text-base font-black text-slate-900">{getFeaturedPostRoomType(post)}</h4>
                                 <span className="rounded-full bg-emerald-100 px-2 py-1 text-[11px] font-bold text-emerald-700">
-                                  Xac minh
+                                  Xác minh
                                 </span>
                               </div>
                               <p className="mt-2 text-sm font-semibold text-slate-700">{getFeaturedPostAddress(post)}</p>
-                              <p className="mt-1 text-sm font-bold text-red-600">Gia: {getFeaturedPostPriceLabel(post)}</p>
+                              <p className="mt-1 text-sm font-bold text-red-600">Giá: {getFeaturedPostPriceLabel(post)}</p>
                               <p className="mt-1 text-xs text-slate-400">
-                                Tao luc {formatDateTime(post.createdAt)} • Cap nhat {formatDateTime(post.updatedAt)}
+                                Tạo lúc {formatDateTime(post.createdAt)} • Cập nhật {formatDateTime(post.updatedAt)}
                               </p>
                             </div>
                             <Button
@@ -1011,7 +1011,7 @@ export function AdminBichHa() {
                               className="h-10 rounded-2xl border-red-200 bg-white px-4 text-red-600 hover:bg-red-50"
                             >
                               <Trash2 className="mr-2 h-4 w-4" />
-                              {deletingFeaturedPostId === post.id ? "Dang xoa..." : "Xoa"}
+                              {deletingFeaturedPostId === post.id ? "Đang xóa..." : "Xóa"}
                             </Button>
                           </div>
                           <p className="whitespace-pre-line text-sm leading-6 text-slate-600">{post.content}</p>

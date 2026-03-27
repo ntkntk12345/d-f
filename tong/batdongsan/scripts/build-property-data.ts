@@ -59,6 +59,11 @@ const SUMMARY_DISTRICT_DIR = PROPERTY_DATA_DIRS.summaryDir;
 const OUTPUT_DIR = path.join(ROOT_DIR, "public", "data", "properties");
 const OUTPUT_DISTRICT_DIR = path.join(OUTPUT_DIR, "districts");
 const HOME_LATEST_SECTION_ITEM_LIMIT = 8;
+const OUTPUT_TOP_LEVEL_FILES = ["home.json", "manifest.json", "index.json"] as const;
+const BUILD_LOCK_DIR = path.join(ROOT_DIR, ".property-data-build.lock");
+const TEMP_BUILD_ROOT_DIR = path.join(ROOT_DIR, ".tmp-property-data");
+const BUILD_LOCK_RETRY_MS = 500;
+const BUILD_LOCK_TIMEOUT_MS = 5 * 60 * 1000;
 
 const LATEST_PRICE_BUCKETS = [
   { key: "4-5", label: "4-5 trieu", min: 4, max: 5 },
@@ -279,61 +284,166 @@ async function writeJsonFile(filePath: string, value: unknown) {
   await fs.writeFile(filePath, JSON.stringify(value));
 }
 
-async function main() {
-  const districtSources = await loadDistrictSources();
-  const allProperties = buildPropertyCollection(districtSources);
-  const propertyIndex = allProperties.map(toPropertyPreview);
-  const propertyManifest = Object.fromEntries(
-    allProperties.map((property) => [String(property.id), property.districtKey]),
-  );
-  const latestSections = buildLatestSections(propertyIndex);
-  const availableDistricts = buildAvailableDistricts(propertyIndex);
-  const locationSuggestions = buildLocationSuggestions(propertyIndex);
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
-  await fs.rm(OUTPUT_DIR, { recursive: true, force: true });
-  await fs.mkdir(OUTPUT_DISTRICT_DIR, { recursive: true });
+async function acquireBuildLock() {
+  const deadline = Date.now() + BUILD_LOCK_TIMEOUT_MS;
 
-  await Promise.all([
-    writeJsonFile(path.join(OUTPUT_DIR, "index.json"), propertyIndex),
-    writeJsonFile(
-      path.join(OUTPUT_DIR, "home.json"),
-      {
-        availableDistricts,
-        locationSuggestions,
-        latestSections,
-      },
-    ),
-    writeJsonFile(path.join(OUTPUT_DIR, "manifest.json"), propertyManifest),
+  while (true) {
+    try {
+      await fs.mkdir(BUILD_LOCK_DIR);
+      return;
+    } catch (error) {
+      const errorCode = (error as NodeJS.ErrnoException).code;
+
+      if (errorCode !== "EEXIST") {
+        throw error;
+      }
+
+      if (Date.now() >= deadline) {
+        throw new Error(`Timed out waiting for property data build lock at ${BUILD_LOCK_DIR}`);
+      }
+
+      await sleep(BUILD_LOCK_RETRY_MS);
+    }
+  }
+}
+
+async function releaseBuildLock() {
+  await fs.rm(BUILD_LOCK_DIR, { recursive: true, force: true });
+}
+
+async function copyFileIntoPlace(sourcePath: string, targetPath: string) {
+  await fs.mkdir(path.dirname(targetPath), { recursive: true });
+  await fs.copyFile(sourcePath, targetPath);
+}
+
+async function syncDistrictOutput(sourceDir: string, targetDir: string) {
+  await fs.mkdir(targetDir, { recursive: true });
+
+  const [sourceEntries, targetEntries] = await Promise.all([
+    fs.readdir(sourceDir, { withFileTypes: true }),
+    fs.readdir(targetDir, { withFileTypes: true }).catch(() => []),
   ]);
 
-  const propertiesByDistrict = allProperties.reduce((groups, property) => {
-    const currentDistrictProperties = groups.get(property.districtKey) || [];
-    currentDistrictProperties.push(property);
-    groups.set(property.districtKey, currentDistrictProperties);
-    return groups;
-  }, new Map<string, Property[]>());
+  const sourceFileEntries = sourceEntries
+    .filter((entry) => entry.isFile() && entry.name.endsWith(".json"))
+    .sort((left, right) => left.name.localeCompare(right.name));
+  const sourceFileNames = new Set(sourceFileEntries.map((entry) => entry.name));
 
-  await Promise.all(
-    Array.from(propertiesByDistrict.entries()).map(([districtKey, districtProperties]) =>
-      writeJsonFile(path.join(OUTPUT_DISTRICT_DIR, `${districtKey}.json`), districtProperties),
-    ),
-  );
+  for (const entry of sourceFileEntries) {
+    await copyFileIntoPlace(path.join(sourceDir, entry.name), path.join(targetDir, entry.name));
+  }
 
-  console.log(
-    JSON.stringify(
-      {
-        properties: allProperties.length,
-        districts: propertiesByDistrict.size,
-        outputDir: path.relative(ROOT_DIR, OUTPUT_DIR),
-        inputDirs: {
-          full: path.relative(ROOT_DIR, FULL_DISTRICT_DIR),
-          summary: path.relative(ROOT_DIR, SUMMARY_DISTRICT_DIR),
+  for (const entry of targetEntries) {
+    if (!sourceFileNames.has(entry.name)) {
+      await fs.rm(path.join(targetDir, entry.name), { recursive: true, force: true });
+    }
+  }
+}
+
+async function removeStaleTopLevelEntries(outputDir: string) {
+  const expectedEntries = new Set<string>(["districts", ...OUTPUT_TOP_LEVEL_FILES]);
+  const currentEntries = await fs.readdir(outputDir, { withFileTypes: true }).catch(() => []);
+
+  for (const entry of currentEntries) {
+    if (!expectedEntries.has(entry.name)) {
+      await fs.rm(path.join(outputDir, entry.name), { recursive: true, force: true });
+    }
+  }
+}
+
+async function syncGeneratedOutput(tempOutputDir: string) {
+  const tempDistrictDir = path.join(tempOutputDir, "districts");
+
+  await syncDistrictOutput(tempDistrictDir, OUTPUT_DISTRICT_DIR);
+
+  for (const fileName of OUTPUT_TOP_LEVEL_FILES) {
+    await copyFileIntoPlace(path.join(tempOutputDir, fileName), path.join(OUTPUT_DIR, fileName));
+  }
+
+  await removeStaleTopLevelEntries(OUTPUT_DIR);
+}
+
+async function main() {
+  let tempBuildDir: string | null = null;
+  let buildLockAcquired = false;
+
+  try {
+    await acquireBuildLock();
+    buildLockAcquired = true;
+
+    const districtSources = await loadDistrictSources();
+    const allProperties = buildPropertyCollection(districtSources);
+    const propertyIndex = allProperties.map(toPropertyPreview);
+    const propertyManifest = Object.fromEntries(
+      allProperties.map((property) => [String(property.id), property.districtKey]),
+    );
+    const latestSections = buildLatestSections(propertyIndex);
+    const availableDistricts = buildAvailableDistricts(propertyIndex);
+    const locationSuggestions = buildLocationSuggestions(propertyIndex);
+    const propertiesByDistrict = allProperties.reduce((groups, property) => {
+      const currentDistrictProperties = groups.get(property.districtKey) || [];
+      currentDistrictProperties.push(property);
+      groups.set(property.districtKey, currentDistrictProperties);
+      return groups;
+    }, new Map<string, Property[]>());
+
+    tempBuildDir = path.join(TEMP_BUILD_ROOT_DIR, `properties-${process.pid}-${Date.now()}`);
+    const tempOutputDir = path.join(tempBuildDir, "properties");
+    const tempOutputDistrictDir = path.join(tempOutputDir, "districts");
+
+    await fs.rm(tempBuildDir, { recursive: true, force: true });
+    await fs.mkdir(tempOutputDistrictDir, { recursive: true });
+
+    await Promise.all([
+      writeJsonFile(path.join(tempOutputDir, "index.json"), propertyIndex),
+      writeJsonFile(
+        path.join(tempOutputDir, "home.json"),
+        {
+          availableDistricts,
+          locationSuggestions,
+          latestSections,
         },
-      },
-      null,
-      2,
-    ),
-  );
+      ),
+      writeJsonFile(path.join(tempOutputDir, "manifest.json"), propertyManifest),
+    ]);
+
+    await Promise.all(
+      Array.from(propertiesByDistrict.entries()).map(([districtKey, districtProperties]) =>
+        writeJsonFile(path.join(tempOutputDistrictDir, `${districtKey}.json`), districtProperties),
+      ),
+    );
+
+    await syncGeneratedOutput(tempOutputDir);
+
+    console.log(
+      JSON.stringify(
+        {
+          properties: allProperties.length,
+          districts: propertiesByDistrict.size,
+          outputDir: path.relative(ROOT_DIR, OUTPUT_DIR),
+          inputDirs: {
+            full: path.relative(ROOT_DIR, FULL_DISTRICT_DIR),
+            summary: path.relative(ROOT_DIR, SUMMARY_DISTRICT_DIR),
+          },
+          refreshMode: "staged-sync",
+        },
+        null,
+        2,
+      ),
+    );
+  } finally {
+    if (tempBuildDir) {
+      await fs.rm(tempBuildDir, { recursive: true, force: true }).catch(() => undefined);
+    }
+
+    if (buildLockAcquired) {
+      await releaseBuildLock().catch(() => undefined);
+    }
+  }
 }
 
 main().catch((error) => {

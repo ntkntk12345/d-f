@@ -60,11 +60,11 @@ function extractFeaturedRoomType(post: FeaturedPost) {
     [/\b2n1k\b/, "2N1K"],
     [/\b1n1k\b/, "1N1K"],
     [/\bstudio\b/, "Studio"],
-    [/\bgac xep\b/, "Gac xep"],
-    [/\bgiuong tang\b/, "Giuong tang"],
-    [/\bo ghep\b/, "O ghep"],
-    [/\bchung cu mini\b/, "Chung cu mini"],
-    [/\bphong tro\b/, "Phong tro"],
+    [/\bgac xep\b/, "Gác xép"],
+    [/\bgiuong tang\b/, "Giường tầng"],
+    [/\bo ghep\b/, "Ở ghép"],
+    [/\bchung cu mini\b/, "Chung cư mini"],
+    [/\bphong tro\b/, "Phòng trọ"],
   ];
 
   for (const [pattern, label] of roomTypePatterns) {
@@ -73,7 +73,7 @@ function extractFeaturedRoomType(post: FeaturedPost) {
     }
   }
 
-  return "Phong cho thue";
+  return "Phòng cho thuê";
 }
 
 function extractFeaturedPrice(post: FeaturedPost) {
@@ -137,12 +137,12 @@ export function FeaturedPostCard({ post }: FeaturedPostCardProps) {
         />
 
         <div className="absolute left-2 top-2 z-10 rounded-full bg-[#c2410c] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white shadow">
-          Noi bat
+          Nổi bật
         </div>
 
         {imageUrls.length > 1 ? (
           <div className="absolute right-2 top-2 z-10 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-bold text-slate-700 shadow">
-            {imageUrls.length} anh
+            {imageUrls.length} ảnh
           </div>
         ) : null}
       </div>
@@ -150,28 +150,28 @@ export function FeaturedPostCard({ post }: FeaturedPostCardProps) {
       <div className="flex flex-1 flex-col p-3">
         <div className="mb-2 min-h-[52px] space-y-1.5">
           <p className="text-xs text-muted-foreground">
-            <span className="font-semibold text-foreground">Loai phong:</span> {roomTypeLabel}
+            <span className="font-semibold text-foreground">Loại phòng:</span> {roomTypeLabel}
           </p>
           <span className="inline-flex items-center gap-1 rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-600">
             <CheckCircle2 className="h-2.5 w-2.5" />
-            Xac minh
+            Xác minh
           </span>
         </div>
 
         <div className="mb-2 flex min-h-[40px] items-start gap-1.5 text-xs text-muted-foreground">
           <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
           <p className="line-clamp-2">
-            <span className="font-semibold text-foreground">Dia chi:</span> {addressLabel}
+            <span className="font-semibold text-foreground">Địa chỉ:</span> {addressLabel}
           </p>
         </div>
 
         <p className="mb-3 text-sm font-bold text-red-600">
-          Gia: {priceLabel || "Lien he de nhan thong tin moi nhat"}
+          Giá: {priceLabel || "Liên hệ để nhận thông tin mới nhất"}
         </p>
 
         <div className="mt-auto flex flex-col items-stretch gap-2 min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between">
           <span className="text-[11px] text-muted-foreground">
-            Cap nhat {formatFeaturedUpdatedDate(post.updatedAt)}
+            Cập nhật {formatFeaturedUpdatedDate(post.updatedAt)}
           </span>
 
           {actionHref ? (
@@ -181,7 +181,7 @@ export function FeaturedPostCard({ post }: FeaturedPostCardProps) {
               rel="noreferrer"
               className="w-full shrink-0 rounded-lg border border-red-500 px-2.5 py-2 text-center text-[11px] font-bold text-red-600 transition-colors hover:bg-red-50 min-[420px]:w-auto min-[420px]:py-1.5"
             >
-              {post.actionLabel || "Lien he ngay"}
+              {post.actionLabel || "Liên hệ ngay"}
             </a>
           ) : null}
         </div>
