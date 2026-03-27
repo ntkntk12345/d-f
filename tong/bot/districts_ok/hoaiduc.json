@@ -1,0 +1,266 @@
+[
+  {
+    "id": "1773905841865",
+    "address": "Ngõ sau hàng - Lai xá (cạnh trường mầm non Kim Chung B)",
+    "price": "2tr8",
+    "price1": "2.800.000",
+    "price2": "2.800.000",
+    "type": null
+  },
+  {
+    "id": "1773905913539",
+    "address": "Ngõ 51/1 Bắc Lai Xá - Hoài Đức",
+    "price": "2tr9",
+    "price1": "2.900.000",
+    "price2": "2.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773905994885",
+    "address": "Ngõ 101A/35 Tây Lai Xá - Hoài Đức",
+    "price": "2tr4",
+    "price1": "2.400.000",
+    "price2": "2.400.000",
+    "type": null
+  },
+  {
+    "id": "1773906039887",
+    "address": "Ngõ 177 Lai Xá - Hoài Đức",
+    "price": "2tr",
+    "price1": "2.000.000",
+    "price2": "2.000.000",
+    "type": null
+  },
+  {
+    "id": "1773914230473",
+    "address": "ngõ 63 Lai Xá",
+    "price": "2tr7",
+    "price1": "2.700.000",
+    "price2": "2.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773920744903",
+    "address": "Nhà ngách 67 ngõ Gốc Đề Minh Khai",
+    "price": "2tr3",
+    "price1": "2.300.000",
+    "price2": "2.300.000",
+    "type": "2 ngủ"
+  },
+  {
+    "id": "1773928853675",
+    "address": "lk 01.38 khu đô thị Hinode Lai Xá",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773983711633",
+    "address": "số 40 ngõ 41 Lai Xá, Hoài Đức",
+    "price": "3tr5-p201-203-303\n3tr7-p202",
+    "price1": "3.500.000",
+    "price2": "3.700.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773983755716",
+    "address": "Minh Khai, TimCity",
+    "price": "4tr2 - 4tr3",
+    "price1": "4.200.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773998060904",
+    "address": "Số nhà 9 ngõ 461 Minh Khai",
+    "price": "3tr8 4tr3",
+    "price1": "3.800.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1774010723887",
+    "address": "Khai Trương Nhà DG09 Khu phân lô Ngõ Sau Hàng, Lai Xá",
+    "price": "2tr8",
+    "price1": "2.800.000",
+    "price2": "2.800.000",
+    "type": "null"
+  },
+  {
+    "id": "1774010811084",
+    "address": "Số Nhà 2A Ngõ 51/1 Bắc Lai Xá, Hoài Đức, HN",
+    "price": "2tr9-p401",
+    "price1": "2.900.000",
+    "price2": "2.900.000",
+    "type": "null"
+  },
+  {
+    "id": "1774010816566",
+    "address": "Nhà số 10 Ngõ 101A/35 Tây Lai Xá, Hoài đức, HN",
+    "price": "2tr4",
+    "price1": "2.400.000",
+    "price2": "2.400.000",
+    "type": "null"
+  },
+  {
+    "id": "1774011097892",
+    "address": "Số 12 Ngõ 177 Lai Xá, Hoài Đức, HN",
+    "price": "2tr",
+    "price1": "2.000.000",
+    "price2": "2.000.000",
+    "type": "null"
+  },
+  {
+    "id": "1774017172622",
+    "address": "số nhà 64 ngách 25/106 Ngõ 25 Phú Minh - Minh Khai - Quận: Bắc Từ liên",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774018819653",
+    "address": "Số 16 ngõ 63 Lai Xá Kim Chung, Hoài Đức",
+    "price": "2tr7",
+    "price1": "2.700.000",
+    "price2": "2.700.000",
+    "type": "đơn, vskk"
+  },
+  {
+    "id": "1774073458638",
+    "address": "Đối diện cổng Học Viện Chính Sách & Phát Triển, An Hạ, Hoài Đức, Hà Nội",
+    "price": "2tr8",
+    "price1": "2.800.000",
+    "price2": "2.800.000",
+    "type": null
+  },
+  {
+    "id": "1774087317484",
+    "address": "Ngõ 88 Đại Tự Kim Chung, Hoài Đức",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": null
+  },
+  {
+    "id": "1774100069263",
+    "address": "Số 11/15 ngõ 41 Cổng Đông Lai Xá - Hoài Đức",
+    "price": "3tr3 - 3tr8",
+    "price1": "3.300.000",
+    "price2": "3.800.000",
+    "type": null
+  },
+  {
+    "id": "1774107022781",
+    "address": "Ngõ 2 đường Kim Hoàng, Khu 25ha Vân Canh - Hoài Đức",
+    "price": "3tr8 - P203 ( 1/4 vào )",
+    "price1": "3.800.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774108020710",
+    "address": "Ccmn Ánh Dương - kđt vân canh - hoài đức",
+    "price": "3tr2 - 3tr6",
+    "price1": "3.200.000",
+    "price2": "3.600.000",
+    "type": null
+  },
+  {
+    "id": "1774108022631",
+    "address": "Ngõ 38/5 Lai Xá-Hoài Đức",
+    "price": "N/A",
+    "price1": "N/A",
+    "price2": "N/A",
+    "type": null
+  },
+  {
+    "id": "1774108604455",
+    "address": "Ngõ 38/5 Lai Xá-Hoài Đức",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": null
+  },
+  {
+    "id": "1773928564271",
+    "address": "11A 624 Minh Khai",
+    "price": null,
+    "price1": null,
+    "price2": null,
+    "type": null
+  },
+  {
+    "id": "1774175484697",
+    "address": "lk 01.38 khu đô thị Hinode Lai Xá",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774186238365",
+    "address": "302 Di Trạch, Hoài Đức",
+    "price": "1tr8",
+    "price1": "1.800.000",
+    "price2": "1.800.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774186307388",
+    "address": "Nhà 80 ngõ 88 Đại Tự, Hoài Đức",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774186554556",
+    "address": "Ngõ 8 An Trai, Vân Canh, Hoài Đức",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774193120471",
+    "address": "ngõ 63 Lai Xá - Kim Chung - Hoài Đức",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": null
+  },
+  {
+    "id": "1774228723689",
+    "address": "Ngõ 254/101/3 minh Khai",
+    "price": "2tr6",
+    "price1": "2.600.000",
+    "price2": "2.600.000",
+    "type": null
+  },
+  {
+    "id": "1774252318265",
+    "address": "số 28 Thịnh Phát, An Khánh, Hoài Đức",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1774252434519",
+    "address": "số 8 đường Phú Yên, An Khánh, Hoài Đức",
+    "price": "2tr5 - 3tr",
+    "price1": "2.500.000",
+    "price2": "3.000.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774252799705",
+    "address": "số 28 Thịnh Phát, An Khánh, Hoài Đức",
+    "price": "3tr",
+    "price1": "3.000.000",
+    "price2": "3.000.000",
+    "type": "gác xép"
+  }
+]

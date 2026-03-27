@@ -1,0 +1,1354 @@
+[
+  {
+    "id": "1773904979743",
+    "address": "Số 10A ngõ 89A Lê Đức Thọ, Nam Từ Liêm",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773907329150",
+    "address": "Ngõ 8/11/186 nhà số 25 đường Lê Quang Đạo, Nam Từ Liêm",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773907820968",
+    "address": "Ngõ 8/11/186 nhà số 25 đường Lê Quang Đạo, Nam Từ Liêm",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773908828423",
+    "address": "Số nhà 24 ngách 26 ngõ 394 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr1-4tr3",
+    "price1": "4.100.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773909285407",
+    "address": "Ngõ 59/93/25 số nhà 15 Mễ Trì, Nam Từ Liêm",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773916067181",
+    "address": "Ngách 322/76 Nhân Mỹ, Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr7 - 6tr2",
+    "price1": "4.700.000",
+    "price2": "6.200.000",
+    "type": null
+  },
+  {
+    "id": "1773921414310",
+    "address": "Ngõ 102 Nguyễn Đổng Chi, Nam Từ Liêm",
+    "price": "3tr950",
+    "price1": "3.950.000",
+    "price2": "3.950.000",
+    "type": null
+  },
+  {
+    "id": "1773928290180",
+    "address": "ngách 322/118/5 Mỹ Đình",
+    "price": "2tr7 - 3tr",
+    "price1": "2.700.000",
+    "price2": "3.000.000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773928684749",
+    "address": "SN12 ngõ 322/17 Mỹ Đình 1 - Quận Nam Từ Liêm",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773933061002",
+    "address": "Ngõ 52/25/43 Mỹ đình, Nam Từ Liêm",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "null"
+  },
+  {
+    "id": "1773933139213",
+    "address": "Ngõ 52/25/43 Mỹ đình, Nam Từ Liêm",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "null"
+  },
+  {
+    "id": "1773933195679",
+    "address": "Số 4A ngõ 402/19 Đường Mỹ Đình",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "null"
+  },
+  {
+    "id": "1773933232935",
+    "address": "Ngõ 52/25 Mỹ đình, Nam Từ Liêm",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773933318611",
+    "address": "Ngõ 33/49 Đường Mỹ Đình",
+    "price": "3tr7",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": "null"
+  },
+  {
+    "id": "1773933666505",
+    "address": "số nhà 4 ngõ 322/17 mỹ đình",
+    "price": "3tr6 - 3tr9",
+    "price1": "3.600.000",
+    "price2": "3.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773933858124",
+    "address": "số 41 ngõ 20 Mỹ Đình",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": null
+  },
+  {
+    "id": "1773934078128",
+    "address": "Số nhà 34 nggách 1/8 Đình Thôn - Mỹ Đình - Nam từ Liêm",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1773935634056",
+    "address": "Số 15 ngõ 89 Lê Đức Thọ - Mỹ Đình",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": null
+  },
+  {
+    "id": "1773935753708",
+    "address": "số 34 ngõ 1 ngách 8 Đình Thôn - Mỹ Đình",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1773935883454",
+    "address": "Số 12 Ngõ 180/23 Phú Mỹ - Mỹ Đình",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": null
+  },
+  {
+    "id": "1773937246003",
+    "address": "Số 6 hẻm 20 ngách 28 ngõ 402 Mỹ Đình 1 - Nam Từ Liêm",
+    "price": "2tr5,2tr6,2tr7,2tr8",
+    "price1": "2.500.000",
+    "price2": "2.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773973657198",
+    "address": "4A ngõ 402/19 Mỹ Đình, Nam Từ Liêm",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773973659284",
+    "address": "4A ngõ 402/19 Mỹ Đình, Nam Từ Liêm",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773975472161",
+    "address": "Số 21 Ngõ 20/39 Mỹ Đình",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773977624090",
+    "address": "ngõ 3 tân mỹ - Mỹ Đình",
+    "price": "2tr7",
+    "price1": "2.700.000",
+    "price2": "2.700.000",
+    "type": null
+  },
+  {
+    "id": "1773978167184",
+    "address": "Ngách 322/76/18/44 đường Mỹ Đình - Nam Từ Liêm",
+    "price": "4tr - P402, 4tr2 - P703",
+    "price1": "4.000.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773979741362",
+    "address": "Tòa nhà số 8 Đình Thôn, Mỹ Đình, Hà Nội",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "đơn, vskk"
+  },
+  {
+    "id": "1773983320365",
+    "address": "322 Mỹ Đình- Mỹ Đình 1- Nam Từ Liêm",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773986687411",
+    "address": "54 ngõ 322 Mỹ Đình",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1773990915766",
+    "address": "ngõ 394/16/26 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773991355468",
+    "address": "6C NGÕ 57 Nguyễn Hoàng, Nam Từ Liêm",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773992221278",
+    "address": "ngõ 394 Mỹ Đình, Nam Từ Liêm",
+    "price": "3tr8-4tr4",
+    "price1": "3.800.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773993341156",
+    "address": "ngách 46 ngõ 180 Phú Mỹ, Mỹ Đình",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": null
+  },
+  {
+    "id": "1773993372746",
+    "address": "ngõ 154 Đình Thôn, Mỹ Đình",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773994378017",
+    "address": "ngõ 322 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": null
+  },
+  {
+    "id": "1773997370086",
+    "address": "Số 4A ngõ 402/19 Đường Mỹ Đình",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773998393763",
+    "address": "Số 3 Hẻm 402/51/1 Mỹ Đình",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774000707874",
+    "address": "ngõ 66 Nguyễn Hoàng, Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr5 - 4tr8",
+    "price1": "4.500.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774009090114",
+    "address": "ngõ 63/180 Lê Đức Thọ",
+    "price": "5tr - 5tr5",
+    "price1": "5.000.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774012840831",
+    "address": "Ngõ 8, ngách 191, hẻm 1 số nhà 23 Lê Quang Đạo",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.300.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774013103170",
+    "address": "Số nhà 7 Ngõ 322/98 Mỹ Đình",
+    "price": "4tr7",
+    "price1": "4.700.000",
+    "price2": "4.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774014133143",
+    "address": "Số nhà 1B Ngõ 322/77 Mỹ Đình",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774015161153",
+    "address": "Số Nhà 1A Ngõ 322/50 Mỹ Đình - Nam Từ Liêm",
+    "price": "4tr7",
+    "price1": "4.700.000",
+    "price2": "4.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774015240068",
+    "address": "Số nhà 1B Ngõ 322/77 Mỹ Đình - Nam Từ Liêm",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774015316636",
+    "address": "Số nhà 7 Ngõ 322/98 Mỹ Đình - Nam Từ Liêm",
+    "price": "4tr7",
+    "price1": "4.700.000",
+    "price2": "4.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774015399689",
+    "address": "Ngõ 8 Ngách 191 Hẻm 1 Số Nhà 23 Lê Quang Đạo - Nam Từ Liêm",
+    "price": "3tr9,4tr1,4tr3",
+    "price1": "3.900.000",
+    "price2": "4.300.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774015749856",
+    "address": "Số Nhà 1A Ngõ 322/50 Mỹ Đình",
+    "price": "4tr7",
+    "price1": "4.700.000",
+    "price2": "4.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774017673528",
+    "address": "Số nhà 61A Ngách 322/76 Nhân Mỹ - Mỹ Đình - Nam Từ Liêm",
+    "price": "4tr7-p503, 5tr8-p201",
+    "price1": "4.700.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774016502218",
+    "address": "ngõ 402/40 Mỹ đình",
+    "price": "3tr1",
+    "price1": "3.100.000",
+    "price2": "3.100.000",
+    "type": null
+  },
+  {
+    "id": "1774022835998",
+    "address": "Ngõ 8, ngách 191, hẻm 1 số nhà 23 Lê Quang Đạo – Nam Từ Liêm",
+    "price": "3tr9 – 4tr3",
+    "price1": "3.900.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1774024329833",
+    "address": "Số nhà 7 Ngõ 322/98 Mỹ Đình - Nam Từ Liêm",
+    "price": "4tr7",
+    "price1": "4.700.000",
+    "price2": "4.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774024874908",
+    "address": "Số nhà 1B Ngõ 322/77 Mỹ Đình - Nam Từ Liêm",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774024647673",
+    "address": "Số 6 hẻm 20 ngách 28 ngõ 402 Mỹ Đình 1",
+    "price": "2tr5-2tr8",
+    "price1": "2.500.000",
+    "price2": "2.800.000",
+    "type": null
+  },
+  {
+    "id": "1774027281461",
+    "address": "Số nhà 15B Ngõ 402/90 Đường Mỹ Đình - Nam Từ Liêm",
+    "price": "5tr4",
+    "price1": "5.400.000",
+    "price2": "5.400.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774027363451",
+    "address": "322/76 Số nhà 74 Đường Mỹ Đình - Nam Từ Liêm",
+    "price": "4tr,4tr9",
+    "price1": "4.000.000",
+    "price2": "4.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774027858202",
+    "address": "Ngõ 128 Đình Thôn, Mỹ Đình 1 - Nam Từ Liêm",
+    "price": "6tr,6tr3,6tr5",
+    "price1": "6.000.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774028098138",
+    "address": "số 3 hẻm 402/51/1 Mỹ Đình - Nam Từ Liêm",
+    "price": "4tr,4tr2",
+    "price1": "4.000.000",
+    "price2": "4.200.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1774028318999",
+    "address": "số 5 hẻm 322/22/4 mỹ đình - Nam Từ Liêm",
+    "price": "2tr6",
+    "price1": "2.600.000",
+    "price2": "2.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774034078056",
+    "address": "7A ngách 42, ngõ 30 Phú Mỹ, Nam Từ Liêm, Hà Nội",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774035813826",
+    "address": "Ngõ 402/51/1/3 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr-4tr2/tháng",
+    "price1": "4.000.000",
+    "price2": "4.200.000",
+    "type": null
+  },
+  {
+    "id": "1774051298276",
+    "address": "Số 25 Ngõ 394 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1774058273208",
+    "address": "Ngõ 8 ngách 191 hẻm 1 số nhà 23 Lê Quang Đạo – Nam Từ Liêm",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.300.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774059961011",
+    "address": "Ngõ 322 Mỹ Đình 1",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774059533396",
+    "address": "Ngõ 52 Mỹ Đình 2",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774059681866",
+    "address": "Ngõ 52 Mỹ Đình 2",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774060839612",
+    "address": "Ngõ 322 Mỹ Đình 1",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774061641486",
+    "address": "Ngõ 322 Mỹ Đình 1",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": null
+  },
+  {
+    "id": "1774063291590",
+    "address": "Nhà 46C ngõ 322/90 Mỹ Đình",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774063293972",
+    "address": "Nhà 46C ngõ 322/90 Mỹ Đình",
+    "price": "3tr7",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774063329629",
+    "address": "Nhà 46C ngõ 322/90 Mỹ Đình",
+    "price": "3tr7",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774063416563",
+    "address": "Nhà 46C ngõ 322/90 Mỹ Đình",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774063680386",
+    "address": "Nhà 28 ngõ 322/90 Mỹ Đình",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774063730439",
+    "address": "Nhà 10 ngõ 322/95/1 Mỹ Đình",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774063774568",
+    "address": "Nhà 10 ngõ 322/95/1 Mỹ Đình",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774063816568",
+    "address": "Nhà 10 ngõ 322/95/1 Mỹ Đình",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774064134615",
+    "address": "Nhà 10 ngõ 322/95/1 Mỹ Đình",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774064189886",
+    "address": "Nhà 10 ngõ 322/95/1 Mỹ Đình",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774067389670",
+    "address": "Ngách 322/76/18 đường Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr - 4tr2",
+    "price1": "4.000.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774067647752",
+    "address": "Ngõ 56 Lê Quang Đạo, Phú Đô, Nam Từ Liêm",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1774068215689",
+    "address": "ngõ 322/95/43 đường MỸ Đình, Nam Từ Liêm",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774074165750",
+    "address": "Ngõ 20/26/10 Mỹ Đình",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1774074165750",
+    "address": "Ngõ 20/26/10 Mỹ Đình",
+    "price": "3tr7",
+    "price1": "3700000",
+    "price2": "3700000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774074584847",
+    "address": "Số 6A ngách 19 ngõ 402 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774074943933",
+    "address": "100 Ngõ 402 Đường Mỹ Đình, Phường Mỹ Đình 1, Quận Nam Từ Liêm, TP Hà Nội",
+    "price": "4tr8 - 5tr2",
+    "price1": "4800000",
+    "price2": "5200000",
+    "type": "studio"
+  },
+  {
+    "id": "1774078394401",
+    "address": "104 Đình Thôn, Nam Từ Liêm",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": null
+  },
+  {
+    "id": "1774081196111",
+    "address": "Số 6C ngách 62 ngõ 20 đường Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774081504740",
+    "address": "Số 54 ngõ 322 Mỹ Đình, Nam Từ Liêm",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774083892791",
+    "address": "Ngõ 322/95/29/14 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1774089234754",
+    "address": "322/22 Mỹ Đình",
+    "price": "2tr6",
+    "price1": "2.600.000",
+    "price2": "2.600.000",
+    "type": null
+  },
+  {
+    "id": "1774089547146",
+    "address": "Ngõ 5/24 Phú Mỹ - Mỹ Đình",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": null
+  },
+  {
+    "id": "1774089657223",
+    "address": "402/51 Mỹ Đình",
+    "price": "4tr - 4tr2",
+    "price1": "4.000.000",
+    "price2": "4.200.000",
+    "type": null
+  },
+  {
+    "id": "1774089728700",
+    "address": "402/51 Mỹ Đình",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": null
+  },
+  {
+    "id": "1774093372833",
+    "address": "Ngõ 8, ngách 191, hẻm 1 số nhà 23 Lê Quang Đạo, Nam Từ Liêm",
+    "price": "3tr9 – 4tr3/tháng",
+    "price1": "3.900.000",
+    "price2": "4.300.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774094553577",
+    "address": "Số 51, Nghách 63/5/36 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr2- 5tr2",
+    "price1": "4.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774101991405",
+    "address": "322 mỹ đình",
+    "price": "2tr6",
+    "price1": "2.600.000",
+    "price2": "2.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774108212240",
+    "address": "33/11/44 phú mỹ - Mỹ đình",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": null
+  },
+  {
+    "id": "1774109985640",
+    "address": "Nhà số 2, Ngõ 322/76/18/44 Mỹ Đình - Nam từ Liêm",
+    "price": "4tr,4tr2",
+    "price1": "4.000.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774104643592",
+    "address": "CHDV Đình Thôn, Mỹ Đình",
+    "price": "7tr5T",
+    "price1": "7.500.000",
+    "price2": "7.500.000",
+    "type": null
+  },
+  {
+    "id": "1774111472661",
+    "address": "ngõ 180 phú mỹ, mỹ đình- nam từ liêm",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774114206109",
+    "address": "Nhà số 2, Ngõ 322/76/18/44 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr - 4tr2",
+    "price1": "4.000.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774119448596",
+    "address": "Nhà số 2, Ngõ 322/76/18/44 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774153035639",
+    "address": "ngách 6 Ngõ 120 Phú Mỹ - Mỹ Đình",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774153390983",
+    "address": "Ngõ 5/24 Phú Mỹ - Mỹ Đình",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": null
+  },
+  {
+    "id": "1774154396931",
+    "address": "ngõ 127 Phú Mỹ - Mỹ Đình, Nam Từ Liêm",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774159490639",
+    "address": "Số 140 Phú Mỹ, Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774161915788",
+    "address": "số 402 Mỹ Đình, Nam Từ Liêm",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774162075217",
+    "address": "33 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": null
+  },
+  {
+    "id": "1774163658967",
+    "address": "nhà N11 - 22/129 Thiên Hiền, Mỹ Đình, Nam Từ Liêm",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1774163658967",
+    "address": "nhà N11 - 22/129 Thiên Hiền, Mỹ Đình, Nam Từ Liêm",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1774163658967",
+    "address": "nhà N11 - 22/129 Thiên Hiền, Mỹ Đình, Nam Từ Liêm",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1774165228949",
+    "address": "Số nhà 1 ngõ 52/25/54 Mỹ Đình, Nam Từ Liêm",
+    "price": "5tr3",
+    "price1": "5300000",
+    "price2": "5300000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774165228949",
+    "address": "Số nhà 1 ngõ 52/25/54 Mỹ Đình, Nam Từ Liêm",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774165387036",
+    "address": "Ngõ 322/22/15 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr9",
+    "price1": "4900000",
+    "price2": "4900000",
+    "type": "studio"
+  },
+  {
+    "id": "1774166738475",
+    "address": "75/58 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr8,4tr6",
+    "price1": "3.800.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774167571785",
+    "address": "73 ngõ 14 Mễ Trì Hạ, Mỹ Đình",
+    "price": "5tr – 5tr5",
+    "price1": "5.000.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1774167614988",
+    "address": "Số nhà 2, Ngách 322/76/18/44 đường Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774167652137",
+    "address": "Ngách 50 ngõ 154 Đình Thôn, Nam Từ Liêm",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": null
+  },
+  {
+    "id": "1774167737903",
+    "address": "Ngõ 122 Do Nha, Chợ Miêu Nha, Tây Mỗ",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": null
+  },
+  {
+    "id": "1774174958091",
+    "address": "Ngõ 5 Phú Mỹ - Mỹ Đình",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774175610213",
+    "address": "Số 2 ngõ 322/95/1 Mỹ đình 1 - Nam Từ Liêm",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774175670804",
+    "address": "Số 2 ngõ 322/95/1 Mỹ đình 1 - Nam Từ Liêm",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": null
+  },
+  {
+    "id": "1774175725065",
+    "address": "Số 2 ngõ 322/95/1 Mỹ đình 1 - Nam Từ Liêm",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "2 ngủ"
+  },
+  {
+    "id": "1774176790352",
+    "address": "số 41 ngõ 20 Mỹ Đình",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774177017997",
+    "address": "Số 4A ngõ 402/19 Đường Mỹ Đình",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774186706647",
+    "address": "ngõ 52/25 Mỹ Đình, quận Nam Từ Liêm",
+    "price": "3tr3 - 3tr8",
+    "price1": "3.300.000",
+    "price2": "3.800.000",
+    "type": null
+  },
+  {
+    "id": "1774186924687",
+    "address": "số 3 hẻm 402/51/1 Mỹ Đình -Từ Liêm",
+    "price": "4tr2-4tr",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774187371641",
+    "address": "322/22/4 Mỹ Đình - Nam Từ Liêm",
+    "price": "2tr6",
+    "price1": "2.600.000",
+    "price2": "2.600.000",
+    "type": "đơn, vskk"
+  },
+  {
+    "id": "1774192455749",
+    "address": "Số 2 Ngõ 322/95/1 Mỹ Đình 1 - Nam Từ Liêm",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "2 ngủ"
+  },
+  {
+    "id": "1774192508452",
+    "address": "Số 2 Ngõ 322/95/1 Mỹ Đình 1 - Nam Từ Liêm",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "2 ngủ"
+  },
+  {
+    "id": "1774192616392",
+    "address": "Số 2 Ngõ 322/95/1 Mỹ Đình 1 - Nam Từ Liêm",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774192692691",
+    "address": "Số 2 Ngõ 322/95/1 Mỹ Đình 1 - Nam Từ Liêm",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774195918314",
+    "address": "Số 2 ngõ 71 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774195971789",
+    "address": "Số 2 ngõ 71 Mỹ Đình, Nam Từ Liêm",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774196012145",
+    "address": "Số 19 ngõ 402 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774196063213",
+    "address": "Số 19 ngõ 402 Mỹ Đình, Nam Từ Liêm",
+    "price": "6tr,6tr2",
+    "price1": "6.000.000",
+    "price2": "6.200.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774196104941",
+    "address": "Số 19 ngõ 394/16 Mỹ Đình, Nam Từ Liêm",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774196143200",
+    "address": "Số 19 ngõ 394/16 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774193166390",
+    "address": "Ngõ 322 mỹ đình, Nam Từ Liêm",
+    "price": "3tr2",
+    "price1": "3.200.000",
+    "price2": "3.200.000",
+    "type": null
+  },
+  {
+    "id": "1774197426192",
+    "address": "số 402 Mỹ Đình (Đình Thôn), nam từ liêm",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774197713183",
+    "address": "33 Mỹ Đình, nam từ liêm",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": null
+  },
+  {
+    "id": "1774227390410",
+    "address": "Ngõ 128 Đình Thôn, Mỹ Đình 1, Nam Từ Liêm",
+    "price": "6tr-6tr3",
+    "price1": "6.000.000",
+    "price2": "6.300.000",
+    "type": null
+  },
+  {
+    "id": "1774230923805",
+    "address": "Ngõ 218 MỸ ĐÌNH",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774236256491",
+    "address": "Số 21 Ngõ 402 Mỹ ĐÌnh, Nam Từ Liêm",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1774236892814",
+    "address": "số nhà 4b ngõ 322/95/29 Mỹ Đình",
+    "price": "3tr5 - 4tr1",
+    "price1": "3.500.000",
+    "price2": "4.100.000",
+    "type": null
+  },
+  {
+    "id": "1774237144309",
+    "address": "số nhà 4b ngõ 322/95/29 Mỹ Đình",
+    "price": "3tr5 - 4tr1",
+    "price1": "3.500.000",
+    "price2": "4.100.000",
+    "type": null
+  },
+  {
+    "id": "1774228197467",
+    "address": "Ngõ 8/191/1/23 Lê Quang Đạo, Nam Từ Liêm",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774238491935",
+    "address": "51 Nguyễn Hoàng, Mỹ Đình",
+    "price": "3tr - 3tr2",
+    "price1": "3.000.000",
+    "price2": "3.200.000",
+    "type": null
+  },
+  {
+    "id": "1774240948148",
+    "address": "Số 5 Ngách 39 Ngõ 20 Mỹ Đình, Nam Từ Liêm",
+    "price": "9tr",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774246780354",
+    "address": "Ngõ 402/51 Mỹ Đình",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "1 ngủ 1 bếp"
+  },
+  {
+    "id": "1774247049886",
+    "address": "ngõ 212/63 Lê Đức Thọ, Phú Mỹ, Mỹ Đình",
+    "price": "3tr8 - 4tr2",
+    "price1": 3800000,
+    "price2": 4200000,
+    "type": null
+  },
+  {
+    "id": "1774247171665",
+    "address": "ngách 322/22 Mỹ Đình",
+    "price": "4tr2",
+    "price1": 4200000,
+    "price2": 4200000,
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1774247282292",
+    "address": "ngõ 26a đường Mỹ Đình",
+    "price": "3tr3",
+    "price1": 3300000,
+    "price2": 3300000,
+    "type": null
+  },
+  {
+    "id": "1774248456168",
+    "address": "Ngõ 20 Mỹ Đình, Nam Từ Liêm",
+    "price": "9tr",
+    "price1": 9000000,
+    "price2": 9000000,
+    "type": "2n1k"
+  },
+  {
+    "id": "1774249157467",
+    "address": "402/51 Mỹ Đình, Nam Từ Liêm",
+    "price": "6tr7",
+    "price1": "6.700.000",
+    "price2": "6.700.000",
+    "type": "2 ngủ"
+  },
+  {
+    "id": "1774250438522",
+    "address": "119 ngõ 322 Mỹ Đình, Nam Từ Liêm",
+    "price": "8tr",
+    "price1": "8.000.000",
+    "price2": "8.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774250677682",
+    "address": "Số 1b ngõ 392 Mỹ Đình, Nam Từ Liêm",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774251074413",
+    "address": "Số 21 ngõ 402 Mỹ Đình, Nam Từ Liêm",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774251650339",
+    "address": "Ngõ 33 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774252164135",
+    "address": "Số 402 Mỹ Đình (Đình Thôn)",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1774252311278",
+    "address": "Số 6 ngõ 402/51 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1774252374016",
+    "address": "Ngách 46 ngõ 180 Phú Mỹ (52 Mỹ Đình, 63 Lê Đức Thọ)",
+    "price": "2tr8 - 3tr4",
+    "price1": "2800000",
+    "price2": "3400000",
+    "type": null
+  },
+  {
+    "id": "1774253866515",
+    "address": "39 Ngõ 20 Mỹ Đình, Nam Từ Liêm",
+    "price": "9tr - 11tr",
+    "price1": "9.000.000",
+    "price2": "11.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774255454607",
+    "address": "Số 25 ngõ 394 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1774255976657",
+    "address": "Số 17/22/322 Mỹ Đình, Nam Từ Liêm, Hà Nội",
+    "price": "3tr8tr4,4tr5",
+    "price1": "3800000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774256048607",
+    "address": "Số 1 ngách 142 ngõ 322 Mỹ Đình, Nam Từ Liêm",
+    "price": "4tr2,4tr6",
+    "price1": "4200000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1774256091488",
+    "address": "Số 1 ngách 142 ngõ 322 Mỹ Đình, Nam Từ Liêm",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": "studio"
+  },
+  {
+    "id": "1774256343820",
+    "address": "Tòa nhà số 8 Đình Thôn, Mỹ Đình, Nam Từ Liêm",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1774256400468",
+    "address": "Ngõ 105 Đình Thôn, Mỹ Đình - Nam Từ Liêm",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774256481311",
+    "address": "Ngõ 402/19 Mỹ Đình",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  }
+]

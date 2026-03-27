@@ -1,0 +1,12 @@
+
+> @workspace/batdongsan@0.0.0 dev
+> vite --config vite.config.ts --host 0.0.0.0 --port 80
+
+
+  [32m[1mVITE[22m v7.3.1[39m  [2mready in [0m[1m726[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m80[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.1.35:[1m80[22m/[39m
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
+Terminate batch job (Y/N)? 
+^C

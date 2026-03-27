@@ -1,0 +1,1890 @@
+[
+  {
+    "id": "1773900380742",
+    "address": "Ngõ 82 Kim Mã, Ba Đình",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773902450370",
+    "address": "Ngõ 639 Hoàng Hoa Thám, Ba Đình",
+    "price": "4tr5,4tr7,4tr8",
+    "price1": "4.500.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773902572050",
+    "address": "Số 13 ngõ 82 Tân Ấp, Ba Đình, Tp.Hà Nội",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773903034770",
+    "address": "Ngõ 444 Đội Cấn, Ba Đình",
+    "price": "8tr3",
+    "price1": "8.300.000",
+    "price2": "8.300.000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773904227898",
+    "address": "Ngách 97/51 Văn Cao, Ba Đình",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773904837411",
+    "address": "Ngõ 639 Hoàng Hoa Thám, Ba Đình",
+    "price": "4tr5 - 4tr7 - 4tr8",
+    "price1": "4.500.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773904839779",
+    "address": "Số 2 ngõ 74 Thành Công, Ba Đình",
+    "price": "1tr5",
+    "price1": "1.500.000",
+    "price2": "1.500.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773905930251",
+    "address": "ngõ 97 Văn Cao, Ba Đình",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773905992671",
+    "address": "Số 5 Linh Lang, Ba Đình",
+    "price": "11tr",
+    "price1": "11.000.000",
+    "price2": "11.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773907037270",
+    "address": "ngõ 678 Đê La Thành, Ba Đình",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773908110034",
+    "address": "Số 23 ngõ 166 Kim Mã, Ba Đình",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1773909375532",
+    "address": "97 Phố Văn Cao, Ba Đình",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": null
+  },
+  {
+    "id": "1773909422319",
+    "address": "Mặt phố Linh Lang, Ba Đình",
+    "price": "11tr",
+    "price1": "11.000.000",
+    "price2": "11.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773909846657",
+    "address": "23 ngõ 166 kim mã, Ba Đình",
+    "price": "3tr7",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": null
+  },
+  {
+    "id": "1773909850396",
+    "address": "23 ngõ 166 kim mã, Ba Đình",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": null
+  },
+  {
+    "id": "1773909869525",
+    "address": "23 ngõ 166 kim mã, Ba Đình",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1773910126307",
+    "address": "số 23 ngõ 166 kim mã, Ba Đình",
+    "price": "3tr3-p202, 3tr7-p204",
+    "price1": "3.300.000",
+    "price2": "3.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773913298904",
+    "address": "Ngõ 31 Vĩnh phúc, Ba đình",
+    "price": "4tr6 - 5tr5",
+    "price1": "4.600.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1773916787369",
+    "address": "Số 4 ngách 17 hẻm 63 ngõ 173 Hoàng Hoa Thám, Ba Đình",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": null
+  },
+  {
+    "id": "1773923762065",
+    "address": "12/73/1 Đào Tấn, Ba Đình",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": "null"
+  },
+  {
+    "id": "1773924065200",
+    "address": "số 81 Hồng Hà, Ba Đình",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio, 1n1k"
+  },
+  {
+    "id": "1773927337818",
+    "address": "NGÕ 210 Đội Cấn- Ba Đình",
+    "price": "5tr5-5tr6 - 5tr8",
+    "price1": "5.500.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773927661879",
+    "address": "Số 70 ngách 63 ngõ 173 Hoàng Hoa Thám – Ngõ ô tô",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773927775066",
+    "address": "Số 70 ngách 63 ngõ 173 Hoàng Hoa Thám – Ngõ ô tô",
+    "price": "5tr4",
+    "price1": "5.400.000",
+    "price2": "5.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773930279089",
+    "address": "Số 11 ngách 11 ngõ 166 Kim Mã, Ba Đình",
+    "price": "9tr",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773930402517",
+    "address": "Ngách 63 ngõ 173 Hoàng Hoa Thám, Ba Đình",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": null
+  },
+  {
+    "id": "1773931766433",
+    "address": "số 23 ngõ 166 kim mã, Ba Đình",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1773933689782",
+    "address": "228 đường Bưởi, Ba Đình",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773935541412",
+    "address": "Ngõ 67 Đường Văn Cao, Liễu giai, Ba Đình",
+    "price": "202tr3-9tr5",
+    "price1": "9.000.000",
+    "price2": "202.300.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773935647798",
+    "address": "Ngõ 67 Đường Văn Cao, Liễu giai, Ba Đình",
+    "price": "602-9tr5",
+    "price1": "6.020.000",
+    "price2": "9.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773936077165",
+    "address": "Ngõ 67 Đường Văn Cao, Liễu giai, Ba Đình",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773936084696",
+    "address": "Ngõ 75, ngách 38, số nhà 16B Vĩnh Phúc, Ba Đình",
+    "price": "4tr5 - tàng 3 ( 1/4 vào )",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773937187636",
+    "address": "ngõ 75 Vĩnh Phúc, Ba Đình",
+    "price": "4tr5/phòng",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": null
+  },
+  {
+    "id": "1773937273432",
+    "address": "Số 46 Ngõ 94 Ngọc Khánh, Ba Đình",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773937650143",
+    "address": "Số 13, ngách 24, ngõ 55 Hoàng Hoa Thám - Ba Đình",
+    "price": "6tr3 - 6tr5",
+    "price1": "6.300.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773938937051",
+    "address": "số 81 Hồng Hà, Ba Đình",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "1n1k, studio"
+  },
+  {
+    "id": "1773939390297",
+    "address": "12/73/1 Đào Tấn - Ba Đình",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": null
+  },
+  {
+    "id": "1773939461082",
+    "address": "ngõ 55 Hoàng Hoa Thám, Ba Đình",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1773939463165",
+    "address": "ngõ 55 Hoàng Hoa Thám, Ba Đình",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1773941208143",
+    "address": "Ngách 63 ngõ 173 Hoàng Hoa Thám, Ba Đình",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": null
+  },
+  {
+    "id": "1773946791441",
+    "address": "169 Kim Mã, Ba Đình",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773950165438",
+    "address": "số 23 ngõ 166 Kim Mã, Ba Đình",
+    "price": "3tr7 4tr3 3tr3 3tr7",
+    "price1": "3.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1773971553550",
+    "address": "44 ngõ 279/69 Đội Cấn, Ba Đình",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773975832044",
+    "address": "Ngách 63 Ngõ 173 Hoàng Hoa Thám, Ba Đình",
+    "price": "5tr4,5tr6",
+    "price1": "5.400.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773977351636",
+    "address": "343 Đội Cấn - Ba Đình",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773980941836",
+    "address": "135 Hoàng Hoa Thám, Ba Đình, Hà Nội",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1773980964650",
+    "address": "135 Hoàng Hoa Thám, Ba Đình, Hà Nội",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": null
+  },
+  {
+    "id": "1773980991072",
+    "address": "135 Hoàng Hoa Thám, Ba Đình, Hà Nội",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1773982027820",
+    "address": "Số 47 ngõ 89 Phan Kế Bính, Ba Đình",
+    "price": "4tr7",
+    "price1": "4.700.000",
+    "price2": "4.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773980967169",
+    "address": "135 Hoàng Hoa Thám, Ba Đình, Hà Nội",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": null
+  },
+  {
+    "id": "1773987399596",
+    "address": "Số 43 ngách 2 ngõ 371 Kim Mã, Ba Đình",
+    "price": "7tr8",
+    "price1": "7.800.000",
+    "price2": "7.800.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773988084060",
+    "address": "Ngõ 158 Ngọc Hà số nhà 35+37, Ba Đình",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773988136762",
+    "address": "Ngõ 75 Vĩnh Phúc, ngách 36, số nhà 2, Ba Đình",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773989453578",
+    "address": "ngõ 444 Thụy Khuê, Ba Đình",
+    "price": "6tr8",
+    "price1": "6800000",
+    "price2": "6800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773989453578",
+    "address": "ngõ 444 Thụy Khuê, Ba Đình",
+    "price": "6tr3",
+    "price1": "6300000",
+    "price2": "6300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773989453578",
+    "address": "ngõ 444 Thụy Khuê, Ba Đình",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773989708798",
+    "address": "ngõ 444 Thụy Khuê, Ba Đình",
+    "price": "6tr8",
+    "price1": "6800000",
+    "price2": "6800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773989708798",
+    "address": "ngõ 444 Thụy Khuê, Ba Đình",
+    "price": "6tr3",
+    "price1": "6300000",
+    "price2": "6300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773989708798",
+    "address": "ngõ 444 Thụy Khuê, Ba Đình",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773991964845",
+    "address": "166/158 Ngọc Hà, Ba Đình",
+    "price": "13tr",
+    "price1": "13.000.000",
+    "price2": "13.000.000",
+    "type": "2N1K"
+  },
+  {
+    "id": "1773992519337",
+    "address": "Ngõ 84 Ngọc Khánh, Giảng Võ, Ba Đình",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773994105817",
+    "address": "Số 17 ngõ 105 Phú Xá, Ba Đình",
+    "price": "4tr3 - 5tr",
+    "price1": "4.300.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773994576510",
+    "address": "343 Đội Cấn, Ba Đình",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773995799448",
+    "address": "279 Đội Cấn, Ba Đình",
+    "price": "11tr",
+    "price1": "11.000.000",
+    "price2": "11.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773996271034",
+    "address": "Ngách 63 Ngõ 173 Hoàng Hoa Thám - Ba Đình",
+    "price": "5tr4 - 5tr6",
+    "price1": "5.400.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773996829146",
+    "address": "Số 6 ngõ 28 Thanh Bảo - Kim Mã - Ba Đình",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773998126416",
+    "address": "ngõ 294 Kim Mã, Ba Đình",
+    "price": "5tr2 - 5tr5 - 5tr7",
+    "price1": "5.200.000",
+    "price2": "5.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773998537713",
+    "address": "1 ngách 157 ngõ 33 Văn Cao, Ba Đình",
+    "price": "5tr5 - tầng 7, 6tr3 - tầng 2",
+    "price1": "5.500.000",
+    "price2": "6.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774000170312",
+    "address": "173/63 Hoàng Hoa Thám, Ngọc Hà, Ba Đình",
+    "price": "5tr - 9tr",
+    "price1": "5.000.000",
+    "price2": "9.000.000",
+    "type": "1n1k, 2n1k"
+  },
+  {
+    "id": "1774000194879",
+    "address": "Ngõ 285 Đội Cấn, Ba Đình",
+    "price": "7tr6",
+    "price1": "7.600.000",
+    "price2": "7.600.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774000375355",
+    "address": "311 Giảng Võ, Ba Đình",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774001498541",
+    "address": "Ngõ 33 Văn Cao, Ngọc Hà, Ba Đình",
+    "price": "5tr7- 6tr3",
+    "price1": "5.700.000",
+    "price2": "6.300.000",
+    "type": null
+  },
+  {
+    "id": "1774001790882",
+    "address": "Ngõ 294 Kim Mã, Ba Đình",
+    "price": "5tr3-5tr7",
+    "price1": "5.300.000",
+    "price2": "5.700.000",
+    "type": null
+  },
+  {
+    "id": "1774002504317",
+    "address": "176 Phố Đội Cấn, Ba Đình",
+    "price": "7.8.tr",
+    "price1": "7.800.000",
+    "price2": "7.800.000",
+    "type": null
+  },
+  {
+    "id": "1774003351036",
+    "address": "294 Kim Mã, Ba Đình",
+    "price": "12tr",
+    "price1": "12.000.000",
+    "price2": "12.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774003456578",
+    "address": "Phố Đào Tấn, Ba Đình",
+    "price": "7tr6",
+    "price1": "7.600.000",
+    "price2": "7.600.000",
+    "type": null
+  },
+  {
+    "id": "1774003962144",
+    "address": "Số 94 Ngọc Hà, Ba Đình",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": null
+  },
+  {
+    "id": "1774009302299",
+    "address": "Ngõ 444 Đội Cấn, Ba Đình",
+    "price": "8tr3",
+    "price1": "8.300.000",
+    "price2": "8.300.000",
+    "type": "1N1B"
+  },
+  {
+    "id": "1774009510366",
+    "address": "Số 18 Ngõ 162/22 Đội Cấn, Ba Đình",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "đơn kk"
+  },
+  {
+    "id": "1774016121756",
+    "address": "Số 6 ngõ 28 Thanh Bảo - Kim Mã - Ba Đình",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774016533061",
+    "address": "Ngách 63 Ngõ 173 Hoàng Hoa Thám, Ba Đình",
+    "price": "5tr4",
+    "price1": "5.400.000",
+    "price2": "5.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774017566543",
+    "address": "Ngõ 279 Đội Cấn, Ba Đình",
+    "price": "4tr - P201, 4tr6 - P301, 5tr2 - P503",
+    "price1": "4.000.000",
+    "price2": "5.200.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774017976848",
+    "address": "71 Ngõ 285 Đội Cấn, Ba Đình",
+    "price": "8tr fix còn 7tr6",
+    "price1": "7.600.000",
+    "price2": "7.600.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774018014344",
+    "address": "35C Hẻm 17 Ngách 173/63 Hoàng Hoa Thám, P. Ngọc Hà, Q. Ba Đình",
+    "price": "9tr",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774018037260",
+    "address": "35C Hẻm 17 Ngách 173/63 Hoàng Hoa Thám, P. Ngọc Hà, Q. Ba Đình",
+    "price": "7tr6",
+    "price1": "7.600.000",
+    "price2": "7.600.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774018090321",
+    "address": "35C Hẻm 17 Ngách 173/63 Hoàng Hoa Thám, P. Ngọc Hà, Q. Ba Đình",
+    "price": "5tr2 fix còn 5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774018140441",
+    "address": "Ngõ 173 Hoàng Hoa Thám - Ba Đình",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774018891097",
+    "address": "Ngõ 158 Ngọc Hà - Ba Đình",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774019178589",
+    "address": "Ngõ 29 Nguyễn Chí Thanh - Ba Đình",
+    "price": "3tr7-3tr9",
+    "price1": "3.700.000",
+    "price2": "3.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774019181292",
+    "address": "Ngõ 29 Nguyễn Chí Thanh - Ba Đình",
+    "price": "3tr7-3tr9",
+    "price1": "3.700.000",
+    "price2": "3.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774020072103",
+    "address": "Ngõ 173 Hoàng Hoa Thám - Ba Đình",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774020142702",
+    "address": "Ngõ 173 Hoàng Hoa Thám - Ba Đình",
+    "price": "4tr5 - 5tr",
+    "price1": "4.500.000",
+    "price2": "5.000.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774018868905",
+    "address": "Ngõ 173 Hoàng Hoa Thám, Ba Đình",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774020485303",
+    "address": "Số 52 Ngõ 173 Hoàng Hoa Thám, Ba Đình",
+    "price": "5tr - P705 vào luôn",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774021573320",
+    "address": "Ngõ 95 Kim Mã, Ba Đình",
+    "price": "2tr4",
+    "price1": "2.400.000",
+    "price2": "2.400.000",
+    "type": "null"
+  },
+  {
+    "id": "1774021650834",
+    "address": "Ngõ 10 Kim Mã Thượng, Ba Đình",
+    "price": "3tr",
+    "price1": "3.000.000",
+    "price2": "3.000.000",
+    "type": "null"
+  },
+  {
+    "id": "1774024107534",
+    "address": "Số 52 Ngõ 173 Hoàng Hoa Thám, Ba Đình",
+    "price": "4tr5-5tr",
+    "price1": "4.500.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774025026099",
+    "address": "Số 46 Ngõ 94 Ngọc Khánh, Ba Đình",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": null
+  },
+  {
+    "id": "1774025693230",
+    "address": "ngõ 371 Kim Mã - Ba đình",
+    "price": "7tr8",
+    "price1": "7.800.000",
+    "price2": "7.800.000",
+    "type": "2N1K"
+  },
+  {
+    "id": "1774026910554",
+    "address": "Nhà 17 ngách 173/63 Hoàng Hoa Thám - Ngọc Hà - Ba Đình",
+    "price": "5tr,7tr6",
+    "price1": "5.000.000",
+    "price2": "7.600.000",
+    "type": "1n1k, 2n1k"
+  },
+  {
+    "id": "1774027880038",
+    "address": "7b Ngõ 31 Vĩnh Phúc - Ba Đình",
+    "price": "5tr2,5tr5",
+    "price1": "5.200.000",
+    "price2": "5.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774027887818",
+    "address": "7b Ngõ 31 Vĩnh Phúc - Ba Đình",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774027910878",
+    "address": "7b Ngõ 31 Vĩnh Phúc - Ba Đình",
+    "price": "7tr5",
+    "price1": "7.500.000",
+    "price2": "7.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774028410678",
+    "address": "số 23 ngõ 166 kim mã, Ba Đình",
+    "price": "3tr3,3tr7,4tr3",
+    "price1": "3.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774030270843",
+    "address": "34 ngách 53 ngõ 285 đội cấn - Ba Đình",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774030472393",
+    "address": "Số 20 ngách 24 ngõ 55 Hoàng Hoa Thám - Ba Đình",
+    "price": "4tr8,5tr2",
+    "price1": "4.800.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774030589592",
+    "address": "639 hoàng hoa thám - Ba Đình",
+    "price": "4tr3,4tr6",
+    "price1": "4.300.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774030633507",
+    "address": "Số 13, ngách 24, ngõ 55 Hoàng Hoa Thám - Ba Đình",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774030657247",
+    "address": "Số 13, ngách 24, ngõ 55 Hoàng Hoa Thám - Ba Đình",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774030723114",
+    "address": "Đê La Thành, giáp Ba Đình, Đống Đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1774051716890",
+    "address": "Ngách 63 ngõ 173 Hoàng Hoa Thám, Ba Đình",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774057662727",
+    "address": "SÔ 9 NGÁCH 17 NGÕ 575 KIM MÃ-BA ĐÌNH",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774056547687",
+    "address": "ngõ 343 Đội Cấn - Ba Đình",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774059628266",
+    "address": "Nhà 35C, hẻm 17, ngách 173/63 Hoàng Hoa Thám, P. Ngọc Hà, Q. Ba Đình",
+    "price": "7tr6",
+    "price1": "7.600.000",
+    "price2": "7.600.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774059636911",
+    "address": "Nhà 35C, hẻm 17, ngách 173/63 Hoàng Hoa Thám, P. Ngọc Hà, Q. Ba Đình",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774059703765",
+    "address": "NHÀ 35C HẺM 17 NGÁCH 173/63 HOÀNG HOA THÁM , P. NGỌC HÀ , Q. BA ĐÌNH",
+    "price": "6tr/ 1 tháng",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774058163614",
+    "address": "ngõ 343 Đội Cấn - Ba Đình",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774060372833",
+    "address": "NHÀ 35C HẺM 17 NGÁCH 173/63 HOÀNG HOA THÁM , P. NGỌC HÀ , Q. BA ĐÌNH",
+    "price": "7tr6",
+    "price1": "7.600.000",
+    "price2": "7.600.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774061181452",
+    "address": "NHÀ 35C HẺM 17 NGÁCH 173/63 HOÀNG HOA THÁM , P. NGỌC HÀ , Q. BA ĐÌNH",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1774061681505",
+    "address": "Ngõ 158 Ngọc Hà, Phường Ngọc Hà, Quận Ba Đình, Hà Nội",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774060076987",
+    "address": "NHÀ 35C HẺM 17 NGÁCH 173/63 HOÀNG HOA THÁM , P. NGỌC HÀ , Q. BA ĐÌNH",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1774062364218",
+    "address": "279 phố Đội Cấn, Đình Đại Yên - Ba Đình",
+    "price": "5tr6/tháng",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": null
+  },
+  {
+    "id": "1774062385922",
+    "address": "135 Hoàng Hoa Thám - Ba Đình - Hà Nội",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": null
+  },
+  {
+    "id": "1774062392602",
+    "address": "135 Hoàng Hoa Thám - Ba Đình - Hà Nội",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1774065187856",
+    "address": "Ngõ 376 Thuỵ Khuê - Tây Hồ",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774066311206",
+    "address": "Ngõ 135 Đội Cấn, Ba Đình",
+    "price": "12tr",
+    "price1": "12.000.000",
+    "price2": "12.000.000",
+    "type": "2N1K"
+  },
+  {
+    "id": "1774067089980",
+    "address": "Ngõ 75/36/17 Vĩnh Phúc, Ba Đình",
+    "price": "4tr4 - 4tr9",
+    "price1": "4.400.000",
+    "price2": "4.900.000",
+    "type": null
+  },
+  {
+    "id": "1774067866311",
+    "address": "Ngõ 780 La Thành Ngọc Khánh, Ba Đình",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1774068309356",
+    "address": "40D ngách 45 ngõ 194 Đội Cấn, Ba Đình",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774059606255",
+    "address": "35D Hẻm 17 Ngách 173/63 Hoàng Hoa Thám, P. Ngọc Hà, Q. Ba Đình",
+    "price": "9tr",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774075828366",
+    "address": "Số 14B ngõ 97 Hoàng Hoa Thám, Ngọc Hà, Ba Đình",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": null
+  },
+  {
+    "id": "1774080218673",
+    "address": "Số 15 ngách 82/2 Kim Mã, Ba Đình",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774081147379",
+    "address": "ngõ 76 Linh Lang, Ba Đình",
+    "price": "8tr",
+    "price1": "8.000.000",
+    "price2": "8.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774082596433",
+    "address": "35c Hẻm 17 Ngách 173/63 Hoàng Hoa Thám, P. Ngọc Hà, Q. Ba Đình",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": null
+  },
+  {
+    "id": "1774084499943",
+    "address": "NHÀ 35C HẺM 17 NGÁCH 173/63 HOÀNG HOA THÁM, P. NGỌC HÀ, Q. BA ĐÌNH",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774084567595",
+    "address": "Ngõ 678 Đê La Thành - Ba Đình",
+    "price": "4tr3 - 5tr3",
+    "price1": "4300000",
+    "price2": "5300000",
+    "type": null
+  },
+  {
+    "id": "1774084589899",
+    "address": "NHÀ 35C HẺM 17 NGÁCH 173/63 HOÀNG HOA THÁM, P. NGỌC HÀ, Q. BA ĐÌNH",
+    "price": "7tr6",
+    "price1": "7600000",
+    "price2": "7600000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774085042503",
+    "address": "279 Đội Cấn",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774085899499",
+    "address": "279 Đội Cấn",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774086026478",
+    "address": "ngõ 444 Thuỵ Khuê - Ba Đình",
+    "price": "6tr3",
+    "price1": "6300000",
+    "price2": "6300000",
+    "type": "studio"
+  },
+  {
+    "id": "1774086238464",
+    "address": "ngõ 146 Phan Kế Bính - Ba Đình",
+    "price": "5tr8 - 6tr2",
+    "price1": "5800000",
+    "price2": "6200000",
+    "type": "studio"
+  },
+  {
+    "id": "1774086686970",
+    "address": "167 Thụy Khuê, Ba Đình",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774086765480",
+    "address": "Số 15 ngách 82/2 Kim Mã, Ba Đình",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1774086897556",
+    "address": "167 Thụy Khuê, Ba Đình",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774087637765",
+    "address": "Số 10 Ngõ 71 Nguyên Hồng, Ba Đình",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": "gác xép, vsc"
+  },
+  {
+    "id": "1774087930711",
+    "address": "164 Trấn Vũ, phường Trúc Bạch, Ba Đình",
+    "price": "45tr",
+    "price1": "45000000",
+    "price2": "45000000",
+    "type": null
+  },
+  {
+    "id": "1774087958921",
+    "address": "Số 16, ngõ 376 Đường Bưởi, Ba Đình",
+    "price": "4tr5-p301, 4tr3-p302, 3tr8-p201",
+    "price1": "3800000",
+    "price2": "4500000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774088506329",
+    "address": "25 Phan Đình Phùng, Ba Đình",
+    "price": "7tr",
+    "price1": "7000000",
+    "price2": "7000000",
+    "type": "studio"
+  },
+  {
+    "id": "1774088844552",
+    "address": "Số nhà 104 ngõ 491 Đê La Thành, Ba Đình",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio, giường tầng"
+  },
+  {
+    "id": "1774088954535",
+    "address": "Số 2 Linh Lang, Ba Đình",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774089071025",
+    "address": "Ngõ 174 Đội Cấn, Ba Đình",
+    "price": "8tr",
+    "price1": "8000000",
+    "price2": "8000000",
+    "type": "studio, 1n1k"
+  },
+  {
+    "id": "1774089079874",
+    "address": "358 đường Bưởi, Ba Đình",
+    "price": "6tr3",
+    "price1": "6300000",
+    "price2": "6300000",
+    "type": "studio"
+  },
+  {
+    "id": "1774089108912",
+    "address": "Số 32 ngõ 167 Thuỵ Khuê, Ba Đình",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774089204033",
+    "address": "67 Nguyễn Đình Thi, Ba Đình",
+    "price": "13tr",
+    "price1": "13000000",
+    "price2": "13000000",
+    "type": "studio"
+  },
+  {
+    "id": "1774089781614",
+    "address": "Ngõ 176 Đội Cấn, Ba Đình",
+    "price": "5tr3",
+    "price1": "5300000",
+    "price2": "5300000",
+    "type": null
+  },
+  {
+    "id": "1774090269733",
+    "address": "67 Nguyễn Đình Thi, Ba Đình",
+    "price": "13tr",
+    "price1": "13000000",
+    "price2": "13000000",
+    "type": "studio"
+  },
+  {
+    "id": "1774095143667",
+    "address": "167 Thụy Khuê",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774098430130",
+    "address": "33 Đốc Ngữ",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774100224083",
+    "address": "ngõ 166 kim mã",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774100309505",
+    "address": "Ngõ 158 Ngọc Hà số nhà 35+37",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": null
+  },
+  {
+    "id": "1774100541122",
+    "address": "Ngõ 158 Ngọc Hà số nhà 35+37",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": null
+  },
+  {
+    "id": "1774103647952",
+    "address": "Nhà số 25 hẻm 173/68/147 Hoàng Hoa Thám - Ba Đình",
+    "price": "4tr7 - 5tr8",
+    "price1": "4.700.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774103942469",
+    "address": "Nhà số 2 ngõ 6 Đội Nhân - Ba Đình",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774106350842",
+    "address": "34 ngách 53 ngõ 285 đội cấn",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": null
+  },
+  {
+    "id": "1774106481180",
+    "address": "Ngách 24 ngõ 55 Hoàng Hoa Thám - Ba đÌnh",
+    "price": "4tr8 - 5tr2",
+    "price1": "4.800.000",
+    "price2": "5.200.000",
+    "type": null
+  },
+  {
+    "id": "1774107013050",
+    "address": "ngõ 639 Hoàng Hoa Thám, Ba Đình",
+    "price": "4tr3 - 4tr6",
+    "price1": "4.300.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774107718092",
+    "address": "228 đường Bưởi, Ba Đình, Hà Nội",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774107955680",
+    "address": "Ngõ 158 Ngọc Hà số nhà 35+37, Ba Đình",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774111346230",
+    "address": "Châu Long, Ba Đình, Hà Nội",
+    "price": "9tr5",
+    "price1": "9.500.000",
+    "price2": "9.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774114525101",
+    "address": "Số 35 + 37 Ngõ 158 Ngọc Hà - Ba Đình",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774114722516",
+    "address": "Số 14B Ngách 12 Ngõ 38 Khúc Thừa Dụ - Cầu Giấy",
+    "price": "5tr4 - 5tr6",
+    "price1": "5.400.000",
+    "price2": "5.600.000",
+    "type": "studio, giường tầng"
+  },
+  {
+    "id": "1774144435186",
+    "address": "nhà 10/10 ngõ 575 Kim Mã, Ba Đình",
+    "price": "5tr5-4tr8-5tr8",
+    "price1": "4.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774150047821",
+    "address": "46 Tổ 55C Cụm 9 Ngõ 67 Đường Văn Cao - Ba Đình",
+    "price": "9tr5",
+    "price1": "9.500.000",
+    "price2": "9.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774150066849",
+    "address": "46 Tổ 55C Cụm 9 Ngõ 67 Đường Văn Cao - Ba Đình",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774153665237",
+    "address": "Ngách 63 ngõ 173 Hoàng Hoa Thám, Ba Đình",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": null
+  },
+  {
+    "id": "1774155434506",
+    "address": "21 ngõ 444/34 đường Đội Cấn, BA ĐÌNH",
+    "price": "4tr4 - 4tr6 - 4tr8 - 5tr - 6tr8",
+    "price1": "4.400.000",
+    "price2": "6.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774151811838",
+    "address": "35C, hẻm 17, ngách 173/63 Hoàng Hoa Thám",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774159706777",
+    "address": "ngõ 279 Đội Cấn, Ba Đình",
+    "price": "14tr - 14tr5",
+    "price1": "14.000.000",
+    "price2": "14.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774161230014",
+    "address": "135 Hoàng Hoa Thám, Ba Đình, Hà Nội",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1774161261718",
+    "address": "135 Hoàng Hoa Thám, Ba Đình, Hà Nội",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": null
+  },
+  {
+    "id": "1774161683830",
+    "address": "435 Đội Cấn, Ba Đình",
+    "price": "12tr",
+    "price1": "12.000.000",
+    "price2": "12.000.000",
+    "type": null
+  },
+  {
+    "id": "1774161757400",
+    "address": "435 Đội Cấn, Ba Đình",
+    "price": "13tr",
+    "price1": "13.000.000",
+    "price2": "13.000.000",
+    "type": null
+  },
+  {
+    "id": "1774161799032",
+    "address": "169/22/2 Kim Mã, Ba Đình",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1774162263251",
+    "address": "Ngõ 639 Hoàng Hoa Thám, Ba Đình",
+    "price": "4tr5-5tr",
+    "price1": "4.500.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774162278859",
+    "address": "290 Kim Mã, Ba Đình",
+    "price": "2tr",
+    "price1": "2.000.000",
+    "price2": "2.000.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774162319185",
+    "address": "290 Kim Mã, Ba Đình",
+    "price": "3tr2",
+    "price1": "3.200.000",
+    "price2": "3.200.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774163064759",
+    "address": "279 Đội Cấn, Ba Đình",
+    "price": "9tr",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774163069345",
+    "address": "ngõ 53 Tân Ấp, Ba Đình",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774163140222",
+    "address": "Số 1 ngõ 409 Đội Cấn, Ba Đình",
+    "price": "5tr5 tầng 1 - 1n1k",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774163140222",
+    "address": "Số 1 ngõ 409 Đội Cấn, Ba Đình",
+    "price": "6tr tầng 2 - 2n1k",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774163334102",
+    "address": "Ngõ 90 Đội Cấn, Ba Đình",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1774163399442",
+    "address": "Ngõ 67 Đường Văn Cao, Liễu Giai, Ba Đình",
+    "price": "9tr5-p302,602,202",
+    "price1": "9.500.000",
+    "price2": "9.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774163429079",
+    "address": "Ngõ 67 Đường Văn Cao, Liễu Giai, Ba Đình",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774164176564",
+    "address": "Ngõ 90 Đội Cấn, Ba Đình",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1774166594510",
+    "address": "Nhà số 28A3 và 28B3 Phạm Hồng Thái, Ba Đình, Hà Nội",
+    "price": "8tr5",
+    "price1": "8.500.000",
+    "price2": "8.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774167206831",
+    "address": "Nhà số 7 ngách 97/51 Văn Cao, Liễu Giai, Ba Đình, Hà Nội",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774169084554",
+    "address": "Ngách 63 ngõ 173 Hoàng Hoa Thám, Ba Đình",
+    "price": "5tr4-5tr6",
+    "price1": "5.400.000",
+    "price2": "5.600.000",
+    "type": null
+  },
+  {
+    "id": "1774169345551",
+    "address": "432 Đội Cấn, Ba Đình",
+    "price": "3tr4-3tr6",
+    "price1": "3.400.000",
+    "price2": "3.600.000",
+    "type": null
+  },
+  {
+    "id": "1774170566137",
+    "address": "Nhà 35C, hẻm 17, ngách 173/63 Hoàng Hoa Thám",
+    "price": "7tr6",
+    "price1": "7600000",
+    "price2": "7600000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774171577586",
+    "address": "Phạm Hồng Thái - Ba Đình",
+    "price": "8tr5",
+    "price1": "8500000",
+    "price2": "8500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774172043524",
+    "address": "35C hẻm 17 ngách 173/63 Hoàng Hoa Thám, P. Ngọc Hà, Ba Đình",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774172067235",
+    "address": "35c hẻm 17 ngách 173/63 Hoàng Hoa Thám, P. Ngọc Hà, Q. Ba Đình",
+    "price": "7tr6",
+    "price1": "7600000",
+    "price2": "7600000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774177394287",
+    "address": "29 Ngõ 189 Hoàng Hoa Thám, Ngọc Hà, Ba Đình",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": null
+  },
+  {
+    "id": "1774177818510",
+    "address": "29 Ngõ 189 Hoàng Hoa Thám, Ngọc Hà, Ba Đình",
+    "price": "12tr3",
+    "price1": "12300000",
+    "price2": "12300000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774177939629",
+    "address": "29 Ngõ 189 Hoàng Hoa Thám, Ngọc Hà, Ba Đình",
+    "price": "11tr8",
+    "price1": "11800000",
+    "price2": "11800000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774178058728",
+    "address": "29 Ngõ 189 Hoàng Hoa Thám, Ngọc Hà, Ba Đình",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774178176013",
+    "address": "29 Ngõ 189 Hoàng Hoa Thám, Ngọc Hà, Ba Đình",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774178331441",
+    "address": "29 Ngõ 189 Hoàng Hoa Thám, Ngọc Hà, Ba Đình",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774186856093",
+    "address": "Số 10, ngõ 409, ngách 99 Kim Mã, Ba Đình",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774187712574",
+    "address": "số 23 ngõ 166 kim mã, Ba Đình",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774189643395",
+    "address": "Số nhà 81, Hồng Hà, Ba Đình, Hà Nội",
+    "price": "5tr301",
+    "price1": "5.301.000",
+    "price2": "5.301.000",
+    "type": "1n1k, gác xép, vsc"
+  },
+  {
+    "id": "1774190545612",
+    "address": "số 191D ngõ 173 Hoàng Hoa thám - Ba Đình",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "null"
+  },
+  {
+    "id": "1774192568182",
+    "address": "169/22/2 Kim Mã, Ba Đình",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": null
+  },
+  {
+    "id": "1774193273633",
+    "address": "NHÀ 35C HẺM 17 NGÁCH 173/63 HOÀNG HOA THÁM, P. NGỌC HÀ, Q. BA ĐÌNH",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774197357252",
+    "address": "435 Đội Cấn, Ba Đình",
+    "price": "12tr A201 13tr A302",
+    "price1": "12.000.000",
+    "price2": "13.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774197757146",
+    "address": "Ngõ 639 Hoàng Hoa Thám, Ba Đình",
+    "price": "4tr5 4tr8 5tr 4tr8",
+    "price1": "4.500.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774202128518",
+    "address": "ngõ 53/23 phố tân ấp phúc xá - ba đình",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": null
+  },
+  {
+    "id": "1774202145716",
+    "address": "ngõ 53/23 phố tân ấp phúc xá - ba đình",
+    "price": "3tr2",
+    "price1": "3.200.000",
+    "price2": "3.200.000",
+    "type": null
+  },
+  {
+    "id": "1774202332879",
+    "address": "CHDV 51 Linh Lang – Ba Đình",
+    "price": "11tr5/tháng",
+    "price1": "11.500.000",
+    "price2": "11.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774202471121",
+    "address": "Kim Mã Thượng, Ba Đình",
+    "price": "7tr5-8tr",
+    "price1": "7.500.000",
+    "price2": "8.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774203245637",
+    "address": "Phạm Huy Thông , Ba Đình",
+    "price": "12tr",
+    "price1": "12.000.000",
+    "price2": "12.000.000",
+    "type": "1 ngủ 1 khách"
+  },
+  {
+    "id": "1774230442315",
+    "address": "46 Tổ 55C Cụm 9 Ngõ 67 Đường Văn Cao - Ba Đình",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774230666366",
+    "address": "46 Tổ 55C Cụm 9 Ngõ 67 Đường Văn Cao - Ba Đình",
+    "price": "9tr5",
+    "price1": "9.500.000",
+    "price2": "9.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774238255435",
+    "address": "NGÕ 108 NGỌC HÀ",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "1k1n"
+  },
+  {
+    "id": "1774241503367",
+    "address": "ngõ 55 Hoàng Hoa Thám, Ba Đình",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774245797615",
+    "address": "ngõ 58/12 số nhà 8 Đào Tấn",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "đơn, vskk"
+  },
+  {
+    "id": "1774246482204",
+    "address": "58 Đào Tấn, Ba Đình",
+    "price": "5tr5- 5tr7",
+    "price1": "5.500.000",
+    "price2": "5.700.000",
+    "type": null
+  },
+  {
+    "id": "1774247353055",
+    "address": "Phạm Huy Thông, Ba Đình",
+    "price": "12tr",
+    "price1": "12.000.000",
+    "price2": "12.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774247902619",
+    "address": "Ngõ 12 Đào Tấn, Ba Đình",
+    "price": "11tr-12tr",
+    "price1": "11.000.000",
+    "price2": "12.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774248465630",
+    "address": "17 Ngõ 146 Phan Kế Bính, Ba Đình",
+    "price": "5tr8-6tr",
+    "price1": "5.800.000",
+    "price2": "6.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774249970098",
+    "address": "465 Đội Cấn, Ba Đình",
+    "price": "7tr5",
+    "price1": "7.500.000",
+    "price2": "7.500.000",
+    "type": null
+  },
+  {
+    "id": "1774251214285",
+    "address": "17 ngõ 146 Phan Kế Bính, Ba Đình",
+    "price": "5tr8 (p501- 6tr), 5tr6 (p502- 6tr)",
+    "price1": "5.600.000",
+    "price2": "6.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774251397324",
+    "address": "ngõ 210 Đội Cấn, Ba Đình",
+    "price": "8tr5",
+    "price1": "8.500.000",
+    "price2": "8.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774251496730",
+    "address": "ngõ 210 Đội Cấn, Ba Đình",
+    "price": "8tr5",
+    "price1": "8.500.000",
+    "price2": "8.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774251609162",
+    "address": "ngõ 210 Đội Cấn, Ba Đình",
+    "price": "8tr5",
+    "price1": "8.500.000",
+    "price2": "8.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774252797595",
+    "address": "Ngõ 58 Đào Tấn, Ba Đình",
+    "price": "4tr8 - 4tr9",
+    "price1": "4.800.000",
+    "price2": "4.900.000",
+    "type": null
+  }
+]

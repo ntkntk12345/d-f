@@ -1,0 +1,88 @@
+{
+    "universities": {
+        "Đại học Thương Mại": [
+            "Cầu Giấy",
+            "Trung Hòa",
+            "Nhân Chính"
+        ],
+        "Đại học Bách Khoa": [
+            "Hai Bà Trưng",
+            "Đại Cồ Việt"
+        ],
+        "Đại học Quốc Gia": [
+            "Cầu Giấy",
+            "Xuân Thủy"
+        ],
+        "Đại học Ngoại Thương": [
+            "Cầu Giấy",
+            "Chùa Láng"
+        ],
+        "Đại học Kinh Tế": [
+            "Hai Bà Trưng",
+            "Giải Phóng"
+        ],
+        "Đại học Xây Dựng": [
+            "Hai Bà Trưng",
+            "Giải Phóng"
+        ],
+        "Đại học Điện Lực": [
+            "Hà Đông",
+            "Dương Nội"
+        ],
+        "Đại học Phenikaa": [
+            "Hà Đông",
+            "Yên Nghĩa"
+        ],
+        "Đại học Đại Nam": [
+            "Hà Đông"
+        ],
+        "Đại học FPT": [
+            "Hòa Lạc",
+            "Thạch Thất"
+        ]
+    },
+    "landmarks": {
+        "Big C": [
+            "Thăng Long",
+            "Hà Đông"
+        ],
+        "Aeon Mall": [
+            "Hà Đông",
+            "Long Biên"
+        ],
+        "Vincom": [
+            "Bà Triệu",
+            "Royal City",
+            "Trần Duy Hưng"
+        ],
+        "Keangnam": [
+            "Phạm Hùng",
+            "Mễ Trì"
+        ],
+        "Lotte": [
+            "Liễu Giai",
+            "Ba Đình"
+        ],
+        "Times City": [
+            "Hai Bà Trưng",
+            "Minh Khai"
+        ]
+    },
+    "metro_stations": {
+        "Ga Cát Linh": [
+            "Đống Đa",
+            "Cát Linh"
+        ],
+        "Ga La Thành": [
+            "Đống Đa",
+            "La Thành"
+        ],
+        "Ga Hà Đông": [
+            "Hà Đông"
+        ],
+        "Ga Nhổn": [
+            "Nam Từ Liêm",
+            "Nhổn"
+        ]
+    }
+}

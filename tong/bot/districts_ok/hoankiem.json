@@ -1,0 +1,58 @@
+[
+  {
+    "id": "1773992321547",
+    "address": "22 Cầu Đất, Hoàn Kiếm, Hà Nội",
+    "price": "12tr5",
+    "price1": "12.500.000",
+    "price2": "12.500.000",
+    "type": "2n1k, vskk"
+  },
+  {
+    "id": "1773994197906",
+    "address": "Mặt Đường Nguyễn Khoái, Quận Hai Bà Trưng",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1774001699210",
+    "address": "971 hồng hà, hoàn kiếm",
+    "price": "4tr6 -4tr8",
+    "price1": "4.600.000",
+    "price2": "4.800.000",
+    "type": null
+  },
+  {
+    "id": "1774014715559",
+    "address": "Nhà 53 Lý nam đế, Hoàn Kiếm",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": null
+  },
+  {
+    "id": "1774078639321",
+    "address": "22 ngách 22 ngõ 380 Bạch Đằng, Hoàn Kiếm",
+    "price": "7tr7",
+    "price1": "7.700.000",
+    "price2": "7.700.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774151099469",
+    "address": "Lý Nam Đế - Hoàn Kiếm",
+    "price": "10tr",
+    "price1": "10.000.000",
+    "price2": "10.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774254487079",
+    "address": "22 Cầu Đất, Hoàn Kiếm",
+    "price": "12tr5",
+    "price1": "12.500.000",
+    "price2": "12.500.000",
+    "type": "2n1k"
+  }
+]

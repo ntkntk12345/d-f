@@ -1,0 +1,13 @@
+
+> @workspace/batdongsan@0.0.0 dev
+> npm run generate:property-data && node ./scripts/dev-all.mjs
+
+
+> @workspace/batdongsan@0.0.0 generate:property-data
+> node --experimental-strip-types ./scripts/build-property-data.ts
+
+{
+  "properties": 5495,
+  "districts": 15,
+  "outputDir": "public\\data\\properties"
+}

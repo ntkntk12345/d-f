@@ -1,0 +1,82 @@
+[
+  {
+    "id": "1773143212078",
+    "address": "19/60 phố Mai Động, Hoàng Mai",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": null
+  },
+  {
+    "id": "1773286155181",
+    "address": "180 phố lò đúc, hoàn kiếm",
+    "price": "10tr",
+    "price1": "10.000.000",
+    "price2": "10.000.000",
+    "type": "studio, 1n1k"
+  },
+  {
+    "id": "1773303133466",
+    "address": "Lý Nam Đế / Hoàn Kiếm",
+    "price": "10tr",
+    "price1": "10.000.000",
+    "price2": "10.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773376472846",
+    "address": "Yết Kiêu, Hoàn kiếm",
+    "price": "13tr",
+    "price1": "13.000.000",
+    "price2": "13.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773376523959",
+    "address": "Yết Kiêu, Hoàn kiếm",
+    "price": "14tr",
+    "price1": "14.000.000",
+    "price2": "14.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773376720675",
+    "address": "22 Cầu Đất - Hoàn Kiếm",
+    "price": "12tr5",
+    "price1": "12.500.000",
+    "price2": "12.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773393794264",
+    "address": "ngõ Yết Kiêu - Hoàn Kiếm",
+    "price": "14tr - tầng 6\n13tr - tầng 5",
+    "price1": "13.000.000",
+    "price2": "14.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773393822555",
+    "address": "ngõ Yết Kiêu - Hoàn Kiếm",
+    "price": "12tr - tầng 1",
+    "price1": "12.000.000",
+    "price2": "12.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773500648519",
+    "address": "KHU QUÂN ĐỘI NGÕ 23 B MẶT PHỐ LÝ NAM ĐẾ - HOÀN KIẾM",
+    "price": "7tr8",
+    "price1": "7.800.000",
+    "price2": "7.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773515504853",
+    "address": "Nhà 53 Lý nam đế, Hoàn Kiếm",
+    "price": "6tr5 tầng 5\n7tr2 tầng 4",
+    "price1": "6.500.000",
+    "price2": "7.200.000",
+    "type": null
+  }
+]

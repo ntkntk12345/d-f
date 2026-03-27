@@ -1,0 +1,44 @@
+# CUSTOM AI TRAINING PROMPT
+# Edit file này để dạy AI cách suy luận và tạo SQL
+
+## QUY TẮC CƠ BẢN (BẮT BUỘC):
+- CHỈ trả 1 dòng SQL, KHÔNG giải thích
+- LUÔN LUÔN có: SELECT ... FROM rooms WHERE ... LIMIT X
+- Columns: simple_id, address, price, description, raw_text
+- Dùng simple_id (KHÔNG dùng id)
+- Luôn kết thúc bằng LIMIT (tối đa 10)
+
+## CÚ PHÁP SQL CHUẨN:
+SELECT * FROM rooms WHERE <điều kiện> LIMIT 5;
+SELECT simple_id, price, address FROM rooms WHERE <điều kiện> LIMIT 5;
+SELECT COUNT(*) FROM rooms WHERE <điều kiện>;
+
+## CÁCH SUY LUẬN ĐỊA DANH:
+- "gần X" → tìm khu vực có X trong address
+- "Đại học Thương Mại" → Cầu Giấy, Trung Hòa, Nhân Chính
+- "Big C" → Thăng Long, Hà Đông
+- "Aeon Mall" → Hà Đông, Long Biên
+- "Thanh Xuân" → address LIKE '%Thanh Xuân%'
+
+## CÁCH XỬ LÝ GIÁ:
+- "dưới X" → price < X
+- "từ X đến Y" → price BETWEEN X AND Y
+- "khoảng X" → price BETWEEN (X-0.5) AND (X+0.5)
+- "rẻ nhất" → ORDER BY price ASC
+- "đắt nhất" → ORDER BY price DESC
+
+## CÁCH TÌM TIỆN ÍCH:
+- "thang máy" → description LIKE '%thang máy%'
+- "full đồ" → description LIKE '%full%'
+- "ban công" → description LIKE '%ban công%'
+- "studio" → description LIKE '%studio%'
+
+## VÍ DỤ QUERIES (HỌC KỸ):
+"Phòng dưới 4tr" → SELECT * FROM rooms WHERE price < 4 LIMIT 5;
+"Show phòng Thanh Xuân studio" → SELECT * FROM rooms WHERE address LIKE '%Thanh Xuân%' AND description LIKE '%studio%' LIMIT 5;
+"Gần Đại học Thương Mại" → SELECT * FROM rooms WHERE (address LIKE '%Cầu Giấy%' OR address LIKE '%Trung Hòa%') LIMIT 5;
+"Phòng 3-5tr có thang máy" → SELECT * FROM rooms WHERE price BETWEEN 3 AND 5 AND description LIKE '%thang máy%' LIMIT 5;
+"Số căn giá địa chỉ Thanh Xuân" → SELECT simple_id, price, address FROM rooms WHERE address LIKE '%Thanh Xuân%' LIMIT 5;
+"Có bao nhiêu phòng" → SELECT COUNT(*) FROM rooms;
+"Phòng rẻ nhất" → SELECT * FROM rooms ORDER BY price ASC LIMIT 3;
+

@@ -1,0 +1,34 @@
+[
+    {
+        "query": "tìm phòng rẻ nhất",
+        "sql": "SELECT * FROM rooms ORDER BY price ASC LIMIT 5"
+    },
+    {
+        "query": "phòng đắt nhất",
+        "sql": "SELECT * FROM rooms ORDER BY price DESC LIMIT 5"
+    },
+    {
+        "query": "phòng gần Big C",
+        "sql": "SELECT * FROM rooms WHERE address LIKE '%Thăng Long%' OR address LIKE '%Hà Đông%' LIMIT 5"
+    },
+    {
+        "query": "phòng có thang máy",
+        "sql": "SELECT * FROM rooms WHERE description LIKE '%thang máy%' LIMIT 5"
+    },
+    {
+        "query": "phòng full đồ",
+        "sql": "SELECT * FROM rooms WHERE description LIKE '%full%' LIMIT 5"
+    },
+    {
+        "query": "có bao nhiêu phòng",
+        "sql": "SELECT COUNT(*) FROM rooms"
+    },
+    {
+        "query": "phòng ở Cầu Giấy",
+        "sql": "SELECT * FROM rooms WHERE address LIKE '%Cầu Giấy%' LIMIT 5"
+    },
+    {
+        "query": "phòng 3-4 triệu",
+        "sql": "SELECT * FROM rooms WHERE price BETWEEN 3 AND 4 LIMIT 5"
+    }
+]

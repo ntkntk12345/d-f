@@ -1,0 +1,1842 @@
+[
+  {
+    "id": "1773900818554",
+    "address": "Số 1/70/1395 Giải Phóng",
+    "price": "3tr8-4tr",
+    "price1": "3.800.000",
+    "price2": "4.000.000",
+    "type": null
+  },
+  {
+    "id": "1773901946756",
+    "address": "Số 8b2 - Đầm Trấu Bạch Đằng, Hai Bà Trưng",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773902065069",
+    "address": "228 Minh Khai - Chùa Hưng Ký, Minh Khai, Hai Bà Trưng",
+    "price": "4tr3-4tr8",
+    "price1": "4.300.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773902252175",
+    "address": "Số 7 ngõ 247 Thanh Nhàn, Thanh Nhàn, Hai Bà Trưng",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773902283205",
+    "address": "228 Minh Khai - Chùa Hưng Ký, Minh Khai, Hai Bà Trưng",
+    "price": "4tr3 - 4tr8",
+    "price1": "4.300.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773902629338",
+    "address": "Ngõ 296 Minh Khai, Hai Bà Trưng",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773904870610",
+    "address": "Số 49 ngõ 296/108/30 Minh Khai, Hai Bà Trưng, Hà Nội",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773905905312",
+    "address": "số 19A ngách 36 ngõ 296 Minh Khai, Hai Bà Trưng",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773906186751",
+    "address": "8 ngõ 116 Yên Lạc, Hai Bà Trưng",
+    "price": "3tr9",
+    "price1": "3900000",
+    "price2": "3900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773906186751",
+    "address": "8 ngõ 116 Yên Lạc, Hai Bà Trưng",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773906186751",
+    "address": "8 ngõ 116 Yên Lạc, Hai Bà Trưng",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773906186751",
+    "address": "8 ngõ 116 Yên Lạc, Hai Bà Trưng",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773906713793",
+    "address": "Nhà Số 35 Ngõ 204 Lê Thanh Nghị, Hai Bà Trưng",
+    "price": "6tr3",
+    "price1": "6300000",
+    "price2": "6300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773906922823",
+    "address": "Ngõ 254/7 – số nhà 36A Minh Khai, Hai Bà Trưng",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773907079092",
+    "address": "Ngõ 254/7 – số nhà 36A Minh Khai, Hai Bà Trưng",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773907290726",
+    "address": "Ngõ 595 Trần Đại Nghĩa, Hai Bà Trưng",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773907409190",
+    "address": "323 Trần Đại Nghĩa, Hai Bà Trưng",
+    "price": "4tr7-4tr8-4tr5-5tr",
+    "price1": "4.500.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773908374838",
+    "address": "Số 35 Ngõ 204 Lê Thanh Nghị, Hai Bà Trưng",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773908441546",
+    "address": "Ngách 40 Ngõ Thống Nhất, Đại La, Hai Bà Trưng",
+    "price": "3tr2",
+    "price1": "3.200.000",
+    "price2": "3.200.000",
+    "type": null
+  },
+  {
+    "id": "1773908858159",
+    "address": "Số 19A Ngách 36 Ngõ 296 Minh Khai, Hai Bà Trưng",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": null
+  },
+  {
+    "id": "1773909106540",
+    "address": "228 Minh Khai, Chùa Hưng Ký, Minh Khai, Hai Bà Trưng",
+    "price": "4tr3-4tr8",
+    "price1": "4.300.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773901129477",
+    "address": "CHDV Hai Bà Trưng",
+    "price": "85tr/tháng",
+    "price1": "85000000",
+    "price2": "85000000",
+    "type": null
+  },
+  {
+    "id": "1773909480380",
+    "address": "Số 24 Ngách 187/49 Hồng Mai, Hai Bà Trưng",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773909480380",
+    "address": "Số 24 Ngách 187/49 Hồng Mai, Hai Bà Trưng",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773909480380",
+    "address": "Số 24 Ngách 187/49 Hồng Mai, Hai Bà Trưng",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773909753600",
+    "address": "Số 24 Ngách 187/49 Hồng Mai, Hai Bà Trưng",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773909753600",
+    "address": "Số 24 Ngách 187/49 Hồng Mai, Hai Bà Trưng",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773909753600",
+    "address": "Số 24 Ngách 187/49 Hồng Mai, Hai Bà Trưng",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773911727392",
+    "address": "Số 24 Ngách 187/49 Hồng Mai, Hai Bà Trưng",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773911727392",
+    "address": "Số 24 Ngách 187/49 Hồng Mai, Hai Bà Trưng",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773911727392",
+    "address": "Số 24 Ngách 187/49 Hồng Mai, Hai Bà Trưng",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773913914109",
+    "address": "200 Trần Đại Nghĩa Oto đỗ cửa, Hai Bà Trưng",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "studio, giường tầng"
+  },
+  {
+    "id": "1773914475866",
+    "address": "Số 24 Ngách 187/49 Hồng Mai, Hai Bà Trưng",
+    "price": "4tr4,4tr8,5tr5",
+    "price1": "4.400.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773917733782",
+    "address": "Số 62 ngõ Vân Hồ 3, Hai Bà Trưng",
+    "price": "7tr6/tháng",
+    "price1": "7.600.000",
+    "price2": "7.600.000",
+    "type": "2n1b"
+  },
+  {
+    "id": "1773920744903",
+    "address": "Nhà ngách 67 ngõ Gốc Đề Minh Khai",
+    "price": "2tr3",
+    "price1": "2.300.000",
+    "price2": "2.300.000",
+    "type": "2 ngủ"
+  },
+  {
+    "id": "1773925916399",
+    "address": "17 NGÕ 521 TRƯƠNG ĐỊNH, TÂN MAI",
+    "price": "3tr8/tháng",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773931387133",
+    "address": "số 82 Ngõ 296 Minh Khai, Hai Bà Trưng",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773931868110",
+    "address": "ngõ 121 Lê Thanh Nghị, Hai Bà Trưng",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773932140870",
+    "address": "ngõ 198 Dương Văn Bé, Hai Bà Trưng",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773932194559",
+    "address": "số 5 Ngõ 176 trương định, Hai Bà Trưng",
+    "price": "3tr8 - 3tr9",
+    "price1": "3.800.000",
+    "price2": "3.900.000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773932199121",
+    "address": "số 5 Ngõ 176 trương định, Hai Bà Trưng",
+    "price": "3tr8 - 3tr9",
+    "price1": "3.800.000",
+    "price2": "3.900.000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773934224757",
+    "address": "số 40 ngõ 359 Minh Khai, Hai Bà Trưng",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773936371206",
+    "address": "Ngõ 142 Đê Trần Khát Chân, Hai Bà Trưng",
+    "price": "4tr - 4tr4",
+    "price1": "4.000.000",
+    "price2": "4.400.000",
+    "type": null
+  },
+  {
+    "id": "1773937134486",
+    "address": "15 ngõ 38 Lương Yên, Hai Bà Trưng",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": null
+  },
+  {
+    "id": "1773937174203",
+    "address": "595 Trần Đại Nghĩa, Hai Bà Trưng",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": null
+  },
+  {
+    "id": "1773937809786",
+    "address": "323 Trần Đại Nghĩa - Hai Bà Trưng",
+    "price": "4tr7-5tr",
+    "price1": "4.700.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773939458760",
+    "address": "Số 35 Ngõ 204 Lê Thanh Nghị, Hai Bà Trưng",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773939712494",
+    "address": "số nhà 64 Ngõ Chùa Hưng Ký, Minh Khai, Hai Bà Trưng",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773945230135",
+    "address": "ngõ 77 Phố 8/3, Hai Bà Trưng",
+    "price": "4tr7",
+    "price1": "4.700.000",
+    "price2": "4.700.000",
+    "type": null
+  },
+  {
+    "id": "1773945411115",
+    "address": "ngõ 15/ 47 Gốc Đề- Hai Bà Trưng",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": null
+  },
+  {
+    "id": "1773936607980",
+    "address": "389 GIẢI PHÓNG - THANH XUÂN",
+    "price": "1tr5",
+    "price1": "1.500.000",
+    "price2": "1.500.000",
+    "type": null
+  },
+  {
+    "id": "1773949718114",
+    "address": "323 Trần Đại Nghĩa - Hai Bà Trưng",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773928564271",
+    "address": "11A 624 Minh Khai",
+    "price": null,
+    "price1": null,
+    "price2": null,
+    "type": null
+  },
+  {
+    "id": "1773971948304",
+    "address": "SỐ 80 NGÕ 121 KIM NGƯU",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773972420305",
+    "address": "NGÕ 121 KIM NGƯU",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773975288580",
+    "address": "Số 74 Ngõ 143 Nguyễn Chính, Hai Bà Trưng, Hà Nội",
+    "price": "4tr3-p304\n4tr7- P302",
+    "price1": "4.300.000",
+    "price2": "4.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773976304832",
+    "address": "16/167 Thanh Nhàn - Hai Bà Trưng",
+    "price": "3tr8,4tr5",
+    "price1": "3.800.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773976399308",
+    "address": "297 Minh Khai - Hai Bà Trưng",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773976648326",
+    "address": "50 Gốc Đề - Hai Bà Trưng",
+    "price": "4tr,4tr1",
+    "price1": "4.000.000",
+    "price2": "4.100.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773974959052",
+    "address": "CHDV Hai Bà Trưng",
+    "price": "85tr/tháng",
+    "price1": "85.000.000",
+    "price2": "85.000.000",
+    "type": null
+  },
+  {
+    "id": "1773978401844",
+    "address": "Số 51 ngõ 70 Nguyễn an ninh - Hai Bà Trưng",
+    "price": "4tr3 - 4tr5",
+    "price1": "4.300.000",
+    "price2": "4.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773978494014",
+    "address": "Số 51 ngõ 70 Nguyễn an ninh- Quận: Hai Bà Trưng",
+    "price": "4tr3-p203 4tr5-p301",
+    "price1": "4.300.000",
+    "price2": "4.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773979378213",
+    "address": "Tòa nhà 91 ngõ Trại Cá, Hai Bà Trưng",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "đơn, vskk"
+  },
+  {
+    "id": "1773979481876",
+    "address": "91 ngõ Trại Cá, Hai Bà Trưng",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "null"
+  },
+  {
+    "id": "1773980391201",
+    "address": "ngõ 198 Dương Văn Bé số nhà 8, hai bà trưng",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": "null"
+  },
+  {
+    "id": "1773980562945",
+    "address": "ngõ 121 Lê Thanh Nghị, ngách 25 số nhà 4, hai bà trưng",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773982188152",
+    "address": "số 64 ngõ 5 trường chinh",
+    "price": "3tr8-p102",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": null
+  },
+  {
+    "id": "1773983415620",
+    "address": "Số 34 ngách 86 ngõ 296 Minh Khai - Hai Bà Trưng",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773983755716",
+    "address": "MINH KHAI TIMCITY",
+    "price": "4tr2 - 4tr3",
+    "price1": "4.200.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773989775285",
+    "address": "105 Bạch Mai",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773989780510",
+    "address": "Ngõ 143 Nguyễn Chính, Hai Bà Trưng",
+    "price": "4tr3 - 4tr7",
+    "price1": "4.300.000",
+    "price2": "4.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773990521821",
+    "address": "Số 51 ngõ 70 Nguyễn An Ninh, Hai Bà Trưng",
+    "price": "4tr3-4tr5",
+    "price1": "4.300.000",
+    "price2": "4.500.000",
+    "type": null
+  },
+  {
+    "id": "1773994197906",
+    "address": "Mặt Đường Nguyễn Khoái, Quận Hai Bà Trưng",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1773994233129",
+    "address": "Ngõ 254/25 Minh Khai, Hai Bà Trưng",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773994519103",
+    "address": "Số 6 ngõ 36 Giáp Bát",
+    "price": "4tr7",
+    "price1": "4.700.000",
+    "price2": "4.700.000",
+    "type": null
+  },
+  {
+    "id": "1773994567371",
+    "address": "Ngõ 254/25 Minh Khai, Hai Bà Trưng",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773995116834",
+    "address": "Ngõ 254/25 Minh Khai, Hai Bà Trưng",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": null
+  },
+  {
+    "id": "1773995461361",
+    "address": "106 Giếng Mứt, Bạch Mai",
+    "price": "4tr - 4tr5",
+    "price1": "4.000.000",
+    "price2": "4.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773995487308",
+    "address": "106 Giếng Mứt, Bạch Mai",
+    "price": "7tr - 7tr5",
+    "price1": "7.000.000",
+    "price2": "7.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773995997295",
+    "address": "Số 19 ngõ 274 Trương Định, Hai Bà Trưng",
+    "price": "4tr8 - 5tr",
+    "price1": "4.800.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773997816486",
+    "address": "41 ngõ Mai Hương, Hai Bà Trưng",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": null
+  },
+  {
+    "id": "1773998060904",
+    "address": "Số nhà 9 ngõ 461 Minh Khai",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": null
+  },
+  {
+    "id": "1773998060904",
+    "address": "Số nhà 9 ngõ 461 Minh Khai",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1773998253734",
+    "address": "22/22/380 Bạch Đằng hoặc 22/22/971 Hồng Hà, Hai Bà Trưng",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773998253734",
+    "address": "22/22/380 Bạch Đằng hoặc 22/22/971 Hồng Hà, Hai Bà Trưng",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773998426620",
+    "address": "239 Chùa Quỳnh (mặt sau 47 ngõ 107 Hồng Mai), Hai Bà Trưng, Hà Nội",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773999829183",
+    "address": "615B Minh Khai, Hai Bà Trưng",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774003360036",
+    "address": "số 20 ngách 305 Ngõ Quỳnh, Hai Bà Trưng",
+    "price": "1tr",
+    "price1": "1.000.000",
+    "price2": "1.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774003360036",
+    "address": "số 20 ngách 305 Ngõ Quỳnh, Hai Bà Trưng",
+    "price": "3tr",
+    "price1": "3.000.000",
+    "price2": "3.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774007202780",
+    "address": "Ngõ 74 Đông Thiên",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": null
+  },
+  {
+    "id": "1774007236663",
+    "address": "25 Ngõ 108 Đông Thiên",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774007145003",
+    "address": "Số 26 hẻm 10 ngách 369 Ngõ Quỳnh, Hai Bà Trưng",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": "null"
+  },
+  {
+    "id": "1774010949001",
+    "address": "Ngõ 296 Minh Khai - Hai Bà Trưng",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774010952661",
+    "address": "Ngõ 296 Minh Khai - Hai Bà Trưng",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774011370222",
+    "address": "Ngõ 533 Tam Trinh - Hai Bà Trưng",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774015507061",
+    "address": "161 đê Trần Khát Chân, Hai Bà Trưng",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1774015622410",
+    "address": "455 Bạch Mai",
+    "price": "3tr3 - 4tr5",
+    "price1": "3.300.000",
+    "price2": "4.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774016457436",
+    "address": "24 Lê Quý Đôn, Hai Bà Trưng",
+    "price": "16tr",
+    "price1": "16.000.000",
+    "price2": "16.000.000",
+    "type": "3n1k"
+  },
+  {
+    "id": "1774017172622",
+    "address": "số nhà 64 ngách 25/106 Ngõ 25 Phú Minh - Minh Khai - Quận: Bắc Từ liên",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774017965533",
+    "address": "Ngõ 296 Minh Khai - Hai Bà Trưng",
+    "price": "5tr8 fix còn 5tr5",
+    "price1": "5.500.000",
+    "price2": "5.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774018622058",
+    "address": "Nhà 20 ngách 281/99 Trương Định, Hai Bà Trưng",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774018624375",
+    "address": "Nhà 20 ngách 281/99 Trương Định, Hai Bà Trưng",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774018858083",
+    "address": "Số 19A ngách 36 ngõ 296 Minh Khai, Hai Bà Trưng",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774019684372",
+    "address": "Phố Văn Chương, Đống Đa",
+    "price": "10tr5",
+    "price1": "10.500.000",
+    "price2": "10.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774023086635",
+    "address": "302 Minh Khai, hai bà trưng",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774023314387",
+    "address": "Toà 24 Lê Quý Đôn - Hai Bà Trưng",
+    "price": "16tr",
+    "price1": "16.000.000",
+    "price2": "16.000.000",
+    "type": "3n1k"
+  },
+  {
+    "id": "1774023354300",
+    "address": "25 ngõ 121 Lê Thanh Nghị - Hai Bà Trưng",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774023556477",
+    "address": "số 10 ngõ 198 dương văn bé - Quận: Hai Bà Trưng",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774023594371",
+    "address": "số 5 ngõ 176 trương định- Quận: Hai Bà Trưng",
+    "price": "3tr8-3tr9",
+    "price1": "3.800.000",
+    "price2": "3.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774024290760",
+    "address": "Số 71 ngõ 75 Giải Phóng",
+    "price": "3tr4( đóng 3 cọc 1 )",
+    "price1": "3.400.000",
+    "price2": "3.500.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774028983386",
+    "address": "Số 5 ngõ 74 Kim Ngưu - Hai Bà Trưng",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1774029018668",
+    "address": "Số 5 ngõ 74 Kim Ngưu - Hai Bà Trưng",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774029918918",
+    "address": "16 ngõ 169 Hoàng Mai , Hai Bà Trưng",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774030690244",
+    "address": "Ngõ 254/7 sn 36A minh khai, Hai Bà Trưng",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1774032464570",
+    "address": "Ngõ Linh Quang - Văn Chương, Đống Đa, Hà Nội",
+    "price": "10tr5",
+    "price1": "10.500.000",
+    "price2": "14.000.000",
+    "type": "2N1K"
+  },
+  {
+    "id": "1773992051397",
+    "address": "12A 203 Kim Ngưu",
+    "price": null,
+    "price1": null,
+    "price2": null,
+    "type": null
+  },
+  {
+    "id": "1774057070327",
+    "address": "Số 16 ngõ 148 Dương Văn Bé - Hai Bà Trưng",
+    "price": "4tr4-p303",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774057345477",
+    "address": "Ngách 108 ngõ 553 Giải Phóng - Hai Bà Trưng",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774058638391",
+    "address": "ngõ 396 Trương Định ( 33 Nguyễn An Ninh)",
+    "price": "4tr- P202",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774058703917",
+    "address": "Số 4 ngõ 56 Gốc Đề",
+    "price": "3tr8-p201tr3",
+    "price1": "3.800.000",
+    "price2": "4.000.000",
+    "type": "2n1b, vskk"
+  },
+  {
+    "id": "1774058750298",
+    "address": "số 50 Gốc Đề",
+    "price": "3tr9-p401",
+    "price1": "3.900.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774058796395",
+    "address": "SỐ 4, NGÕ 370 TRƯƠNG ĐỊNH",
+    "price": "9tr-p104",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774058820890",
+    "address": "SỐ 4, NGÕ 370 TRƯƠNG ĐỊNH",
+    "price": "5tr-p305,202",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774058844515",
+    "address": "Số 5, Ngách 128 Gốc Đề",
+    "price": "4tr- p701",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774059178701",
+    "address": "ngõ 253 Minh Khai",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774059198683",
+    "address": "Ngõ 281 Trương Định",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774059229251",
+    "address": "16/167 Thanh Nhàn",
+    "price": "3tr8-p602,502",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774059354278",
+    "address": "16/167 Thanh Nhàn",
+    "price": "4tr5-p501",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774059395133",
+    "address": "Ngõ 302 Minh Khai",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774058400098",
+    "address": "Ngõ 272/45 Trần Khát Chân",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774061262027",
+    "address": "176 Trương Định - Hai Bà Trưng",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1774064494616",
+    "address": "Ngõ 167 Thanh Nhàn, Hai Bà Trưng",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": null
+  },
+  {
+    "id": "1774067127231",
+    "address": "ngõ 317 Ngõ Quỳnh, Hai Bà Trưng",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": null
+  },
+  {
+    "id": "1774068263344",
+    "address": "Ngõ 26 Vương Thừa Vũ -Quận: Thanh Xuân",
+    "price": "7tr5",
+    "price1": "7.500.000",
+    "price2": "7.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774068370395",
+    "address": "Ngõ 26 Vương Thừa Vũ -Quận: Thanh Xuân",
+    "price": "7tr5",
+    "price1": "7.500.000",
+    "price2": "7.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774062255534",
+    "address": "213 Trần Đại Nghĩa, Hai Bà Trưng",
+    "price": "3tr",
+    "price1": "3.000.000",
+    "price2": "3.000.000",
+    "type": null
+  },
+  {
+    "id": "1774072803828",
+    "address": "40 Ngõ Tạ Quang Bửu, Hai Bà Trưng",
+    "price": "4tr2-4tr5",
+    "price1": "4.200.000",
+    "price2": "4.500.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774072838917",
+    "address": "148 Ngõ Tự Do, Hai Bà Trưng",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774077196078",
+    "address": "Số 19 Nguyễn Thượng Hiền, Hai Bà Trưng",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774077833655",
+    "address": "Số 15 ngõ 281 Trần Khát Chân, Hai Bà Trưng",
+    "price": "4tr4,4tr6,4tr8,5tr3",
+    "price1": "4.400.000",
+    "price2": "5.300.000",
+    "type": "gác xép, giường tầng"
+  },
+  {
+    "id": "1774079378463",
+    "address": "11A Mã 195, Hoà Bình 1, Hai Bà Trưng",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": null
+  },
+  {
+    "id": "1774081057536",
+    "address": "ngõ 77 Phố 8/3, Hai Bà Trưng",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": null
+  },
+  {
+    "id": "1774082708159",
+    "address": "Ngõ 121 Kim Ngưu, Hai Bà Trưng",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1774083418269",
+    "address": "129 Trương Định, Hai Bà Trưng",
+    "price": "3tr2 - 3tr4",
+    "price1": "3.200.000",
+    "price2": "3.400.000",
+    "type": null
+  },
+  {
+    "id": "1774084757272",
+    "address": "Số 40 ngõ 359 Minh Khai, Hai Bà Trưng",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": null
+  },
+  {
+    "id": "1774085398046",
+    "address": "Số 80 ngõ 121 Kim Ngưu, Hai Bà Trưng",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774086424237",
+    "address": "Số 16 ngõ 148 Dương Văn Bé, Hai Bà Trưng",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774087310293",
+    "address": "17B8 Đầm Trấu, Hai Bà Trưng",
+    "price": "4tr1 - 4tr5 - 4tr9",
+    "price1": "4.100.000",
+    "price2": "4.900.000",
+    "type": null
+  },
+  {
+    "id": "1774088982017",
+    "address": "105 Bùi Thị Xuân, 2 Bà Trưng",
+    "price": "10tr",
+    "price1": "10.000.000",
+    "price2": "10.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774090154513",
+    "address": "Ngõ 9 Minh Khai, Hai Bà Trưng",
+    "price": "3tr7",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774091057656",
+    "address": "Mặt phố 281 phố Vọng, Hai Bà Trưng",
+    "price": "5tr4",
+    "price1": "5.400.000",
+    "price2": "5.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774102973491",
+    "address": "Nhà số 11D ngách 7 ngõ 101 Thanh Nhàn - Hai Bà Trưng",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774103621011",
+    "address": "162 Đê Tô Hoàng - Hai Bà Trưng",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774103676229",
+    "address": "Nhà số 6 ngách 19 ngõ Thống Nhất - Hai Bà Trưng",
+    "price": "4tr3,4tr5",
+    "price1": "4.300.000",
+    "price2": "4.500.000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1774103719025",
+    "address": "Nhà số 20A ngõ 151 Nguyễn Đức Cảnh - Hai Bà Trưng",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774107828774",
+    "address": "Ngõ 143 Nguyễn Chính, Hai Bà Trưng, Hà Nội",
+    "price": "4tr5,4tr7",
+    "price1": "4.500.000",
+    "price2": "4.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774130482046",
+    "address": "323 Trần Đại Nghĩa - Hai Bà Trưng",
+    "price": "4tr7",
+    "price1": "4.700.000",
+    "price2": "4.700.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774149232242",
+    "address": "Số 16 ngõ 148 Dương Văn Bé - Hai Bà Trưng",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774152398561",
+    "address": "281/65 Trương Định – Hai Bà Trưng",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774152484090",
+    "address": "281/65 Trương Định – trung tâm, đi đâu cũng tiện",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774152041504",
+    "address": "Số 16 Ngách 7 Ngõ 91A Đại La - Hai Bà Trưng",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "6.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774152318123",
+    "address": "Số 16 Ngách 7 Ngõ 91A Đại La - Hai Bà Trưng",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "6.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774155336696",
+    "address": "364 Minh Khai",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": null
+  },
+  {
+    "id": "1774155468534",
+    "address": "Số 24 Lê Quý Đôn - Hai Bà Trưng",
+    "price": "17tr",
+    "price1": "17.000.000",
+    "price2": "17.000.000",
+    "type": "3N1K"
+  },
+  {
+    "id": "1774095027607",
+    "address": "CCMN Giải Phóng",
+    "price": "16tr/1 tháng",
+    "price1": "16.000.000",
+    "price2": "16.000.000",
+    "type": null
+  },
+  {
+    "id": "1774160561441",
+    "address": "gần trường tiểu học Phương Liệt, Trường Chinh, Giải Phóng",
+    "price": "16tr",
+    "price1": "16.000.000",
+    "price2": "16.000.000",
+    "type": null
+  },
+  {
+    "id": "1774161785073",
+    "address": "Số 8A hẻm 10B ngách 48 ngõ 121 Kim Ngưu, Hai Bà Trưng",
+    "price": "3tr5-3tr8",
+    "price1": "3.500.000",
+    "price2": "3.800.000",
+    "type": null
+  },
+  {
+    "id": "1774161825398",
+    "address": "Số 8A hẻm 10B ngách 48 ngõ 121 Kim Ngưu, Hai Bà Trưng",
+    "price": "3tr5-3tr8",
+    "price1": "3.500.000",
+    "price2": "3.800.000",
+    "type": null
+  },
+  {
+    "id": "1774162992749",
+    "address": "Ngõ 142 Đê Trần Khát Chân, Hai Bà Trưng",
+    "price": "3tr8 - 4tr3",
+    "price1": "3.800.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1774163386220",
+    "address": "4 Trại Cá, Hai Bà Trưng",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774164345925",
+    "address": "3 ngách 184 Ngõ Quỳnh, Hai Bà Trưng",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774164902736",
+    "address": "33 Nguyễn An Ninh, Hai Bà Trưng",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774165648210",
+    "address": "211 Minh Khai, Hai Bà Trưng",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774166311366",
+    "address": "78A ngõ 325 Kim Ngưu, Hai Bà Trưng",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774171569023",
+    "address": "325 Kim Ngưu, Hai Bà Trưng",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774172955462",
+    "address": "Ngõ 194 Giải Phóng, Phân lô tập thể Hải Quan",
+    "price": "14tr",
+    "price1": "14.000.000",
+    "price2": "14.000.000",
+    "type": null
+  },
+  {
+    "id": "1774173009512",
+    "address": "Tòa 24 Lê Quý Đôn, Hai Bà Trưng",
+    "price": "16tr",
+    "price1": "16.000.000",
+    "price2": "16.000.000",
+    "type": "3n1k"
+  },
+  {
+    "id": "1774173401901",
+    "address": "Ngõ 1 Định Công, Giải Phóng",
+    "price": "9tr/tháng",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774174359568",
+    "address": "ngõ 55 Lê thanh nghị, Hai Bà Trưng",
+    "price": "4tr - 4tr3",
+    "price1": "4.000.000",
+    "price2": "4.300.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774175560386",
+    "address": "Số nhà 48b ngõ 1395 Giải Phóng",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774177087762",
+    "address": "105 Bạch Mai, Hai Bà Trưng",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774177435091",
+    "address": "359 Minh Khai, Hai Bà Trưng",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774178675604",
+    "address": "Ngõ 54 Đê Trần Khát Chân, Hai Bà Trưng",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774179973223",
+    "address": "Ngõ 76 Chùa Quỳnh, Hai Bà Trưng",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": null
+  },
+  {
+    "id": "1774182237726",
+    "address": "ngõ 148 Dương Văn Bé, Hai Bà Trưng",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774191310544",
+    "address": "Số 39 ngách 18 ngõ 15 Gốc Đề, Hai bà Trưng",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774191998458",
+    "address": "Avhome 97 Ngõ 105 Bạch Mai hà nôi",
+    "price": "2tr5-2tr6",
+    "price1": "2.500.000",
+    "price2": "2.600.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774192648937",
+    "address": "1b5b Đầm Trấu - Hai Bà Trưng",
+    "price": "4tr3 - 5tr9",
+    "price1": "4.300.000",
+    "price2": "5.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774192713861",
+    "address": "17B8 Đầm Trấu - Hai Bà Trưng",
+    "price": "3tr5 - 4tr9",
+    "price1": "3.500.000",
+    "price2": "4.900.000",
+    "type": null
+  },
+  {
+    "id": "1774192770562",
+    "address": "17B8 Đầm Trấu - Hai Bà Trưng",
+    "price": "4tr1 - 4tr9",
+    "price1": "4.100.000",
+    "price2": "4.900.000",
+    "type": null
+  },
+  {
+    "id": "1774193111856",
+    "address": "Ngõ 54 Đê Trần Khát Chân - Hai Bà Trưng",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774197383851",
+    "address": "Số 8A hẻm 10B ngách 48 ngõ 121 Kim Ngưu, Hai Bà Trưng",
+    "price": "3tr5-3tr8",
+    "price1": "3.500.000",
+    "price2": "3.800.000",
+    "type": null
+  },
+  {
+    "id": "1774199459403",
+    "address": "76 CHÙA QUỲNH, HAI BÀ TRƯNG",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774228723689",
+    "address": "Ngõ 254/101/3 minh Khai",
+    "price": "2tr6",
+    "price1": "2.600.000",
+    "price2": "2.600.000",
+    "type": null
+  },
+  {
+    "id": "1774229888034",
+    "address": "41/82/9/1 phố vọng - Hai Bà Trưng",
+    "price": "2tr3",
+    "price1": "2.300.000",
+    "price2": "2.300.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774231799851",
+    "address": "Số 51 Ngõ 70 Nguyễn An Ninh - Hai Bà Trưng",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774231996055",
+    "address": "Số 51 Ngõ 70 Nguyễn An Ninh - Hai Bà Trưng",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774232135391",
+    "address": "1b5b Đầm Trấu - Hai Bà Trưng",
+    "price": "4tr3 - 4tr5 - 4tr8 - 5tr7 - 5tr9",
+    "price1": "4.300.000",
+    "price2": "5.900.000",
+    "type": null
+  },
+  {
+    "id": "1774232644107",
+    "address": "ngách 15 ngõ Gốc Đề - Hai Bà Trưng",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774233794703",
+    "address": "Số 6A ngõ 67 Gốc Đề - hai bà trưng",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774234336114",
+    "address": "Số 16 ngõ 148 Dương Văn Bé - Hai Bà Trưng",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774234343469",
+    "address": "Số 6A ngõ 67 Gốc Đề - hai bà trưng",
+    "price": "4tr3-4tr5",
+    "price1": "4.300.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774235095502",
+    "address": "ngõ 121 Kim Ngưu, Hai Bà Trưng",
+    "price": "3tr5-3tr8",
+    "price1": "3.500.000",
+    "price2": "3.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774233947879",
+    "address": "Số 6A ngõ 67 Gốc Đề - hai bà trưng",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774236383626",
+    "address": "15 Gốc Đề, Hai Bà Trưng",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774239470837",
+    "address": "số 32B ngách 15 ngõ Gốc Đề, Hai Bà Trưng",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774242093700",
+    "address": "Ngõ 31 Phan Đình Giót, Hai Bà Trưng",
+    "price": "4tr8-studio, 5tr- gác xép",
+    "price1": "4.800.000",
+    "price2": "5.000.000",
+    "type": "gác xép, studio"
+  },
+  {
+    "id": "1774242113470",
+    "address": "ngõ 158 Trương Định, Hai Bà Trưng",
+    "price": "3tr7-p301",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774245625563",
+    "address": "Ngõ 359 MINH KHAI",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774245645070",
+    "address": "207 Trương Định",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774245792069",
+    "address": "ngõ 105 BẠCH MAI",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774246279244",
+    "address": "Ngõ Linh Quang - Văn Chương, Đống Đa, Hà Nội",
+    "price": "10tr5",
+    "price1": "10.500.000",
+    "price2": "10.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774246016799",
+    "address": "Mặt phố Bạch Mai, Hai Bà Trưng",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774247550320",
+    "address": "Ngõ 957 Giải Phóng",
+    "price": "3tr3 - 3tr4",
+    "price1": "3.300.000",
+    "price2": "3.400.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774247959878",
+    "address": "Nhà 61 ngõ 33 Nguyễn An Ninh, Hai Bà Trưng",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": null
+  },
+  {
+    "id": "1774247991096",
+    "address": "Ngõ 302 Minh Khai, Hai Bà Trưng",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": null
+  },
+  {
+    "id": "1774248407738",
+    "address": "Số 56 ngõ 22 Lương Khánh Thiện, Hai Bà Trưng",
+    "price": "8tr3",
+    "price1": "8.300.000",
+    "price2": "8.300.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774249271855",
+    "address": "Ngõ 61 Lạc Trung, Hai Bà Trưng",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1774249412399",
+    "address": "389 Giải Phóng, Thanh Xuân, HN",
+    "price": "1tr5",
+    "price1": "1.500.000",
+    "price2": "1.500.000",
+    "type": null
+  },
+  {
+    "id": "1774249466826",
+    "address": "Ngõ 61 Lạc Trung, Hai Bà Trưng",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774251295356",
+    "address": "Số 6 ngách 334 ngõ 192 Lê Trọng Tấn, Hai Bà Trưng",
+    "price": "8tr3",
+    "price1": "8.300.000",
+    "price2": "8.300.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774251433373",
+    "address": "121 Kim Ngưu, Hai Bà Trưng",
+    "price": "3tr5 - 4tr",
+    "price1": "3.500.000",
+    "price2": "4.000.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774252607439",
+    "address": "Ngõ 74 Kim Ngưu, Hai Bà Trưng",
+    "price": "4tr3 - 6tr5",
+    "price1": "4.300.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774253546331",
+    "address": "ngõ 15 Gốc Đề, Hai Bà Trưng",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1774253583110",
+    "address": "15 Gốc Đề, Hai Bà Trưng",
+    "price": "4tr6 - 5tr5",
+    "price1": "4600000",
+    "price2": "5500000",
+    "type": "studio, 2n1k"
+  },
+  {
+    "id": "1774253901353",
+    "address": "ngõ 15 Gốc Đề, Hai Bà Trưng",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "2n1b"
+  },
+  {
+    "id": "1774254204101",
+    "address": "Số 39 ngách 18 ngõ 15 Gốc Đề, Hai Bà Trưng",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774254373648",
+    "address": "Số 39 ngách 18 ngõ 15 Gốc Đề, Hai Bà Trưng",
+    "price": "4tr6 tầng 2tr6",
+    "price1": "2600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1774256295303",
+    "address": "nhà 91 ngõ Trại Cá, Hai Bà Trưng",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774258191538",
+    "address": "số 39 ngách 18 ngõ 15 Gốc Đề, Hai Bà Trưng",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": null
+  }
+]

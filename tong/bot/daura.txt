@@ -1,0 +1,377 @@
+Thanh Trì
+Văn Điển|Thanh Trì
+Tứ Hiệp|Thanh Trì
+Yên Mỹ|Thanh Trì
+Tam Hiệp|Thanh Trì
+Thanh Liệt|Thanh Trì
+Tân Triều|Thanh Trì
+Tả Thanh Oai|Thanh Trì
+Ngũ Hiệp|Thanh Trì
+Vĩnh Quỳnh|Thanh Trì
+Liên Ninh|Thanh Trì
+Hữu Hòa|Thanh Trì
+Duyên Hà|Thanh Trì
+Đông Mỹ|Thanh Trì
+Đại Áng|Thanh Trì
+Vạn Phúc|Thanh Trì
+Cầu Bươu|Thanh Trì
+Kim Giang|Thanh Trì
+
+Hà Đông
+Quang Trung|Hà Đông
+Nguyễn Trãi|Hà Đông
+Hà Cầu|Hà Đông
+Yết Kiêu|Hà Đông
+Phú La|Hà Đông
+Phúc La|Hà Đông
+Kiến Hưng|Hà Đông
+Mộ Lao|Hà Đông
+Văn Quán|Hà Đông
+La Khê|Hà Đông
+Dương Nội|Hà Đông
+Yên Nghĩa|Hà Đông
+Đồng Mai|Hà Đông
+Biên Giang|Hà Đông
+Tố Hữu|Hà Đông
+Lê Trọng Tấn|Hà Đông
+Trần Phú|Hà Đông
+Phùng Hưng|Hà Đông
+Ba La|Hà Đông
+Quốc Lộ 6|Hà Đông
+Vành Đai 3|Hà Đông
+Chu Văn An|Hà Đông
+Cầu Đơ|Hà Đông
+Làng Lụa Vạn Phúc|Hà Đông
+Xa La|Hà Đông
+Văn Khê|Hà Đông
+Mỗ Lao|Hà Đông
+Khu Đô Thị Văn Phú|Hà Đông
+Khu Đô Thị Dương Nội|Hà Đông
+Khu Đô Thị Kiến Hưng|Hà Đông
+Khu Đô Thị Thanh Hà|Hà Đông
+Khu Đô Thị An Hưng|Hà Đông
+Khu Đô Thị Văn Quán|Hà Đông
+Bến Xe Yên Nghĩa|Hà Đông
+Làng Vạn Phúc|Hà Đông
+Làng La Khê|Hà Đông
+Làng Mộ Lao|Hà Đông
+Làng Yên Nghĩa|Hà Đông
+Làng Đồng Mai|Hà Đông
+Làng Biên Giang|Hà Đông
+
+Ba Đình
+Phúc Xá|Ba Đình
+Trúc Bạch|Ba Đình
+Vĩnh Phúc|Ba Đình
+Cống Vị|Ba Đình
+Liễu Giai|Ba Đình
+Nguyễn Trung Trực|Ba Đình
+Quán Thánh|Ba Đình
+Ngọc Hà|Ba Đình
+Điện Biên|Ba Đình
+Đội Cấn|Ba Đình
+Kim Mã|Ba Đình
+Giảng Võ|Ba Đình
+Thành Công|Ba Đình
+Hoàng Hoa Thám|Ba Đình
+Nguyễn Thái Học|Ba Đình
+Điện Biên Phủ|Ba Đình
+Hùng Vương|Ba Đình
+Phan Đình Phùng|Ba Đình
+Thụy Khuê|Ba Đình
+Văn Cao|Ba Đình
+Lăng Bác|Ba Đình
+Quảng Trường Ba Đình|Ba Đình
+Phủ Chủ Tịch|Ba Đình
+Vườn Bách Thảo|Ba Đình
+Hồ Trúc Bạch|Ba Đình
+Hồ Tây|Ba Đình
+Khu Ngoại Giao Đoàn|Ba Đình
+Khu Thành Công|Ba Đình
+Khu Giảng Võ|Ba Đình
+Khu Kim Mã|Ba Đình
+Khu Ngọc Hà|Ba Đình
+
+Long Biên
+Thượng Thanh|Long Biên
+Ngọc Thụy|Long Biên
+Giang Biên|Long Biên
+Đức Giang|Long Biên
+Việt Hưng|Long Biên
+Gia Thụy|Long Biên
+Ngọc Lâm|Long Biên
+Phúc Đồng|Long Biên
+Long Biên|Long Biên
+Thạch Bàn|Long Biên
+Sài Đồng|Long Biên
+Phúc Lợi|Long Biên
+Cự Khối|Long Biên
+Bồ Đề|Long Biên
+Nguyễn Văn Cừ|Long Biên
+Ngô Gia Tự|Long Biên
+Cổ Linh|Long Biên
+Nguyễn Đức Thuận|Long Biên
+Lý Sơn|Long Biên
+Đàm Quang Trung|Long Biên
+Đê Nguyễn Văn Linh|Long Biên
+Quốc Lộ 5|Long Biên
+Quốc Lộ 1A|Long Biên
+Vành Đai|Long Biên
+Khu Đô Thị Việt Hưng|Long Biên
+Khu Đô Thị Sài Đồng|Long Biên
+Khu Đô Thị Thạch Bàn|Long Biên
+Khu Đô Thị Phúc Đồng|Long Biên
+Khu Đô Thị Vinhomes Riverside|Long Biên
+Cầu Chương Dương|Long Biên
+Cầu Long Biên|Long Biên
+Cầu Vĩnh Tuy|Long Biên
+Aeon Mall Long Biên|Long Biên
+Bến Xe Gia Lâm|Long Biên
+
+Tây Hồ
+Bưởi|Tây Hồ
+Thụy Khuê|Tây Hồ
+Yên Phụ|Tây Hồ
+Tứ Liên|Tây Hồ
+Quảng An|Tây Hồ
+Xuân La|Tây Hồ
+Phú Thượng|Tây Hồ
+Nhật Tân|Tây Hồ
+Âu Cơ|Tây Hồ
+Lạc Long Quân|Tây Hồ
+Võ Chí Công|Tây Hồ
+Nghi Tàm|Tây Hồ
+Trích Sài|Tây Hồ
+Nguyễn Hoàng Tôn|Tây Hồ
+An Dương Vương|Tây Hồ
+Phủ Tây Hồ|Tây Hồ
+Làng Nghi Tàm|Tây Hồ
+Làng Nhật Tân|Tây Hồ
+Làng Quảng Bá|Tây Hồ
+Khu Ciputra|Tây Hồ
+Bến Hoa Phú Thượng|Tây Hồ
+Chợ Hoa Quảng Bá|Tây Hồ
+Thung Lũng Hoa Hồ Tây|Tây Hồ
+
+Bắc Từ Liêm
+Thượng Cát|Bắc Từ Liêm
+Liên Mạc|Bắc Từ Liêm
+Đông Ngạc|Bắc Từ Liêm
+Thụy Phương|Bắc Từ Liêm
+Minh Khai|Bắc Từ Liêm
+Cổ Nhuế 1|Bắc Từ Liêm
+Cổ Nhuế 2|Bắc Từ Liêm
+Phú Diễn|Bắc Từ Liêm
+Phúc Diễn|Bắc Từ Liêm
+Tây Tựu|Bắc Từ Liêm
+Xuân Đỉnh|Bắc Từ Liêm
+Đức Thắng|Bắc Từ Liêm
+Trần Cung|Bắc Từ Liêm
+Kẻ Vẽ|Bắc Từ Liêm
+Khu Ngoại Giao Đoàn|Bắc Từ Liêm
+Khu Ciputra|Bắc Từ Liêm
+Khu Thành Phố Giao Lưu|Bắc Từ Liêm
+Công Viên Hòa Bình|Bắc Từ Liêm
+
+Hai Bà Trưng
+Nguyễn Du|Hai Bà Trưng
+Bạch Đằng|Hai Bà Trưng
+Phạm Đình Hổ|Hai Bà Trưng
+Bùi Thị Xuân|Hai Bà Trưng
+Ngô Thì Nhậm|Hai Bà Trưng
+Lê Đại Hành|Hai Bà Trưng
+Đống Mác|Hai Bà Trưng
+Thanh Nhàn|Hai Bà Trưng
+Đồng Tâm|Hai Bà Trưng
+Vĩnh Tuy|Hai Bà Trưng
+Quỳnh Lôi|Hai Bà Trưng
+Minh Khai|Hai Bà Trưng
+Quỳnh Mai|Hai Bà Trưng
+Mai Động|Hai Bà Trưng
+Bách Khoa|Hai Bà Trưng
+Đại Cồ Việt|Hai Bà Trưng
+Giải Phóng|Hai Bà Trưng
+Bạch Mai|Hai Bà Trưng
+Trần Khát Chân|Hai Bà Trưng
+Phố Huế|Hai Bà Trưng
+Lò Đúc|Hai Bà Trưng
+Kim Ngưu|Hai Bà Trưng
+Nguyễn Khoái|Hai Bà Trưng
+Times City|Hai Bà Trưng
+Chợ Mơ|Hai Bà Trưng
+Cầu Vĩnh Tuy|Hai Bà Trưng
+Khu Kim Ngưu|Hai Bà Trưng
+Khu Thanh Nhàn|Hai Bà Trưng
+
+Mỹ Đình|Mỹ Đình
+
+Nam Từ Liêm
+Mễ Trì|Nam Từ Liêm
+Phú Đô|Nam Từ Liêm
+Đại Mỗ|Nam Từ Liêm
+Trung Văn|Nam Từ Liêm
+Tây Mỗ|Nam Từ Liêm
+Xuân Phương|Nam Từ Liêm
+Cầu Diễn|Nam Từ Liêm
+Phạm Hùng|Nam Từ Liêm
+Đại Lộ Thăng Long|Nam Từ Liêm
+Lê Đức Thọ|Nam Từ Liêm
+Hàm Nghi|Nam Từ Liêm
+Nguyễn Cơ Thạch|Nam Từ Liêm
+Châu Văn Liêm|Nam Từ Liêm
+Trần Hữu Dực|Nam Từ Liêm
+Dương Đình Nghệ|Nam Từ Liêm
+Hồ Tùng Mậu|Nam Từ Liêm
+
+Hoàng Mai
+Định Công|Hoàng Mai
+Đại Kim|Hoàng Mai
+Giáp Bát|Hoàng Mai
+Hoàng Liệt|Hoàng Mai
+Lĩnh Nam|Hoàng Mai
+Tân Mai|Hoàng Mai
+Thanh Trì|Hoàng Mai
+Thịnh Liệt|Hoàng Mai
+Trần Phú|Hoàng Mai
+Tương Mai|Hoàng Mai
+Vĩnh Hưng|Hoàng Mai
+Yên Sở|Hoàng Mai
+Tam Trinh|Hoàng Mai
+Nguyễn Tam Trinh|Hoàng Mai
+Minh Khai|Hoàng Mai
+Kim Đồng|Hoàng Mai
+Trương Định|Hoàng Mai
+Linh Đàm|Hoàng Mai
+Times City|Hoàng Mai
+Gamuda|Hoàng Mai
+Bến Xe Giáp Bát|Hoàng Mai
+Công Viên Yên Sở|Hoàng Mai
+Hồ Định Công|Hoàng Mai
+Hồ Linh Đàm|Hoàng Mai
+
+Hoàn Kiếm
+Chương Dương|Hoàn Kiếm
+Cửa Đông|Hoàn Kiếm
+Cửa Nam|Hoàn Kiếm
+Đồng Xuân|Hoàn Kiếm
+Hàng Bạc|Hoàn Kiếm
+Hàng Bài|Hoàn Kiếm
+Hàng Bồ|Hoàn Kiếm
+Hàng Buồm|Hoàn Kiếm
+Hàng Đào|Hoàn Kiếm
+Hàng Gai|Hoàn Kiếm
+Hàng Mã|Hoàn Kiếm
+Hàng Trống|Hoàn Kiếm
+Lý Thái Tổ|Hoàn Kiếm
+Phan Chu Trinh|Hoàn Kiếm
+Tràng Tiền|Hoàn Kiếm
+Tràng Thi|Hoàn Kiếm
+Hàng Khay|Hoàn Kiếm
+Đinh Tiên Hoàng|Hoàn Kiếm
+Phố Cổ|Hoàn Kiếm
+Hồ Gươm|Hoàn Kiếm
+Bờ Hồ|Hoàn Kiếm
+Quảng Trường Đông Kinh Nghĩa Thục|Hoàn Kiếm
+Nhà Hát Lớn|Hoàn Kiếm
+Phố Đi Bộ Hồ Gươm|Hoàn Kiếm
+Chợ Đồng Xuân|Hoàn Kiếm
+Ô Quan Chưởng|Hoàn Kiếm
+Cầu Thê Húc|Hoàn Kiếm
+
+Cầu Giấy
+Dịch Vọng|Cầu Giấy
+Dịch Vọng Hậu|Cầu Giấy
+Mai Dịch|Cầu Giấy
+Nghĩa Đô|Cầu Giấy
+Nghĩa Tân|Cầu Giấy
+Quan Hoa|Cầu Giấy
+Trung Hòa|Cầu Giấy
+Yên Hòa|Cầu Giấy
+Cầu Giấy|Cầu Giấy
+Xuân Thủy|Cầu Giấy
+Hồ Tùng Mậu|Cầu Giấy
+Phạm Văn Đồng|Cầu Giấy
+Trần Duy Hưng|Cầu Giấy
+Hoàng Quốc Việt|Cầu Giấy
+Trung Kính|Cầu Giấy
+Dương Đình Nghệ|Cầu Giấy
+Phạm Hùng|Cầu Giấy
+
+Thanh Xuân
+Hạ Đình|Thanh Xuân
+Khương Đình|Thanh Xuân
+Khương Mai|Thanh Xuân
+Khương Trung|Thanh Xuân
+Kim Giang|Thanh Xuân
+Nhân Chính|Thanh Xuân
+Phương Liệt|Thanh Xuân
+Thanh Xuân Bắc|Thanh Xuân
+Thanh Xuân Nam|Thanh Xuân
+Thanh Xuân Trung|Thanh Xuân
+Thượng Đình|Thanh Xuân
+Khuất Duy Tiến|Thanh Xuân
+Lê Văn Lương|Thanh Xuân
+Trường Chinh|Thanh Xuân
+Giải Phóng|Thanh Xuân
+Vành Đai 3|Thanh Xuân
+Hoàng Văn Thái|Thanh Xuân
+Ngã Tư Sở|Thanh Xuân
+Royal City|Thanh Xuân
+Khu Tập Thể Thanh Xuân Bắc|Thanh Xuân
+Khu Tập Thể Kim Liên|Thanh Xuân
+Khu Tập Thể Khương Trung|Thanh Xuân
+Khu Đô Thị Trung Hòa Nhân Chính|Thanh Xuân
+
+Đống Đa
+Cát Linh|Đống Đa
+Văn Miếu|Đống Đa
+Quốc Tử Giám|Đống Đa
+Láng Thượng|Đống Đa
+Ô Chợ Dừa|Đống Đa
+Văn Chương|Đống Đa
+Hàng Bột|Đống Đa
+Láng Hạ|Đống Đa
+Khâm Thiên|Đống Đa
+Thổ Quan|Đống Đa
+Trung Phụng|Đống Đa
+Trung Liệt|Đống Đa
+Phương Liên|Đống Đa
+Phương Mai|Đống Đa
+Kim Liên|Đống Đa
+Nam Đồng|Đống Đa
+Tôn Đức Thắng|Đống Đa
+Tây Sơn|Đống Đa
+Nguyễn Lương Bằng|Đống Đa
+Xã Đàn|Đống Đa
+Láng|Đống Đa
+Thái Hà|Đống Đa
+Hoàng Cầu|Đống Đa
+Đê La Thành|Đống Đa
+Chùa Láng|Đống Đa
+Hồ Hoàng Cầu|Đống Đa
+
+Hoài Đức
+Trạm Trôi|Hoài Đức
+An Khánh|Hoài Đức
+An Thượng|Hoài Đức
+Cát Quế|Hoài Đức
+Dương Liễu|Hoài Đức
+Đắc Sở|Hoài Đức
+Đông La|Hoài Đức
+Đức Giang|Hoài Đức
+Đức Thượng|Hoài Đức
+Kim Chung|Hoài Đức
+La Phù|Hoài Đức
+Lại Yên|Hoài Đức
+Minh Khai|Hoài Đức
+Sơn Đồng|Hoài Đức
+Song Phương|Hoài Đức
+Tiền Yên|Hoài Đức
+Vân Canh|Hoài Đức
+Yên Sở|Hoài Đức
+Lai Xá|Hoài Đức
+Khu Đô Thị An Khánh|Hoài Đức
+Khu Đô Thị Splendora|Hoài Đức
+Khu Đô Thị Vân Canh|Hoài Đức
+Khu Đô Thị Kim Chung Di Trạch|Hoài Đức
+Khu Công Nghiệp Lai Xá|Hoài Đức

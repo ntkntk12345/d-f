@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Bat Dong San"
+version = "1.0.0"
+id = "artifacts/batdongsan"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+localPort = 20475
+name = "web"
+paths = ["/"]
+
+[services.development]
+run = "pnpm --filter @workspace/batdongsan run dev"
+
+[services.env]
+PORT = "20475"
+BASE_PATH = "/"
+
+[services.production]
+build = ["pnpm", "--filter", "@workspace/batdongsan", "run", "build"]
+publicDir = "artifacts/batdongsan/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"

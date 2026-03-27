@@ -1,0 +1,24 @@
+
+> @workspace/batdongsan@0.0.0 dev:client
+> npm run generate:property-data && vite --config vite.config.ts --host 0.0.0.0
+
+
+> @workspace/batdongsan@0.0.0 generate:property-data
+> node --experimental-strip-types ./scripts/build-property-data.ts
+
+{
+  "properties": 3785,
+  "districts": 15,
+  "outputDir": "public\\data\\properties",
+  "inputDirs": {
+    "full": "..\\bot\\districts_full",
+    "summary": "..\\bot\\districts_ok"
+  }
+}
+[2m9:20:55 PM[22m [36m[1m[vite][22m[39m [property-data] watching ..\bot\districts_full, ..\bot\districts_ok
+Port 4175 is in use, trying another one...
+
+  [32m[1mVITE[22m v7.3.1[39m  [2mready in [0m[1m1099[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m4176[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.1.36:[1m4176[22m/[39m

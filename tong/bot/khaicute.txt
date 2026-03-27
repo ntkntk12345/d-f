@@ -1,0 +1,4 @@
+# Config nhóm đầu vào cho bot g.py
+# Format: ID nhóm (mỗi dòng 1 ID)
+# Ví dụ: 6979554135549564991
+

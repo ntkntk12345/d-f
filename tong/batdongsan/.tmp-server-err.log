@@ -1,0 +1,16 @@
+[api.error] POST /api/healthz PayloadTooLargeError: request entity too large
+    at readStream (C:\Users\trong\Downloads\tong\batdongsan\node_modules\raw-body\index.js:163:17)
+    at getRawBody (C:\Users\trong\Downloads\tong\batdongsan\node_modules\raw-body\index.js:116:12)
+    at read (C:\Users\trong\Downloads\tong\batdongsan\node_modules\body-parser\lib\read.js:113:3)
+    at jsonParser (C:\Users\trong\Downloads\tong\batdongsan\node_modules\body-parser\lib\types\json.js:88:5)
+    at Layer.handleRequest (C:\Users\trong\Downloads\tong\batdongsan\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\trong\Downloads\tong\batdongsan\node_modules\router\index.js:342:13)
+    at C:\Users\trong\Downloads\tong\batdongsan\node_modules\router\index.js:297:9
+    at processParams (C:\Users\trong\Downloads\tong\batdongsan\node_modules\router\index.js:582:12)
+    at next (C:\Users\trong\Downloads\tong\batdongsan\node_modules\router\index.js:291:5)
+    at cors (C:\Users\trong\Downloads\tong\batdongsan\node_modules\cors\lib\index.js:188:7) {
+  expected: 9000011,
+  length: 9000011,
+  limit: 8388608,
+  type: 'entity.too.large'
+}

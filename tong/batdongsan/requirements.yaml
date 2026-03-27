@@ -1,0 +1,17 @@
+packages:
+  "framer-motion": "For page transitions, smooth enter animations, and micro-interactions"
+  "embla-carousel-react": "For beautiful touch-friendly image galleries on the property detail page"
+  "date-fns": "For formatting posted dates"
+
+images:
+  - path: "artifacts/batdongsan/public/images/hero-bg.png"
+    description: "Modern luxury apartment living room with expansive city skyline view at dusk, warm interior lighting, premium and sophisticated architectural photography"
+    aspect_ratio: "16:9"
+  - path: "artifacts/batdongsan/public/images/logo.png"
+    description: "Minimalist geometric real estate logo featuring an abstract roofline and high-rise building, in solid primary red color on transparent background"
+    aspect_ratio: "3:4"
+
+notes:
+  - React Query hooks are imported from @workspace/api-client-react.
+  - Using wouter for routing.
+  - Colors are configured with a primary red accent typical of Vietnamese real estate portals.

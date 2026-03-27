@@ -1,0 +1,7 @@
+
+> @workspace/batdongsan@0.0.0 dev:server
+> tsx watch --clear-screen=false api-server/src/index.ts
+
+Server listening on port 3001
+[Cron] Tất cả người dùng đã trong Nhóm chung
+^C

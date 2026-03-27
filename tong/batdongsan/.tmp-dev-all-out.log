@@ -1,0 +1,37 @@
+
+> @workspace/batdongsan@0.0.0 dev:all
+> npm run generate:property-data && node ./scripts/dev-all.mjs
+
+
+> @workspace/batdongsan@0.0.0 generate:property-data
+> node --experimental-strip-types ./scripts/build-property-data.ts
+
+{
+  "properties": 5495,
+  "districts": 15,
+  "outputDir": "public\\data\\properties"
+}
+[36m[client][0m 
+> @workspace/batdongsan@0.0.0 dev:client
+> npm run generate:property-data && vite --config vite.config.ts --host 0.0.0.0
+
+[33m[server][0m 
+> @workspace/batdongsan@0.0.0 dev:server
+> tsx watch --clear-screen=false api-server/src/index.ts
+
+[36m[client][0m 
+> @workspace/batdongsan@0.0.0 generate:property-data
+> node --experimental-strip-types ./scripts/build-property-data.ts
+
+[33m[server][0m Server listening on port 3001
+[33m[server][0m [Cron] Tất cả người dùng đã trong Nhóm chung
+[36m[client][0m {
+  "properties": 5495,
+  "districts": 15,
+  "outputDir": "public\\data\\properties"
+}
+[36m[client][0m 
+  [32m[1mVITE[22m v7.3.1[39m  [2mready in [0m[1m419[22m[2m[0m ms[22m
+
+[36m[client][0m   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m80[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.0.100:[1m80[22m/[39m

@@ -1,0 +1,6570 @@
+[
+  {
+    "id": "1773063008262",
+    "address": "43/10/3/2D Trung Kính, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773063921395",
+    "address": "Ngõ 58 Trần Bình, Cầu Giấy",
+    "price": "4tr9,5tr3,5tr4",
+    "price1": "4.900.000",
+    "price2": "5.400.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773124863413",
+    "address": "Số 9B ngách 50 ngõ 255 Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773124923462",
+    "address": "Ngõ 255 Cầu Giấy, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773125047159",
+    "address": "21 Trung Kính, Cầu Giấy",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773125458162",
+    "address": "Số 6 Ngách 37 Ngõ 155 Cầu Giấy",
+    "price": "4tr3 - 4tr7",
+    "price1": "4.300.000",
+    "price2": "4.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773126052737",
+    "address": "Ngõ 25 Doãn Kế Thiện, Cầu Giấy",
+    "price": "5tr2 - 5tr3",
+    "price1": "5.200.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773126146138",
+    "address": "Ngõ 110 Trần Duy Hưng, Cầu Giấy",
+    "price": "8tr2",
+    "price1": "8.200.000",
+    "price2": "8.200.000",
+    "type": null
+  },
+  {
+    "id": "1773126218895",
+    "address": "43 phố Trung Kính, Cầu Giấy",
+    "price": "8tr2",
+    "price1": "8.200.000",
+    "price2": "8.200.000",
+    "type": null
+  },
+  {
+    "id": "1773126319081",
+    "address": "43 phố Trung Kính, Cầu Giấy",
+    "price": "8tr6",
+    "price1": "8.600.000",
+    "price2": "8.600.000",
+    "type": null
+  },
+  {
+    "id": "1773126772579",
+    "address": "46B Hoàng Ngân, Trung Hoà, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773127694912",
+    "address": "Số 33 ngách 53/18 ngõ 68 Cầu Giấy, Cầu Giấy",
+    "price": "4tr6 - 4tr8",
+    "price1": "4.600.000",
+    "price2": "4.800.000",
+    "type": "studio, giường tầng"
+  },
+  {
+    "id": "1773128049653",
+    "address": "Ngõ 45 Võ Chí Công, Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773128179971",
+    "address": "Số 33 ngách 53/18 ngõ 68 Cầu Giấy, Cầu Giấy",
+    "price": "5tr2 - 5tr3",
+    "price1": "5.200.000",
+    "price2": "5.300.000",
+    "type": "studio, giường tầng"
+  },
+  {
+    "id": "1773128714055",
+    "address": "66 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773128810737",
+    "address": "Ngõ 45/17 Trần Thái Tông, Cầu Giấy",
+    "price": "3tr2",
+    "price1": "3.200.000",
+    "price2": "3.200.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773129308780",
+    "address": "Ngõ 219 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773129444931",
+    "address": "Ngõ 79 Cầu Giấy, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773129946624",
+    "address": "195 Trần Cung, Cầu Giấy",
+    "price": "2tr8 - 3tr",
+    "price1": "2.800.000",
+    "price2": "3.000.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773130013245",
+    "address": "Ngõ 219 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773130420322",
+    "address": "Số 14 ngõ 219 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773130464251",
+    "address": "Ngõ 385 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773130512364",
+    "address": "Số 60 ngõ 79 Cầu Giấy, Cầu Giấy",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773130608638",
+    "address": "37 Dịch Vọng, Cầu Giấy",
+    "price": "8tr",
+    "price1": "8.000.000",
+    "price2": "8.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773130897361",
+    "address": "Ngõ 22 Nghĩa Đô, Cầu Giấy",
+    "price": "3tr350k",
+    "price1": "3.350.000",
+    "price2": "3.350.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773131277763",
+    "address": "Ngách 29, Ngõ 234 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "4tr250k",
+    "price1": "4.250.000",
+    "price2": "4.250.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773131329612",
+    "address": "Ngõ 21 Nguyễn Văn Huyên, Cầu Giấy",
+    "price": "3tr450k",
+    "price1": "3.450.000",
+    "price2": "3.450.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773131710886",
+    "address": "Ngõ 342/29/12 nhà số 10 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773132260116",
+    "address": "Ngõ 342/29/12 nhà số 10 Hồ Tùng Mậu - Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773132684372",
+    "address": "Ngõ 7 Tú Mỡ - Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": null
+  },
+  {
+    "id": "1773132907383",
+    "address": "Số 9B ngách 50 ngõ 255 Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773132989593",
+    "address": "Ngõ 259 Yên Hòa - Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1773133093478",
+    "address": "Ngõ 36 Trung Hòa - Cầu Giấy",
+    "price": "4tr7",
+    "price1": "4.700.000",
+    "price2": "4.700.000",
+    "type": null
+  },
+  {
+    "id": "1773133163154",
+    "address": "Nhà số 6, Ngách 24, Ngõ 37 Dịch Vọng, P. Cầu Giấy, Hà Nội",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773133789716",
+    "address": "315 Nguyễn Khang - Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773133993367",
+    "address": "Số 5 hẻm 9 ngách 66 Ngõ 43 Trung Kính - Cầu Giấy",
+    "price": "3tr7",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773134105238",
+    "address": "Ngõ 58 Nguyễn Khánh Toàn - Cầu Giấy",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773134503753",
+    "address": "Ngõ 38 Khúc Thừa Dụ - Cầu Giấy",
+    "price": "3tr7",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773135670274",
+    "address": "179/189 Nguyễn Ngọc Vũ - Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773135867154",
+    "address": "Số 17 ngõ 192 Yên Hòa - Cầu Giấy",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": null
+  },
+  {
+    "id": "1773137443355",
+    "address": "Ngõ 136 Hồ Tùng Mậu - Cầu Giấy",
+    "price": "6tr2",
+    "price1": "6.200.000",
+    "price2": "6.200.000",
+    "type": null
+  },
+  {
+    "id": "1773137612984",
+    "address": "179/189 Nguyễn Ngọc Vũ - Trung Hòa - Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773138378710",
+    "address": "Số 7 ngách 68/71 Cầu Giấy",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773138508799",
+    "address": "Số 23 Ngõ Viện Máy - Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio, giường tầng"
+  },
+  {
+    "id": "1773138667962",
+    "address": "Số 12 Ngõ 255/42 Cầu Giấy – P. Dịch Vọng – Q. Cầu Giấy – Hà Nội",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773139084112",
+    "address": "Số 20 Ngõ 81 Trung Kính - Cầu Giấy",
+    "price": "7tr8",
+    "price1": "7.800.000",
+    "price2": "7.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773140102756",
+    "address": "Ngách 16 Ngõ 79 Cầu Giấy",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773140155412",
+    "address": "Ngách 16 Ngõ 79 Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773140636128",
+    "address": "Số 12 Ngõ 255/42 Cầu Giấy – P. Dịch Vọng – Q. Cầu Giấy – Hà Nội",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773140708670",
+    "address": "Ngõ 113 Yên Hòa - Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773141150014",
+    "address": "Ngõ 113 Yên Hòa - Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773141506893",
+    "address": "ngõ 113 Yên Hoà, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773141625170",
+    "address": "ngõ 255 ngách 42 Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": null
+  },
+  {
+    "id": "1773142109107",
+    "address": "ngõ 113 Yên Hoà, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773142230694",
+    "address": "Số 27 ngách 30 ngõ 73 Hoàng Ngân, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": null
+  },
+  {
+    "id": "1773142289505",
+    "address": "Nhà số 6, Ngách 24 Ngõ 37 Dịch Vọng, Cầu Giấy",
+    "price": "4tr1",
+    "price1": "4100000",
+    "price2": "4100000",
+    "type": null
+  },
+  {
+    "id": "1773142464532",
+    "address": "Ngõ 68 Nguyễn Khả Trạc, Cầu Giấy",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773142549700",
+    "address": "Số 24 Ngõ 14 Đông Quan, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "studio, giường tầng, vskk"
+  },
+  {
+    "id": "1773142552259",
+    "address": "SỐ 48b ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "3tr3 - 3tr8",
+    "price1": "3300000",
+    "price2": "3800000",
+    "type": null
+  },
+  {
+    "id": "1773142616466",
+    "address": "SỐ 48b ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "3tr3 - 4tr2",
+    "price1": "3300000",
+    "price2": "4200000",
+    "type": null
+  },
+  {
+    "id": "1773143566169",
+    "address": "Ngõ 5 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "5tr1 - 5tr4",
+    "price1": "5100000",
+    "price2": "5400000",
+    "type": null
+  },
+  {
+    "id": "1773144319747",
+    "address": "số nhà 59 ngõ 59 Phạm Văn Đồng, Cầu Giấy",
+    "price": "4tr4 - 5tr",
+    "price1": "4400000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773144777119",
+    "address": "Số 16, ngách 130, ngõ 44 Trần Thái Tông, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773145101158",
+    "address": "Số 16, ngách 130, ngõ 44 Trần Thái Tông, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773145517079",
+    "address": "ngõ 26 Hồ Tùng Mậu, Mai Dịch, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773145799789",
+    "address": "Số 10 ngõ 43/113 Trung Kính, Cầu Giấy",
+    "price": "4tr5 – 4tr7",
+    "price1": "4500000",
+    "price2": "4700000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773146537918",
+    "address": "ngõ 14/20 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773146582450",
+    "address": "36 ngách 16 ngõ 79 Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773146618939",
+    "address": "36 ngách 16 ngõ 79 Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773146857883",
+    "address": "số 21 Trung Kính, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": null
+  },
+  {
+    "id": "1773147331032",
+    "address": "số 167 Trần Cung, Cầu Giấy",
+    "price": "3tr9",
+    "price1": "3900000",
+    "price2": "3900000",
+    "type": null
+  },
+  {
+    "id": "1773147383845",
+    "address": "Ngõ 195 Trần Cung, Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": null
+  },
+  {
+    "id": "1773147420596",
+    "address": "ngõ 546/32 Trần Cung, Cầu Giấy",
+    "price": "4tr7",
+    "price1": "4700000",
+    "price2": "4700000",
+    "type": null
+  },
+  {
+    "id": "1773147535054",
+    "address": "1 Ngách 22 Ngõ 488 Trần Cung, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773147614332",
+    "address": "Số 1 ngõ 521/47 Phạm Văn Đồng, Cầu Giấy",
+    "price": "5tr1",
+    "price1": "5100000",
+    "price2": "5100000",
+    "type": "studio"
+  },
+  {
+    "id": "1773147923592",
+    "address": "ngách 105/56 Doãn Kế Thiện, Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": null
+  },
+  {
+    "id": "1773147983729",
+    "address": "Số 50 ngõ 59 Phạm Văn Đồng, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": null
+  },
+  {
+    "id": "1773148210729",
+    "address": "Số 4 ngách 5 ngõ 58 Trần Bình, Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773148955959",
+    "address": "ngách 58/23 Trần Bình, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773149027607",
+    "address": "Số 9 ngách 23 ngõ 304 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "3tr8 - 4tr",
+    "price1": "3800000",
+    "price2": "4000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773149089488",
+    "address": "ngách 15 ngõ 20 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773149133793",
+    "address": "ngõ 382 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773149359997",
+    "address": "Số 7 ngõ 406 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773149465972",
+    "address": "Số 7 ngõ 406 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "3tr9",
+    "price1": "3900000",
+    "price2": "3900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773149532542",
+    "address": "ngõ 45/17 Trần Thái Tông, Cầu Giấy",
+    "price": "3tr4",
+    "price1": "3400000",
+    "price2": "3400000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773149594915",
+    "address": "hẻm 8/11, ngõ 196 Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": null
+  },
+  {
+    "id": "1773149936987",
+    "address": "ngõ 79 Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773150012850",
+    "address": "Ngõ 44 Trần Thái Tông, Cầu Giấy",
+    "price": "3tr5 - 4tr",
+    "price1": "3500000",
+    "price2": "4000000",
+    "type": null
+  },
+  {
+    "id": "1773150015631",
+    "address": "Số 15 ngõ 42 Yên Hoà, Cầu Giấy",
+    "price": "5tr7 - 5tr9",
+    "price1": "5700000",
+    "price2": "5900000",
+    "type": null
+  },
+  {
+    "id": "1773150101689",
+    "address": "Số 15 ngõ 42 Yên Hoà, Cầu Giấy",
+    "price": "5tr6- 5tr7",
+    "price1": "5600000",
+    "price2": "5700000",
+    "type": null
+  },
+  {
+    "id": "1773150691805",
+    "address": "Ngõ 20 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": null
+  },
+  {
+    "id": "1773151182222",
+    "address": "259 Yên Hoà, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773151485088",
+    "address": "Số 73 Ngõ 165 Dương Quảng Hàm, Cầu Giấy",
+    "price": "6tr8",
+    "price1": "6800000",
+    "price2": "6800000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773151734810",
+    "address": "Số 18 Ngõ 63/26/19 Trần Quốc Vượng, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773152612397",
+    "address": "Ngõ 5 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773152988744",
+    "address": "21 Trung Kính, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773153143102",
+    "address": "Nhà số 57 ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773154024770",
+    "address": "Nhà số 146 Trần Duy Hưng, Trung Hoà, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773154068587",
+    "address": "Số 6 ngõ 148 Trần Duy Hưng, Cầu Giấy",
+    "price": "4tr7",
+    "price1": "4700000",
+    "price2": "4700000",
+    "type": "studio"
+  },
+  {
+    "id": "1773154102791",
+    "address": "63 Trần Quốc Vượng, Cầu Giấy",
+    "price": "2tr",
+    "price1": "2000000",
+    "price2": "2000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773154472735",
+    "address": "Số 4 ngõ 148 Trần Duy Hưng, Cầu Giấy",
+    "price": "4tr7",
+    "price1": "4700000",
+    "price2": "4700000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773155156320",
+    "address": "Số 47, ngách 12 ngõ 58 Nguyễn Khánh Toàn, Quan Hoa, Cầu Giấy",
+    "price": "6tr3",
+    "price1": "6300000",
+    "price2": "6300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773156150759",
+    "address": "Số 30 ngõ 81 phố Trung Kính, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773157589932",
+    "address": "9A/12B/89 Phạm Văn Đồng, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773158582247",
+    "address": "255 Cầu Giấy",
+    "price": "4tr9",
+    "price1": "4900000",
+    "price2": "4900000",
+    "type": null
+  },
+  {
+    "id": "1773164851304",
+    "address": "Ngách 24, Ngõ 37 Dịch Vọng, P. Cầu Giấy",
+    "price": "4tr1",
+    "price1": "4100000",
+    "price2": "4100000",
+    "type": null
+  },
+  {
+    "id": "1773165516242",
+    "address": "ngõ 158 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "7tr-7tr3",
+    "price1": "7.000.000",
+    "price2": "7.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773165538605",
+    "address": "ngõ 25 Thọ Tháp, Dịch Vọng, Cầu Giấy",
+    "price": "9tr-9tr5-10tr",
+    "price1": "9.000.000",
+    "price2": "10.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773166750101",
+    "address": "179/189 Nguyễn Ngọc Vũ (ngõ 90 Hoàng Ngân), Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": null
+  },
+  {
+    "id": "1773167074853",
+    "address": "Ngõ 37 Nguyễn Thị Định, Cầu Giấy",
+    "price": "8tr8",
+    "price1": "8.800.000",
+    "price2": "8.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773167419903",
+    "address": "43 Doãn Kế Thiện, Cầu Giấy",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": null
+  },
+  {
+    "id": "1773167861185",
+    "address": "Ngõ 445 Nguyễn Khang, Cầu Giấy",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": null
+  },
+  {
+    "id": "1773170915533",
+    "address": "Nhà số 6, Ngách 24, Ngõ 37 Dịch Vọng, Cầu Giấy",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": null
+  },
+  {
+    "id": "1773187328800",
+    "address": "63 Xuân Thủy, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773190946064",
+    "address": "Ngõ 36 Dịch Vọng Hậu, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773191001346",
+    "address": "58 Trần Bình, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1773191071631",
+    "address": "58 Trần Bình, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": null
+  },
+  {
+    "id": "1773191382340",
+    "address": "58/39 Trần Bình, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773191467054",
+    "address": "58/39 Trần Bình, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773192890033",
+    "address": "21 Trung Kính, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": null
+  },
+  {
+    "id": "1773193414751",
+    "address": "3B ngõ 196/8/8 Cầu Giấy, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "đơn, vskk"
+  },
+  {
+    "id": "1773193453852",
+    "address": "3B ngõ 196/8/8 Cầu Giấy, Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "đơn, vskk"
+  },
+  {
+    "id": "1773241334412",
+    "address": "39 Trung Kính, Yên Hòa, Cầu Giấy",
+    "price": "12tr8",
+    "price1": "12.800.000",
+    "price2": "12.800.000",
+    "type": null
+  },
+  {
+    "id": "1773241367757",
+    "address": "Ngõ 204/5 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773241408261",
+    "address": "Số 6 ngách 40 ngõ 165 Dương Quảng Hàm, Cầu Giấy",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773241486067",
+    "address": "Số 6 ngách 40 ngõ 165 Dương Quảng Hàm, Cầu Giấy",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773241780857",
+    "address": "Số 6 ngõ 71 Võ Chí Công, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773241887248",
+    "address": "Nhà 35C hẻm 17 ngách 173/63 Hoàng Hoa Thám, Ngọc Hà, Ba Đình",
+    "price": "9tr",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773241988428",
+    "address": "Ngõ 5 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773242029138",
+    "address": "Số 8 ngách 14 ngõ 79 Dương Quảng Hàm, Cầu Giấy",
+    "price": "3tr",
+    "price1": "3.000.000",
+    "price2": "3.000.000",
+    "type": "đơn, kk"
+  },
+  {
+    "id": "1773242136754",
+    "address": "Ngách 43/49 Trung Kính, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773242487792",
+    "address": "Số 6F ngõ 165/49/6 Dương Hàm, Cầu Giấy",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "đơn, kk"
+  },
+  {
+    "id": "1773242538683",
+    "address": "Số 10 ngõ 43/113 Trung Kính, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773242764792",
+    "address": "Số 9 ngách 40 ngõ 79 Dương Quảng Hàm, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773242832408",
+    "address": "Nhà 24C ngách 43/49 Trung Kính, Trung Hòa, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773242879887",
+    "address": "Nhà 8 ngõ 44 Trần Thái Tông, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773242933592",
+    "address": "ngõ 43/49 Trung Kính, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": null
+  },
+  {
+    "id": "1773243068932",
+    "address": "75 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "4tr2 - 5tr5",
+    "price1": "4.200.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1773243111072",
+    "address": "63 Trần Quốc Vượng, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773243155300",
+    "address": "2B ngõ 118/8/1 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "3tr2",
+    "price1": "3.200.000",
+    "price2": "3.200.000",
+    "type": null
+  },
+  {
+    "id": "1773243295539",
+    "address": "Số 10 ngõ 43/113 Trung Kính, Cầu Giấy",
+    "price": "4tr5 - 4tr7",
+    "price1": "4.500.000",
+    "price2": "4.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773243814919",
+    "address": "số 36 ngõ 171 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": null
+  },
+  {
+    "id": "1773244077059",
+    "address": "255/40 Nguyễn Khang, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": null
+  },
+  {
+    "id": "1773244137388",
+    "address": "Số 3B Ngõ 196/8/8 Cầu Giấy",
+    "price": "3tr8,4tr6",
+    "price1": "3.800.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773244249613",
+    "address": "Số 45 ngõ 259 Yên Hòa, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773244353445",
+    "address": "ngõ 210 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773244356314",
+    "address": "Ngõ 20 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": null
+  },
+  {
+    "id": "1773244397765",
+    "address": "ngõ 68 Cầu Giấy, Cầu Giấy",
+    "price": "3tr9 - 4tr",
+    "price1": "3.900.000",
+    "price2": "4.000.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773244452211",
+    "address": "63 Trần Quốc Vượng, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773244491841",
+    "address": "Ngõ 20 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": null
+  },
+  {
+    "id": "1773244540841",
+    "address": "Số 5F Ngõ 43 Ngách 49 Hẻm 1 Trung Kính, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773244602424",
+    "address": "Ngõ 235 Yên Hòa, Cầu Giấy",
+    "price": "2tr8",
+    "price1": "2.800.000",
+    "price2": "2.800.000",
+    "type": null
+  },
+  {
+    "id": "1773244758612",
+    "address": "Số 5F Ngõ 43 Ngách 49 Hẻm 1 Trung Kính, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773245276940",
+    "address": "số 4 ngách 48 ngõ 195 Trần Cung, Cầu Giấy",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773245412962",
+    "address": "37D2 ngõ 20 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "8tr",
+    "price1": "8.000.000",
+    "price2": "8.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773245454516",
+    "address": "37D2 ngõ 20 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773245540392",
+    "address": "số nhà 3A ngách 43/99/15 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr1",
+    "price1": "5.100.000",
+    "price2": "5.100.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773245578009",
+    "address": "Số 47 Ngõ 20 Nguyễn Chánh, Cầu Giấy",
+    "price": "4tr8 - 5tr",
+    "price1": "4.800.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773245627514",
+    "address": "Ngõ 110 Trần Duy Hưng ngách 43/49 số nhà 22a, Cầu Giấy",
+    "price": "3tr7",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773245728564",
+    "address": "127B Dương Quảng Hàm, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773245829789",
+    "address": "Số nhà 47, ngách 5 ngõ 204 Trần Duy Hưng, Cầu Giấy",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773245872467",
+    "address": "2/119/189 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "6tr2",
+    "price1": "6.200.000",
+    "price2": "6.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773245966873",
+    "address": "Số 1A Ngõ 154 Trần Duy Hưng, Cầu Giấy",
+    "price": "3tr7",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": null
+  },
+  {
+    "id": "1773246019944",
+    "address": "Số nhà 12 ngách 6 Ngõ 106 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "5tr - 5tr3",
+    "price1": "5.000.000",
+    "price2": "5.300.000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773247314494",
+    "address": "2 Ngõ 204 Trần Duy Hưng, Cầu Giấy",
+    "price": "19tr5",
+    "price1": "19.500.000",
+    "price2": "19.500.000",
+    "type": "3n1k"
+  },
+  {
+    "id": "1773247401180",
+    "address": "Số 50 ngõ 59 Phạm Văn Đồng, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": null
+  },
+  {
+    "id": "1773247474432",
+    "address": "Ngõ 81 phố Trung Kính, Yên Hoà, Cầu Giấy",
+    "price": "9tr5",
+    "price1": "9500000",
+    "price2": "9500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773247531765",
+    "address": "Ngõ 261 Trần Quốc Hoàn, Cầu Giấy",
+    "price": "4tr2 - 4tr8",
+    "price1": "4200000",
+    "price2": "4800000",
+    "type": null
+  },
+  {
+    "id": "1773247579615",
+    "address": "Ngõ 195 Trần Cung, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": null
+  },
+  {
+    "id": "1773247671225",
+    "address": "Số 20 Ngõ 81 Trung Kính, Cầu Giấy, Hà Nội",
+    "price": "9tr5",
+    "price1": "9500000",
+    "price2": "9500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773248169869",
+    "address": "Số 30 Ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "7tr2",
+    "price1": "7200000",
+    "price2": "7200000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773248211420",
+    "address": "Số 30 Ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773248577228",
+    "address": "Số 29 Ngõ 43/66 Trung Kính, Cầu Giấy",
+    "price": "5tr7 - 6tr2",
+    "price1": "5700000",
+    "price2": "6200000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773248673793",
+    "address": "Số 7A Ngõ 99 Trung Kính, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773248756699",
+    "address": "Nhà số 24 Ngõ 196/8/2 Cầu Giấy",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773248853416",
+    "address": "Số 7 Ngõ 96 Võ Chí Công, Cầu Giấy",
+    "price": "6tr5 - 7tr5",
+    "price1": "6500000",
+    "price2": "7500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773248902270",
+    "address": "39 Trung Kính, P.Yên Hoà, Cầu Giấy",
+    "price": "11tr3-12tr8",
+    "price1": "11300000",
+    "price2": "12800000",
+    "type": null
+  },
+  {
+    "id": "1773249004374",
+    "address": "Số 34 Ngõ 159 Pháo Đài Láng, Cầu Giấy",
+    "price": "6tr3",
+    "price1": "6300000",
+    "price2": "6300000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773249057875",
+    "address": "Số 17A Ngõ 123 Trung Kính, Cầu Giấy",
+    "price": "4tr8 - 5tr5",
+    "price1": "4800000",
+    "price2": "5500000",
+    "type": null
+  },
+  {
+    "id": "1773249197943",
+    "address": "Số 40 Ngõ 85 Xuân Thuỷ, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773249344377",
+    "address": "Số 40 Ngõ 85 Xuân Thuỷ, Cầu Giấy",
+    "price": "7tr",
+    "price1": "7000000",
+    "price2": "7000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773249390681",
+    "address": "Số 10B Ngõ 37/11 Dịch Vọng, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773249467735",
+    "address": "Số 10B Ngõ 37/11 Dịch Vọng, Cầu Giấy",
+    "price": "5tr5 - 5tr8",
+    "price1": "5500000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773249509383",
+    "address": "Số 5 Ngõ 100 Trần Duy Hưng, Cầu Giấy",
+    "price": "6tr8",
+    "price1": "6800000",
+    "price2": "6800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773249573674",
+    "address": "Số 2D Ngõ 92/31 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773249841402",
+    "address": "Số 2D Ngõ 92/31 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773250065205",
+    "address": "Số 66 Ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773250488814",
+    "address": "Nhà số 15D Ngách 27 Ngõ 37 Dịch Vọng, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": null
+  },
+  {
+    "id": "1773250546404",
+    "address": "Số 96 Ngõ 2 Hoàng Quốc Việt, Phường Nghĩa Đô, Cầu Giấy",
+    "price": "3tr2",
+    "price1": "3200000",
+    "price2": "3200000",
+    "type": null
+  },
+  {
+    "id": "1773250588360",
+    "address": "Số 14 Ngõ 32 Phan Văn Trường, Cầu Giấy",
+    "price": "2tr4",
+    "price1": "2400000",
+    "price2": "2400000",
+    "type": null
+  },
+  {
+    "id": "1773250591291",
+    "address": "Số 3 Sân Học Viện Chính Trị, Cầu Giấy",
+    "price": "2tr3",
+    "price1": "2300000",
+    "price2": "2300000",
+    "type": null
+  },
+  {
+    "id": "1773250664614",
+    "address": "23 Ngõ 36 Dịch Vọng Hậu, Cầu Giấy",
+    "price": "2tr5",
+    "price1": "2500000",
+    "price2": "2500000",
+    "type": null
+  },
+  {
+    "id": "1773251010712",
+    "address": "27C Ngõ 29 Dịch Vọng, Cầu Giấy",
+    "price": "2tr8",
+    "price1": "2800000",
+    "price2": "2800000",
+    "type": null
+  },
+  {
+    "id": "1773251624061",
+    "address": "Ngõ 81 Trung Kính, Cầu Giấy",
+    "price": "9tr5",
+    "price1": "9500000",
+    "price2": "9500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773252267895",
+    "address": "Ngõ 155 Cầu Giấy",
+    "price": "4tr3-4tr7",
+    "price1": "4300000",
+    "price2": "4700000",
+    "type": "studio"
+  },
+  {
+    "id": "1773252788328",
+    "address": "2 Ngõ 204 Trần Duy Hưng, Cầu Giấy",
+    "price": "19tr5",
+    "price1": "19500000",
+    "price2": "19500000",
+    "type": "3n1k"
+  },
+  {
+    "id": "1773253581021",
+    "address": "17 ngách 63 ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773253648444",
+    "address": "Số 3 ngõ 249 Yên Hoà, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": null
+  },
+  {
+    "id": "1773253747696",
+    "address": "Số 7 ngõ 139 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "6tr,6tr3",
+    "price1": "6000000",
+    "price2": "6300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773254046066",
+    "address": "39 Trung Kính, P.Yên Hoà, Cầu Giấy",
+    "price": "11tr3 - 12tr8",
+    "price1": "11300000",
+    "price2": "12800000",
+    "type": null
+  },
+  {
+    "id": "1773254133674",
+    "address": "Số 59 Trần Quốc Vượng, Dịch Vọng Hậu, Cầu Giấy",
+    "price": "5tr2,6tr2",
+    "price1": "5200000",
+    "price2": "6200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773254648629",
+    "address": "Số 15D ngách 27 ngõ 37 Dịch Vọng, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773256918724",
+    "address": "Ngách 53, ngõ 68 Cầu Giấy, Quan Hoa, HN",
+    "price": "6tr8",
+    "price1": "6800000",
+    "price2": "6800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773257284034",
+    "address": "Số 16, ngách 130, ngõ 44 Trần Thái Tông, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773257495245",
+    "address": "Số nhà 32 ngõ 235 Yên Hoà, Cầu Giấy",
+    "price": "6tr - 6tr4",
+    "price1": "6000000",
+    "price2": "6400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773258128183",
+    "address": "Ngõ 63 Trần Quốc Vượng, Cầu Giấy",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "2 ngủ, gác xép"
+  },
+  {
+    "id": "1773258269403",
+    "address": "Ngõ 5 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": null
+  },
+  {
+    "id": "1773258457261",
+    "address": "Ngõ 37 Dịch Vọng, Cầu Giấy",
+    "price": "4tr4",
+    "price1": "4400000",
+    "price2": "4400000",
+    "type": null
+  },
+  {
+    "id": "1773258982224",
+    "address": "Ngõ 58 ngách 32 Nguyễn Khánh Toàn, Quan Hoa, Cầu Giấy",
+    "price": "4tr3 - 5tr",
+    "price1": "4300000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773259034276",
+    "address": "Ngõ 79 ngách 24 Dương Quảng Hàm, Quan Hoa, Cầu Giấy",
+    "price": "5tr6",
+    "price1": "5600000",
+    "price2": "5600000",
+    "type": null
+  },
+  {
+    "id": "1773259240361",
+    "address": "342 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "4tr - 4tr3",
+    "price1": "4000000",
+    "price2": "4300000",
+    "type": null
+  },
+  {
+    "id": "1773259470721",
+    "address": "136 Hồ Tùng Mậu",
+    "price": "4tr - 5tr2",
+    "price1": "4000000",
+    "price2": "5200000",
+    "type": null
+  },
+  {
+    "id": "1773259742110",
+    "address": "Số 3B ngõ 196/8/8 Cầu Giấy",
+    "price": "3tr8 - 4tr6",
+    "price1": "3800000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773260190097",
+    "address": "Số 24C, ngách 43/49 Trung Kính, P. Trung Hoà, Q. Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773260637238",
+    "address": "2 Ngõ 204 Trần Duy Hưng, Cầu Giấy",
+    "price": "19tr5",
+    "price1": "19500000",
+    "price2": "19500000",
+    "type": "3n1k"
+  },
+  {
+    "id": "1773261307728",
+    "address": "Ngõ 136 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "5tr - 5tr2",
+    "price1": "5000000",
+    "price2": "5200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773261481176",
+    "address": "Số 36 ngõ 24 Phan Văn Trường, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773261886998",
+    "address": "61 Yên Hoà, Cầu Giấy",
+    "price": "6tr - 7tr2",
+    "price1": "6000000",
+    "price2": "7200000",
+    "type": null
+  },
+  {
+    "id": "1773263378669",
+    "address": "6 Ngõ 6 Đặng Thùy Trâm, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773264639251",
+    "address": "Số 3B ngõ 196/8/8 Cầu Giấy",
+    "price": "3tr8 - 4tr6",
+    "price1": "3800000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773264768645",
+    "address": "sn 20 Ngõ 81 Trung Kính",
+    "price": "7tr8 - 9tr5",
+    "price1": "7800000",
+    "price2": "9500000",
+    "type": null
+  },
+  {
+    "id": "1773265006192",
+    "address": "Ngõ 180 Hoàng Quốc Việt",
+    "price": "7tr8",
+    "price1": "7800000",
+    "price2": "7800000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773265623955",
+    "address": "Trần Quốc Vượng – Cầu Giấy – Hà Nội",
+    "price": "4tr5 – 5tr5",
+    "price1": "4500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773265695970",
+    "address": "ngách 20/15 Hồ Tùng Mậu",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": null
+  },
+  {
+    "id": "1773265993329",
+    "address": "105 Yên Hoà",
+    "price": "6tr3",
+    "price1": "6300000",
+    "price2": "6300000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773266198877",
+    "address": "số 18 ngách 50 ngõ 255 Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773266303958",
+    "address": "1 ngõ 180 Hoàng Quốc Việt",
+    "price": "7tr8",
+    "price1": "7800000",
+    "price2": "7800000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773266463462",
+    "address": "Nhà số 15D ngách 27 ngõ 37 Dịch Vọng",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": null
+  },
+  {
+    "id": "1773266556111",
+    "address": "Ngõ 204 Trần Duy Hưng",
+    "price": "19tr5",
+    "price1": "19500000",
+    "price2": "19500000",
+    "type": "3n1k"
+  },
+  {
+    "id": "1773267276025",
+    "address": "Ngõ 139 Ngách 8 Nguyễn Ngọc Vũ",
+    "price": "7tr1 - 8tr3",
+    "price1": "7100000",
+    "price2": "8300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773267632026",
+    "address": "196 TRẦN DUY HƯNG",
+    "price": "5tr5 - 6tr5",
+    "price1": "5500000",
+    "price2": "6500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773267678847",
+    "address": "Ngõ 14 Đông Quan",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773267765304",
+    "address": "Số 3 ngách 23 ngõ 304 hồ tùng mậu",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773267812146",
+    "address": "Số 3 ngách 23 ngõ 304 hồ tùng mậu",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773268082336",
+    "address": "2 Ngõ 204 Trần Duy Hưng",
+    "price": "19tr5",
+    "price1": "19500000",
+    "price2": "19500000",
+    "type": "3n1k"
+  },
+  {
+    "id": "1773268132716",
+    "address": "2 Ngõ 204 Trần Duy Hưng",
+    "price": "19tr5",
+    "price1": "19500000",
+    "price2": "19500000",
+    "type": "3n1k"
+  },
+  {
+    "id": "1773268233096",
+    "address": "40D Ngõ 180 Trần Duy Hưng",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio, giường tầng"
+  },
+  {
+    "id": "1773268383479",
+    "address": "105 Yên Hòa",
+    "price": "4tr2 - 5tr",
+    "price1": "4200000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773268773222",
+    "address": "số 36 ngõ 24 Phan Văn Trường",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773269363528",
+    "address": "mặt phố Trung Kính",
+    "price": "9tr5 - 11tr5",
+    "price1": "9500000",
+    "price2": "11500000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773270184603",
+    "address": "Ngõ 180 Hoàng Quốc Việt",
+    "price": "7tr8",
+    "price1": "7800000",
+    "price2": "7800000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773270281757",
+    "address": "105 Yên Hòa",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773270404175",
+    "address": "105 Yên Hòa",
+    "price": "4tr7",
+    "price1": "4700000",
+    "price2": "4700000",
+    "type": "studio"
+  },
+  {
+    "id": "1773271650507",
+    "address": "ngõ 43/49/1 Trung kính",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": null
+  },
+  {
+    "id": "1773271956383",
+    "address": "Ngõ 43/99/15 trung kính",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773272088615",
+    "address": "259 Yên Hoà",
+    "price": "5tr8 - 6tr3",
+    "price1": "5800000",
+    "price2": "6300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773272746648",
+    "address": "133 Hoa Bằng, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": null
+  },
+  {
+    "id": "1773272868672",
+    "address": "45 ngõ 259 Yên Hòa, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773273216863",
+    "address": "9c-181 Xuân Thuỷ, Cầu Giấy",
+    "price": "5tr-5tr9",
+    "price1": "5000000",
+    "price2": "5900000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773273363535",
+    "address": "Số 36 ngõ 24 Phan Văn Trường, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773273959537",
+    "address": "Số 20 Ngõ 81 Trung Kính, Cầu Giấy",
+    "price": "7tr8",
+    "price1": "7800000",
+    "price2": "7800000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773274014915",
+    "address": "17 ngõ 75 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "2tr8",
+    "price1": "2800000",
+    "price2": "2800000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773274725855",
+    "address": "Số 3 ngách 36/140 Dịch Vọng Hậu, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773275114585",
+    "address": "Số 12b Ngõ 394 Phạm Văn Đồng",
+    "price": "2tr5",
+    "price1": "2500000",
+    "price2": "2500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773276389508",
+    "address": "Số 2D Ngõ 92/31 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773276582331",
+    "address": "Số 17A Ngõ 123 Trung Kính, Cầu Giấy",
+    "price": "8tr5",
+    "price1": "8500000",
+    "price2": "8500000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773277161739",
+    "address": "63 Xuân Thuỷ, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773277230693",
+    "address": "Ngõ 76 Trần Thái Tông, Cầu Giấy",
+    "price": "7tr5",
+    "price1": "7500000",
+    "price2": "7500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773277279694",
+    "address": "21 Trung Kính, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773280865607",
+    "address": "6 - 180 Trần Duy Hưng, Cầu Giấy",
+    "price": "4tr4",
+    "price1": "4400000",
+    "price2": "4400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773281050593",
+    "address": "14C-80 Trần Duy Hưng, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773282614278",
+    "address": "Ngõ 76 Trần Thái Tông, Cầu Giấy",
+    "price": "7tr5",
+    "price1": "7500000",
+    "price2": "7500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773282670969",
+    "address": "63 Xuân Thuỷ, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773284852985",
+    "address": "Ngõ 37/11 Số nhà 14 Dịch Vọng, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": null
+  },
+  {
+    "id": "1773285159478",
+    "address": "Ngõ 165 nhà 57 Dương Quảng Hàm, Cầu Giấy",
+    "price": "4tr1",
+    "price1": "4100000",
+    "price2": "4100000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773287126332",
+    "address": "90/02 số nhà 36 Hoa Bằng, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773287186970",
+    "address": "Ngõ 235/23 Yên Hoà, Cầu Giấy",
+    "price": "3tr2",
+    "price1": "3200000",
+    "price2": "3200000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773287708184",
+    "address": "36 ngách 16 ngõ 79 Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773288073993",
+    "address": "36 ngách 16 ngõ 79 Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773288272435",
+    "address": "Số 3 ngõ 249 Yên Hoà, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773288474150",
+    "address": "17 ngách 63 ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773288650061",
+    "address": "Số 59 Trần Quốc Vượng, Dịch Vọng Hậu, Cầu Giấy",
+    "price": "5tr2 - 6tr2",
+    "price1": "5200000",
+    "price2": "6200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773290224182",
+    "address": "Số nhà 5 ngõ 253 đường Xuân Phương, Nam Từ Liêm",
+    "price": "3tr750",
+    "price1": "3750000",
+    "price2": "3750000",
+    "type": null
+  },
+  {
+    "id": "1773291086091",
+    "address": "36 ngách 16 ngõ 79 Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773291662329",
+    "address": "145 Ngõ 79 Cầu Giấy",
+    "price": "5tr6",
+    "price1": "5600000",
+    "price2": "5600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773295630842",
+    "address": "Số 9, ngõ 26 phố Chùa Hà, Cầu Giấy",
+    "price": "11tr4",
+    "price1": "11400000",
+    "price2": "11400000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773295938216",
+    "address": "Số 3 ngõ 249 Yên Hoà, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773296002397",
+    "address": "63 ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773296495182",
+    "address": "Số 9, ngõ 26 phố Chùa Hà, Cầu Giấy",
+    "price": "11tr4",
+    "price1": "11400000",
+    "price2": "11400000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773296878147",
+    "address": "Số 1 ngõ 25 Doãn Kế Thiện, Cầu Giấy",
+    "price": "5tr2 - 5tr3",
+    "price1": "5200000",
+    "price2": "5300000",
+    "type": null
+  },
+  {
+    "id": "1773297019350",
+    "address": "Ngõ 171 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773297134758",
+    "address": "Ngõ 139 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773297259711",
+    "address": "Ngõ 189 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773297650796",
+    "address": "Ngõ 43/113 Trung Kính, Cầu Giấy",
+    "price": "4tr5 - 4tr6",
+    "price1": "4500000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773298120694",
+    "address": "Ngõ 105/46 Doãn Kế Thiện, Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": null
+  },
+  {
+    "id": "1773298896697",
+    "address": "Số 3 ngách 36/140 Dịch Vọng Hậu, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773299569276",
+    "address": "Nhà 7/14 Ngõ 406 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "4tr7",
+    "price1": "4700000",
+    "price2": "4700000",
+    "type": "studio"
+  },
+  {
+    "id": "1773300787539",
+    "address": "Ngõ 5 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773301254725",
+    "address": "Tòa số 123 Trung Kính, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773301893968",
+    "address": "Số 3 ngách 16 ngõ 20 Hồ Tùng Mậu, Mai Dịch, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773301985202",
+    "address": "Số nhà 72 ngõ 196 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr5 - 6tr",
+    "price1": "5500000",
+    "price2": "6000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773302403201",
+    "address": "Ngõ 204 Trần Duy Hưng số nhà 6, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773302624674",
+    "address": "Nhà 97D Ngõ 37 Nguyễn Thị Định, Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773302788256",
+    "address": "Tòa số 43/49/1 Trung Kính, Cầu Giấy",
+    "price": "6tr2-p402,601 5tr5-p603",
+    "price1": "5500000",
+    "price2": "6200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773303172007",
+    "address": "Nhà 12 Ngõ 158 Nguyễn Khánh Toàn, Cầu Giấy, Hà Nội",
+    "price": "7tr",
+    "price1": "7000000",
+    "price2": "7000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773303249282",
+    "address": "Nhà số 2 Ngõ 25 Thọ Tháp, Dịch Vọng, Cầu Giấy",
+    "price": "10tr,11tr",
+    "price1": "10000000",
+    "price2": "11000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773303543473",
+    "address": "Nhà số 2 Ngõ 25 Thọ Tháp, Dịch Vọng, Cầu Giấy",
+    "price": "9tr",
+    "price1": "9000000",
+    "price2": "9000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773303659802",
+    "address": "Số 40A Ngõ 61 Hạ Yên Quyết, Yên Hòa, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773304809792",
+    "address": "Số 86 ngõ 5 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773305365706",
+    "address": "Số 5B ngách 225/7/2 Quan Hoa, Cầu Giấy, Hà Nội",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773306674712",
+    "address": "84 Hoàng Ngân, Cầu Giấy",
+    "price": "6tr9",
+    "price1": "6900000",
+    "price2": "6900000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773306754327",
+    "address": "Số 260/28/56 Cầu Giấy",
+    "price": "3tr7",
+    "price1": "3700000",
+    "price2": "3700000",
+    "type": null
+  },
+  {
+    "id": "1773310158551",
+    "address": "Nhà BY1 Khu 15A Đông Quan, Cầu Giấy",
+    "price": "6tr5 - 7tr",
+    "price1": "6500000",
+    "price2": "7000000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773312975338",
+    "address": "Số 16 ngách 130 ngõ 44 Trần Thái Tông, Cầu Giấy, Hà Nội",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773315338563",
+    "address": "Ngõ 79 Cầu Giấy, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773315488341",
+    "address": "132 Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773316186509",
+    "address": "Nhà số 15D ngách 27 ngõ 37 Dịch Vọng, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": null
+  },
+  {
+    "id": "1773317321693",
+    "address": "Ngõ 58 Nguyễn Khánh Toàn - Cầu Giấy",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1773317362233",
+    "address": "Số 86 ngõ 5 Hoàng Quốc Việt - Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773317483696",
+    "address": "Số 22B, Ngõ 79 Ngách 24 Dương Quảng Hàm, Cầu Giấy",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1773317633712",
+    "address": "40D Ngõ 180 Trần Duy Hưng, Trung Hoà, Cầu Giấy",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773317697171",
+    "address": "Số 3 ngõ 255 ngách 42 Cầu Giấy - Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773317862498",
+    "address": "Số 1A ngõ 58 ngách 32 Nguyễn Khánh Toàn, Quan Hoa, Cầu Giấy",
+    "price": "4tr3 - 5tr",
+    "price1": "4.300.000",
+    "price2": "5.000.000",
+    "type": "studio, 1N1K"
+  },
+  {
+    "id": "1773319351497",
+    "address": "Số 35 ngách 40 ngõ 79 Dương Quảng Hàm - Quận: Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773322423838",
+    "address": "ngõ 82 phố Trần Cung - Cầu Giấy",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1773322457757",
+    "address": "Ngõ 58/23 Trần Bình",
+    "price": "2tr8",
+    "price1": "2.800.000",
+    "price2": "2.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773323081393",
+    "address": "ngõ 28 dương khuê mai dịch",
+    "price": "3tr",
+    "price1": "3.000.000",
+    "price2": "3.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773323626977",
+    "address": "Số 9 Ngách 39 Ngõ 381 Nguyễn Khang - Cầu Giấy",
+    "price": "9tr5",
+    "price1": "9.500.000",
+    "price2": "9.500.000",
+    "type": "2N1K"
+  },
+  {
+    "id": "1773323747498",
+    "address": "ngõ 165 Cầu giấy",
+    "price": "3tr",
+    "price1": "3.000.000",
+    "price2": "3.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773324572624",
+    "address": "Ngõ 43 Nguyễn phong sắc",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "1N1B"
+  },
+  {
+    "id": "1773325553799",
+    "address": "29 Dịch Vọng - Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773326217302",
+    "address": "117 Xuân Thuỷ - Cầu Giấy",
+    "price": "13tr",
+    "price1": "13.000.000",
+    "price2": "13.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773326330112",
+    "address": "Số 11 ngõ 43/49/1 Trung Kính - Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773326420224",
+    "address": "Số 43/49/1 Trung Kính - Cầu Giấy",
+    "price": "6tr2",
+    "price1": "6.200.000",
+    "price2": "6.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773326487492",
+    "address": "Ngõ 204 Trần Duy Hưng - Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773326537522",
+    "address": "Số 48b ngõ 110 Trần Duy Hưng - Cầu Giấy",
+    "price": "7tr5,7tr8",
+    "price1": "7.500.000",
+    "price2": "7.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773327871658",
+    "address": "12 ngõ 43/49 Trung Kính - Cầu Giấy",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773328126353",
+    "address": "Ngõ 37 Nguyễn Thị Định - Cầu Giấy",
+    "price": "9tr2,9tr8tr1",
+    "price1": "9.200.000",
+    "price2": "9.800.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773328609741",
+    "address": "Ngõ 268 Phạm Văn Đồng - Cầu Giấy",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": null
+  },
+  {
+    "id": "1773328814804",
+    "address": "Ngõ 26 Doãn Kế Thiện - Cầu Giấy",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773328855728",
+    "address": "Số 9B ngách 50 ngõ 255 Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773328970340",
+    "address": "ngách 66 ngõ 43 Trung Kính - Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": null
+  },
+  {
+    "id": "1773329537563",
+    "address": "nhà 124 Hoàng Ngân - Cầu Giấy",
+    "price": "4tr7",
+    "price1": "4.700.000",
+    "price2": "4.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773329596347",
+    "address": "Số 96, ngõ 2 hoàng quốc việt, phường Nghĩa Đô, Cầu Giấy, Hà Nội",
+    "price": "3tr2",
+    "price1": "3.200.000",
+    "price2": "3.200.000",
+    "type": null
+  },
+  {
+    "id": "1773329783816",
+    "address": "số 14, ngõ 32 phan văn trường, cầu giấy",
+    "price": "2tr4",
+    "price1": "2.400.000",
+    "price2": "2.400.000",
+    "type": null
+  },
+  {
+    "id": "1773330319689",
+    "address": "Số 86 ngõ 5 Hoàng Quốc Việt, Cầu giấy",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773330876970",
+    "address": "177 nguyễn ngọc vũ - Trung Hoà - Cầu Giấy",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": null
+  },
+  {
+    "id": "1773331069333",
+    "address": "ngách 1 ngõ 53 Nguyễn Ngọc Vũ - Cầu Giấy",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773332326484",
+    "address": "Ngõ 225 Quan Hoa",
+    "price": "2tr3",
+    "price1": "2.300.000",
+    "price2": "2.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773337840947",
+    "address": "Ngách 53 ngõ 68 cầu giấy",
+    "price": "7tr8",
+    "price1": "7.800.000",
+    "price2": "7.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773374869577",
+    "address": "Số 4-6 ngõ 148 Trần Duy Hưng, - Quận: Cầu giấy",
+    "price": "4tr7",
+    "price1": "4.700.000",
+    "price2": "4.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773375161734",
+    "address": "Nhà số 146 Trần Duy Hưng- Quận: Cầu giấy",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773376320022",
+    "address": "ngõ 268 Phạm Văn Đồng",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773381754125",
+    "address": "44 Trần Thái Tông, ngách 47 nhà 02. Thông ngõ 34 Dịch Vọng Hậu - Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773382947345",
+    "address": "445 Nguyễn Khang - Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773383305750",
+    "address": "41 Nguyễn Quốc Trị, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773383359234",
+    "address": "Số 40 Ngõ 85 Xuân Thuỷ, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": null
+  },
+  {
+    "id": "1773384080427",
+    "address": "196 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr5-6tr5",
+    "price1": "5500000",
+    "price2": "6500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773384143436",
+    "address": "Ngõ 204 Trần Duy Hưng (20 Nguyễn Chánh), Cầu Giấy",
+    "price": "5tr9 - 6tr4",
+    "price1": "5900000",
+    "price2": "6400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773384262806",
+    "address": "Ngách 35/17 Trần Thái Tông, Cầu Giấy",
+    "price": "4tr1 - 4tr9",
+    "price1": "4100000",
+    "price2": "4900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773384597817",
+    "address": "Số 5 ngách 39/2 Trung Kính, Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "1n1k, vskk"
+  },
+  {
+    "id": "1773384626013",
+    "address": "Số 27B Ngách 25 Ngõ 315 Nguyễn Khang, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773384666956",
+    "address": "Số 5 ngách 39/2 Trung Kính, Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "1n1k, vskk"
+  },
+  {
+    "id": "1773384971870",
+    "address": "Số 66 ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "đơn kk"
+  },
+  {
+    "id": "1773385227767",
+    "address": "Số 16, ngách 130, ngõ 44 Trần Thái Tông, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773385246657",
+    "address": "Ngõ 63 Trần Quốc Vượng, Cầu Giấy",
+    "price": "4tr2 - 4tr8",
+    "price1": "4200000",
+    "price2": "4800000",
+    "type": "đơn kk"
+  },
+  {
+    "id": "1773385594555",
+    "address": "51/1/63 Trần Quốc Vượng, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773385758008",
+    "address": "Số 5 ngách 39/2 Trung Kính, Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "1n1k, vskk"
+  },
+  {
+    "id": "1773385882553",
+    "address": "Số 27B Ngách 25 Ngõ 315 Nguyễn Khang, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773385915746",
+    "address": "Ngõ 72 Hoa Bằng, Yên Hòa, Cầu Giấy",
+    "price": "5tr3",
+    "price1": "5300000",
+    "price2": "5300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773386068535",
+    "address": "Số 41A ngõ 189 Nguyễn Ngọc Vũ, Trung Hoà, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "1n1k, vskk"
+  },
+  {
+    "id": "1773386307327",
+    "address": "Ngõ 165 Dương Quảng Hàm, Cầu Giấy",
+    "price": "4tr1",
+    "price1": "4100000",
+    "price2": "4100000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773386827410",
+    "address": "16 ngõ 445 Nguyễn Khang, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773387169354",
+    "address": "162 ngõ 189 Nguyễn Ngọc Vũ, Trung Hòa, Cầu Giấy",
+    "price": "5tr6",
+    "price1": "5600000",
+    "price2": "5600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773388576539",
+    "address": "Số 22B, Ngõ 79 Ngách 24 Dương Quảng Hàm, Cầu Giấy",
+    "price": "5tr6",
+    "price1": "5600000",
+    "price2": "5600000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773388644961",
+    "address": "Số 3 ngõ 255 ngách 42 Cầu Giấy, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773388728157",
+    "address": "Số 1A ngõ 58 ngách 32 Nguyễn Khánh Toàn, Quan Hoa, Cầu Giấy",
+    "price": "4tr3 - 5tr",
+    "price1": "4300000",
+    "price2": "5000000",
+    "type": "studio, 1n1k"
+  },
+  {
+    "id": "1773389600542",
+    "address": "Số 86 ngõ 5 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773390234285",
+    "address": "Ngõ 63 Trần Quốc Vượng, Cầu Giấy",
+    "price": "4tr2 - 4tr8",
+    "price1": "4200000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773390865768",
+    "address": "Ngõ 43/99 Trung Kính, Trung Hoà, Cầu Giấy",
+    "price": "3tr - 3tr2",
+    "price1": "3000000",
+    "price2": "3200000",
+    "type": null
+  },
+  {
+    "id": "1773390998689",
+    "address": "Số 8 ngõ 98 Võ Chí Công, Cầu Giấy",
+    "price": "4tr5 - 4tr6",
+    "price1": "4500000",
+    "price2": "4600000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773391062025",
+    "address": "Ngách 20 ngõ 105 Doãn Kế Thiện, Cầu Giấy",
+    "price": "3tr - 3tr4",
+    "price1": "3000000",
+    "price2": "3400000",
+    "type": null
+  },
+  {
+    "id": "1773391234668",
+    "address": "Ngõ 171 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773391455355",
+    "address": "Ngách 43/66 Trung Kính, Cầu Giấy",
+    "price": "8tr2 - 8tr6",
+    "price1": "8.200.000",
+    "price2": "8.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773392136854",
+    "address": "ngõ 139 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "3tr5-4tr3",
+    "price1": "3.500.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773392467179",
+    "address": "chung cư D’capital -119 trần duy hưng, cầu giấy",
+    "price": "19tr",
+    "price1": "19.000.000",
+    "price2": "19.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773392519270",
+    "address": "Số ..., ngõ 2 hoàng quốc việt, phường Nghĩa Đô, Cầu Giấy",
+    "price": "3tr2",
+    "price1": "3.200.000",
+    "price2": "3.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773392570599",
+    "address": "ngõ 139 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773393666717",
+    "address": "ngách 16 ngõ 75 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773393736682",
+    "address": "Số 23 ngõ 106/76 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773393777914",
+    "address": "số 18 ngách 50 ngõ 255 Cầu Giấy, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773395611695",
+    "address": "44 Trần Thái Tông, ngách 47 nhà 02, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773397193746",
+    "address": "61 Yên Hoà, Cầu Giấy",
+    "price": "7tr2",
+    "price1": "7.200.000",
+    "price2": "7.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773397341614",
+    "address": "Số 1 ngõ 105 doãn kế thiện, Cầu Giấy",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": null
+  },
+  {
+    "id": "1773397711631",
+    "address": "Ngõ 132 Cầu Giấy, Cầu Giấy",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773398274669",
+    "address": "Số 10 ngõ 43/113 Trung Kính, Cầu Giấy",
+    "price": "4tr5 – 4tr6",
+    "price1": "4.500.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773398795504",
+    "address": "Số 3 ngách 140 ngõ 36 Dịch Vọng Hậu, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773398840067",
+    "address": "Số 96, ngõ 2 hoàng quốc việt, phường Nghĩa Đô, Cầu Giấy",
+    "price": "3tr2",
+    "price1": "3.200.000",
+    "price2": "3.200.000",
+    "type": null
+  },
+  {
+    "id": "1773399309841",
+    "address": "số 12B ngõ 394 phạm văn đồng, Từ Liêm",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773399360482",
+    "address": "Số 3 sân học viện chính trị, Cầu Giấy",
+    "price": "2tr3",
+    "price1": "2.300.000",
+    "price2": "2.300.000",
+    "type": null
+  },
+  {
+    "id": "1773399477973",
+    "address": "Số 4 ngách 37/24 Dịch Vọng, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773399549931",
+    "address": "23 Ngõ 36 dịch vọng hậu, Cầu Giấy",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": null
+  },
+  {
+    "id": "1773399667434",
+    "address": "27C Ngõ 29 dịch vọng, Cầu Giấy",
+    "price": "2tr8",
+    "price1": "2.800.000",
+    "price2": "2.800.000",
+    "type": null
+  },
+  {
+    "id": "1773399798512",
+    "address": "342 Hồ Tùng Mậu",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773401181956",
+    "address": "Nhà số 14, ngõ 7 Tú Mỡ, Trung Hòa, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773402662886",
+    "address": "Số 32 ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773402775176",
+    "address": "MẶT PHỐ HOA BẰNG, CẦU GIẤY",
+    "price": "5tr7-6tr2-6tr5",
+    "price1": "5.700.000",
+    "price2": "6.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773403800590",
+    "address": "Số 5 ngách 35/17 Trần Thái Tông, Cầu Giấy",
+    "price": "4tr3 – 4tr9",
+    "price1": "4.300.000",
+    "price2": "4.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773404099388",
+    "address": "Số 23 ngõ 106/76 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773404442250",
+    "address": "Số 47 hẻm 41 ngách 23 ngõ 58 Trần Bình, Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773404652814",
+    "address": "Số 5 hẻm 8 ngách 53 ngõ 165 Cầu Giấy, Hà Nội",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773404707853",
+    "address": "171 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773404767170",
+    "address": "Ngõ 132 Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": null
+  },
+  {
+    "id": "1773405012490",
+    "address": "Ngõ 43 ngách 66 Trung Kính, Cầu Giấy",
+    "price": "10tr",
+    "price1": "10000000",
+    "price2": "10000000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773405301762",
+    "address": "CHDV 117 Xuân Thuỷ, Cầu Giấy",
+    "price": "8tr",
+    "price1": "8000000",
+    "price2": "8000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773405338469",
+    "address": "CHDV 117 Xuân Thuỷ, Cầu Giấy",
+    "price": "7tr5",
+    "price1": "7500000",
+    "price2": "7500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773405395330",
+    "address": "CHDV 117 Xuân Thuỷ, Cầu Giấy",
+    "price": "10tr",
+    "price1": "10000000",
+    "price2": "10000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773405558177",
+    "address": "18 Ngõ Văn Minh, Mai Dịch, Cầu Giấy, HN",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773405741634",
+    "address": "Số 17 Ngõ Viện Máy, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773406103988",
+    "address": "Ngõ 48 Nguyễn Khánh Toàn số nhà 4, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773406850836",
+    "address": "Số 14B Ngách 12 Ngõ 38 Khúc Thừa Dụ, Cầu Giấy",
+    "price": "5tr4 - 5tr6",
+    "price1": "5400000",
+    "price2": "5600000",
+    "type": "studio, giường tầng"
+  },
+  {
+    "id": "1773407066107",
+    "address": "Ngõ 204 Trần Duy Hưng ngách 5 số nhà 14, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773407387848",
+    "address": "Ngõ 66 Nguyễn Hoàng",
+    "price": "4tr6-4tr8",
+    "price1": "4600000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773407465981",
+    "address": "Số 33 ngõ 43/86 Phố Trung Kính, Cầu Giấy",
+    "price": "5tr3",
+    "price1": "5300000",
+    "price2": "5300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773407854972",
+    "address": "Số 76 ngõ 66 Nguyễn Hoàng, Cầu Giấy, Hà Nội",
+    "price": "4tr6 - 4tr8",
+    "price1": "4600000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773408333807",
+    "address": "Ngõ 445 Nguyễn Khang (hoặc 155 Cầu Giấy)",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": null
+  },
+  {
+    "id": "1773408859413",
+    "address": "Số 12 Ngõ 171 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "10tr",
+    "price1": "10000000",
+    "price2": "10000000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773408899459",
+    "address": "Ngõ 123 Trung Kính, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773409082712",
+    "address": "Số 117 Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773410325881",
+    "address": "Số 8 Ngách 23 Ngõ 63 Trần Quốc Vượng, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773410692451",
+    "address": "Số 30 ngách 5/204 Trần Duy Hưng, Cầu Giấy, Hà Nội",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773411118146",
+    "address": "Ngõ 37/11 nhà số 14 Dịch Vọng, Quận: Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773411415303",
+    "address": "Số 99/43 Trung Kính (Ngõ 5 Tú Mỡ), Cầu Giấy, Hà Nội",
+    "price": "4tr6 - 4tr8",
+    "price1": "4600000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773411816001",
+    "address": "Ngõ 255 đường Cầu Giấy",
+    "price": "2tr3",
+    "price1": "2300000",
+    "price2": "2300000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773412141207",
+    "address": "Ngõ 165 nhà 57 Dương Quảng Hàm, Quận: Cầu Giấy",
+    "price": "4tr1",
+    "price1": "4100000",
+    "price2": "4100000",
+    "type": "studio"
+  },
+  {
+    "id": "1773413730918",
+    "address": "Sn19 Ngõ 61 Yên Hoà, Cầu Giấy",
+    "price": "6tr2 - 7tr5",
+    "price1": "6200000",
+    "price2": "7500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773414502828",
+    "address": "Số 12 Ngõ 171 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "10tr",
+    "price1": "10000000",
+    "price2": "10000000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773414624546",
+    "address": "12 ngõ 171 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "10tr",
+    "price1": "10.000.000",
+    "price2": "10.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773414716447",
+    "address": "Số 117 Cầu Giấy, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773414829008",
+    "address": "Số 8 Ngách 23 Ngõ 63 Trần Quốc Vượng, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773415091207",
+    "address": "Số nhà 83 Trần Quốc Vượng, Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": null
+  },
+  {
+    "id": "1773415836415",
+    "address": "Ngách 43 ngõ 155 Cầu Giấy",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "2n1b, 2 ngủ"
+  },
+  {
+    "id": "1773416343103",
+    "address": "Ngõ 44 Đỗ Quang, Trung Hoà, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773416872780",
+    "address": "36/140 Dịch Vọng Hậu, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773417141734",
+    "address": "Số 9 Ngách 39 Ngõ 381 Nguyễn Khang, Cầu Giấy",
+    "price": "9tr5",
+    "price1": "9.500.000",
+    "price2": "9.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773418445496",
+    "address": "Ngõ 381 Nguyễn Khang, Cầu Giấy",
+    "price": "9tr5",
+    "price1": "9.500.000",
+    "price2": "9.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773419249829",
+    "address": "Số 18 Ngõ 63/26/19 Trần Quốc Vượng, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773420964862",
+    "address": "Số 5A, ngõ 168 Trung Kính, Yên Hoà, Cầu Giấy",
+    "price": "5tr1",
+    "price1": "5.100.000",
+    "price2": "5.100.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773421033391",
+    "address": "Số 47 Ngõ 58 Ngách 12 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773424141187",
+    "address": "23 Ngõ Viện Máy, Cầu Giấy",
+    "price": "6tr2",
+    "price1": "6.200.000",
+    "price2": "6.200.000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773478633537",
+    "address": "4A ngõ 99 Trung Kính, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773479268282",
+    "address": "Ngõ 26 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773479421328",
+    "address": "Số 12D ngõ 68/91 Cầu Giấy, Cầu Giấy",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773480545832",
+    "address": "Ngõ 68/91 Cầu Giấy, Cầu Giấy",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773483048939",
+    "address": "SỐ 1 NGÕ 25 Doãn Kế Thiện, Cầu Giấy",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773483684148",
+    "address": "ngõ 203 nhà 122 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1773483717210",
+    "address": "số 5B Ngõ 20 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773484080063",
+    "address": "29 ngõ 235 Yên Hòa, Cầu Giấy",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773484427525",
+    "address": "45 ngõ 259 Yên Hòa, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": null
+  },
+  {
+    "id": "1773484427525",
+    "address": "45 ngõ 259 Yên Hòa, Cầu Giấy",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": null
+  },
+  {
+    "id": "1773484580373",
+    "address": "Ngõ 143 Quan Hoa",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773484580373",
+    "address": "Ngõ 143 Quan Hoa",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773484909504",
+    "address": "Số 4 ngách 116 ngõ 68 Cầu Giấy, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773485085480",
+    "address": "Số 7 ngách 68/71 Cầu Giấy",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773485604429",
+    "address": "117 Đường Cầu Giấy, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773486260561",
+    "address": "10 ngõ 43/113 Trung Kính, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773486916177",
+    "address": "5F Ngõ 43/49/1 Trung Kính",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773487141172",
+    "address": "Số 18 Ngõ 63/26/19 Trần Quốc Vượng, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773487363674",
+    "address": "12C Ngõ 155/43 Cầu Giấy",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773489184919",
+    "address": "105 Yên Hoà, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773489769113",
+    "address": "105 Yên Hoà, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773489769113",
+    "address": "105 Yên Hoà, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773493626396",
+    "address": "Số 41A Ngõ 189 Nguyễn Ngọc Vũ, Trung Hoà, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773493665356",
+    "address": "Số 26A Ngách 189/93 Nguyễn Ngọc Vũ, Trung Hoà, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773493739806",
+    "address": "Số 26A Ngách 189/93 Nguyễn Ngọc Vũ, Trung Hoà, Cầu Giấy",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773493778811",
+    "address": "Số 26A Ngách 189/93 Nguyễn Ngọc Vũ, Trung Hoà, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773493835994",
+    "address": "Số 5 ngách 2, Ngõ 39 Trung Kính, Trung Hoà, Cầu Giấy",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773494019800",
+    "address": "Số 9 Ngõ 367 Nguyễn Khang, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773494157764",
+    "address": "Số 18 ngõ 72/7 Hoa Bằng, Yên Hoà, Cầu Giấy",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773494194129",
+    "address": "Số 8, Ngõ 106 Hoàng Ngân, Trung Hoà, Cầu Giấy",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773494230512",
+    "address": "Số 27B Ngách 25, Ngõ 315 Nguyễn Khang, Yên Hoà, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773494627216",
+    "address": "90/02 số nhà 36 Hoa Bằng, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773494676912",
+    "address": "90/02 số nhà 36 Hoa Bằng, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773495284982",
+    "address": "117 Đường Cầu Giấy, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773495930362",
+    "address": "Số 7 ngách 68/71 Cầu Giấy",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773496422184",
+    "address": "Nhà số 04 ngõ 62 Trần Thái Tông, Cầu Giấy",
+    "price": "10tr7",
+    "price1": "10.700.000",
+    "price2": "10.700.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773496509576",
+    "address": "Nhà số 04 ngõ 62 Trần Thái Tông, Cầu Giấy",
+    "price": "11tr2",
+    "price1": 11200000,
+    "price2": 11200000,
+    "type": "1n1k"
+  },
+  {
+    "id": "1773496815862",
+    "address": "Ngõ 20 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "3tr6",
+    "price1": 3600000,
+    "price2": 3600000,
+    "type": null
+  },
+  {
+    "id": "1773497217984",
+    "address": "Ngách 116 ngõ 68 Cầu Giấy",
+    "price": "5tr2",
+    "price1": 5200000,
+    "price2": 5200000,
+    "type": null
+  },
+  {
+    "id": "1773499866727",
+    "address": "Số 2 ngõ 220 Yên Hoà, Cầu Giấy",
+    "price": "5tr",
+    "price1": 5000000,
+    "price2": 5000000,
+    "type": "studio"
+  },
+  {
+    "id": "1773500276296",
+    "address": "Ngõ 20 Nguyễn Chánh, Cầu Giấy",
+    "price": "5tr9",
+    "price1": 5900000,
+    "price2": 5900000,
+    "type": null
+  },
+  {
+    "id": "1773500515916",
+    "address": "Ngách 35/17 Trần Thái Tông, Cầu Giấy",
+    "price": "4tr3 - 4tr9",
+    "price1": 4300000,
+    "price2": 4900000,
+    "type": null
+  },
+  {
+    "id": "1773501069470",
+    "address": "Số 28 Ngõ 165 Dương Quảng Hàm, Cầu Giấy",
+    "price": "4tr",
+    "price1": 4000000,
+    "price2": 4000000,
+    "type": "studio"
+  },
+  {
+    "id": "1773501157704",
+    "address": "Số 20/28 ngõ 260 Cầu Giấy",
+    "price": "8tr5,9tr9",
+    "price1": 8500000,
+    "price2": 9900000,
+    "type": "2n1k"
+  },
+  {
+    "id": "1773501242285",
+    "address": "Số 8 Ngách 255/8 Cầu Giấy, Cầu Giấy",
+    "price": "4tr4",
+    "price1": 4400000,
+    "price2": 4400000,
+    "type": "studio"
+  },
+  {
+    "id": "1773501285209",
+    "address": "Số 4 Ngách 255/8 Cầu Giấy, Cầu Giấy",
+    "price": "5tr,5tr2,5tr3",
+    "price1": 5000000,
+    "price2": 5300000,
+    "type": "1n1k"
+  },
+  {
+    "id": "1773501352394",
+    "address": "Số 6 ngõ 35/17 Trần Thái Tông, Cầu Giấy",
+    "price": "5tr8,5tr9",
+    "price1": 5800000,
+    "price2": 5900000,
+    "type": "gác xép"
+  },
+  {
+    "id": "1773501399428",
+    "address": "Số 5 ngõ 35/17 Trần Thái Tông, Cầu Giấy",
+    "price": "5tr2",
+    "price1": 5200000,
+    "price2": 5200000,
+    "type": "studio"
+  },
+  {
+    "id": "1773501459899",
+    "address": "Số 9 ngõ 5 Trần Thái Tông, Cầu Giấy",
+    "price": "6tr",
+    "price1": 6000000,
+    "price2": 6000000,
+    "type": "1n1k"
+  },
+  {
+    "id": "1773501592372",
+    "address": "Ngách 143/45/9 Quan Hoa, Cầu Giấy",
+    "price": "3tr3",
+    "price1": 3300000,
+    "price2": 3300000,
+    "type": null
+  },
+  {
+    "id": "1773501650680",
+    "address": "Số 9 ngõ 5 Trần Thái Tông, Cầu Giấy",
+    "price": "4tr9tr5,5tr5",
+    "price1": 4900000,
+    "price2": 5500000,
+    "type": "studio"
+  },
+  {
+    "id": "1773501818718",
+    "address": "Số 8 ngõ 9 Phạm Tuấn Tài, Cầu Giấy",
+    "price": "3tr7",
+    "price1": 3700000,
+    "price2": 3700000,
+    "type": null
+  },
+  {
+    "id": "1773504011712",
+    "address": "Số 9 ngõ 5 Trần Thái Tông, Cầu Giấy",
+    "price": "6tr7",
+    "price1": 6700000,
+    "price2": 6700000,
+    "type": "1n1k"
+  },
+  {
+    "id": "1773504057057",
+    "address": "Số 26 Dịch Vọng Hậu, Cầu Giấy",
+    "price": "5tr",
+    "price1": 5000000,
+    "price2": 5000000,
+    "type": "studio"
+  },
+  {
+    "id": "1773504099247",
+    "address": "Số 23 ngõ 120 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr5",
+    "price1": 5500000,
+    "price2": 5500000,
+    "type": "studio"
+  },
+  {
+    "id": "1773504164345",
+    "address": "Số 6 ngõ 217 Mai Dịch, Cầu Giấy",
+    "price": "4tr2",
+    "price1": 4200000,
+    "price2": 4200000,
+    "type": "studio"
+  },
+  {
+    "id": "1773505538199",
+    "address": "217 Mai Dịch, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773505588715",
+    "address": "ngõ 35/17 Trần Thái Tông, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": null
+  },
+  {
+    "id": "1773505686778",
+    "address": "Số 6 ngõ 35/17 Trần Thái Tông, Cầu Giấy",
+    "price": "5tr8-5tr9",
+    "price1": "5800000",
+    "price2": "5900000",
+    "type": null
+  },
+  {
+    "id": "1773505793271",
+    "address": "Số 20/28 Ngõ 260 Cầu Giấy, Cầu Giấy",
+    "price": "8tr5-9tr9",
+    "price1": "8500000",
+    "price2": "9900000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773505837172",
+    "address": "Số 28 Ngõ 165 Dương Quảng Hàm, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": null
+  },
+  {
+    "id": "1773506082946",
+    "address": "số 4 ngách 116 ngõ 68 Cầu Giấy, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773506906978",
+    "address": "Ngõ 203 nhà 122 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "5tr-5tr2-5tr",
+    "price1": "5000000",
+    "price2": "5200000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773510456927",
+    "address": "Ngõ 110 Trần Duy Hưng, Cầu Giấy",
+    "price": "8tr2",
+    "price1": "8200000",
+    "price2": "8200000",
+    "type": null
+  },
+  {
+    "id": "1773510539733",
+    "address": "43 phố Trung Kính, Cầu Giấy",
+    "price": "8tr6",
+    "price1": "8600000",
+    "price2": "8600000",
+    "type": null
+  },
+  {
+    "id": "1773510596586",
+    "address": "43 phố Trung Kính, Cầu Giấy",
+    "price": "8tr2",
+    "price1": "8200000",
+    "price2": "8200000",
+    "type": null
+  },
+  {
+    "id": "1773511678186",
+    "address": "Số 18 Ngõ 63/26/19 Trần Quốc Vượng, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773513156072",
+    "address": "Ngõ 381 Nguyễn Khang, Cầu Giấy",
+    "price": "9tr3",
+    "price1": "9300000",
+    "price2": "9300000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773513630777",
+    "address": "Số 5B Ngõ 20 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": null
+  },
+  {
+    "id": "1773515220459",
+    "address": "Ngõ 180 Trần Duy Hưng, Trung Hoà, Cầu Giấy",
+    "price": "4tr9",
+    "price1": "4900000",
+    "price2": "4900000",
+    "type": "studio, giường tầng"
+  },
+  {
+    "id": "1773515790797",
+    "address": "259 Yên Hoà, Cầu Giấy",
+    "price": "6tr-6tr5",
+    "price1": "6000000",
+    "price2": "6500000",
+    "type": null
+  },
+  {
+    "id": "1773515801162",
+    "address": "259 Yên Hoà, Cầu Giấy",
+    "price": "5tr2-5tr3-5tr4",
+    "price1": "5200000",
+    "price2": "5400000",
+    "type": null
+  },
+  {
+    "id": "1773515810588",
+    "address": "113 Yên Hoà, Cầu Giấy",
+    "price": "4tr5-5tr-5tr6",
+    "price1": "4500000",
+    "price2": "5600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773515918971",
+    "address": "ngách 33 ngõ 105 Doãn Kế Thiện, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": null
+  },
+  {
+    "id": "1773538008757",
+    "address": "Ngõ 117 Xuân Thuỷ, Cầu Giấy",
+    "price": "13tr",
+    "price1": "13000000",
+    "price2": "13000000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773538524262",
+    "address": "Ngõ 117 Xuân Thuỷ, Cầu Giấy",
+    "price": "7tr5-8tr",
+    "price1": "7500000",
+    "price2": "8000000",
+    "type": "1n1k, studio"
+  },
+  {
+    "id": "1773539525637",
+    "address": "17 Viện Máy hoặc số 07 Phạm Văn Đồng, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773539693713",
+    "address": "Ngõ 143 Quan Hoa, Cầu Giấy",
+    "price": "4tr5-5tr2",
+    "price1": "4500000",
+    "price2": "5200000",
+    "type": null
+  },
+  {
+    "id": "1773539915060",
+    "address": "18 Ngõ Văn Minh, Mai Dịch, Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773540358559",
+    "address": "18 Ngõ Văn Minh, Mai Dịch, Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773540485659",
+    "address": "204 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773540747664",
+    "address": "Ngõ 93 Cầu Giấy",
+    "price": "8tr",
+    "price1": "8000000",
+    "price2": "8000000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773540894792",
+    "address": "204 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773541635215",
+    "address": "118 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "4tr-6tr",
+    "price1": "4000000",
+    "price2": "6000000",
+    "type": "studio, 1n1k"
+  },
+  {
+    "id": "1773542923892",
+    "address": "63 ngõ 79 Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": null
+  },
+  {
+    "id": "1773543155942",
+    "address": "165/49 Dương Quảng Hàm, Cầu Giấy",
+    "price": "3tr2",
+    "price1": "3200000",
+    "price2": "3200000",
+    "type": null
+  },
+  {
+    "id": "1773543199411",
+    "address": "154 Trần Duy Hưng, Cầu Giấy",
+    "price": "3tr1",
+    "price1": "3100000",
+    "price2": "3100000",
+    "type": null
+  },
+  {
+    "id": "1773543284051",
+    "address": "204 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773543522412",
+    "address": "96A ngõ 44 Trần Thái Tông, Cầu Giấy",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": null
+  },
+  {
+    "id": "1773543681552",
+    "address": "Số 4 ngách 116 ngõ 68 Cầu Giấy, Hà Nội",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773543825291",
+    "address": "2 Ngõ 204 Trần Duy Hưng, Cầu Giấy",
+    "price": "19tr5",
+    "price1": "19500000",
+    "price2": "19500000",
+    "type": "3n1k"
+  },
+  {
+    "id": "1773544194656",
+    "address": "Mặt phố Cầu Giấy",
+    "price": "8tr",
+    "price1": "8000000",
+    "price2": "8000000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773544606541",
+    "address": "Số 6 ngõ 2/1 Phạm Thận Duật, Cầu Giấy",
+    "price": "5tr9",
+    "price1": "5900000",
+    "price2": "5900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773545266272",
+    "address": "Nhà 24C ngách 43/49 Trung Kính, Trung Hoà, Cầu Giấy",
+    "price": "4tr4",
+    "price1": "4400000",
+    "price2": "4400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773545316451",
+    "address": "Số 26 ngõ 219/26 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773545771276",
+    "address": "Số 33 ngõ 43/86 Phố Trung Kính, Cầu Giấy",
+    "price": "5tr3",
+    "price1": "5300000",
+    "price2": "5300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773545776337",
+    "address": "Số 33 ngõ 43/86 Phố Trung Kính, Cầu Giấy",
+    "price": "5tr9",
+    "price1": "5900000",
+    "price2": "5900000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773545857718",
+    "address": "Nhà 24C ngách 43/49 Trung Kính, Trung Hoà, Cầu Giấy",
+    "price": "4tr4",
+    "price1": "4400000",
+    "price2": "4400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773545900238",
+    "address": "Số 33 ngõ 43/86 Phố Trung Kính, Cầu Giấy",
+    "price": "5tr9",
+    "price1": "5900000",
+    "price2": "5900000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773545933843",
+    "address": "Số 33 ngõ 43/86 Phố Trung Kính, Cầu Giấy",
+    "price": "5tr9",
+    "price1": "5900000",
+    "price2": "5900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773545983595",
+    "address": "Ngõ 123/43/106 Phố Trung Kính, Số nhà 14, Cầu Giấy",
+    "price": "3tr3",
+    "price1": "3300000",
+    "price2": "3300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773546166142",
+    "address": "Số 30 ngõ 81 Phố Trung Kính, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773546812756",
+    "address": "127B Dương Quảng Hàm, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773546873729",
+    "address": "127B Dương Quảng Hàm, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773547096901",
+    "address": "Số 14 ngõ 43/121 Trung Kính, Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": null
+  },
+  {
+    "id": "1773547108028",
+    "address": "Số 39 ngách 53/22 ngõ 68 Cầu Giấy, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773547257123",
+    "address": "Số 39 ngách 53/22 ngõ 68 Cầu Giấy, Cầu Giấy",
+    "price": "5tr1",
+    "price1": "5100000",
+    "price2": "5100000",
+    "type": "studio"
+  },
+  {
+    "id": "1773547536046",
+    "address": "96A ngõ 44 Trần Thái Tông, Cầu Giấy",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773547615960",
+    "address": "Ngõ 268 Phạm Văn Đồng",
+    "price": "3tr5 - 4tr2",
+    "price1": "3500000",
+    "price2": "4200000",
+    "type": null
+  },
+  {
+    "id": "1773548241541",
+    "address": "127B Dương Quảng Hàm, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773548321439",
+    "address": "127B Dương Quảng Hàm, Cầu Giấy",
+    "price": "5 triệu",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773548481853",
+    "address": "Số 16 ngách 20 ngõ 148 Trần Duy Hưng, Cầu Giấy",
+    "price": "6tr3",
+    "price1": "6300000",
+    "price2": "6300000",
+    "type": null
+  },
+  {
+    "id": "1773548665813",
+    "address": "Ngõ 99 Trung Kính, Cầu Giấy",
+    "price": "4tr8 - 5tr",
+    "price1": "4800000",
+    "price2": "5000000",
+    "type": null
+  },
+  {
+    "id": "1773549469273",
+    "address": "ngõ 110 Trần Duy Hưng, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": null
+  },
+  {
+    "id": "1773554440472",
+    "address": "Số 30 ngõ 26 Trần Thái Tông, Cầu Giấy",
+    "price": "2tr8",
+    "price1": "2800000",
+    "price2": "2800000",
+    "type": null
+  },
+  {
+    "id": "1773554440472",
+    "address": "Số 30 ngõ 26 Trần Thái Tông, Cầu Giấy",
+    "price": "2tr7",
+    "price1": "2700000",
+    "price2": "2700000",
+    "type": null
+  },
+  {
+    "id": "1773554489017",
+    "address": "ngõ 3 Phạm Tuấn Tài",
+    "price": "1tr3",
+    "price1": "1300000",
+    "price2": "1300000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773554596324",
+    "address": "số 40 Ngõ 180 Trần Duy Hưng, Cầu Giấy",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": null
+  },
+  {
+    "id": "1773554596324",
+    "address": "số 40 Ngõ 180 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": null
+  },
+  {
+    "id": "1773554747918",
+    "address": "ngõ 5 Trần Thái Tông, Cầu Giấy",
+    "price": "7tr",
+    "price1": "7000000",
+    "price2": "7000000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773554747918",
+    "address": "ngõ 5 Trần Thái Tông, Cầu Giấy",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773554747918",
+    "address": "ngõ 5 Trần Thái Tông, Cầu Giấy",
+    "price": "7tr5",
+    "price1": "7500000",
+    "price2": "7500000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773555943120",
+    "address": "322/38 nhà số 5 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773555943120",
+    "address": "322/38 nhà số 5 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "3tr2",
+    "price1": "3200000",
+    "price2": "3200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773556233557",
+    "address": "Ngõ 180 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773556233557",
+    "address": "Ngõ 180 Trần Duy Hưng, Cầu Giấy",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773556616923",
+    "address": "Số 76 ngõ 66 Nguyễn Hoàng, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773556693667",
+    "address": "Ngõ 304 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773556829069",
+    "address": "Số 30 Mặt Phố Hồ Tùng Mậu, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": null
+  },
+  {
+    "id": "1773556955950",
+    "address": "29 Trần Duy Hưng, Quận Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": null
+  },
+  {
+    "id": "1773557232889",
+    "address": "Ngõ 304 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773557282976",
+    "address": "Số 66 Ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773557320737",
+    "address": "Số 2d Ngõ 92/31 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773557402701",
+    "address": "Số 2d Ngõ 92/31 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773557459803",
+    "address": "Số 5 ngõ 100 Trần Duy Hưng, Cầu Giấy",
+    "price": "6tr8",
+    "price1": "6800000",
+    "price2": "6800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773557508274",
+    "address": "Số 10B Ngõ 37/11 Dịch Vọng, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773557564218",
+    "address": "Số 7 ngõ 13 Yên Hòa, Cầu Giấy",
+    "price": "7tr5",
+    "price1": "7500000",
+    "price2": "7500000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773557633169",
+    "address": "Số 10B Ngõ 37/11 Dịch Vọng, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773557690249",
+    "address": "Số 40 Ngõ 85 Xuân Thuỷ, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773557773507",
+    "address": "Số 40 Ngõ 85 Xuân Thuỷ, Cầu Giấy",
+    "price": "7tr",
+    "price1": "7000000",
+    "price2": "7000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773557826793",
+    "address": "Số 17A Ngõ 123 Trung Kính, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773557863580",
+    "address": "Số 17A Ngõ 123 Trung Kính, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773557952720",
+    "address": "Số 17A Ngõ 123 Trung Kính, Cầu Giấy",
+    "price": "9tr",
+    "price1": "9000000",
+    "price2": "9000000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773558170168",
+    "address": "Số 7 Ngõ 96 Võ Chí Công, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773558170168",
+    "address": "Số 7 Ngõ 96 Võ Chí Công, Cầu Giấy",
+    "price": "7tr5",
+    "price1": "7500000",
+    "price2": "7500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773558250430",
+    "address": "Nhà số 24 Ngõ 196/8/2 Cầu Giấy",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773558393121",
+    "address": "Số 7A Ngõ 99 Trung Kính, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773558443842",
+    "address": "Số 29 ngõ 43/66 Trung Kính, Cầu Giấy",
+    "price": "5tr7",
+    "price1": "5700000",
+    "price2": "5700000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773558443842",
+    "address": "Số 29 ngõ 43/66 Trung Kính, Cầu Giấy",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773558735977",
+    "address": "Số 30 ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "7tr2",
+    "price1": "7200000",
+    "price2": "7200000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773559429101",
+    "address": "nhà 24C ngõ 43/49 Trung Kính, Cầu Giấy",
+    "price": "4tr4",
+    "price1": "4400000",
+    "price2": "4400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773559589248",
+    "address": "Ngách 15 Ngõ 235 Yên Hoà, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773561160950",
+    "address": "44 Trần Thái Tông, ngách 47 nhà 02, Cầu Giấy",
+    "price": "5tr2,5tr5",
+    "price1": "5200000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773561700322",
+    "address": "127B Dương Quảng Hàm, Cầu Giấy, Hà Nội",
+    "price": "5 triệu",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773562070178",
+    "address": "5A Ngõ 168 Trung Kính, Cầu Giấy",
+    "price": "5tr1",
+    "price1": "5100000",
+    "price2": "5100000",
+    "type": "studio"
+  },
+  {
+    "id": "1773562228122",
+    "address": "Số 15 ngõ 143 Quan Hoa, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773562285421",
+    "address": "Số 15 ngõ 143 Quan Hoa, Cầu Giấy",
+    "price": "6tr6",
+    "price1": "6600000",
+    "price2": "6600000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773562337571",
+    "address": "Số 15 ngõ 143 Quan Hoa, Cầu Giấy",
+    "price": "4tr2,4tr3",
+    "price1": "4200000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773562398934",
+    "address": "65B Yên Hoà, Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773562466270",
+    "address": "65B Yên Hoà, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773562514788",
+    "address": "Số 17C ngách 34 Ngõ 232 Yên Hoà, Cầu Giấy",
+    "price": "4tr7,5tr3",
+    "price1": "4700000",
+    "price2": "5300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773562568657",
+    "address": "41 Nguyễn Quốc Trị, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773562722193",
+    "address": "19/35 Trần Thái Tông, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773563081933",
+    "address": "Số 11 Ngõ 165 Dương Quảng Hàm, Cầu Giấy",
+    "price": "4tr8,5tr5",
+    "price1": "4800000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773563829736",
+    "address": "Số 40 Ngõ 180 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr8 - 6tr2",
+    "price1": "5800000",
+    "price2": "6200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773563994685",
+    "address": "Số 66 Ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773564094031",
+    "address": "Số 2D Ngõ 92/31 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773564298213",
+    "address": "Số 2D Ngõ 92/31 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773564668682",
+    "address": "Số 5 ngõ 100 Trần Duy Hưng, Cầu Giấy",
+    "price": "6tr8",
+    "price1": "6800000",
+    "price2": "6800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773564865980",
+    "address": "ngõ 59/59 Phạm Văn Đồng, Cầu Giấy",
+    "price": "4tr7",
+    "price1": "4700000",
+    "price2": "4700000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773565281776",
+    "address": "Số 10B Ngõ 37/11 Dịch Vọng, Cầu Giấy",
+    "price": "5tr5 - 5tr8",
+    "price1": "5500000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773565439035",
+    "address": "ngõ 1 Nguyễn Thị Định, Trung Hòa, Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": null
+  },
+  {
+    "id": "1773565550320",
+    "address": "Số 40 Ngõ 85 Xuân Thuỷ, Cầu Giấy",
+    "price": "5tr5 - 7tr",
+    "price1": "5500000",
+    "price2": "7000000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773565687424",
+    "address": "45 Võ Chí Công, Cầu Giấy",
+    "price": "6tr3",
+    "price1": "6300000",
+    "price2": "6300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773565837432",
+    "address": "Số 17A Ngõ 123 Trung Kính, Cầu Giấy",
+    "price": "4tr8 - 5tr5",
+    "price1": "4800000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773565922157",
+    "address": "Ngõ 58 Trần Bình, Cầu Giấy",
+    "price": "4tr9",
+    "price1": "4900000",
+    "price2": "4900000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773566350312",
+    "address": "Ngõ 304 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773566419437",
+    "address": "Số 17A Ngõ 123 Trung Kính, Cầu Giấy",
+    "price": "9tr",
+    "price1": "9000000",
+    "price2": "9000000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773566605211",
+    "address": "Số 17A Ngõ 123 Trung Kính, Cầu Giấy",
+    "price": "9tr",
+    "price1": "9000000",
+    "price2": "9000000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773566725461",
+    "address": "Số 7 Ngõ 96 Võ Chí Công, Cầu Giấy",
+    "price": "6tr5 - 7tr5",
+    "price1": "6500000",
+    "price2": "7500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773567096737",
+    "address": "Nhà số 24 Ngõ 196/8/2 Cầu Giấy, Cầu Giấy",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773567497832",
+    "address": "Số 7A Ngõ 99 Trung Kính, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773567886058",
+    "address": "Số 29 ngõ 43/66 Trung Kính, Cầu Giấy",
+    "price": "5tr7 - 6tr2",
+    "price1": "5700000",
+    "price2": "6200000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773568056930",
+    "address": "Số 1D ngõ 102 Nguyễn Đổng Chi, Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": null
+  },
+  {
+    "id": "1773568148292",
+    "address": "43/60 Trung Kính, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773568504397",
+    "address": "Số 14 ngách 1 ngõ 225 Quan Hoa, Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "duplex"
+  },
+  {
+    "id": "1773568616110",
+    "address": "Ngõ 189/93 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773569082836",
+    "address": "7 Tú Mỡ, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773569196412",
+    "address": "Số nhà 17, ngõ 94 Hoàng Ngân, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": null
+  },
+  {
+    "id": "1773569368425",
+    "address": "Số 40C ngõ 73 Hoàng Ngân, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773569512769",
+    "address": "Số 9 Ngách 39 Ngõ 381 Nguyễn Khang, Cầu Giấy",
+    "price": "9tr3",
+    "price1": "9300000",
+    "price2": "9300000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773570164931",
+    "address": "162 Trần Vỹ, Cầu Giấy",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773570382696",
+    "address": "Ngõ 21 Quan Hoa, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773570483617",
+    "address": "Số 30 Mặt Phố Hồ Tùng Mậu, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773570582745",
+    "address": "Số 122 Mặt phố Hoàng Ngân, Cầu Giấy",
+    "price": "6tr6 - 6tr8",
+    "price1": "6600000",
+    "price2": "6800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773571249658",
+    "address": "Số 32 Ngõ 155 Cầu Giấy, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": null
+  },
+  {
+    "id": "1773571279162",
+    "address": "Ngõ 110 Trần Duy Hưng, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773571367291",
+    "address": "Ngõ 304 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": null
+  },
+  {
+    "id": "1773571523118",
+    "address": "Ngõ 139 Phạm Văn Đồng, Cầu Giấy",
+    "price": "3tr4",
+    "price1": "3400000",
+    "price2": "3400000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773571668111",
+    "address": "Ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773571709172",
+    "address": "Ngõ 85 Lê Văn Huyên, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773572848288",
+    "address": "Số 22B, Ngõ 79 Ngách 24 Dương Quảng Hàm, Cầu Giấy",
+    "price": "5tr6",
+    "price1": "5600000",
+    "price2": "5600000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773572962942",
+    "address": "Ngõ 126 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "4tr7",
+    "price1": "4700000",
+    "price2": "4700000",
+    "type": "studio"
+  },
+  {
+    "id": "1773573262577",
+    "address": "Ngõ 43/99/15 Trung Kính, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773574767371",
+    "address": "Mặt đường số 204 Trung Kính, Cầu Giấy",
+    "price": "9tr5",
+    "price1": "9500000",
+    "price2": "9500000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773575255622",
+    "address": "43/10/3/2D Trung Kính, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773576390144",
+    "address": "Số 30 ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "7tr2",
+    "price1": "7200000",
+    "price2": "7200000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773577892507",
+    "address": "Số 96, ngõ 2 Hoàng Quốc Việt, phường Nghĩa Đô, Cầu Giấy, Hà Nội",
+    "price": "3tr2",
+    "price1": "3200000",
+    "price2": "3200000",
+    "type": null
+  },
+  {
+    "id": "1773578203485",
+    "address": "132 Cầu Giấy",
+    "price": "2tr5-2tr6",
+    "price1": "2500000",
+    "price2": "2600000",
+    "type": null
+  },
+  {
+    "id": "1773578423905",
+    "address": "32A ngõ 63 Xuân Thủy, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773578467869",
+    "address": "23 Ngõ 36 Dịch Vọng Hậu, Cầu Giấy, Hà Nội",
+    "price": "2tr5",
+    "price1": "2500000",
+    "price2": "2500000",
+    "type": null
+  },
+  {
+    "id": "1773578503664",
+    "address": "27C Ngõ 29 Dịch Vọng, Cầu Giấy, Hà Nội",
+    "price": "2tr6",
+    "price1": "2600000",
+    "price2": "2600000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773579535116",
+    "address": "Số 2 ngõ 359 Trần Cung, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": null
+  },
+  {
+    "id": "1773580037220",
+    "address": "Ngõ 204/5 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773580092700",
+    "address": "Số 6 ngách 40 ngõ 165 Dương Quảng Hàm, Cầu Giấy",
+    "price": "5tr7",
+    "price1": "5700000",
+    "price2": "5700000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773580221449",
+    "address": "Số 6 ngõ 71 Võ Chí Công, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773580392031",
+    "address": "21 Trung Kính, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773580427325",
+    "address": "Ngõ 9 nhà số 21 Võ Chí Công, Cầu Giấy",
+    "price": "3tr5-3tr7",
+    "price1": "3500000",
+    "price2": "3700000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773580663423",
+    "address": "Số 4 Ngách 43.98.14 Trung Kính, Cầu Giấy",
+    "price": "7tr3-8tr",
+    "price1": "7300000",
+    "price2": "8000000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773580754591",
+    "address": "Số nhà 60 ngõ 79 Cầu Giấy, Cầu Giấy",
+    "price": "5tr7",
+    "price1": "5700000",
+    "price2": "5700000",
+    "type": "studio"
+  },
+  {
+    "id": "1773580850355",
+    "address": "Số 9 ngách 40 ngõ 79 Dương Quảng Hàm, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773580878656",
+    "address": "Số 9 ngách 40 ngõ 79 Dương Quảng Hàm, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773580931417",
+    "address": "Số 8 ngõ 44 Trần Thái Tông, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773581038512",
+    "address": "37 Dịch Vọng, Cầu Giấy",
+    "price": "8tr",
+    "price1": "8000000",
+    "price2": "8000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773581545159",
+    "address": "Ngõ 79 Cầu Giấy",
+    "price": "5tr7",
+    "price1": "5700000",
+    "price2": "5700000",
+    "type": null
+  },
+  {
+    "id": "1773582682738",
+    "address": "Ngõ 79/40 Cầu Giấy",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773583087946",
+    "address": "Ngõ 32 Nguyễn Văn Huyên, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": null
+  },
+  {
+    "id": "1773583284019",
+    "address": "Ngõ 329 Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773583393714",
+    "address": "61 Nguyễn Khả Trạc, Mai Dịch, Cầu Giấy",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": null
+  },
+  {
+    "id": "1773583464998",
+    "address": "Số 1 Ngách 6 Ngõ 277 Quan Hoa, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": null
+  },
+  {
+    "id": "1773583737678",
+    "address": "Số 7 ngách 68/71 Cầu Giấy",
+    "price": "4tr9",
+    "price1": "4900000",
+    "price2": "4900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773583925827",
+    "address": "Ngõ 91 Trần Duy Hưng, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773584673703",
+    "address": "ngõ 217 Mai Dịch, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773584986342",
+    "address": "112/14 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773585726058",
+    "address": "Số 61 Nguyễn Khả Trạc, Cầu Giấy",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773585780247",
+    "address": "Số 7 ngách 16 ngõ 75 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "4tr6,4tr8",
+    "price1": "4600000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773585852216",
+    "address": "Số 9a ngách 130 ngõ 44 Trần Thái Tông, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773585905423",
+    "address": "Số 8 ngõ 329 Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773586691645",
+    "address": "Số 124 Ngõ 189 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "5tr5tr6",
+    "price1": "5500000",
+    "price2": "5600000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773587077193",
+    "address": "Số 20 Ngõ 81 Trung Kính, Cầu Giấy",
+    "price": "7tr8",
+    "price1": "7800000",
+    "price2": "7800000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773588153136",
+    "address": "37D2 ngõ 20 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773588322337",
+    "address": "Ngõ 43/99 hẻm 15 Trung Kính, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773588440558",
+    "address": "Ngõ 180 Trần Duy Hưng, số nhà 11, Cầu Giấy",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773588604407",
+    "address": "329 Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773588670450",
+    "address": "Ngách 6 Ngõ 106 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "5tr-5tr3",
+    "price1": "5000000",
+    "price2": "5300000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773588801961",
+    "address": "2/119/189 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773588910986",
+    "address": "Ngõ 204 Trần Duy Hưng ngách 5 số nhà 47, Cầu Giấy",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773589227326",
+    "address": "Ngõ 20 Nguyễn Chánh, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773589318784",
+    "address": "Ngõ 110 Trần Duy Hưng ngách 43/49, số nhà 22a, Cầu Giấy",
+    "price": "3tr7",
+    "price1": "3700000",
+    "price2": "3700000",
+    "type": "studio"
+  },
+  {
+    "id": "1773589448629",
+    "address": "127B Dương Quảng Hàm, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773589512199",
+    "address": "Số 181 Phạm Văn Đồng, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": null
+  },
+  {
+    "id": "1773590398935",
+    "address": "Số 86 ngõ 5 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773590717982",
+    "address": "Số 7 ngõ 255 ngách 42 Cầu Giấy, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773590823313",
+    "address": "Số 1A ngõ 58 ngách 32 Nguyễn Khánh Toàn, Quan Hoa, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773590874821",
+    "address": "Số 1A ngõ 58 ngách 32 Nguyễn Khánh Toàn, Quan Hoa, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773590917998",
+    "address": "Số 22B ngõ 79 ngách 24 Dương Quảng Hàm, Quan Hoa, Cầu Giấy",
+    "price": "5tr6",
+    "price1": "5600000",
+    "price2": "5600000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773591064835",
+    "address": "342 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "4tr-4tr3",
+    "price1": "4000000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773591197289",
+    "address": "Ngõ 136 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "4tr-4tr6",
+    "price1": "4000000",
+    "price2": "4600000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773594931798",
+    "address": "342 Hồ Tùng Mậu, Cầu Giấy",
+    "price": "4tr-4tr3",
+    "price1": "4000000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773595015707",
+    "address": "Ngõ 79 Dương Quảng Hàm, Cầu Giấy",
+    "price": "5tr6",
+    "price1": "5600000",
+    "price2": "5600000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773595076760",
+    "address": "Ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": null
+  },
+  {
+    "id": "1773595361997",
+    "address": "Ngõ 255 ngách 42 Cầu Giấy, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773595462847",
+    "address": "29 Dịch Vọng, Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773595898776",
+    "address": "Ngõ 139 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "6tr8 - 7tr",
+    "price1": "6800000",
+    "price2": "7000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773595961078",
+    "address": "Ngõ 139 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "8tr",
+    "price1": "8000000",
+    "price2": "8000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773596379574",
+    "address": "Ngõ 111 Quan Hoa, Cầu Giấy",
+    "price": "7tr",
+    "price1": "7000000",
+    "price2": "7000000",
+    "type": null
+  },
+  {
+    "id": "1773596416742",
+    "address": "Ngõ 111 Quan Hoa, Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": null
+  },
+  {
+    "id": "1773599937815",
+    "address": "381/55 Nguyễn Khang, Cầu Giấy",
+    "price": "7tr5",
+    "price1": "7500000",
+    "price2": "7500000",
+    "type": "1n1k, giường tầng"
+  },
+  {
+    "id": "1773600415456",
+    "address": "Ngõ 138 Hoa Bằng, Cầu Giấy",
+    "price": "6tr500 -6tr8",
+    "price1": "6500000",
+    "price2": "6800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773600613719",
+    "address": "Phố Hoa Bằng, Cầu Giấy",
+    "price": "5tr5-5tr7",
+    "price1": "5500000",
+    "price2": "5700000",
+    "type": "studio"
+  },
+  {
+    "id": "1773627499335",
+    "address": "Ngõ 189 Nguyễn Ngọc Vũ, Trung Hoà",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773627877240",
+    "address": "Ngõ 189 Nguyễn Ngọc Vũ",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773628445235",
+    "address": "90/02 số nhà 36 Hoa Bằng, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773629136303",
+    "address": "Ngách 37 Ngõ 155 Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773629189966",
+    "address": "63 Trần Quốc Vượng, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": null
+  },
+  {
+    "id": "1773629192248",
+    "address": "63 Trần Quốc Vượng, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": null
+  },
+  {
+    "id": "1773629280818",
+    "address": "Ngõ 106 Hoàng Ngân",
+    "price": "5tr3-6tr5",
+    "price1": "5300000",
+    "price2": "6500000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773629553500",
+    "address": "Ngõ 329 Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773630490028",
+    "address": "Ngõ 189 Nguyễn Ngọc Vũ",
+    "price": "5tr5-5tr8",
+    "price1": "5500000",
+    "price2": "5800000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773630567577",
+    "address": "Ngách 53, Ngõ 68 Cầu Giấy, Quan Hoa, HN",
+    "price": "8tr7",
+    "price1": "8700000",
+    "price2": "8700000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773630759269",
+    "address": "Ngõ 85 Xuân Thủy, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773630950734",
+    "address": "Số 6, Ngách 37, Ngõ 155 Cầu Giấy",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": null
+  },
+  {
+    "id": "1773630972898",
+    "address": "329 Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773631417076",
+    "address": "Số 17 Ngõ 192 Yên Hòa, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": null
+  },
+  {
+    "id": "1773631524696",
+    "address": "Ngõ 9/21 Võ Chí Công, Cầu Giấy",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": null
+  },
+  {
+    "id": "1773632295946",
+    "address": "Ngõ 37/11 Nhà Số 14 Dịch Vọng, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773632666309",
+    "address": "Ngõ 204 Nhà 44 Trần Duy Hưng, Cầu Giấy",
+    "price": "3tr-3tr5",
+    "price1": "3000000",
+    "price2": "3500000",
+    "type": "gác xép, vskk"
+  },
+  {
+    "id": "1773633355500",
+    "address": "Ngõ 165 Nhà 57 Dương Quảng Hàm, Cầu Giấy",
+    "price": "4tr1",
+    "price1": "4100000",
+    "price2": "4100000",
+    "type": "studio"
+  },
+  {
+    "id": "1773634022024",
+    "address": "Ngõ 9 Võ Chí Công, Cầu Giấy",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": null
+  },
+  {
+    "id": "1773634130370",
+    "address": "22 Hạ Yên Quyết, Yên Hòa, Cầu Giấy",
+    "price": "7tr5",
+    "price1": "7500000",
+    "price2": "7500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773634802679",
+    "address": "Số 8 Nguyễn Chánh, Cầu Giấy",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": null
+  },
+  {
+    "id": "1773635351356",
+    "address": "72 Hoa Bằng, Yên Hòa, Cầu Giấy",
+    "price": "3tr7",
+    "price1": "3700000",
+    "price2": "3700000",
+    "type": null
+  },
+  {
+    "id": "1773635823288",
+    "address": "Ngõ 29 Dịch Vọng, Cầu Giấy",
+    "price": "3tr3-3tr5",
+    "price1": "3300000",
+    "price2": "3500000",
+    "type": null
+  },
+  {
+    "id": "1773635873743",
+    "address": "Ngõ 189 Nguyễn Ngọc Vũ, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773635966761",
+    "address": "Ngách 5, Ngõ 63 Trần Quốc Vượng, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773635970721",
+    "address": "Ngách 5, Ngõ 63 Trần Quốc Vượng, Cầu Giấy",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773636552616",
+    "address": "Ngõ 24 Phan Văn Trường, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773637134396",
+    "address": "Ngõ 80 Trần Duy Hưng, Cầu Giấy",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": null
+  },
+  {
+    "id": "1773637208543",
+    "address": "Số 80 Trần Vỹ, Mai Dịch, Cầu Giấy",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": null
+  },
+  {
+    "id": "1773640800031",
+    "address": "Số 16 Ngõ 44/130 Trần Thái Tông, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773641150340",
+    "address": "Số 155/43/12B Cầu Giấy, Cầu Giấy",
+    "price": "3tr4",
+    "price1": "3400000",
+    "price2": "3400000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773641193930",
+    "address": "155/43/7 Cầu Giấy, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "2n1b"
+  },
+  {
+    "id": "1773641647769",
+    "address": "Ngõ 5 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "3tr2",
+    "price1": "3200000",
+    "price2": "3200000",
+    "type": null
+  },
+  {
+    "id": "1773641813618",
+    "address": "Ngõ 127 Quan Thổ 1, Cầu Giấy",
+    "price": "4tr4-5tr8",
+    "price1": "4400000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773642304386",
+    "address": "Ngõ 26 Hồ Tùng Mậu, Mai Dịch, Cầu Giấy",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773644147046",
+    "address": "Số 15A Ngách 20/15 Hồ Tùng Mậu",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773645268698",
+    "address": "Ngõ 59 Phạm Văn Đồng, Mai Dịch",
+    "price": "3tr3-4tr7",
+    "price1": "3300000",
+    "price2": "4700000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773645400690",
+    "address": "259 Yên Hoà, Cầu Giấy",
+    "price": "5tr8-6tr3",
+    "price1": "5800000",
+    "price2": "6300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773645433864",
+    "address": "277 Quan Hoa, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": null
+  },
+  {
+    "id": "1773645661078",
+    "address": "259 Yên Hoà, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": null
+  },
+  {
+    "id": "1773645751259",
+    "address": "Số 5B Ngõ 204 Trần Duy Hưng, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": null
+  },
+  {
+    "id": "1773645798923",
+    "address": "105 Doãn Kế Thiện (66 Hồ Tùng Mậu), Cầu Giấy",
+    "price": "3tr3",
+    "price1": "3300000",
+    "price2": "3300000",
+    "type": null
+  },
+  {
+    "id": "1773645832919",
+    "address": "Số 16 Ngõ 12 Phạm Văn Đồng, Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773645964525",
+    "address": "Số 40 Ngõ 180 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr8-6tr2",
+    "price1": "5800000",
+    "price2": "6200000",
+    "type": null
+  },
+  {
+    "id": "1773646447920",
+    "address": "Nhà 7 Ngõ 4 Hoàng Quốc Việt, Cầu Giấy",
+    "price": "2tr9",
+    "price1": "2900000",
+    "price2": "2900000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773646569643",
+    "address": "45 Ngõ 259 Yên Hoà, Cầu Giấy",
+    "price": "5tr8-6tr3",
+    "price1": "5800000",
+    "price2": "6300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773646944160",
+    "address": "Ngõ 105 Yên Hoà, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773647072143",
+    "address": "Ngõ 28 Dương Khuê, Mai Dịch",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773647408546",
+    "address": "Số 66 Ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773647526190",
+    "address": "Số 2D Ngõ 92/31 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "5tr5-6tr5",
+    "price1": "5500000",
+    "price2": "6500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773647581707",
+    "address": "Số 5 Ngõ 100 Trần Duy Hưng, Cầu Giấy",
+    "price": "6tr8",
+    "price1": "6800000",
+    "price2": "6800000",
+    "type": null
+  },
+  {
+    "id": "1773647586225",
+    "address": "Số 10B Ngõ 37/11 Dịch Vọng, Cầu Giấy",
+    "price": "5tr5-5tr8",
+    "price1": "5500000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773647631393",
+    "address": "Ngõ 99 Trung Kính, Cầu Giấy",
+    "price": "5tr6",
+    "price1": "5600000",
+    "price2": "5600000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773647725098",
+    "address": "Số 40 Ngõ 85 Xuân Thuỷ, Cầu Giấy",
+    "price": "7tr",
+    "price1": "7000000",
+    "price2": "7000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773647836566",
+    "address": "Số 17A Ngõ 123 Trung Kính, Cầu Giấy",
+    "price": "4tr8-9tr",
+    "price1": "4800000",
+    "price2": "9000000",
+    "type": "studio, 2n1k"
+  },
+  {
+    "id": "1773648017523",
+    "address": "Nhà số 24 Ngõ 196/8/2 Cầu Giấy",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": null
+  },
+  {
+    "id": "1773648254036",
+    "address": "Số 7A Ngõ 99 Trung Kính, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773648297620",
+    "address": "Số 32 Ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "7tr",
+    "price1": "7000000",
+    "price2": "7000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773648399248",
+    "address": "Số 29 Ngõ 43/66 Trung Kính",
+    "price": "5tr7-6tr2",
+    "price1": "5700000",
+    "price2": "6200000",
+    "type": null
+  },
+  {
+    "id": "1773648867542",
+    "address": "Số 4 Ngách 116 Ngõ 68 Cầu Giấy, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773648926933",
+    "address": "Số 16 Ngõ 44/130 Trần Thái Tông, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773649059924",
+    "address": "Ngõ 165 Cầu Giấy",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773649179190",
+    "address": "Số nhà 32 Ngõ 235 Yên Hoà, Cầu Giấy",
+    "price": "6tr4",
+    "price1": "6400000",
+    "price2": "6400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773649408515",
+    "address": "196 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr2-6tr5",
+    "price1": "5.200.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773649940760",
+    "address": "91 Trần Duy Hưng, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773650397025",
+    "address": "Số 4 ngách 116 ngõ 68 Cầu Giấy, Hà Nội",
+    "price": "5tr-5tr2",
+    "price1": "5.000.000",
+    "price2": "5.200.000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773650520001",
+    "address": "Ngõ 120 Trần Duy Hưng",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773650620312",
+    "address": "79 Ngõ 259 Yên Hòa",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773651452252",
+    "address": "196 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr2-6tr5",
+    "price1": "5.200.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773651569410",
+    "address": "Ngõ 5 Trần Thái Tông",
+    "price": "6tr7",
+    "price1": "6.700.000",
+    "price2": "6.700.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773651682674",
+    "address": "Số nhà 37D2 ngõ 20 Hồ Tùng Mậu, Mai Dịch, Cầu Giấy",
+    "price": "8tr",
+    "price1": "8.000.000",
+    "price2": "8.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773651800917",
+    "address": "Số nhà 37D2 ngõ 20 Hồ Tùng Mậu, Mai Dịch, Cầu Giấy",
+    "price": "8tr",
+    "price1": "8.000.000",
+    "price2": "8.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773651886756",
+    "address": "Số 32 ngõ 58 Nguyễn Khánh Toàn, Cầu Giấy",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773651940296",
+    "address": "Ngõ 5 Trần Thái Tông",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773652614480",
+    "address": "Ngõ 91 Trần Duy Hưng, Cầu Giấy",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": null
+  },
+  {
+    "id": "1773652755517",
+    "address": "Ngõ 35/17 Trần Thái Tông",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773653180321",
+    "address": "Ngõ 35/17 Trần Thái Tông",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773653514411",
+    "address": "Tòa 12A ngõ 41 Xuân Thủy, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773653893687",
+    "address": "255/8 Cầu Giấy",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773654869380",
+    "address": "Ngõ 2 Hoàng Quốc Việt, Nghĩa Đô, Cầu Giấy",
+    "price": "3tr2",
+    "price1": "3.200.000",
+    "price2": "3.200.000",
+    "type": null
+  },
+  {
+    "id": "1773654989460",
+    "address": "Ngõ 260 Cầu Giấy",
+    "price": "8tr5",
+    "price1": "8.500.000",
+    "price2": "8.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773655780875",
+    "address": "Ngõ 220 Yên Hòa",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773656049325",
+    "address": "Ngõ 204/5 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr4",
+    "price1": "5.400.000",
+    "price2": "5.400.000",
+    "type": null
+  },
+  {
+    "id": "1773656856008",
+    "address": "Mặt phố Hoàng Ngân, Trung Hòa, Cầu Giấy",
+    "price": "5tr8-10tr",
+    "price1": "5.800.000",
+    "price2": "10.000.000",
+    "type": "studio, 2n1k"
+  },
+  {
+    "id": "1773657019719",
+    "address": "204/5 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr4",
+    "price1": "5400000",
+    "price2": "5400000",
+    "type": null
+  },
+  {
+    "id": "1773657068698",
+    "address": "5a ngõ 105 Yên Hoà, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773657405185",
+    "address": "5a ngõ 105 Yên Hoà, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773658529776",
+    "address": "Ngõ 148 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": null
+  },
+  {
+    "id": "1773658686603",
+    "address": "Ngõ 148 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": null
+  },
+  {
+    "id": "1773660151919",
+    "address": "Ngõ 260 Cầu Giấy",
+    "price": "8tr5",
+    "price1": "8500000",
+    "price2": "8500000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773661375546",
+    "address": "Ngõ 35 Trần Thái Tông, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773663886866",
+    "address": "Số 2 ngõ 220 Yên Hòa, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773663991130",
+    "address": "Số 20/28 ngõ 260 Cầu Giấy, Cầu Giấy",
+    "price": "9tr9",
+    "price1": "9900000",
+    "price2": "9900000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773664067088",
+    "address": "Số 4 Ngách 255/8 Cầu Giấy",
+    "price": "5tr3",
+    "price1": "5300000",
+    "price2": "5300000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773664107347",
+    "address": "Số 5 ngõ 35/17 Trần Thái Tông, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773664163112",
+    "address": "Số 6 ngõ 35/17 Trần Thái Tông, Cầu Giấy",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773664200114",
+    "address": "Số 9 ngõ 5 Trần Thái Tông, Cầu Giấy",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773664238064",
+    "address": "Số 28 Ngõ 165 Dương Quảng Hàm, Cầu Giấy",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773664373500",
+    "address": "Số 9 ngõ 5 Trần Thái Tông, Cầu Giấy",
+    "price": "4tr9",
+    "price1": "4900000",
+    "price2": "4900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773664944152",
+    "address": "Ngõ 5 Trần Thái Tông, Cầu Giấy",
+    "price": "4tr9",
+    "price1": "4900000",
+    "price2": "4900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773665274426",
+    "address": "Ngõ 26 Hồ Tùng Mậu, Mai Dịch, Cầu Giấy",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773665943725",
+    "address": "Số 9 ngõ 5 Trần Thái Tông, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773666286202",
+    "address": "Số 9 ngõ 5 Trần Thái Tông, Cầu Giấy",
+    "price": "6tr7",
+    "price1": "6700000",
+    "price2": "6700000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773666322758",
+    "address": "Số 26 Dịch Vọng Hậu, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773666435690",
+    "address": "Số 23 ngõ 120 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773666473789",
+    "address": "Số 6 ngõ 217 Mai Dịch, Cầu Giấy",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773666530030",
+    "address": "Ngõ 120 Trần Duy Hưng, Cầu Giấy",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773666875714",
+    "address": "Ngõ 41 Xuân Thuỷ, Cầu Giấy",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773667089425",
+    "address": "Ngõ 204 Trần Duy Hưng ngách 5 số nhà 14, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773667288874",
+    "address": "Số 14B Ngách 12 Ngõ 38 Khúc Thừa Dụ, Cầu Giấy",
+    "price": "5tr4",
+    "price1": "5400000",
+    "price2": "5600000",
+    "type": "studio, giường tầng"
+  },
+  {
+    "id": "1773667619329",
+    "address": "Ngõ 48 Nguyễn Khánh Toàn số nhà 4, Cầu Giấy",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "studio"
+  }
+]

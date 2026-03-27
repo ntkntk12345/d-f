@@ -1,0 +1,4338 @@
+[
+  {
+    "id": "1773900140230",
+    "address": "Số 30 ngõ 165 Chợ Khâm Thiên, Đống Đa",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1773900475260",
+    "address": "51 Thái Thịnh, Đống Đa",
+    "price": "4tr7-5tr8",
+    "price1": "4.700.000",
+    "price2": "5.800.000",
+    "type": null
+  },
+  {
+    "id": "1773900610276",
+    "address": "Ngõ 51 Thái Thịnh, Đống Đa",
+    "price": "4tr5-5tr5",
+    "price1": "4.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773900677285",
+    "address": "51 Thái Thịnh, Đống Đa",
+    "price": null,
+    "price1": null,
+    "price2": null,
+    "type": null
+  },
+  {
+    "id": "1773900720139",
+    "address": "Ngõ 51 Tam Khương, Đống Đa",
+    "price": "6tr2",
+    "price1": "6.200.000",
+    "price2": "6.200.000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773901174834",
+    "address": "Ngõ 51 Thái Thịnh, Đống Đa",
+    "price": "4tr7-5tr6",
+    "price1": "4.700.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773902034415",
+    "address": "39 Ngõ 89 Xã Đàn, Đống Đa",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773902181191",
+    "address": "Số 38 ngách 38 ngõ 127 Hào Nam, Đống Đa",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773902661661",
+    "address": "Số 32a ngõ 98 Thái Hà, Đống Đa",
+    "price": "7tr5",
+    "price1": "7500000",
+    "price2": "7500000",
+    "type": "1n1k, vskk"
+  },
+  {
+    "id": "1773902787320",
+    "address": "Số 32a ngõ 98 Thái Hà, Đống Đa",
+    "price": "8tr",
+    "price1": "8000000",
+    "price2": "8000000",
+    "type": "1n1k, vskk"
+  },
+  {
+    "id": "1773903273923",
+    "address": "Nhà số 39 ngõ 91 Ô Đồng Lầm, Đống Đa",
+    "price": "5tr6",
+    "price1": "5600000",
+    "price2": "5800000",
+    "type": "studio, 1n1k, vskk"
+  },
+  {
+    "id": "1773903333735",
+    "address": "5 ngách 153 ngõ Chợ Khâm Thiên",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773902211467",
+    "address": "Số 38 ngách 38 ngõ 127 Hào Nam, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773905364016",
+    "address": "Ngách 24 Ngõ Thổ Quan, Đống Đa",
+    "price": "9tr",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773905423418",
+    "address": "Ngõ 678 Đê La Thành, Đống Đa",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773905795350",
+    "address": "Số 135 ngõ 554 Trường Chinh, Đống Đa",
+    "price": "5tr2 - 6tr",
+    "price1": "5.200.000",
+    "price2": "6.000.000",
+    "type": null
+  },
+  {
+    "id": "1773906076472",
+    "address": "40 Thái Thịnh 1, Đống Đa",
+    "price": "10tr",
+    "price1": "10.000.000",
+    "price2": "10.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773906687468",
+    "address": "SN 12 Ngõ 135 Hồ Đắc Di, Đống Đa",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773906973681",
+    "address": "SN 24 Ngách 24 Ngõ Thổ Quan, Đống Đa",
+    "price": "9tr",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773907076520",
+    "address": "Ngõ 136 phố Trung Liệt, Đống Đa",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773907769925",
+    "address": "mặt phố 36 Đê La Thành nhỏ, Đống Đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773908105366",
+    "address": "Ngõ 25B Cát Linh, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773908292718",
+    "address": "số 9 ngõ 102/44/27 Pháo Đài Láng",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773908914022",
+    "address": "số nhà 24 ngách 24 ngõ Thổ Quan, Đống Đa",
+    "price": "9tr",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773909347164",
+    "address": "ngõ 121 Thái Thịnh 1, Đống Đa",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773909411550",
+    "address": "ngõ Thái Thịnh 1, Đống Đa",
+    "price": "8tr",
+    "price1": "8000000",
+    "price2": "8000000",
+    "type": null
+  },
+  {
+    "id": "1773909476079",
+    "address": "ngõ Thái Thịnh 1, Đống Đa",
+    "price": "10tr",
+    "price1": "10000000",
+    "price2": "10000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773910272761",
+    "address": "số 14/81 Láng Hạ, Đống Đa",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773913778771",
+    "address": "Ngõ 1 Khâm Thiên, Đống Đa",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": null
+  },
+  {
+    "id": "1773915927799",
+    "address": "Số nhà 16 ngách 84 ngõ 34 Hoàng Cầu, Đống Đa",
+    "price": "12tr",
+    "price1": "12.000.000",
+    "price2": "12.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773917464148",
+    "address": "Số 97 ngõ 97 Thái Thịnh, Láng Hạ, Đống Đa, Hà Nội",
+    "price": "5tr3/tháng",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773917736105",
+    "address": "Số 4 ngõ 718 Đường Láng, Đống Đa, Hà Nội",
+    "price": "5tr2/tháng",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773918355414",
+    "address": "Số 12 ngõ 178/49 Thái Hà - Đống Đa",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": null
+  },
+  {
+    "id": "1773918442872",
+    "address": "Nhà 27, Ngõ 82, ngách 98 Yên Lãng, Đống Đa, Hà Nội",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773919563186",
+    "address": "Ngõ 1150 Đường Láng, Đống Đa, Hà Nội",
+    "price": "5tr5/tháng",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773919814175",
+    "address": "Ngõ 1150 Đường Láng, Đống Đa",
+    "price": "5tr5/tháng",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773924838998",
+    "address": "Số 6 ngách 119 ngõ Thịnh Quang – Đống Đa",
+    "price": "5tr/tháng",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": null
+  },
+  {
+    "id": "1773925627505",
+    "address": "113 Ngõ Chợ Khâm Thiên - Đống Đa",
+    "price": "7tr -> 9tr",
+    "price1": "7000000",
+    "price2": "9000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773926293347",
+    "address": "Số 51 Ngõ 33 Ngách 7 Phú Mỹ – Nam Từ Liêm",
+    "price": "4tr2- 5tr2",
+    "price1": "4.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773926934609",
+    "address": "39 khương thượng, đống đa",
+    "price": "5tr9",
+    "price1": "5.900.000",
+    "price2": "5.900.000",
+    "type": null
+  },
+  {
+    "id": "1773926975041",
+    "address": "39 khương thượng, đống đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": null
+  },
+  {
+    "id": "1773929025172",
+    "address": "Số 31 ngõ 86 Hào Nam - Đống Đa",
+    "price": "6tr-6tr3-6tr5-STUDIO",
+    "price1": "6.000.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773929049117",
+    "address": "Ngõ Thông Phong, Đống Đa",
+    "price": "4tr7-5.tr-5tr2-5tr7-6tr2",
+    "price1": "4.700.000",
+    "price2": "6.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773929137585",
+    "address": "12B Ngõ 157/23, Pháo Đài Láng, Láng Thượng, Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": null
+  },
+  {
+    "id": "1773929458080",
+    "address": "12B Ngõ 157/23, Pháo Đài Láng, Láng Thượng, Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773930041902",
+    "address": "113 Ngõ Chợ Khâm Thiên - Đống Đa",
+    "price": "7tr -> 9tr",
+    "price1": "7.000.000",
+    "price2": "9.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773930578112",
+    "address": "Số 44 hẻm 17/141/1194 Chùa Láng, Láng Thượng, Đống Đa, Hà Nội",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "1n1k, vskk"
+  },
+  {
+    "id": "1773930582497",
+    "address": "Số 44 hẻm 17/141/1194 Chùa Láng, Láng Thượng, Đống Đa, Hà Nội",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "1n1k, vskk"
+  },
+  {
+    "id": "1773930813739",
+    "address": "157/23 pháo đài láng , Láng Thượng, Đống Đa, Hà Nội",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773928356874",
+    "address": "ngõ 74 Nguyễn Phúc Lai, Đống Đa",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": null
+  },
+  {
+    "id": "1773928749979",
+    "address": "Ngõ 84/34 Hoàng Cầu, Đống Đa",
+    "price": "12 triệu",
+    "price1": "12.000.000",
+    "price2": "12.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773930656560",
+    "address": "Số 44 hẻm 17/141/1194 Chùa Láng, Láng Thượng, Đống Đa, Hà Nội",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773931670395",
+    "address": "Số 12 ngõ 178/49 Thái Hà, Đống Đa",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1773933009816",
+    "address": "Số 17 ngách 157/2 Chùa Láng, Đống Đa",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1773933356832",
+    "address": "Số 39 Khương Thượng, Đống Đa",
+    "price": "5tr9, 6tr9",
+    "price1": "5.900.000",
+    "price2": "6.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773935105554",
+    "address": "51 Thái Thịnh , Đống Đa",
+    "price": "FREE TIỀN NHÀ THÁNG 3",
+    "price1": "0",
+    "price2": "0",
+    "type": null
+  },
+  {
+    "id": "1773935693152",
+    "address": "SỐ 44 HÀNG CHÁO, TÔN ĐỨC THẮNG",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": null
+  },
+  {
+    "id": "1773935990261",
+    "address": "NGÕ 51 THÁI THỊNH",
+    "price": "4tr7 - 5tr6",
+    "price1": "4.700.000",
+    "price2": "5.600.000",
+    "type": null
+  },
+  {
+    "id": "1773936853293",
+    "address": "Ngõ 178 Thái Hà",
+    "price": "4tr3 - 4tr",
+    "price1": "4.000.000",
+    "price2": "4.300.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773937109756",
+    "address": "157/23 pháo đài láng , Láng Thượng, Đống Đa, Hà Nội",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": null
+  },
+  {
+    "id": "1773937327180",
+    "address": "Số 11 ngõ An Trạch 1",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773937735294",
+    "address": "Số 4 ngõ 718 đường Láng, Đống Đa",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "đơn, vskk"
+  },
+  {
+    "id": "1773938960982",
+    "address": "Cuối ngõ 51 Thái Thịnh, Đống Đa",
+    "price": "2tr6",
+    "price1": "2.600.000",
+    "price2": "2.600.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773941125657",
+    "address": "51 Thái Thịnh, Đống Đa",
+    "price": "4tr7-5tr5-5tr6-5tr8",
+    "price1": "4.700.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773941877021",
+    "address": "22 Tôn Thất Tùng - Đống Đa",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773942006582",
+    "address": "ngõ 592 trường chinh, Quận: Đống Đa",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": null
+  },
+  {
+    "id": "1773942276189",
+    "address": "12B Ngõ 157/23, Pháo Đài Láng, Láng Thượng, Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773942420263",
+    "address": "12B Ngõ 157/23, Pháo Đài Láng, Láng Thượng, Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773942676975",
+    "address": "141/ 1194 Láng (Dặn khách đi đến Ao Phủ đầu phía ngõ Chùa Láng), Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773951594509",
+    "address": "Ngõ 22 Tôn Thất Tùng Cũ - Thông Ngõ 354 Trường Chinh, Đống Đa",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773972310161",
+    "address": "Ngõ 157 Pháo Đài Láng, Đống Đa",
+    "price": "7tr3",
+    "price1": "7.300.000",
+    "price2": "7.300.000",
+    "type": "1n1k, vsc"
+  },
+  {
+    "id": "1773974811011",
+    "address": "Số 40 ngõ 592 Trường Chinh, Đống Đa",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": null
+  },
+  {
+    "id": "1773974864630",
+    "address": "105 Phố Kim Hoa, Đống Đa",
+    "price": "4tr8 - 4tr9",
+    "price1": "4.800.000",
+    "price2": "4.900.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773974910003",
+    "address": "105 Phố Kim Hoa, Đống Đa",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773975034814",
+    "address": "105 Phố Kim Hoa, Đống Đa",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773974116288",
+    "address": "51 Thái Thịnh, Đống Đa",
+    "price": "4tr7 - 5tr5 - 5tr6",
+    "price1": "4.700.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773975083723",
+    "address": "105 Phố Kim Hoa, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773975118224",
+    "address": "51 Thái Thịnh, Đống Đa",
+    "price": "4tr7-5tr8",
+    "price1": "4.700.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773975769581",
+    "address": "Số 3F ngõ 81 Láng Hạ, Đống Đa",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773974644029",
+    "address": "26B, ngõ 21 Tam Khương - Đống Đa",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773978094788",
+    "address": "Số 72A ngõ 304 Lê Duẩn - Đống Đa",
+    "price": "11tr5",
+    "price1": "11.500.000",
+    "price2": "11.500.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1773978339808",
+    "address": "51 Thái Thịnh , Đống Đa",
+    "price": "4tr7-5tr5-5tr6-5tr8",
+    "price1": "4.700.000",
+    "price2": "5.800.000",
+    "type": null
+  },
+  {
+    "id": "1773978397977",
+    "address": "30 Cát Linh nhà số 10 - Đống Đa",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773978449484",
+    "address": "61/1 SỐ NHÀ 7 TÂY SƠN",
+    "price": "5tr4-5tr7",
+    "price1": "5.400.000",
+    "price2": "5.700.000",
+    "type": null
+  },
+  {
+    "id": "1773977342078",
+    "address": "26B, ngõ 21 Tam Khương, Đống Đa",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773979417659",
+    "address": "Tòa nhà số 23 Đặng Trần Côn, Đống Đa, Hà Nội",
+    "price": "5tr5-p302-502",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773981028063",
+    "address": "Số 15C ngách 9 ngõ 185 Chùa Láng - Đống Đa",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "null"
+  },
+  {
+    "id": "1773981337782",
+    "address": "Số 2a ngõ 127 pháo đài láng - Đống Đa",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773981380685",
+    "address": "Số 2a ngõ 127 pháo đài láng - Đống Đa",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773981822576",
+    "address": "số 8 ngõ 1160 Đường Láng - Đống Đa",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773982520651",
+    "address": "Nhà 27 ngách 98 Ngõ 82 Yên Lãng, Đống Đa",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773980890187",
+    "address": "số 590 Láng, Đống Đa",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773980916769",
+    "address": "số 590 Láng, Đống Đa",
+    "price": "2tr6",
+    "price1": "2.600.000",
+    "price2": "2.600.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773983127742",
+    "address": "Số 9 ngách 88 ngõ thịnh quang, Đống Đa",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773983245936",
+    "address": "175 Khương Thượng, Đống Đa",
+    "price": "5tr3-p202\n5tr7-p601",
+    "price1": "5.300.000",
+    "price2": "5.700.000",
+    "type": "gác xép, vskk"
+  },
+  {
+    "id": "1773983371261",
+    "address": "số 17, ngõ 155 Cự Lộc, Đống Đa",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773983875638",
+    "address": "ngõ 82/11 Nguyễn Phúc Lai, Ô chợ Dừa, Đống Đa",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773983910100",
+    "address": "ngõ 82/11 Nguyễn Phúc Lai, Ô chợ Dừa, Đống Đa",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773986611597",
+    "address": "Nhà 27, Ngõ 82, ngách 98 Yên Lãng, Đống Đa, Hà Nội",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773987342534",
+    "address": "ngách 9 ngõ 185 Chùa Láng, Đống Đa",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": null
+  },
+  {
+    "id": "1773987649188",
+    "address": "Mặt Phố Trần Quang Diệu, Hoàng Cầu, Đống Đa",
+    "price": "13tr5",
+    "price1": "13.500.000",
+    "price2": "13.500.000",
+    "type": "1n, 1b"
+  },
+  {
+    "id": "1773989133390",
+    "address": "Nhà 27 Ngõ 82 Ngách 98 Yên Lãng, Đống Đa",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "gác xép, giường tầng"
+  },
+  {
+    "id": "1773989204453",
+    "address": "302 Văn Chương, Khâm Thiên, Đống Đa",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773989747890",
+    "address": "Ngõ 426/20 Đường Láng, Đống Đa",
+    "price": "10tr",
+    "price1": "10.000.000",
+    "price2": "10.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773981716572",
+    "address": "1194 Đường Láng",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "2N1K"
+  },
+  {
+    "id": "1773990737478",
+    "address": "6 Ngõ C4 Vũ Ngọc Phan - Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773991401479",
+    "address": "141/1194 Láng - Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773991565824",
+    "address": "157/23 Pháo Đài Láng - Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1773991643760",
+    "address": "16 Thái Hà - Đống Đa",
+    "price": "12tr",
+    "price1": "12.000.000",
+    "price2": "12.000.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1773991685479",
+    "address": "157/23 Pháo Đài Láng - Đống Đa",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773992010626",
+    "address": "Ngõ 157 Chùa Láng - Đống Đa",
+    "price": "9tr",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1773993090026",
+    "address": "ngõ 10 Láng hạ, Đống Đa",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": null
+  },
+  {
+    "id": "1773993146539",
+    "address": "302 Văn Chương, Khâm Thiên",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773993410440",
+    "address": "số 24 Ngõ 44 Pháo Đài Láng, phường Láng Thượng, Đống Đa",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": null
+  },
+  {
+    "id": "1773993444933",
+    "address": "số 17 Ngõ 44 Pháo Đài Láng, phường Láng Thượng, Đống Đa",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773993493671",
+    "address": "số 24 Ngõ 44 Pháo Đài Láng, phường Láng Thượng, Đống Đa",
+    "price": "4tr4 - 4tr6",
+    "price1": "4.400.000",
+    "price2": "4.600.000",
+    "type": null
+  },
+  {
+    "id": "1773994037515",
+    "address": "Ngõ 86 Hào Nam, Đống Đa",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773994072172",
+    "address": "Ngõ 378 Lê Duẩn, Đống Đa",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773994292808",
+    "address": "Ngõ 86 Hạo Nam, Đống Đa",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773994328460",
+    "address": "Ngõ 378 Lê Duẩn, Đống Đa",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": null
+  },
+  {
+    "id": "1773994479022",
+    "address": "Ngõ 34 Hoàng Cầu, Đống Đa",
+    "price": "5tr3",
+    "price1": "5300000",
+    "price2": "5300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773995034015",
+    "address": "Số 9 ngõ 102/44/27 Pháo Đài Láng, Đống Đa",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773995192330",
+    "address": "Ngõ 34 Hoàng Cầu, Đống Đa",
+    "price": "5tr3",
+    "price1": "5300000",
+    "price2": "5300000",
+    "type": null
+  },
+  {
+    "id": "1773995226057",
+    "address": "Số 4 ngách 22/44 ngõ 102 Pháo Đài Láng, Đống Đa",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773995260754",
+    "address": "Ngõ 378 Lê Duẩn, Đống Đa",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": null
+  },
+  {
+    "id": "1773995302012",
+    "address": "Ngõ 86 Hạo Nam, Đống Đa",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": null
+  },
+  {
+    "id": "1773995836669",
+    "address": "Số 3F ngõ 81 Láng Hạ, Đống Đa",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773995952313",
+    "address": "141/ 1194 Láng, Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "1N1K, vskk"
+  },
+  {
+    "id": "1773996692955",
+    "address": "12B Ngõ 157/23, Pháo Đài Láng, Láng Thượng, Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "1N1K, vskk"
+  },
+  {
+    "id": "1773996347665",
+    "address": "Số 32 ngõ 10 Láng Hạ",
+    "price": "9 triệu",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": null
+  },
+  {
+    "id": "1773996347665",
+    "address": "Số 32 ngõ 10 Láng Hạ",
+    "price": "7 triệu",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": null
+  },
+  {
+    "id": "1773996520212",
+    "address": "ngõ 10 Láng Hạ, Đống Đa",
+    "price": "9 triệu",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": null
+  },
+  {
+    "id": "1773996520212",
+    "address": "ngõ 10 Láng Hạ, Đống Đa",
+    "price": "7 triệu",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": null
+  },
+  {
+    "id": "1773996808419",
+    "address": "12B Ngõ 157/23, Pháo Đài Láng, Láng Thượng, Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773997879330",
+    "address": "ngõ 46 Hào Nam - Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773997945858",
+    "address": "ngõ 46 Hào Nam - Đống Đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773998351667",
+    "address": "141/1194 Láng",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773998397652",
+    "address": "Ngõ 16 Thái Hà, Đống Đa",
+    "price": "12tr",
+    "price1": "12.000.000",
+    "price2": "12.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773998431094",
+    "address": "12B Ngõ 157/23, Pháo Đài Láng, Láng Thượng, Đống Đa",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": null
+  },
+  {
+    "id": "1773998731496",
+    "address": "Nhà 27, Ngõ 82, ngách 98 Yên Lãng - Đống Đa",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": null
+  },
+  {
+    "id": "1773998828544",
+    "address": "Ngõ 592 số nhà 91 Trường Chinh - Đống Đa",
+    "price": "5tr4",
+    "price1": "5.400.000",
+    "price2": "5.400.000",
+    "type": null
+  },
+  {
+    "id": "1773999445780",
+    "address": "Số 33D ngõ 72/82 Tôn Thất Tùng - Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773999445780",
+    "address": "Số 33D ngõ 72/82 Tôn Thất Tùng - Đống Đa",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773999445780",
+    "address": "Số 33D ngõ 72/82 Tôn Thất Tùng - Đống Đa",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773999625103",
+    "address": "TÒA D Số 33D ngõ 72/82 Tôn Thất Tùng - Đống Đa",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774000039446",
+    "address": "TÒA D Số 33D ngõ 72/82 Tôn Thất Tùng - Đống Đa",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774000425792",
+    "address": "Ngõ 86 Hào Nam, Ô Chợ Dừa, Đống Đa",
+    "price": "P101-7tr1, P401- 7tr3",
+    "price1": "7.100.000",
+    "price2": "7.300.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774001012607",
+    "address": "Toà C Số 33C ngõ 72/82 Tôn Thất Tùng - Đống Đa",
+    "price": "P202tr3-4tr8, P701- 5tr7, P601- 6tr8",
+    "price1": "4.300.000",
+    "price2": "6.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774001111732",
+    "address": "153 Pháo Đài Láng",
+    "price": "P201-7tr5, p301-8tr, P302,P602-8tr3, P303,P604 -8tr7",
+    "price1": "7.500.000",
+    "price2": "8.700.000",
+    "type": null
+  },
+  {
+    "id": "1774001423426",
+    "address": "ngõ 86 Hào Nam- Đống Đa",
+    "price": "6tr -6tr3",
+    "price1": "6.000.000",
+    "price2": "6.300.000",
+    "type": null
+  },
+  {
+    "id": "1773989715164",
+    "address": "426/20 đường Láng",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": null
+  },
+  {
+    "id": "1773999691835",
+    "address": "TÒA D Số 33D ngõ 72/82 Tôn Thất Tùng - Đống Đa",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774002419483",
+    "address": "140 trung phụng - Đống Đa",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1774003566276",
+    "address": "Số nhà 33+35 Ngõ 113 Thái Thịnh, Đống Đa",
+    "price": "7tr",
+    "price1": "7000000",
+    "price2": "7000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774003957669",
+    "address": "Ngõ 100 Yên Lãng, Đống Đa",
+    "price": "7tr-7tr5",
+    "price1": "7000000",
+    "price2": "7500000",
+    "type": null
+  },
+  {
+    "id": "1774004012744",
+    "address": "Nhà 766 Đê La Thành, Đống Đa",
+    "price": "6tr9",
+    "price1": "6900000",
+    "price2": "6900000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774004698997",
+    "address": "Ngõ 16 Thái Hà, Đống Đa",
+    "price": "12tr",
+    "price1": "12000000",
+    "price2": "12000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773994578321",
+    "address": "CÁT LINH, ĐỐNG ĐA",
+    "price": "20tr",
+    "price1": "20.000.000",
+    "price2": "20.000.000",
+    "type": null
+  },
+  {
+    "id": "1773998697018",
+    "address": "ĐỐNG ĐA",
+    "price": "15tr",
+    "price1": "15.000.000",
+    "price2": "16.000.000",
+    "type": null
+  },
+  {
+    "id": "1774009228708",
+    "address": "Ngõ 317 Tây Sơn, Đống Đa",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774010035461",
+    "address": "CCMN 105 Trung Phụng, Đống Đa",
+    "price": "5tr4-5tr9",
+    "price1": "5.400.000",
+    "price2": "5.900.000",
+    "type": null
+  },
+  {
+    "id": "1774010888640",
+    "address": "SỐ 135 ngõ 554 Trường Chinh - Quận Đống Đa",
+    "price": "5tr5-p1\n5tr2-p2,p4\n6tr-p3",
+    "price1": "5.500.000",
+    "price2": "6.000.000",
+    "type": "2n1b"
+  },
+  {
+    "id": "1774012192987",
+    "address": "ngõ 105 TRUNG PHỤNG - ĐỐNG ĐA",
+    "price": "5tr4\n5tr9",
+    "price1": "5.400.000",
+    "price2": "5.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774012516597",
+    "address": "số 18 ngách 17 ngõ 180 Kim Hoa (thông ngõ 241 ngõ chợ Khâm thiên)",
+    "price": "5tr8\n5tr5",
+    "price1": "5.500.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774011134341",
+    "address": "số 18 ngách 17 ngõ 180 Kim Hoa, đống đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": null
+  },
+  {
+    "id": "1774013887584",
+    "address": "113 Ngõ Chợ Khâm Thiên, Đống Đa",
+    "price": "7tr - 9tr",
+    "price1": "7.000.000",
+    "price2": "9.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774014045622",
+    "address": "Số 49 Ngõ 1160 Đường Láng, Đống Đa",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774014559870",
+    "address": "Số 26 ngõ 1002/5 Đường Láng, Đống Đa",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774014756531",
+    "address": "Số 24 ngõ 150 Chùa Láng - Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774014900565",
+    "address": "Số 3 ngõ 1194/19 Đường Láng - Đống Đa",
+    "price": "14tr",
+    "price1": "14.000.000",
+    "price2": "14.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774015007956",
+    "address": "Số 113 Ngõ 136 Chùa Láng - Đống Đa",
+    "price": "P102 - 6tr6",
+    "price1": "6.600.000",
+    "price2": "7.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774015088755",
+    "address": "Số 148 ngõ Quan Thổ 1 - Đống Đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774015198774",
+    "address": "TÒA D Số 33D ngõ 72/82 Tôn Thất Tùng - Đống Đa",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774016112823",
+    "address": "Số 83 Ngõ 242 Đường Láng - Đống Đa",
+    "price": "4tr8,4tr9tr5",
+    "price1": "4.800.000",
+    "price2": "4.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774013854964",
+    "address": "Số 34 Ngõ 159 Pháo Đài Láng, Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774014825379",
+    "address": "51 Thái Thịnh, Đống Đa",
+    "price": "4tr7-5tr5",
+    "price1": "4.700.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774015698580",
+    "address": "Số 3 Ngõ 302 Đường Láng, Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774015784431",
+    "address": "41/33 Thái Hà, Đống Đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774016195613",
+    "address": "ngõ 522 Trường Chinh, Đống Đa",
+    "price": "3tr - 3tr5",
+    "price1": "3.000.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1774018260298",
+    "address": "21 ngõ 1160 Láng, Đống Đa",
+    "price": "11tr8",
+    "price1": "11.800.000",
+    "price2": "11.800.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774018513895",
+    "address": "110 ngõ 242 Láng - Đống Đa",
+    "price": "7tr5 - P501\n7tr2 - P502",
+    "price1": "7.200.000",
+    "price2": "7.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774018667290",
+    "address": "51 Thái Thịnh , Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774019114924",
+    "address": "Ngõ 127 ngách 38 Hào Nam, Đống Đa",
+    "price": "4tr5\n5tr5\n6tr5",
+    "price1": "4.500.000",
+    "price2": "6.500.000",
+    "type": "gác xép, studio"
+  },
+  {
+    "id": "1774019175828",
+    "address": "số 5+6 ngõ c4 vũ ngọc phan- Quận: Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774019684372",
+    "address": "Phố Văn Chương, Đống Đa",
+    "price": "10tr5",
+    "price1": "10.500.000",
+    "price2": "10.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774019905533",
+    "address": "20 ngõ Thái Thịnh 1 ngách 23 số nhà 3 - Đống Đa",
+    "price": "8tr5",
+    "price1": "8.500.000",
+    "price2": "8.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774020058554",
+    "address": "242 Láng - Đống Đa",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": null
+  },
+  {
+    "id": "1774020137446",
+    "address": "51 Thái Thịnh , Đống Đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1774020235278",
+    "address": "7 ngách 26 ngõ 113 Vĩnh Hồ, Thái Thịnh , Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774018539226",
+    "address": "Số 95 phố Kim Hoa, Xã Đàn - Đống Đa",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": null
+  },
+  {
+    "id": "1774019723810",
+    "address": "72 Trúc Khê",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774019805692",
+    "address": "số 7 ngõ 189 Khương Thượng - Đống Đa",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774019845285",
+    "address": "Số 3 ngách 20 ngõ thái thịnh 1, Đống Đa",
+    "price": "8tr5",
+    "price1": "8.500.000",
+    "price2": "8.500.000",
+    "type": "2N1K"
+  },
+  {
+    "id": "1774019955865",
+    "address": "Số 3 ngách 20 ngõ thái thịnh 1 - Đống Đa",
+    "price": "8tr5",
+    "price1": "8.500.000",
+    "price2": "8.500.000",
+    "type": "2N1K"
+  },
+  {
+    "id": "1774020140269",
+    "address": "51 Thái Thịnh , Đống Đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1774021095832",
+    "address": "12/ 66 Ngõ giếng,Ô Chợ dừa, đống đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1774021438807",
+    "address": "12/ 66 Ngõ giếng Ô Chợ Dừa - Quận: Đống đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774019291691",
+    "address": "ngõ Văn Chương - Đống Đa",
+    "price": "14tr - P402 - 3n1k",
+    "price1": "14.000.000",
+    "price2": "14.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774019778445",
+    "address": "Sn 29 Ngõ 81 Xã Đàn Đống Đa",
+    "price": "5tr2 - 1/4 trống",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "null"
+  },
+  {
+    "id": "1774020436243",
+    "address": "7 ngách 26 ngõ 113 Vĩnh Hồ, Thái Thịnh , Đống Đa",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774020892699",
+    "address": "96 Đê La Thành - Đống Đa",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774022437622",
+    "address": "ngách 20 ngõ thái thịnh 1 - Đống Đa",
+    "price": "8tr5",
+    "price1": "8.500.000",
+    "price2": "8.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774022632790",
+    "address": "175B Khương Thượng - Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1774022736673",
+    "address": "Ngõ 109 Ô Đồng Lầm ( Hồ Ba Mẫu)- Đống đa",
+    "price": "4tr6-4tr8",
+    "price1": "4.600.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774024215122",
+    "address": "ngõ 1194 Láng, Đống Đa",
+    "price": "5tr-5tr2",
+    "price1": "5.000.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774024997689",
+    "address": "Số 148 ngõ Quan Thổ 1 - Đống Đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774025294539",
+    "address": "Số 3 ngõ 1194/19 Đường Láng - Đống đa",
+    "price": "14tr",
+    "price1": "14.000.000",
+    "price2": "14.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774025669842",
+    "address": "Số 26 Ngõ 1002/5 Đường Láng - Đống Đa",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774025773408",
+    "address": "Số 49 Ngõ 1160 Đường Láng - Đống Đa",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774025918445",
+    "address": "121 ngõ Thái Thịnh 1, Đống đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774021164964",
+    "address": "ngõ 9 lương đình Của - Đống Đa",
+    "price": "2tr4",
+    "price1": "2.400.000",
+    "price2": "2.400.000",
+    "type": null
+  },
+  {
+    "id": "1774021297411",
+    "address": "Ngách 273 Ngõ Chợ Khâm Thiên - Đống Đa",
+    "price": "2tr8",
+    "price1": "2.800.000",
+    "price2": "2.800.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774021408873",
+    "address": "Ngách 273 Ngõ Chợ Khâm Thiên - Đống Đa",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774021524449",
+    "address": "562 đường láng - Đống Đa",
+    "price": "2tr5 - 2tr8",
+    "price1": "2.500.000",
+    "price2": "2.800.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774021605240",
+    "address": "ngõ 1194 Láng - ĐỐNG ĐA",
+    "price": "5tr2 - P403 vào luôn",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774022296106",
+    "address": "Ngõ 376 Lê Duẩn - Đống Đa",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774022335192",
+    "address": "Tôn Đức Thắng - Đống Đa",
+    "price": "11tr",
+    "price1": "11.000.000",
+    "price2": "11.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774023458375",
+    "address": "Số 83 Ngõ 242 Đường Láng - Đống Đa",
+    "price": "4tr8 - 4tr9 - 5tr",
+    "price1": "4.800.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774023738084",
+    "address": "Số 3 Ngõ 302 Đường Láng - Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774025093144",
+    "address": "Số 113 Ngõ 136 Chùa Láng - Đống Đa",
+    "price": "P102 - 6tr6",
+    "price1": "6.600.000",
+    "price2": "6.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774025241297",
+    "address": "Số 11 ngõ An Trạch 1, Đống Đa",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774025343516",
+    "address": "Số 24 ngõ 150 Chùa Láng - Đống đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774025479923",
+    "address": "Số 3 ngõ 1194/19 Đường Láng - Đống đa",
+    "price": "14tr",
+    "price1": "14.000.000",
+    "price2": "14.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774026152031",
+    "address": "Số 34 Ngõ 159 Pháo Đài Láng - Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774026184689",
+    "address": "Ngõ 178 Tây Sơn - Đống Đa",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774026445544",
+    "address": "Ngõ 136 Chùa Láng - Đống Đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774026743964",
+    "address": "Số 51 Ngõ 242 Đường Láng - Đống Đa",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774029662995",
+    "address": "Ngõ 592 nhà 91 Trường Chinh, Đống Đa",
+    "price": "5tr4",
+    "price1": "5.400.000",
+    "price2": "5.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774029762971",
+    "address": "ngõ 51 Tam Khương, Đống Đa",
+    "price": "6tr2",
+    "price1": "6.200.000",
+    "price2": "6.200.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774021325863",
+    "address": "ngõ 9 lương đình Của, Đống Đa",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1774020918861",
+    "address": "Ngõ: 562 Đường Láng, Đống Đa",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": null
+  },
+  {
+    "id": "1774030413739",
+    "address": "Số 59 ngõ 154 chợ Khâm Thiên - Đống Đa",
+    "price": "4tr7,4tr9",
+    "price1": "4.700.000",
+    "price2": "4.900.000",
+    "type": "studio, giường tầng"
+  },
+  {
+    "id": "1774030449830",
+    "address": "Số 9 ngõ 165 Khương Thượng - Đống Đa",
+    "price": "4tr9,5tr2",
+    "price1": "4.900.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774030542529",
+    "address": "Số 130/ 160 Khương thượng - Đống Đa",
+    "price": "4tr6,4tr6,5tr1",
+    "price1": "4.600.000",
+    "price2": "5.100.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774030723114",
+    "address": "Đê La Thành, giáp Ba Đình, Đống Đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1774031863723",
+    "address": "51 Thái Thịnh , Đống Đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1774021137960",
+    "address": "12A 1194/141/17/3 Đường Láng",
+    "price": "10tr5",
+    "price1": "10.500.000",
+    "price2": "10.500.000",
+    "type": null
+  },
+  {
+    "id": "1774031575673",
+    "address": "51 Thái Thịnh, Đống Đa",
+    "price": "null",
+    "price1": "null",
+    "price2": "null",
+    "type": "1N1K"
+  },
+  {
+    "id": "1774032464570",
+    "address": "Ngõ Linh Quang - Văn Chương, Đống Đa, Hà Nội",
+    "price": "14tr",
+    "price1": "14.000.000",
+    "price2": "14.000.000",
+    "type": "3N1K, 2N1K"
+  },
+  {
+    "id": "1774031509758",
+    "address": "Trung tâm Xã Đàn, Đống Đa",
+    "price": "5tr4",
+    "price1": "5.400.000",
+    "price2": "5.900.000",
+    "type": null
+  },
+  {
+    "id": "1774035481791",
+    "address": "Ngõ 4 Vũ Ngọc Phan - Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774051801856",
+    "address": "ngõ 81 Láng Hạ, Đống Đa",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1774056585527",
+    "address": "7 ngõ 48 Thái Hà, Đống Đa",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1774057004128",
+    "address": "ngách 51 ngõ 251 Xã Đàn - Đống Đa",
+    "price": "6tr-p501",
+    "price1": "4.600.000",
+    "price2": "6.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774057649355",
+    "address": "Nhà số 5 ngách 153 ngõ chợ Khâm Thiên",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774057854648",
+    "address": "số 26B ngõ 21 Tam Khương, Đống Đa",
+    "price": "5tr3-p101",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774059916602",
+    "address": "56/115 Nguyễn lương bằng, Đống Đa",
+    "price": "5tr1",
+    "price1": "5.100.000",
+    "price2": "5.100.000",
+    "type": null
+  },
+  {
+    "id": "1774061093657",
+    "address": "Ngõ 18 – Ngõ 219 Nguyễn Ngọc Vũ, Cầu Giấy, Hà Nội",
+    "price": "7tr5",
+    "price1": "7.500.000",
+    "price2": "8.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774061396312",
+    "address": "1194 Đường Láng",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "1 ngủ"
+  },
+  {
+    "id": "1774061465897",
+    "address": "Số 26 Ngõ 1002/5 Đường Láng, đống đa",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "1 ngủ"
+  },
+  {
+    "id": "1774061947771",
+    "address": "Ngõ 281A Trường Chinh, Đống Đa",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1774062775202",
+    "address": "17 ngõ Thịnh Quang Tây Sơn, Đống Đa",
+    "price": "4tr7",
+    "price1": "4.700.000",
+    "price2": "4.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774063123735",
+    "address": "Sn 29 Ngõ 81 Xã Đàn, Đống Đa",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": null
+  },
+  {
+    "id": "1774063369878",
+    "address": "nhà 26 ngõ 426 ngách 48 đường Láng, Đống Đa",
+    "price": "5tr3-.5tr5",
+    "price1": "5.300.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774063448299",
+    "address": "75 Trần Quang Diệu, Đống Đa",
+    "price": "5tr2-5tr7",
+    "price1": "5.200.000",
+    "price2": "5.700.000",
+    "type": null
+  },
+  {
+    "id": "1774063199620",
+    "address": "Ngõ 426/20 Đường Láng, Đống Đa",
+    "price": "10tr",
+    "price1": "10.000.000",
+    "price2": "10.000.000",
+    "type": "2N1K"
+  },
+  {
+    "id": "1774064243494",
+    "address": "204 Tôn Đức Thắng, Đống Đa",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774064327857",
+    "address": "178 Nguyễn Lương Bằng, Đống Đa,HN",
+    "price": "4tr6-4tr8-5tr",
+    "price1": "4.600.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774065062121",
+    "address": "72 Tôn Thất Tùng - Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774065144134",
+    "address": "Số 14 ngõ 718 Láng - Đống Đa",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774065357301",
+    "address": "Ngõ 127 Quan Thổ 1 - Đống Đa",
+    "price": "4tr,4tr5,5tr5",
+    "price1": "4.000.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774062438288",
+    "address": "Ngõ 317 Tây Sơn, đống đa",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": null
+  },
+  {
+    "id": "1774062473997",
+    "address": "ngõ An Trạch 2- Phố Đoàn, Thị Điểm - Đống Đa",
+    "price": "5tr6-5tr8",
+    "price1": "5.600.000",
+    "price2": "5.800.000",
+    "type": null
+  },
+  {
+    "id": "1774066726004",
+    "address": "ngõ 426/48 đường Láng - Đống Đa",
+    "price": "4tr1 - 5tr5",
+    "price1": "4.100.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1774066871660",
+    "address": "106 Trung Liệt - Thái Hà - Đống Đa",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": null
+  },
+  {
+    "id": "1774068263344",
+    "address": "Ngõ 26 Vương Thừa Vũ -Quận: Thanh Xuân",
+    "price": "7tr5",
+    "price1": "7.500.000",
+    "price2": "7.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774068370395",
+    "address": "Ngõ 26 Vương Thừa Vũ -Quận: Thanh Xuân",
+    "price": "7tr5",
+    "price1": "7.500.000",
+    "price2": "7.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774072887681",
+    "address": "Hồ Cây Sữa - Ngõ Chợ Khâm",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774073455704",
+    "address": "ngõ 302 Đường Láng, đống đa",
+    "price": "5tr20m2",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774073455704",
+    "address": "ngõ 302 Đường Láng, đống đa",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "giường tầng, vskk"
+  },
+  {
+    "id": "1774073455704",
+    "address": "ngõ 302 Đường Láng, đống đa",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774075526241",
+    "address": "Hồ Cây Sữa - Ngõ Chợ Khâm",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774075932080",
+    "address": "Số 90 Ngõ 580 Trường Chinh - Khương Thượng - Đống Đa",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774077064034",
+    "address": "Số 67 Ngõ 39 Hào Nam, Đống Đa",
+    "price": "7tr5",
+    "price1": "7.500.000",
+    "price2": "7.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774077116268",
+    "address": "Ngõ 223 Ngách 24 Số Nhà 27 Đặng Tiến Đông, Đống Đa",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774077116268",
+    "address": "Ngõ 223 Ngách 24 Số Nhà 27 Đặng Tiến Đông, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774077116268",
+    "address": "Ngõ 223 Ngách 24 Số Nhà 27 Đặng Tiến Đông, Đống Đa",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774077162543",
+    "address": "Số 40 Ngõ 29 Xã Đàn, Đống Đa",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774078173135",
+    "address": "105 Phố Kim Hoa, Xã Đàn, Đống Đa",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774078173135",
+    "address": "105 Phố Kim Hoa, Xã Đàn, Đống Đa",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774078173135",
+    "address": "105 Phố Kim Hoa, Xã Đàn, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774078173135",
+    "address": "105 Phố Kim Hoa, Xã Đàn, Đống Đa",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774078173135",
+    "address": "105 Phố Kim Hoa, Xã Đàn, Đống Đa",
+    "price": "5tr7",
+    "price1": "5.700.000",
+    "price2": "5.700.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774078173135",
+    "address": "105 Phố Kim Hoa, Xã Đàn, Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774078445512",
+    "address": "Ngõ 198 Xã Đàn, Đống Đa",
+    "price": "6tr2",
+    "price1": "6.200.000",
+    "price2": "6.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774078553860",
+    "address": "74 Trúc Khê, Đống Đa",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774078344973",
+    "address": "105 Phố Kim Hoa, Xã Đàn - Đống Đa",
+    "price": "4tr8,4tr9,5tr5,5tr6,5tr7,5tr8",
+    "price1": "4.800.000",
+    "price2": "5.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774079034269",
+    "address": "Ngõ 51 Thái Thịnh, Số Nhà 2 - Đống Đa",
+    "price": "4tr7,5tr6",
+    "price1": "4.700.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774079136402",
+    "address": "Ngõ 51 Thái Thịnh, Số Nhà 2 - Đống Đa",
+    "price": "4tr7,5tr3,5tr4,5tr5",
+    "price1": "4.700.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774079196798",
+    "address": "Ngõ 51 Thái Thịnh, Số Nhà 2 - Đống Đa",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": null
+  },
+  {
+    "id": "1774079421052",
+    "address": "Số 31 Ngõ 136 phố Trung Liệt",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774079525470",
+    "address": "Ngõ 61/1 Số nhà 7 Tây Sơn - Đống Đa",
+    "price": "5tr3,5tr7",
+    "price1": "5.300.000",
+    "price2": "5.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774080117400",
+    "address": "Số 30 Ngõ 165 Chợ Khâm Thiên - Đống Đa",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774080269314",
+    "address": "Số 5C ngách 36 ngõ 51 Tam Khương - Đống Đa",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774080791559",
+    "address": "Ngõ 127 ngách 38 Hào Nam, Đống Đa",
+    "price": "4tr5-6tr5",
+    "price1": "4500000",
+    "price2": "6500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774080879769",
+    "address": "Mặt Phố Pháo Đài Láng, Đống Đa",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": null
+  },
+  {
+    "id": "1774081718137",
+    "address": "Ngõ Thổ Quan, Khâm Thiên, Đống Đa",
+    "price": "6tr-6tr5",
+    "price1": "6000000",
+    "price2": "6500000",
+    "type": null
+  },
+  {
+    "id": "1774081983469",
+    "address": "Số 44 ngõ 89 Xã Đàn",
+    "price": "4tr5-4tr8",
+    "price1": "4500000",
+    "price2": "4800000",
+    "type": null
+  },
+  {
+    "id": "1774082142200",
+    "address": "292 ngõ chợ Khâm Thiên",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774082199092",
+    "address": "Số 7, ngõ 61/1 Tây Sơn",
+    "price": "5tr3-5tr7",
+    "price1": "5300000",
+    "price2": "5700000",
+    "type": null
+  },
+  {
+    "id": "1774082426298",
+    "address": "Số 2 hẻm 17 ngách 50 ngõ 612 Đê La Thành, Đống Đa",
+    "price": "5tr2-5tr4",
+    "price1": "5200000",
+    "price2": "5400000",
+    "type": "studio, giường tầng"
+  },
+  {
+    "id": "1774082766686",
+    "address": "số 15c ngách 9 ngõ 185 Chùa Láng",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": "studio"
+  },
+  {
+    "id": "1774083353822",
+    "address": "Ngõ 6 Đặng Văn Ngữ, Đống Đa",
+    "price": "4tr - 4tr1",
+    "price1": "4000000",
+    "price2": "4100000",
+    "type": null
+  },
+  {
+    "id": "1774083386730",
+    "address": "478 Xã Đàn, Đống Đa",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774083452860",
+    "address": "ngõ 105 Láng Hạ, Đống Đa",
+    "price": "5tr7",
+    "price1": "5700000",
+    "price2": "5700000",
+    "type": null
+  },
+  {
+    "id": "1774083569808",
+    "address": "Ngõ 171 Thái Hà, Đống Đa",
+    "price": "5tr - 5tr8",
+    "price1": "5000000",
+    "price2": "5800000",
+    "type": null
+  },
+  {
+    "id": "1774083609977",
+    "address": "ngõ 89 Xã Đàn, Đống Đa",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1774083652953",
+    "address": "Ngõ 292 chợ Khâm Thiên, Đống Đa",
+    "price": "4tr4",
+    "price1": "4400000",
+    "price2": "4400000",
+    "type": "studio"
+  },
+  {
+    "id": "1774083816548",
+    "address": "ngõ 91 Hồ Ba Mẫu, Đống Đa",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": null
+  },
+  {
+    "id": "1774084009980",
+    "address": "ngõ 52 La Thành, Đống Đa",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774084083222",
+    "address": "Số 15C ngách 9 ngõ 185 Chùa Láng, Đống Đa",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": null
+  },
+  {
+    "id": "1774084670071",
+    "address": "113 Ngõ Chợ Khâm Thiên, Đống Đa, Hà Nội",
+    "price": "9tr",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774084802799",
+    "address": "Số 49 Ngõ 1160 Đường Láng - Đống Đa",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774084943784",
+    "address": "Số 26 Ngõ 1002/5 Đường Láng - Đống Đa",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774085069260",
+    "address": "ngõ 75 Đặng Văn Ngữ - Đống Đa",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": null
+  },
+  {
+    "id": "1774085158859",
+    "address": "Số 24 ngõ 150 Chùa Láng - Đống đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774086357508",
+    "address": "153 Ngõ Chợ Khâm Thiên, Đống Đa",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1774086744827",
+    "address": "Số 5C ngách 36 ngõ 51 Tam Khương, Đống Đa",
+    "price": "5tr6",
+    "price1": "5600000",
+    "price2": "5600000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774086863388",
+    "address": "Số nhà 32 ngách 25/7 phố Vũ Ngọc Phan, Đống Đa",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774086929669",
+    "address": "Số 30 Ngõ 165 Chợ Khâm Thiên, Đống Đa",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1774087351820",
+    "address": "Ngõ 121 Thái Thịnh 1, Đống Đa",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774088168572",
+    "address": "ngõ 82/23 Yên Lãng, Đống Đa",
+    "price": "6tr7",
+    "price1": "6.700.000",
+    "price2": "6.700.000",
+    "type": null
+  },
+  {
+    "id": "1774088591152",
+    "address": "22 Tôn Thất Tùng, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1774088630524",
+    "address": "Ngõ 157 Pháo Đài Láng, Đống Đa",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774089818680",
+    "address": "73 Nguyễn Lương Bằng, Đống Đa",
+    "price": "9tr",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774089874564",
+    "address": "ngách 103 ngõ 1194 Láng, Đống Đa",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774089996898",
+    "address": "ngõ 127 Hào Nam, Ô Chợ Dừa, Đống Đa",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": null
+  },
+  {
+    "id": "1774090028744",
+    "address": "ngõ 52 La Thành, Đống Đa",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": null
+  },
+  {
+    "id": "1774090071888",
+    "address": "Ngõ 1002/5 đường Láng, Đống Đa",
+    "price": "5tr3 - 5tr5",
+    "price1": "5.300.000",
+    "price2": "5.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774090192255",
+    "address": "Ngõ 61/1 Tây Sơn, Đống Đa",
+    "price": "5tr3 - 5tr7",
+    "price1": "5.300.000",
+    "price2": "5.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774091211712",
+    "address": "Ngõ 157 Pháo Đài Láng, Đống Đa",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774093595500",
+    "address": "ngõ 102 pháo đài láng số nhà 22, Đống Đa",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": null
+  },
+  {
+    "id": "1774095216416",
+    "address": "612 đê la thành, đống đa",
+    "price": "5tr2-5tr4",
+    "price1": "5.200.000",
+    "price2": "5.400.000",
+    "type": null
+  },
+  {
+    "id": "1774095219362",
+    "address": "612 đê la thành, đống đa",
+    "price": "5tr2-5tr4",
+    "price1": "5.200.000",
+    "price2": "5.400.000",
+    "type": null
+  },
+  {
+    "id": "1774096239945",
+    "address": "292 ngõ chợ khâm thiên",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774101487930",
+    "address": "12 ngách 34, ngõ 612, Đê La Thành",
+    "price": "4tr4",
+    "price1": "4400000",
+    "price2": "4400000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1774101660203",
+    "address": "14 ngách 34, ngõ 612, Đê La Thành",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1774102246086",
+    "address": "38 ngõ 157 Chùa Láng",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": null
+  },
+  {
+    "id": "1774102298200",
+    "address": "ngõ 27 Xã Đàn (ngõ 46 Phạm Ngọc Thạch đi vào), Đống Đa",
+    "price": "7tr8",
+    "price1": "7800000",
+    "price2": "7800000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774102487043",
+    "address": "61/1 Số nhà 7 Tây Sơn",
+    "price": "5tr4-5tr7",
+    "price1": "5400000",
+    "price2": "5700000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774102948374",
+    "address": "Nhà số 10 ngõ 39 Nguyễn Phúc Lai, Đống Đa",
+    "price": "5tr6",
+    "price1": "5600000",
+    "price2": "5600000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774103019820",
+    "address": "Nhà số 63B ngõ Lan Bá - Đống Đa",
+    "price": "5tr4",
+    "price1": "5.400.000",
+    "price2": "5.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774103077782",
+    "address": "Nhà số 63B ngõ Lan Bá - Đống Đa",
+    "price": "4tr4,4tr6",
+    "price1": "4.400.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774103315465",
+    "address": "175B Khương Thượng - Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774104018329",
+    "address": "Nhà số 15B ngõ 138 Kim Hoa - Đống Đa",
+    "price": "5tr,5tr2",
+    "price1": "5.000.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774104108308",
+    "address": "Số nhà 29 ngách 105/8 Láng Hạ, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1774106327108",
+    "address": "Nhà số 01 ngõ 27 Xã Đàn (Ngõ 46A Phạm Ngọc Thạch)- Quận: Đống Đa",
+    "price": "11tr8",
+    "price1": "11.800.000",
+    "price2": "11.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774106465737",
+    "address": "ngách 154 ngõ chợ Khâm Thiên - Đống Đa",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": null
+  },
+  {
+    "id": "1774106740717",
+    "address": "153 Pháo Đài Láng - Đống Đa",
+    "price": "7tr5 - P201, 8tr - P301, 8tr3 - P302-602, 8tr7 - P303-604",
+    "price1": "7.500.000",
+    "price2": "8.700.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774107003443",
+    "address": "Số 130 ngõ 580 Trường Trinh - Đống Đa",
+    "price": "4tr6 - 5tr1",
+    "price1": "4.600.000",
+    "price2": "5.100.000",
+    "type": null
+  },
+  {
+    "id": "1774107142424",
+    "address": "ngách 153 ngõ chợ Khâm Thiên",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774107782902",
+    "address": "NGÕ 61 Tôn Đức Thắng - Đống Đa",
+    "price": "4tr5 - 6tr5",
+    "price1": "4.500.000",
+    "price2": "6.500.000",
+    "type": null
+  },
+  {
+    "id": "1774108165772",
+    "address": "phố Huỳnh Thúc Kháng, Đống Đa",
+    "price": "--9tr9",
+    "price1": "9.900.000",
+    "price2": "9.900.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774108214251",
+    "address": "phố Huỳnh Thúc Kháng, Đống Đa",
+    "price": "--9tr3",
+    "price1": "9.300.000",
+    "price2": "9.300.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774111391334",
+    "address": "196 phố Thái thịnh, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774111718006",
+    "address": "Ngõ 82 ngách 23 nhà 30 Yên Lãng, Đống Đa",
+    "price": "6tr7",
+    "price1": "6.700.000",
+    "price2": "6.700.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774111744492",
+    "address": "Ngõ 109 Ô Đồng Lầm ( Hồ Ba Mẫu)- Đống đa",
+    "price": "5tr4",
+    "price1": "5.400.000",
+    "price2": "5.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774111429159",
+    "address": "196 phố Thái thịnh, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774126548358",
+    "address": "48 Linh Quang, Đống Đa",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774146173415",
+    "address": "Ngõ 1194 Đường Láng - Đống Đa",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774147680811",
+    "address": "Ngõ 16 Huỳnh Thúc Kháng - Đống Đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774147905231",
+    "address": "ngõ 16 Huỳnh Thúc Kháng - Đống Đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774147337169",
+    "address": "Số 16 Ngõ 1194 đường Láng( Chùa Láng), ngách 63, hẻm 64, đống đa",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": null
+  },
+  {
+    "id": "1774147337169",
+    "address": "Số 16 Ngõ 1194 đường Láng( Chùa Láng), ngách 63, hẻm 64, đống đa",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774146770665",
+    "address": "số 16 ngõ 1194/63/64 đường Láng - Đống Đa",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774149725024",
+    "address": "ngõ 251 Xã Đàn - Đống Đa",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774151007347",
+    "address": "Số 2 hẻm 24/27 Thổ Quan - Đống Đa",
+    "price": "4tr9",
+    "price1": "4.900.000",
+    "price2": "4.900.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774151195676",
+    "address": "Ngõ 1194/63/64 đường Láng - Đống Đa",
+    "price": "1tr5-12th",
+    "price1": "3.400.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774151251669",
+    "address": "ngõ 592 Trường Chinh - Đống Đa",
+    "price": "HĐ 12T",
+    "price1": null,
+    "price2": null,
+    "type": null
+  },
+  {
+    "id": "1774150394182",
+    "address": "ngõ 850 Láng",
+    "price": "7tr2",
+    "price1": "7.200.000",
+    "price2": "7.200.000",
+    "type": "2N1K"
+  },
+  {
+    "id": "1774152224461",
+    "address": "105 TRUNG PHỤNG : ĐỐNG ĐA",
+    "price": "5tr4",
+    "price1": "5.400.000",
+    "price2": "5.400.000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1774152645082",
+    "address": "32 Phan văn trường",
+    "price": "2tr4",
+    "price1": "2.400.000",
+    "price2": "2.400.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774153490499",
+    "address": "Ngõ 127 ngách 16 số nhà 17 Quan Thổ 1, Đống Đa",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "5.800.000",
+    "type": null
+  },
+  {
+    "id": "1774150649806",
+    "address": "Ngõ 718 Láng - Đống Đa",
+    "price": "3tr7",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": null
+  },
+  {
+    "id": "1774152484090",
+    "address": "281/65 Trương Định",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774153551548",
+    "address": "Ngõ 281A Trường Chinh - Đống Đa",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774153608347",
+    "address": "Ngõ 105 Trung Phụng - Đống Đa",
+    "price": "5tr4 - Trục 1tr2",
+    "price1": "5.400.000",
+    "price2": "5.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774154993613",
+    "address": "Số 83 Ngõ 242 Đường Láng - Đống Đa",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1774150364106",
+    "address": "ngõ 157 Pháo Đài Láng - Đống Đa",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": null
+  },
+  {
+    "id": "1774153881757",
+    "address": "Ngõ 73, ngách 30, số nhà 18 Nguyễn Lương Bằng, Đống Đa, Hà Nội",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774155643999",
+    "address": "Số 3 ngõ 302 đường Láng, Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774149761172",
+    "address": "Nhà số 5 ngách 153 ngõ chợ Khâm Thiên - Đống Đa",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774150796348",
+    "address": "105 Khương Trung - Đống Đa",
+    "price": "Trục 1tr - 5tr4",
+    "price1": "1.000.000",
+    "price2": "5.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774153341955",
+    "address": "ngách 4/75 trần quang diệu - ô chợ Dừa - Đống Đa",
+    "price": "3tr",
+    "price1": "3.000.000",
+    "price2": "3.000.000",
+    "type": null
+  },
+  {
+    "id": "1774159312560",
+    "address": "22 Tôn Thất Tùng, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774159354554",
+    "address": "29 ngách 105/8 Láng Hạ, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774159405309",
+    "address": "Số 3 ngõ 302 đường Láng, Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774159610550",
+    "address": "Ngõ 22 Tôn Thất Tùng, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774159806468",
+    "address": "Ngõ 1194 Đường Láng, Đống Đa",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774159980572",
+    "address": "Nhà 4 ngõ 718 đường Láng, Đống Đa",
+    "price": "6tr3-7tr3",
+    "price1": "6.300.000",
+    "price2": "7.300.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774160558630",
+    "address": "Số 14 Ngõ Thịnh Hào 2, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774160606141",
+    "address": "63 Ngô Sĩ Liên, Đống Đa",
+    "price": "9tr",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": null
+  },
+  {
+    "id": "1774160665121",
+    "address": "Số 21X Văn Chương, Đống Đa",
+    "price": "12tr5",
+    "price1": "12.500.000",
+    "price2": "12.500.000",
+    "type": null
+  },
+  {
+    "id": "1774160866090",
+    "address": "7 Hẻm 9/11 Ngõ Văn Chương, Tôn Đức Thắng",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774160937406",
+    "address": "Số 14 Ngõ Thịnh Hào 2, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774161223745",
+    "address": "Ngõ 81 Xã Đàn, Đống Đa",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774161732951",
+    "address": "Ngõ 1194/63 Đường Láng",
+    "price": "3tr4 - 4tr5",
+    "price1": "3400000",
+    "price2": "4500000",
+    "type": null
+  },
+  {
+    "id": "1774162474891",
+    "address": "Ngõ 221 Tôn Đức Thắng, Đống Đa",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774162718003",
+    "address": "Ngách 273 Ngõ Chợ Khâm Thiên, Đống Đa",
+    "price": "2tr5",
+    "price1": "2500000",
+    "price2": "2500000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774162828503",
+    "address": "113/26/7 Vĩnh Hồ, Thái Thịnh, Đống Đa",
+    "price": "5tr6 - 5tr8",
+    "price1": "5600000",
+    "price2": "5800000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774162864850",
+    "address": "Ngách 273 Ngõ Chợ Khâm Thiên, Đống Đa",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774162929143",
+    "address": "562 đường Láng, Đống Đa",
+    "price": "2tr3 - 2tr5",
+    "price1": "2300000",
+    "price2": "2500000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774163049983",
+    "address": "Nhà số 11 ngõ 678 đường Láng, Đống Đa",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774164059584",
+    "address": "106 Trung Liệt, Thái Hà, Đống Đa",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774164322891",
+    "address": "Ngõ 136 Chùa Láng, Đống Đa",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774164551722",
+    "address": "44 ngõ 89 Xã Đàn, Đống Đa",
+    "price": "4tr5 - 4tr8",
+    "price1": "4500000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1774165271765",
+    "address": "Ngõ 16 Huỳnh Thúc Kháng, Đống Đa",
+    "price": "6tr8",
+    "price1": "6800000",
+    "price2": "6800000",
+    "type": "studio"
+  },
+  {
+    "id": "1774165477095",
+    "address": "Ngõ 7 Thái Hà, Đống Đa",
+    "price": "5tr3",
+    "price1": "5300000",
+    "price2": "5300000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1774165690418",
+    "address": "Ngõ 25/7 Vũ Ngọc Phan, Đống Đa",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "2n1b"
+  },
+  {
+    "id": "1774165984495",
+    "address": "61/1 Số Nhà 7 Tây Sơn",
+    "price": "5tr4-5tr7",
+    "price1": "5400000",
+    "price2": "5700000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774166264575",
+    "address": "Nhà 63C ngõ 75 Trần Quang Diệu, Đống Đa, Hà Nội",
+    "price": "5tr2-p301, 5tr7-p401",
+    "price1": "5200000",
+    "price2": "5700000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774167117577",
+    "address": "Nhà số 19 ngách 157/23 Pháo Đài Láng, Đống Đa, Hà Nội",
+    "price": "6tr5 - P301\n6tr5 - P402",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774167345879",
+    "address": "Số 7, ngõ 61/1 Tây Sơn",
+    "price": "5tr4/tháng\n5tr7/tháng",
+    "price1": "5.400.000",
+    "price2": "5.700.000",
+    "type": null
+  },
+  {
+    "id": "1774167459162",
+    "address": "Tòa nhà 11b/ngõ 63 Thái Thịnh, Đống Đa, Hà Nội",
+    "price": "6tr-p101\n6tr-p501\n6tr5-p301(1/4)\n7tr-602",
+    "price1": "6.000.000",
+    "price2": "7.000.000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1774167517424",
+    "address": "144 Khâm Thiên Đống Đa (Ngõ Liên Hoa)",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774167654583",
+    "address": "105 Phố Kim Hoa - Xã Đàn - Đống Đa",
+    "price": "4tr6-5tr6",
+    "price1": "4.600.000",
+    "price2": "5.600.000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1774169309125",
+    "address": "159 Nguyễn Thái Học, Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "2n1b, vskk"
+  },
+  {
+    "id": "1774170711310",
+    "address": "38 ngõ 157 Chùa Láng",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1774171629116",
+    "address": "ngõ 7 Thái Hà, Đống Đa",
+    "price": "5tr3",
+    "price1": "5.300.000",
+    "price2": "5.300.000",
+    "type": null
+  },
+  {
+    "id": "1774171988345",
+    "address": "Ngõ 61/1 Tây Sơn - Đống Đa",
+    "price": "5tr4 - 5tr7",
+    "price1": "5.400.000",
+    "price2": "5.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774172938183",
+    "address": "ngõ 200 Đê La Thành Nhỏ, Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774173472768",
+    "address": "ngõ 252 Tây Sơn, Đống Đa",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774173472768",
+    "address": "ngõ 252 Tây Sơn, Đống Đa",
+    "price": "6tr2",
+    "price1": "6.200.000",
+    "price2": "6.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774173472768",
+    "address": "ngõ 252 Tây Sơn, Đống Đa",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774174661651",
+    "address": "ngõ 165 Khương Thượng, Đống Đa",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": null
+  },
+  {
+    "id": "1774174683164",
+    "address": "ngõ 165 Khương Thượng, Đống Đa",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": null
+  },
+  {
+    "id": "1774174726388",
+    "address": "ngõ 165 Khương Thượng, Đống Đa",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": null
+  },
+  {
+    "id": "1774175760118",
+    "address": "140 Trung Phụng, Đống Đa",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": null
+  },
+  {
+    "id": "1774167120028",
+    "address": "51 Thái Thịnh, Đống Đa",
+    "price": null,
+    "price1": null,
+    "price2": null,
+    "type": "1n1k, 2 ngủ"
+  },
+  {
+    "id": "1774167290591",
+    "address": "58 Ngõ Thổ Quan",
+    "price": null,
+    "price1": null,
+    "price2": null,
+    "type": null
+  },
+  {
+    "id": "1774171984262",
+    "address": "CHDV Chùa Bộc, Đống Đa",
+    "price": "21tr",
+    "price1": "21000000",
+    "price2": "21000000",
+    "type": "studio"
+  },
+  {
+    "id": "1774177646477",
+    "address": "178 Nguyễn Lương Bằng",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1774177762769",
+    "address": "178 Nguyễn Lương Bằng",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1774177931307",
+    "address": "178 Nguyễn Lương Bằng",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774178760088",
+    "address": "29 Ngõ Hàng Cháo, P Cát Linh, Đống Đa",
+    "price": "6 triệu",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "studio"
+  },
+  {
+    "id": "1774178760088",
+    "address": "29 Ngõ Hàng Cháo, P Cát Linh, Đống Đa",
+    "price": "4tr3 – 4tr6",
+    "price1": "4300000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1774178760088",
+    "address": "29 Ngõ Hàng Cháo, P Cát Linh, Đống Đa",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774178760088",
+    "address": "29 Ngõ Hàng Cháo, P Cát Linh, Đống Đa",
+    "price": "4tr6 – 5 triệu",
+    "price1": "4600000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1774184670952",
+    "address": "ngõ 10 Láng Hạ, Đống Đa",
+    "price": "9tr - Trục 01\n7tr - Trục 02",
+    "price1": "7.000.000",
+    "price2": "9.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774184935610",
+    "address": "Số 12 ngõ 102/60 Pháo Đài Láng",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774186479344",
+    "address": "Ngõ 127 ngách 38 Hào Nam, Đống Đa",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "6.500.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1774188011679",
+    "address": "ngõ 12 số nhà 6 Chùa Bộc - ĐỐNG ĐA",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774190178498",
+    "address": "Số 9 ngách 11 ngõ 82 Nguyễn Phúc Lai, Đống Đa",
+    "price": "3tr2",
+    "price1": "3.200.000",
+    "price2": "3.200.000",
+    "type": "1n1k, vsc"
+  },
+  {
+    "id": "1774191858660",
+    "address": "157/23/9 Pháo Đài Láng - Đống đa",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774191861241",
+    "address": "12A 1194 đường láng",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": null
+  },
+  {
+    "id": "1774193993519",
+    "address": "104 Trung Liệt - Đống Đa",
+    "price": "6tr3",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774194040834",
+    "address": "127 Quan Thổ 1, Tôn Đức Thắng",
+    "price": "Giá dưới ảnh",
+    "price1": null,
+    "price2": null,
+    "type": null
+  },
+  {
+    "id": "1774194658271",
+    "address": "127 Quan Thổ 1, Tôn Đức Thắng",
+    "price": "4tr5t 5tr5t 4tr",
+    "price1": "4.500.000",
+    "price2": "5.500.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1774194842767",
+    "address": "19 ngách 2 Ngõ Thái Thịnh 1 - Đống Đa",
+    "price": "6tr tâng 2 Ở Luôn",
+    "price1": "6.000.000",
+    "price2": "6.400.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774195129702",
+    "address": "93 ngõ Văn Hương",
+    "price": "3tr5-p702",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "studio, vsc"
+  },
+  {
+    "id": "1774196428911",
+    "address": "121 Thái Thịnh 1 - Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774196466920",
+    "address": "63 Thái Thịnh 1 - Đống Đa",
+    "price": "8tr",
+    "price1": "8.000.000",
+    "price2": "8.000.000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1774196501378",
+    "address": "Số nhà 32 Ngõ 25/7 Vũ Ngọc Phan - Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1774196670098",
+    "address": "Ngõ 281A Trường Chinh - Đống Đa",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774197016848",
+    "address": "19 ngách 2 Ngõ Thái Thịnh 1 - Đống Đa",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": null
+  },
+  {
+    "id": "1774197246272",
+    "address": "102/44/33 Phố Pháo Đài Láng - Đống Đa",
+    "price": "3tr8-p201-301",
+    "price1": "3.800.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774197661989",
+    "address": "12 chùa bộc, đống đa",
+    "price": "6tr3 VNĐ/ tháng",
+    "price1": "6.300.000",
+    "price2": "6.300.000",
+    "type": null
+  },
+  {
+    "id": "1774197248712",
+    "address": "Mặt Phố 264 Đê La Thành Nhỏ Đống Đa",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774197477990",
+    "address": "Mặt Phố 264 Đê La Thành Nhỏ Đống Đa",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774198393655",
+    "address": "Ngõ 580 Trường Trinh - Đống Đa",
+    "price": "4tr6 - 4tr7",
+    "price1": "4.600.000",
+    "price2": "4.700.000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1774202200757",
+    "address": "252 Tây Sơn, Đống Đa",
+    "price": "6tr- 6tr5",
+    "price1": "6.000.000",
+    "price2": "6.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774202873248",
+    "address": "ngõ 1194/19 đường láng, đống đa",
+    "price": "14tr",
+    "price1": "14.000.000",
+    "price2": "14.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774203692248",
+    "address": "Ngõ 73, ngách 30, số nhà 18 Nguyễn Lương Bằng, Đống Đa, Hà Nội",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774202378319",
+    "address": "ngõ 157 Pháo Đài Láng",
+    "price": "6tr7",
+    "price1": "6.700.000",
+    "price2": "6.700.000",
+    "type": null
+  },
+  {
+    "id": "1774204311647",
+    "address": "ngõ 73 Nguyễn Lương Bằng - Đống Đa",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1774204363105",
+    "address": "ngõ 73 Nguyễn Lương Bằng - Đống Đa",
+    "price": "5tr4",
+    "price1": "5.400.000",
+    "price2": "5.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774096494897",
+    "address": "157 Pháo Đài Láng",
+    "price": null,
+    "price1": null,
+    "price2": null,
+    "type": null
+  },
+  {
+    "id": "1774126429127",
+    "address": "136 Trung Liệt",
+    "price": null,
+    "price1": null,
+    "price2": null,
+    "type": null
+  },
+  {
+    "id": "1774225552766",
+    "address": "Ngõ 165 Khương Thượng, Đống Đa",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774225586865",
+    "address": "Ngõ 165 Khương Thượng, Đống Đa",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774227181680",
+    "address": "Nhà số 39 ngõ 91 Ô Đồng Lầm, Đống Đa, Hà Nội",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio, 1N1K"
+  },
+  {
+    "id": "1774228206641",
+    "address": "150 Đê La Thành nhỏ - Đống đa-Hà Nội",
+    "price": "5tr5-5tr7",
+    "price1": "5.500.000",
+    "price2": "5.700.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774228854825",
+    "address": "ngõ 25 mặt hồ Văn Chương - Đống Đa",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": null
+  },
+  {
+    "id": "1774229078729",
+    "address": "Số 128 ngõ 580 Trường Trinh - Đống Đa",
+    "price": "4tr3 - 4tr9",
+    "price1": "4.300.000",
+    "price2": "4.900.000",
+    "type": null
+  },
+  {
+    "id": "1774229812719",
+    "address": "291B Ngõ Thịnh Quang - Đống Đa",
+    "price": "5tr5-6tr",
+    "price1": "5.500.000",
+    "price2": "6.000.000",
+    "type": null
+  },
+  {
+    "id": "1774229860855",
+    "address": "Số 4 ngách 209 Ngõ Thịnh Quang - Quận: Đống Đa",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774230374398",
+    "address": "Ngõ 105 Trung Phụng, Đống Đa",
+    "price": "5tr9",
+    "price1": "5.900.000",
+    "price2": "5.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774231554670",
+    "address": "Ngõ 157 Pháo Đài Láng, Đống Đa",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1774231774586",
+    "address": "Ngõ 157 Pháo Đài Láng, Đống Đa",
+    "price": "7tr1",
+    "price1": "7.100.000",
+    "price2": "7.100.000",
+    "type": "1N1K"
+  },
+  {
+    "id": "1774232240712",
+    "address": "Nhà số 5 ngách 153 ngõ chợ Khâm Thiên - Đống Đa",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774232378906",
+    "address": "Ngõ 159 Pháo Đài Láng - Đống Đa",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774232387561",
+    "address": "Số 22A ngõ 44 Pháo Đài Láng - Đống Đa",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774232983322",
+    "address": "Ngõ 251 Xã Đàn - Đống Đa",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774233236437",
+    "address": "Nhà 1A ngõ 175 Thịnh Quang- Quận: Đống Đa",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774233526002",
+    "address": "868 Ngõ 850 Đường Láng - Đống Đa",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": null
+  },
+  {
+    "id": "1774233584972",
+    "address": "868 Ngõ 850 Đường Láng - Đống Đa",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": null
+  },
+  {
+    "id": "1774233735206",
+    "address": "868 Ngõ 850 Đường Láng - Đống Đa",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": null
+  },
+  {
+    "id": "1774232553640",
+    "address": "Nhà số 5 ngách 153 ngõ chợ Khâm Thiên, Đống Đa",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774232617235",
+    "address": "Ngõ 302 Đường Láng, Đống Đa",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.500.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1774236306061",
+    "address": "Số 34 Ngõ 159 Pháo Đài Láng, đống đa",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774236578292",
+    "address": "ngo 1002 Láng - Đống Đa",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774236760287",
+    "address": "51 Thái Thịnh , Đống Đa",
+    "price": "4tr7 - 4tr9 - 5tr2",
+    "price1": "4.700.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774236805027",
+    "address": "Ngõ 165 Khương Thượng, Đống Đa",
+    "price": "3tr8-4tr4",
+    "price1": "3.800.000",
+    "price2": "4.400.000",
+    "type": null
+  },
+  {
+    "id": "1774236197279",
+    "address": "ngõ 10 Láng Hạ, đống đa",
+    "price": "9 triệu",
+    "price1": "9.000.000",
+    "price2": "9.000.000",
+    "type": null
+  },
+  {
+    "id": "1774236692813",
+    "address": "Hồ Cây Sữa - Phố Chợ Khâm Thiên - Đống Đa",
+    "price": "5.5trtriệu/tháng",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1774238319532",
+    "address": "Mặt Phố 264 Đê La Thành Nhỏ Đống Đa",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1774241249407",
+    "address": "51 Thái Thịnh, Đống Đa",
+    "price": "4tr7 5tr5 5tr6 4tr9 5tr3",
+    "price1": "4.700.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1774241388564",
+    "address": "Số 7, ngõ 61/1 Tây Sơn",
+    "price": "5tr4/tháng",
+    "price1": "5.400.000",
+    "price2": "5.700.000",
+    "type": null
+  },
+  {
+    "id": "1774241885927",
+    "address": "Trung tâm Xã Đàn, Đống Đa",
+    "price": "5tr4",
+    "price1": "5.400.000",
+    "price2": "5.900.000",
+    "type": null
+  },
+  {
+    "id": "1774242172648",
+    "address": "178 Nguyễn Lương Bằng, Đống Đa,HN",
+    "price": "4tr8 - p401",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774246279244",
+    "address": "Ngõ Linh Quang - Văn Chương, Đống Đa, Hà Nội",
+    "price": "14tr",
+    "price1": "14.000.000",
+    "price2": "14.000.000",
+    "type": "3N1K"
+  },
+  {
+    "id": "1774246510223",
+    "address": "NGÕ 12 SỐ 6 CHÙA BỘC, Đống Đa",
+    "price": "6tr2 VNĐ",
+    "price1": "6.200.000",
+    "price2": "6.200.000",
+    "type": "null"
+  },
+  {
+    "id": "1774246876013",
+    "address": "198 Xã Đàn",
+    "price": "5tr5- 6tr",
+    "price1": "5.500.000",
+    "price2": "6.000.000",
+    "type": "null"
+  },
+  {
+    "id": "1774247021790",
+    "address": "ngõ Kiến Thiết - phố Khâm Thiên - Đống đa",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "null"
+  },
+  {
+    "id": "1774247132020",
+    "address": "72 Trúc Khê, Láng Hạ, Đống Đa",
+    "price": "6tr7",
+    "price1": "6700000",
+    "price2": "6700000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774247307847",
+    "address": "Ngõ 51 Thái Thịnh, Đống Đa",
+    "price": "4tr7",
+    "price1": "4700000",
+    "price2": "4700000",
+    "type": "studio"
+  },
+  {
+    "id": "1774248101964",
+    "address": "SN 6, Ngõ 165/39 Khương Thượng, Đống Đa, Hà Nội",
+    "price": "3tr8-4tr4",
+    "price1": "3800000",
+    "price2": "4400000",
+    "type": "studio"
+  },
+  {
+    "id": "1774248504739",
+    "address": "Số 36 ngách 98 ngõ 82 Yên Lãng, Đống Đa",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": null
+  },
+  {
+    "id": "1774248506806",
+    "address": "Số 36 ngách 98 ngõ 82 Yên Lãng, Đống Đa",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": null
+  },
+  {
+    "id": "1774248878190",
+    "address": "16 Thái Hà, Đống Đa",
+    "price": "11tr5",
+    "price1": "11500000",
+    "price2": "11500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774249002410",
+    "address": "105 Phố Kim Hoa, Xã Đàn, Đống Đa",
+    "price": "4tr8-5tr5-5tr6",
+    "price1": "4800000",
+    "price2": "5600000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774249205369",
+    "address": "Ngõ 97 Thái Thịnh, Đống Đa",
+    "price": "5tr3",
+    "price1": "5300000",
+    "price2": "5300000",
+    "type": "studio"
+  },
+  {
+    "id": "1774249253591",
+    "address": "14 Ngõ 69 Trung Liệt, Đống Đa",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774249435051",
+    "address": "14 Ngõ 69 Trung Liệt, Đống Đa",
+    "price": "7tr5",
+    "price1": "7500000",
+    "price2": "7500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774249546695",
+    "address": "Ngõ 16 Thái Hà, Đống Đa",
+    "price": "12tr",
+    "price1": "12000000",
+    "price2": "12000000",
+    "type": null
+  },
+  {
+    "id": "1774249549562",
+    "address": "Ngõ 16 Thái Hà, Đống Đa",
+    "price": "11tr5",
+    "price1": "11500000",
+    "price2": "11500000",
+    "type": null
+  },
+  {
+    "id": "1774250045370",
+    "address": "Số 8 Ngách 8 Ngõ 16 Hoàng Cầu, Đống Đa",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "studio"
+  },
+  {
+    "id": "1774250170723",
+    "address": "Ngõ 216 Đê La Thành Nhỏ, Đống Đa",
+    "price": "7tr5",
+    "price1": "7500000",
+    "price2": "7500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774250207367",
+    "address": "Ngõ 216 Đê La Thành Nhỏ, Đống Đa",
+    "price": "7tr5",
+    "price1": "7500000",
+    "price2": "7500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774250259755",
+    "address": "Ngõ 16 Phố Thái Hà, Đống Đa",
+    "price": "6tr8",
+    "price1": "6800000",
+    "price2": "6800000",
+    "type": "studio"
+  },
+  {
+    "id": "1774251250155",
+    "address": "Số 61 ngách 74 ngõ Thịnh Hào 1 Tôn Đức Thắng, Đống Đa",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774251337711",
+    "address": "Ngõ 165/39 Khương Thượng, Đống Đa",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774251337711",
+    "address": "Ngõ 165/39 Khương Thượng, Đống Đa",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774251582351",
+    "address": "74 Trúc Khê, Đống Đa",
+    "price": "6tr7",
+    "price1": "6.700.000",
+    "price2": "6.700.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774252129594",
+    "address": "Ngõ 198 Xã Đàn, Đống Đa",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "1n1k, studio"
+  },
+  {
+    "id": "1774252129594",
+    "address": "Ngõ 198 Xã Đàn, Đống Đa",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "1n1k, studio"
+  },
+  {
+    "id": "1774252937612",
+    "address": "mặt phố Tôn Đức Thắng, Đống Đa",
+    "price": "12tr",
+    "price1": "12000000",
+    "price2": "12000000",
+    "type": "2n1k, vskk"
+  },
+  {
+    "id": "1774253312408",
+    "address": "100 Nguyễn Chí Thanh, Đống Đa",
+    "price": "6tr7",
+    "price1": "6700000",
+    "price2": "6700000",
+    "type": "2 ngủ, vskk"
+  },
+  {
+    "id": "1774253581400",
+    "address": "Ngõ 12 số 6 Chùa Bộc, Đống Đa",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1774255656853",
+    "address": "Số nhà 33+35 ngõ 113 Thái Thịnh, Đống Đa",
+    "price": "7tr",
+    "price1": "7000000",
+    "price2": "7000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774255740925",
+    "address": "Số 29 ngõ 580 Trường Chinh, Đống Đa",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1774255776157",
+    "address": "Nhà số 39 ngõ 91 Ô Đồng Lầm, Đống Đa",
+    "price": "5tr6",
+    "price1": "5600000",
+    "price2": "5600000",
+    "type": "studio"
+  },
+  {
+    "id": "1774255809292",
+    "address": "Nhà số 39 ngõ 91 Ô Đồng Lầm, Đống Đa",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774256984348",
+    "address": "Số 8 ngách 8 ngõ 16 Hoàng Cầu, Đống Đa",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "studio"
+  },
+  {
+    "id": "1774257113366",
+    "address": "216/8/31 Đê La Thành, Đống Đa",
+    "price": "7tr5",
+    "price1": "7500000",
+    "price2": "7500000",
+    "type": null
+  },
+  {
+    "id": "1774257202919",
+    "address": "105 Trung Phụng, Đống Đa",
+    "price": "5tr4-5tr9",
+    "price1": "5400000",
+    "price2": "5900000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1774257345906",
+    "address": "Nhà 02 ngách 01 ngõ 16 Thái Hà, Đống Đa",
+    "price": "6tr8",
+    "price1": "6800000",
+    "price2": "6800000",
+    "type": "studio"
+  },
+  {
+    "id": "1774257582876",
+    "address": "Số 7, ngõ 61/1 Tây Sơn, Đống Đa",
+    "price": "5tr4-5tr7",
+    "price1": "5400000",
+    "price2": "5700000",
+    "type": "studio"
+  },
+  {
+    "id": "1774257678279",
+    "address": "51 Thái Thịnh, Đống Đa",
+    "price": "4tr7-5tr5",
+    "price1": "4700000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1774257867578",
+    "address": "51 Thái Thịnh, Đống Đa",
+    "price": "4tr7-5tr8",
+    "price1": "4700000",
+    "price2": "5800000",
+    "type": "studio"
+  },
+  {
+    "id": "1774257930681",
+    "address": "Số 7, ngõ 61/1 Tây Sơn, Đống Đa",
+    "price": "5tr4",
+    "price1": "5400000",
+    "price2": "5400000",
+    "type": "studio"
+  },
+  {
+    "id": "1774258237535",
+    "address": "Ngõ 12 số 6 Chùa Bộc, Đống Đa",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "studio"
+  }
+]

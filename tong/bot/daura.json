@@ -1,0 +1,372 @@
+﻿{
+    "Thanh Trì": {
+        "type": "district",
+        "wards": [
+            "Văn Điển",
+            "Tứ Hiệp",
+            "Yên Mỹ",
+            "Tam Hiệp",
+            "Thanh Liệt",
+            "Tân Triều",
+            "Tả Thanh Oai",
+            "Ngũ Hiệp",
+            "Vĩnh Quỳnh",
+            "Liên Ninh",
+            "Hữu Hòa",
+            "Duyên Hà",
+            "Đông Mỹ",
+            "Đại Áng",
+            "Vạn Phúc",
+            "Cầu Bươu",
+            "Kim Giang"
+        ]
+    },
+    "Hà Đông": {
+        "type": "district",
+        "wards": [
+            "Quang Trung",
+            "Nguyễn Trãi",
+            "Hà Cầu",
+            "Yết Kiêu",
+            "Phú La",
+            "Phúc La",
+            "Kiến Hưng",
+            "Mộ Lao",
+            "Văn Quán",
+            "La Khê",
+            "Dương Nội",
+            "Yên Nghĩa",
+            "Đồng Mai",
+            "Biên Giang"
+        ],
+        "streets": [
+            "Tố Hữu",
+            "Lê Trọng Tấn",
+            "Trần Phú",
+            "Phùng Hưng",
+            "Ba La",
+            "Quốc Lộ 6",
+            "Vành Đai 3",
+            "Chu Văn An",
+            "Cầu Đơ"
+        ]
+    },
+    "Ba Đình": {
+        "type": "district",
+        "wards": [
+            "Phúc Xá",
+            "Trúc Bạch",
+            "Vĩnh Phúc",
+            "Cống Vị",
+            "Liễu Giai",
+            "Nguyễn Trung Trực",
+            "Quán Thánh",
+            "Ngọc Hà",
+            "Điện Biên",
+            "Đội Cấn",
+            "Kim Mã",
+            "Giảng Võ",
+            "Thành Công"
+        ],
+        "streets": [
+            "Hoàng Hoa Thám",
+            "Nguyễn Thái Học",
+            "Điện Biên Phủ",
+            "Hùng Vương",
+            "Phan Đình Phùng",
+            "Thụy Khuê",
+            "Văn Cao"
+        ]
+    },
+    "Long Biên": {
+        "type": "district",
+        "wards": [
+            "Thượng Thanh",
+            "Ngọc Thụy",
+            "Giang Biên",
+            "Đức Giang",
+            "Việt Hưng",
+            "Gia Thụy",
+            "Ngọc Lâm",
+            "Phúc Đồng",
+            "Long Biên",
+            "Thạch Bàn",
+            "Sài Đồng",
+            "Phúc Lợi",
+            "Cự Khối",
+            "Bồ Đề"
+        ],
+        "streets": [
+            "Nguyễn Văn Cừ",
+            "Ngô Gia Tự",
+            "Cổ Linh",
+            "Nguyễn Đức Thuận",
+            "Lý Sơn",
+            "Đàm Quang Trung",
+            "Quốc Lộ 5",
+            "Quốc Lộ 1A",
+            "Vành Đai"
+        ]
+    },
+    "Tây Hồ": {
+        "type": "district",
+        "wards": [
+            "Bưởi",
+            "Thụy Khuê",
+            "Yên Phụ",
+            "Tứ Liên",
+            "Quảng An",
+            "Xuân La",
+            "Phú Thượng",
+            "Nhật Tân"
+        ],
+        "streets": [
+            "Âu Cơ",
+            "Lạc Long Quân",
+            "Võ Chí Công",
+            "Nghi Tàm",
+            "Trích Sài",
+            "Nguyễn Hoàng Tôn",
+            "An Dương Vương"
+        ]
+    },
+    "Bắc Từ Liêm": {
+        "type": "district",
+        "wards": [
+            "Thượng Cát",
+            "Liên Mạc",
+            "Đông Ngạc",
+            "Thụy Phương",
+            "Minh Khai",
+            "Cổ Nhuế 1",
+            "Cổ Nhuế 2",
+            "Phú Diễn",
+            "Phúc Diễn",
+            "Tây Tựu",
+            "Xuân Đỉnh",
+            "Đức Thắng"
+        ],
+        "streets": [
+            "Trần Cung",
+            "Kẻ Vẽ"
+        ]
+    },
+    "Hai Bà Trưng": {
+        "type": "district",
+        "wards": [
+            "Nguyễn Du",
+            "Bạch Đằng",
+            "Phạm Đình Hổ",
+            "Bùi Thị Xuân",
+            "Ngô Thì Nhậm",
+            "Lê Đại Hành",
+            "Đống Mác",
+            "Thanh Nhàn",
+            "Đồng Tâm",
+            "Vĩnh Tuy",
+            "Quỳnh Lôi",
+            "Minh Khai",
+            "Quỳnh Mai",
+            "Mai Động",
+            "Bách Khoa"
+        ],
+        "streets": [
+            "Đại Cồ Việt",
+            "Giải Phóng",
+            "Bạch Mai",
+            "Trần Khát Chân",
+            "Phố Huế",
+            "Lò Đúc",
+            "Kim Ngưu",
+            "Nguyễn Khoái"
+        ]
+    },
+    "Mỹ Đình": {
+        "type": "district"
+    },
+    "Nam Từ Liêm": {
+        "type": "district",
+        "wards": [
+            "Mễ Trì",
+            "Phú Đô",
+            "Đỗ Đức Dục",
+            "Đại Mỗ",
+            "Trung Văn",
+            "Tây Mỗ",
+            "Xuân Phương",
+            "Cầu Diễn"
+        ],
+        "streets": [
+            "Phạm Hùng",
+            "Đại Lộ Thăng Long",
+            "Lê Đức Thọ",
+            "Hàm Nghi",
+            "Nguyễn Cơ Thạch",
+            "Châu Văn Liêm",
+            "Trần Hữu Dực",
+            "Dương Đình Nghệ",
+            "Hồ Tùng Mậu"
+        ]
+    },
+    "Hoàng Mai": {
+        "type": "district",
+        "wards": [
+            "Định Công",
+            "Đại Kim",
+            "Giáp Bát",
+            "Hoàng Liệt",
+            "Lĩnh Nam",
+            "Tân Mai",
+            "Thanh Trì",
+            "Thịnh Liệt",
+            "Trần Phú",
+            "Tương Mai",
+            "Vĩnh Hưng",
+            "Yên Sở"
+        ],
+        "streets": [
+            "Tam Trinh",
+            "Nguyễn Tam Trinh",
+            "Minh Khai",
+            "Kim Đồng",
+            "Trương Định",
+            "Linh Đàm"
+        ]
+    },
+    "Hoàn Kiếm": {
+        "type": "district",
+        "wards": [
+            "Chương Dương",
+            "Cửa Đông",
+            "Cửa Nam",
+            "Đồng Xuân",
+            "Hàng Bạc",
+            "Hàng Bài",
+            "Hàng Bồ",
+            "Hàng Buồm",
+            "Hàng Đào",
+            "Hàng Gai",
+            "Hàng Mã",
+            "Hàng Trống"
+        ],
+        "streets": [
+            "Lý Thái Tổ",
+            "Phan Chu Trinh",
+            "Tràng Tiền",
+            "Tràng Thi",
+            "Hàng Khay",
+            "Đinh Tiên Hoàng"
+        ]
+    },
+    "Khaicute": {
+        "type": "district",
+        "wards": [
+            "Khaicute"
+        ]
+    },
+    "Cầu Giấy": {
+        "type": "district",
+        "wards": [
+            "Dịch Vọng",
+            "Dịch Vọng Hậu",
+            "Mai Dịch",
+            "Nghĩa Đô",
+            "Nghĩa Tân",
+            "Quan Hoa",
+            "Trung Hòa",
+            "Yên Hòa",
+            "Cầu Giấy"
+        ],
+        "streets": [
+            "Xuân Thủy",
+            "Hồ Tùng Mậu",
+            "Phạm Văn Đồng",
+            "Trần Duy Hưng",
+            "Hoàng Quốc Việt",
+            "Trung Kính",
+            "Dương Đình Nghệ",
+            "Phạm Hùng"
+        ]
+    },
+    "Thanh Xuân": {
+        "type": "district",
+        "wards": [
+            "Hạ Đình",
+            "Lương Thế Vinh",
+            "Khương Đình",
+            "Khương Mai",
+            "Khương Trung",
+            "Kim Giang",
+            "Nhân Chính",
+            "Phương Liệt",
+            "Thanh Xuân Bắc",
+            "Thanh Xuân Nam",
+            "Thanh Xuân Trung",
+            "Thượng Đình"
+        ],
+        "streets": [
+            "Khuất Duy Tiến",
+            "Lê Văn Lương",
+            "Trường Chinh",
+            "Giải Phóng",
+            "Vành Đai 3",
+            "Hoàng Văn Thái",
+            "Ngã Tư Sở"
+        ]
+    },
+    "Đống Đa": {
+        "type": "district",
+        "wards": [
+            "Cát Linh",
+            "Văn Miếu",
+            "Quốc Tử Giám",
+            "Láng Thượng",
+            "Ô Chợ Dừa",
+            "Văn Chương",
+            "Hàng Bột",
+            "Láng Hạ",
+            "Khâm Thiên",
+            "Thổ Quan",
+            "Trung Phụng",
+            "Trung Liệt",
+            "Phương Liên",
+            "Phương Mai",
+            "Kim Liên",
+            "Nam Đồng"
+        ],
+        "streets": [
+            "Tôn Đức Thắng",
+            "Tây Sơn",
+            "Nguyễn Lương Bằng",
+            "Xã Đàn",
+            "Láng",
+            "Thái Hà",
+            "Hoàng Cầu",
+            "Đê La Thành"
+        ]
+    },
+    "Hoài Đức": {
+        "type": "district",
+        "wards": [
+            "Trạm Trôi",
+            "An Khánh",
+            "An Thượng",
+            "Cát Quế",
+            "Dương Liễu",
+            "Đắc Sở",
+            "Đông La",
+            "Đức Giang",
+            "Đức Thượng",
+            "Kim Chung",
+            "La Phù",
+            "Lại Yên",
+            "Minh Khai",
+            "Sơn Đồng",
+            "Song Phương",
+            "Tiền Yên",
+            "Vân Canh",
+            "Yên Sở",
+            "Lai Xá"
+        ]
+    }
+}

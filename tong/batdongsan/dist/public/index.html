@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="vi" class="boot-splash-active">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>80LandTimPhong.vn | Tim phong tro, studio, chung cu mini tai Ha Noi</title>
+    <meta
+      name="description"
+      content="Tim phong tro, studio, chung cu mini va nha nguyen can tai Ha Noi nhanh hon tai 80LandTimPhong.vn."
+    />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:site_name" content="80landtimphong.vn" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="80LandTimPhong.vn | Tim phong tro, studio, chung cu mini tai Ha Noi" />
+    <meta
+      property="og:description"
+      content="Tim phong tro, studio, chung cu mini va nha nguyen can tai Ha Noi nhanh hon tai 80LandTimPhong.vn."
+    />
+    <meta property="og:image" content="/opengraph.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="80LandTimPhong.vn | Tim phong tro, studio, chung cu mini tai Ha Noi" />
+    <meta
+      name="twitter:description"
+      content="Tim phong tro, studio, chung cu mini va nha nguyen can tai Ha Noi nhanh hon tai 80LandTimPhong.vn."
+    />
+    <meta name="twitter:image" content="/opengraph.jpg" />
+    <meta name="theme-color" content="#ef3b2d" />
+    <link rel="icon" type="image/png" href="/images/logo.png" />
+    <link rel="shortcut icon" href="/images/logo.png" />
+    <link rel="apple-touch-icon" href="/images/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      html.boot-splash-active,
+      body.boot-splash-active {
+        margin: 0;
+        overflow: hidden;
+        background: #050505;
+      }
+
+      @keyframes boot-splash-spinner {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      #boot-splash {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        overflow: hidden;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #fff;
+        background: transparent;
+      }
+
+      .boot-splash__visual {
+        position: absolute;
+        inset: 0;
+        background: transparent;
+      }
+
+      .boot-splash__overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+        background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.38) 40%, rgba(0,0,0,0.62) 100%);
+        transition: opacity 0.35s ease;
+      }
+
+      .boot-splash__door {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 50%;
+        overflow: hidden;
+        z-index: 2;
+        background: #050505;
+        transition:
+          transform 0.95s cubic-bezier(0.22, 0.9, 0.2, 1),
+          opacity 0.55s ease;
+        will-change: transform, opacity;
+      }
+
+      .boot-splash__door::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: rgba(255,255,255,0.28);
+        box-shadow: 0 0 16px rgba(255,255,255,0.22);
+      }
+
+      .boot-splash__door--left {
+        left: 0;
+      }
+
+      .boot-splash__door--left::after {
+        right: 0;
+      }
+
+      .boot-splash__door--right {
+        right: 0;
+      }
+
+      .boot-splash__door--right::after {
+        left: 0;
+      }
+
+      .boot-splash__picture {
+        position: absolute;
+        inset: 0;
+        width: 100vw;
+        max-width: none;
+        height: 100%;
+      }
+
+      .boot-splash__image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.72);
+      }
+
+      .boot-splash__picture--left {
+        transform: translateX(0);
+      }
+
+      .boot-splash__picture--right {
+        transform: translateX(-50vw);
+      }
+
+      .boot-splash__content {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        padding: 24px;
+        text-align: center;
+        transition: transform 0.5s ease, opacity 0.5s ease;
+      }
+
+      .boot-splash__title {
+        margin: 0;
+        font-size: clamp(24px, 3vw, 34px);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        text-shadow: 0 10px 24px rgba(0,0,0,0.45);
+        color: rgba(255,255,255,0.96);
+      }
+
+      .boot-splash__spinner {
+        width: 24px;
+        height: 24px;
+        border: 2px solid rgba(255,255,255,0.2);
+        border-top-color: #fff;
+        border-radius: 9999px;
+        animation: boot-splash-spinner 0.85s linear infinite;
+      }
+
+      .boot-splash__content-shell {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        border-radius: 9999px;
+        background: rgba(0,0,0,0.34);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 18px 45px rgba(0,0,0,0.22);
+      }
+
+      .boot-splash--opening .boot-splash__door--left {
+        transform: translateX(-102%);
+        opacity: 0.4;
+      }
+
+      .boot-splash--opening .boot-splash__door--right {
+        transform: translateX(102%);
+        opacity: 0.4;
+      }
+
+      .boot-splash--opening .boot-splash__content {
+        transform: translateY(10px);
+        opacity: 0;
+      }
+
+      .boot-splash--opening .boot-splash__overlay {
+        opacity: 0;
+      }
+
+      .boot-splash--done {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s ease;
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index-d3uCamuK.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-uO0aPW5b.css">
+  </head>
+  <body class="boot-splash-active">
+    <div id="boot-splash">
+      <div class="boot-splash__visual">
+        <div class="boot-splash__door boot-splash__door--left">
+          <picture class="boot-splash__picture boot-splash__picture--left">
+            <source media="(max-width: 767px)" srcset="/assets/doc-Bq2Tj1yk.png" />
+            <img class="boot-splash__image" src="/assets/ngang-Afogbf7L.png" alt="" />
+          </picture>
+        </div>
+        <div class="boot-splash__door boot-splash__door--right">
+          <picture class="boot-splash__picture boot-splash__picture--right">
+            <source media="(max-width: 767px)" srcset="/assets/doc-Bq2Tj1yk.png" />
+            <img class="boot-splash__image" src="/assets/ngang-Afogbf7L.png" alt="" />
+          </picture>
+        </div>
+      </div>
+
+      <div class="boot-splash__overlay"></div>
+
+      <div class="boot-splash__content">
+        <div class="boot-splash__content-shell">
+          <span class="boot-splash__spinner"></span>
+          <h1 class="boot-splash__title">Đang cập nhật dữ liệu</h1>
+        </div>
+      </div>
+    </div>
+    <div id="root"></div>
+    <script>
+      (() => {
+        const ignoredErrorPatterns = [
+          /zaloJSV2/i,
+          /Talisman extension has not been configured yet/i,
+          /chrome-extension:\/\/fijngjgcjhjmmpcmkeiomlglpeiijkld/i,
+        ];
+
+        const shouldIgnore = (value) => {
+          const text = String(value || "");
+          return ignoredErrorPatterns.some((pattern) => pattern.test(text));
+        };
+
+        const createNoopProxy = () => {
+          const noop = () => undefined;
+          return new Proxy(noop, {
+            get(_target, property) {
+              if (property === Symbol.toPrimitive) {
+                return () => "";
+              }
+              return createNoopProxy();
+            },
+            apply() {
+              return undefined;
+            },
+          });
+        };
+
+        if (!("zaloJSV2" in window)) {
+          Object.defineProperty(window, "zaloJSV2", {
+            configurable: true,
+            enumerable: false,
+            writable: true,
+            value: createNoopProxy(),
+          });
+        }
+
+        window.addEventListener(
+          "error",
+          (event) => {
+            const message = event.message || "";
+            const filename = event.filename || "";
+            const stack = event.error && typeof event.error === "object" ? event.error.stack || "" : "";
+            if (!shouldIgnore(`${message} ${filename} ${stack}`)) return;
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          },
+          true,
+        );
+
+        window.addEventListener(
+          "unhandledrejection",
+          (event) => {
+            const reason =
+              typeof event.reason === "object" && event.reason !== null
+                ? `${event.reason.message || ""} ${event.reason.stack || ""}`
+                : String(event.reason || "");
+
+            if (!shouldIgnore(reason)) return;
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          },
+          true,
+        );
+      })();
+    </script>
+  </body>
+</html>

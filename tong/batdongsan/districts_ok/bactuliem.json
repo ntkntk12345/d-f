@@ -1,0 +1,3938 @@
+[
+  {
+    "id": "1773125821543",
+    "address": "Số 10 ngõ 268 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "3tr9",
+    "price1": "3900000",
+    "price2": "3900000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773126552876",
+    "address": "Số 4 Ngõ 477 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr9-4tr1",
+    "price1": "3900000",
+    "price2": "4100000",
+    "type": "studio"
+  },
+  {
+    "id": "1773126722871",
+    "address": "Ngõ 421 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773129973457",
+    "address": "Số 3 ngõ 53 Ngọa Long, Bắc Từ Liêm",
+    "price": "2tr8",
+    "price1": "2800000",
+    "price2": "2800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773130056826",
+    "address": "Ngõ 354 Trần Cung, Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773132287090",
+    "address": "Số 26 Ngõ 88 Nguyễn Đạo An, Bắc Từ Liêm",
+    "price": "3tr3",
+    "price1": "3300000",
+    "price2": "3300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773132453313",
+    "address": "Số 5 ngõ 72 Đình Quán, Bắc Từ Liêm",
+    "price": "3tr8-4tr",
+    "price1": "3800000",
+    "price2": "4000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773133323219",
+    "address": "Số 54 ngõ 119 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr9-4tr6",
+    "price1": "3900000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773134129703",
+    "address": "Ngõ 333 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": null
+  },
+  {
+    "id": "1773134162914",
+    "address": "60 Nguyễn Đạo An, Bắc Từ Liêm",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773134769383",
+    "address": "Số nhà 52 ngõ 495 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr7-4tr1",
+    "price1": "3700000",
+    "price2": "4100000",
+    "type": "studio"
+  },
+  {
+    "id": "1773134850884",
+    "address": "Số 4 ngõ 297 ngách 61 Trần Cung, Bắc Từ Liêm",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773134913492",
+    "address": "52 Ngõ 75 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773135256339",
+    "address": "75/58 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr9",
+    "price1": "3900000",
+    "price2": "3900000",
+    "type": null
+  },
+  {
+    "id": "1773135472269",
+    "address": "Số 22 ngõ 82 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr5-6tr",
+    "price1": "4500000",
+    "price2": "6000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773135599017",
+    "address": "80 Ngõ 59 Văn Tiến Dũng, Bắc Từ Liêm",
+    "price": "3tr3-3tr8",
+    "price1": "3300000",
+    "price2": "3800000",
+    "type": null
+  },
+  {
+    "id": "1773135958177",
+    "address": "27 Ngõ 23 Đức Diễn, Bắc Từ Liêm",
+    "price": "3tr8-3tr9",
+    "price1": "3800000",
+    "price2": "3900000",
+    "type": null
+  },
+  {
+    "id": "1773136117996",
+    "address": "56 Ngõ 2 Nguyên Xá, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": null
+  },
+  {
+    "id": "1773136161780",
+    "address": "Số nhà 64 ngách 25/106 Ngõ 25 Phú Minh, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773136191731",
+    "address": "Nhà số 8 Ngách 33 Ngõ 73 Đức Diễn, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773136235218",
+    "address": "Số 116 Ngõ 23 Đức Diễn, Bắc Từ Liêm",
+    "price": "3tr9-4tr2",
+    "price1": "3900000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773136306727",
+    "address": "Số 42 Ngõ 261 Phú Diễn, Bắc Từ Liêm",
+    "price": "4tr3-4tr6",
+    "price1": "4300000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773136332601",
+    "address": "Số 17 Ngõ 281 Phú Diễn, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773136722845",
+    "address": "Số 11/107b/139 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773136805686",
+    "address": "Số 12 Ngõ 44 Đình Quán, Bắc Từ Liêm",
+    "price": "3tr7-3tr9",
+    "price1": "3700000",
+    "price2": "3900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773136885191",
+    "address": "Số nhà 6 Ngách 17/18 ngõ 347 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr6-4tr",
+    "price1": "3600000",
+    "price2": "4000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773136973152",
+    "address": "Số 18A Ngõ 261 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr4",
+    "price1": "3400000",
+    "price2": "3400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773137085999",
+    "address": "Số 18 ngách 521/36/23 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr6,3tr8",
+    "price1": "3600000",
+    "price2": "3800000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773137474861",
+    "address": "Số 32 ngõ 196 Phú Diễn, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773137728657",
+    "address": "290/25 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": null
+  },
+  {
+    "id": "1773137769946",
+    "address": "290/25 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773138012321",
+    "address": "290/25 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr3",
+    "price1": "5300000",
+    "price2": "5300000",
+    "type": null
+  },
+  {
+    "id": "1773138713379",
+    "address": "40 Phú Kiều, Bắc Từ Liêm",
+    "price": "3tr3,4tr1",
+    "price1": "3300000",
+    "price2": "4100000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773138868106",
+    "address": "9 ngõ 6 Tăng Thiết Giáp, Cổ Nhuế 2, Bắc Từ Liêm",
+    "price": "4tr5,4tr6",
+    "price1": "4500000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773139400421",
+    "address": "150/43 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "8tr",
+    "price1": "8000000",
+    "price2": "8000000",
+    "type": "1n1k1b"
+  },
+  {
+    "id": "1773139421173",
+    "address": "150/43 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "7tr",
+    "price1": "7000000",
+    "price2": "7000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773139828304",
+    "address": "Số nhà 18/56 Ngõ 43 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "5tr6",
+    "price1": "5600000",
+    "price2": "5600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773139861225",
+    "address": "285 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773140071055",
+    "address": "Nhà 542 Trần Cung, Bắc Từ Liêm",
+    "price": "6tr2,6tr4",
+    "price1": "6200000",
+    "price2": "6400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773140483960",
+    "address": "136/43 Cầu Diễn, Bắc Từ Liêm",
+    "price": "3tr3",
+    "price1": "3300000",
+    "price2": "3300000",
+    "type": null
+  },
+  {
+    "id": "1773140828350",
+    "address": "401/39 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr9,4tr3",
+    "price1": "3900000",
+    "price2": "4300000",
+    "type": null
+  },
+  {
+    "id": "1773141255538",
+    "address": "Ngõ 68/161 Phú Diễn, Bắc Từ Liêm",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773141569021",
+    "address": "29 Trịnh Văn Bô, Bắc Từ Liêm",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": null
+  },
+  {
+    "id": "1773142353031",
+    "address": "Số 78B ngõ 562 Trần Cung, Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": null
+  },
+  {
+    "id": "1773142502054",
+    "address": "136 Hồ Tùng Mậu, Bắc Từ Liêm",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773142722438",
+    "address": "Ngõ 214 Phú Diễn, Bắc Từ Liêm",
+    "price": "5tr8",
+    "price1": "5800000",
+    "price2": "5800000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773143427493",
+    "address": "Số nhà 65 Ngõ 451 Hoàng Tăng Bí, Đông Ngạc, Bắc Từ Liêm",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773143591369",
+    "address": "Ngõ 195 Cầu Diễn, Bắc Từ Liêm",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773146300748",
+    "address": "Số 8a ngõ 37 Cầu Noi, Cổ Nhuế, Bắc Từ Liêm",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773146336207",
+    "address": "373 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773146395684",
+    "address": "Số 41 ngõ 132/12 Cầu Diễn, Bắc Từ Liêm",
+    "price": "3tr5,4tr",
+    "price1": "3500000",
+    "price2": "4000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773146664044",
+    "address": "Nhà 542 Trần Cung, Bắc Từ Liêm",
+    "price": "6tr2,6tr4",
+    "price1": "6200000",
+    "price2": "6400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773146912844",
+    "address": "Ngõ 43/112 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773147274051",
+    "address": "Ngách 112 ngõ 43 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "2tr8",
+    "price1": "2800000",
+    "price2": "2800000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773147465565",
+    "address": "Ngách 9 ngõ 488 Trần Cung, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": null
+  },
+  {
+    "id": "1773147571549",
+    "address": "Ngõ 256 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773147686620",
+    "address": "Ngõ 196 Phú Diễn, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773147739228",
+    "address": "Ngõ 172 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "9tr5",
+    "price1": "9500000",
+    "price2": "9500000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773147798697",
+    "address": "Ngõ 196 Phú Diễn, Bắc Từ Liêm",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773148789874",
+    "address": "8/39/53 Ngọa Long, Bắc Từ Liêm",
+    "price": "3tr7tr4",
+    "price1": "3700000",
+    "price2": "7400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773148815175",
+    "address": "41 ngõ 53 Ngọa Long, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773148865550",
+    "address": "Ngõ 214 Phú Diễn, Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773148885616",
+    "address": "41 ngõ 53 Ngọa Long, Bắc Từ Liêm",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773151858280",
+    "address": "273 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "2tr3",
+    "price1": "2300000",
+    "price2": "2300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773152307899",
+    "address": "Số 7 Ngõ 132 Cầu Diễn, Nguyên Xá, Bắc Từ Liêm",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773152331265",
+    "address": "Số 7 Ngõ 132 Cầu Diễn, Nguyên Xá, Bắc Từ Liêm",
+    "price": "3tr3",
+    "price1": "3300000",
+    "price2": "3300000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773153218797",
+    "address": "Nhà số 8 ngõ 191 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773155578076",
+    "address": "Ngõ 39 Đông Ngạc, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773157617596",
+    "address": "285 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773157636665",
+    "address": "Số nhà 18/56 Ngõ 43 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "5tr6",
+    "price1": "5600000",
+    "price2": "5600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773157812698",
+    "address": "Ngõ 43/112 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773160412524",
+    "address": "8.39.53 Ngọa Long, Bắc Từ Liêm",
+    "price": "3tr7 - 4tr",
+    "price1": "3700000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773160458124",
+    "address": "8.39.53 Ngọa Long, Bắc Từ Liêm",
+    "price": "3tr7 - 4tr",
+    "price1": "3700000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773160546448",
+    "address": "41 ngõ 53 Ngọa Long, Bắc Từ Liêm",
+    "price": "3tr8 - 4tr5",
+    "price1": "3800000",
+    "price2": "4500000",
+    "type": "studio, 1n1k"
+  },
+  {
+    "id": "1773167459757",
+    "address": "Ngõ 6 Tăng Thiết Giáp 388 Phạm Văn Đồng, Cổ Nhuế, Bắc Từ Liêm",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": null
+  },
+  {
+    "id": "1773169918248",
+    "address": "Số 41 ngõ 43/112 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773170054506",
+    "address": "Số 23 ngõ 542 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr3",
+    "price1": "5300000",
+    "price2": "5300000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773187238618",
+    "address": "181 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": null
+  },
+  {
+    "id": "1773189834607",
+    "address": "181 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": null
+  },
+  {
+    "id": "1773242513887",
+    "address": "Ngõ 401 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "2tr9 - 3tr5",
+    "price1": "2900000",
+    "price2": "3500000",
+    "type": null
+  },
+  {
+    "id": "1773242535966",
+    "address": "Ngõ 99 Cầu Diễn, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773242614165",
+    "address": "Số 32 ngõ 29 Trung Kiên, Tây Tựu, Bắc Từ Liêm",
+    "price": "3tr2 - 3tr3",
+    "price1": "3200000",
+    "price2": "3300000",
+    "type": null
+  },
+  {
+    "id": "1773242959417",
+    "address": "Số 4 Ngõ 15 Phú Kiều, Bắc Từ Liêm",
+    "price": "2tr8",
+    "price1": "2800000",
+    "price2": "2800000",
+    "type": null
+  },
+  {
+    "id": "1773243370385",
+    "address": "Nhà số 18 ngõ 176/22 phố Văn Hội, Đức Thắng",
+    "price": "2tr2-2tr3",
+    "price1": "2200000",
+    "price2": "2300000",
+    "type": null
+  },
+  {
+    "id": "1773244538720",
+    "address": "Ngõ 89 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773246741525",
+    "address": "Ngõ 521/36/23 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr6 - 3tr8",
+    "price1": "3600000",
+    "price2": "3800000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773246817171",
+    "address": "Số 15/16 ngõ 347 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr2 - 4tr4",
+    "price1": "4200000",
+    "price2": "4400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773246836048",
+    "address": "Số 16 Cầu Noi, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773246929828",
+    "address": "Số 15/16 ngõ 347 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr2,4tr4",
+    "price1": "4200000",
+    "price2": "4400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773247016655",
+    "address": "Số 16 Cầu Noi, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "2n1b"
+  },
+  {
+    "id": "1773247122163",
+    "address": "Số 15/16 ngõ 347 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr2 và 4tr4t",
+    "price1": "4200000",
+    "price2": "4400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773248596467",
+    "address": "Ngõ 1/23/65 Đức Diễn, Bắc Từ Liêm",
+    "price": "2tr5",
+    "price1": "2500000",
+    "price2": "2500000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773248950843",
+    "address": "Số 5 ngõ 23 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr1-4tr3",
+    "price1": "4100000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773249139587",
+    "address": "Số 9 ngõ 487 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr8-5tr3",
+    "price1": "4800000",
+    "price2": "5300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773251510730",
+    "address": "1a/195 đường Cầu Diễn, Bắc Từ Liêm",
+    "price": "2tr",
+    "price1": "2000000",
+    "price2": "2000000",
+    "type": null
+  },
+  {
+    "id": "1773251538122",
+    "address": "69/195 Cầu Diễn, Bắc Từ Liêm",
+    "price": "2tr6",
+    "price1": "2600000",
+    "price2": "2600000",
+    "type": null
+  },
+  {
+    "id": "1773251540563",
+    "address": "Số 5 ngõ 23 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr1 - 4tr3",
+    "price1": "4100000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773251668082",
+    "address": "Số 65 ngõ 172 đường Phú Diễn, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773251721110",
+    "address": "Ngõ 75 đường Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr7",
+    "price1": "3700000",
+    "price2": "3700000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773251757598",
+    "address": "Ngõ 467 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773251760118",
+    "address": "Ngõ 467 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773251782723",
+    "address": "Ngõ 562 Trần Cung, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773251868073",
+    "address": "Số 42 Ngõ 119/93/2 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr8 - 4tr3",
+    "price1": "3800000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773252718811",
+    "address": "Số 5 Ngõ 23 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr1,4tr3",
+    "price1": "4100000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773252949100",
+    "address": "Số 35 - Ngõ 401 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr,4tr9",
+    "price1": "4000000",
+    "price2": "4900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773253193007",
+    "address": "Số 23 Ngõ 542 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773253214942",
+    "address": "Số 23 Ngõ 542 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr3",
+    "price1": "5300000",
+    "price2": "5300000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773253328046",
+    "address": "Số 5 Ngõ 542 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr9",
+    "price1": "5900000",
+    "price2": "5900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773253400907",
+    "address": "16 Cầu Noi, Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr7tr4",
+    "price1": "3700000",
+    "price2": "7400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773253424701",
+    "address": "Ngõ 43/112 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773255200008",
+    "address": "Ngõ 75 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773255710013",
+    "address": "Ngõ 136/43 Cầu Diễn, Bắc Từ Liêm",
+    "price": "3tr3 - 3tr5",
+    "price1": "3300000",
+    "price2": "3500000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773256332747",
+    "address": "Ngõ 201, số nhà 20 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "6tr5",
+    "price1": "6500000",
+    "price2": "6500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773257018153",
+    "address": "Số 22 ngõ 82 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "5tr,5tr5tr6",
+    "price1": "5000000",
+    "price2": "5600000",
+    "type": null
+  },
+  {
+    "id": "1773257155560",
+    "address": "Ngách 43 ngõ 23 Đức Diễn, Bắc Từ Liêm",
+    "price": "3tr7",
+    "price1": "3700000",
+    "price2": "3700000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773257963954",
+    "address": "Số nhà 6 ngõ 2/29/20 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": null
+  },
+  {
+    "id": "1773258046270",
+    "address": "79 Sông Nhuệ, Đức Thắng, Bắc Từ Liêm",
+    "price": "2tr3",
+    "price1": "2300000",
+    "price2": "2300000",
+    "type": null
+  },
+  {
+    "id": "1773258223878",
+    "address": "Số 112/12 Nguyên Xá, Bắc Từ Liêm",
+    "price": "3tr4",
+    "price1": "3400000",
+    "price2": "3400000",
+    "type": null
+  },
+  {
+    "id": "1773258547415",
+    "address": "433 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr8 - 6tr8",
+    "price1": "4800000",
+    "price2": "6800000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773258822600",
+    "address": "Ngõ 205/165 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": null
+  },
+  {
+    "id": "1773258893456",
+    "address": "Ngõ 172 Phú Diễn, Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": null
+  },
+  {
+    "id": "1773258927835",
+    "address": "Ngõ 205/37 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "1n1k, gác xép"
+  },
+  {
+    "id": "1773259600464",
+    "address": "Ngõ 449 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773259697668",
+    "address": "Ngõ 63/71 Phương Canh, Bắc Từ Liêm",
+    "price": "3tr8 - 4tr1",
+    "price1": "3800000",
+    "price2": "4100000",
+    "type": "studio"
+  },
+  {
+    "id": "1773259768390",
+    "address": "52/80 Xuân Phương, Bắc Từ Liêm",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773260437261",
+    "address": "Số 15/16 Ngõ 347 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr2 - 4tr4",
+    "price1": "4200000",
+    "price2": "4400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773261592262",
+    "address": "Ngõ 128 Phú Diễn, Bắc Từ Liêm",
+    "price": "4tr2 - 5tr5",
+    "price1": "4200000",
+    "price2": "5500000",
+    "type": null
+  },
+  {
+    "id": "1773261661846",
+    "address": "Ngõ 355 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "2tr7",
+    "price1": "2700000",
+    "price2": "2700000",
+    "type": null
+  },
+  {
+    "id": "1773262069788",
+    "address": "Số 3 ngõ 401/20/27 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773262763198",
+    "address": "Ngõ 68 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr2",
+    "price1": "3200000",
+    "price2": "3200000",
+    "type": null
+  },
+  {
+    "id": "1773263548919",
+    "address": "10 ngõ 7 Nhật Tảo, Bắc Từ Liêm",
+    "price": "3tr4 - 3tr8",
+    "price1": "3400000",
+    "price2": "3800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773264600100",
+    "address": "Số 4 Ngõ 107 Trần Cung, Bắc Từ Liêm",
+    "price": "2tr5",
+    "price1": "2500000",
+    "price2": "2500000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773265388643",
+    "address": "Ngõ 205/165/42 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "6tr3",
+    "price1": "6300000",
+    "price2": "6300000",
+    "type": null
+  },
+  {
+    "id": "1773266905143",
+    "address": "Số 23 Ngõ 397 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": null
+  },
+  {
+    "id": "1773267856406",
+    "address": "Số 5 Ngõ 23 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr1 - 4tr3",
+    "price1": "4100000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773268275582",
+    "address": "Số 35 ngõ 401 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr - 4tr9",
+    "price1": "4000000",
+    "price2": "4900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773268433175",
+    "address": "Số 23 ngõ 542 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr - 5tr3",
+    "price1": "4000000",
+    "price2": "5300000",
+    "type": "studio, 1n1k"
+  },
+  {
+    "id": "1773269467691",
+    "address": "Ngõ 23/72 Đức Diễn, Phúc Diễn, Bắc Từ Liêm",
+    "price": "2tr8 - 3tr5",
+    "price1": "2800000",
+    "price2": "3500000",
+    "type": null
+  },
+  {
+    "id": "1773270309569",
+    "address": "Số 5 Ngõ 542 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr9",
+    "price1": "5900000",
+    "price2": "5900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773270357348",
+    "address": "Ngõ 147/59 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr8,4tr3,4tr5",
+    "price1": "3800000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773270453581",
+    "address": "Ngõ 205/53 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr2 - 3tr3",
+    "price1": "3200000",
+    "price2": "3300000",
+    "type": null
+  },
+  {
+    "id": "1773270480965",
+    "address": "Ngõ 207/129 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr",
+    "price1": "3000000",
+    "price2": "3000000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773271189880",
+    "address": "Ngõ 136 Cầu Diễn, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": null
+  },
+  {
+    "id": "1773271652583",
+    "address": "16 Cầu Noi, Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr7 - 4tr",
+    "price1": "3700000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773272004823",
+    "address": "16 Cầu Noi, Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr7 - 4tr",
+    "price1": "3700000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773272043741",
+    "address": "16 Cầu Noi, Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr7 - 4tr",
+    "price1": "3700000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773272777190",
+    "address": "Ngõ 43/112 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr8 4tr3",
+    "price1": "3800000",
+    "price2": "4300000",
+    "type": "studio, 1n1k"
+  },
+  {
+    "id": "1773274119429",
+    "address": "Ngõ 70/66 Văn Trì, Minh Khai, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": null
+  },
+  {
+    "id": "1773274779594",
+    "address": "322 Hoàng Công Chất, Bắc Từ Liêm",
+    "price": "2tr8",
+    "price1": "2800000",
+    "price2": "2800000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773275367951",
+    "address": "Số 145 Ngõ 172 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr1-3tr1",
+    "price1": "3100000",
+    "price2": "3100000",
+    "type": null
+  },
+  {
+    "id": "1773275372801",
+    "address": "Số 145 Ngõ 172 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr1-3tr2",
+    "price1": "3100000",
+    "price2": "3200000",
+    "type": null
+  },
+  {
+    "id": "1773281985796",
+    "address": "Ngõ 136 Số 15 Cầu Diễn, Bắc Từ Liêm",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773283510461",
+    "address": "Số 15 Ngõ 75 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr9,4tr2,4tr5",
+    "price1": "3900000",
+    "price2": "4500000",
+    "type": null
+  },
+  {
+    "id": "1773283582986",
+    "address": "Ngõ 75 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr1",
+    "price1": "4100000",
+    "price2": "4100000",
+    "type": "studio"
+  },
+  {
+    "id": "1773283878167",
+    "address": "Ngõ 333 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr5-5tr5",
+    "price1": "4500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773284189911",
+    "address": "Ngõ 333 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773284275336",
+    "address": "Ngõ 72 Đình Quán, Bắc Từ Liêm",
+    "price": "3tr8 - 4tr",
+    "price1": "3800000",
+    "price2": "4000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773284621700",
+    "address": "519 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr2,4tr5,5tr5",
+    "price1": "4200000",
+    "price2": "5500000",
+    "type": null
+  },
+  {
+    "id": "1773284705034",
+    "address": "Ngõ 44 Đình Quán, Bắc Từ Liêm",
+    "price": "3tr7 - 3tr9",
+    "price1": "3700000",
+    "price2": "3900000",
+    "type": null
+  },
+  {
+    "id": "1773285164301",
+    "address": "Ngõ 347 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr6 - 3tr8 - 4tr",
+    "price1": "3600000",
+    "price2": "4000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773285274627",
+    "address": "Ngõ 23 Đức Diễn, Bắc Từ Liêm",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": null
+  },
+  {
+    "id": "1773286595708",
+    "address": "Số 23 Ngõ 397 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": null
+  },
+  {
+    "id": "1773286673607",
+    "address": "Ngõ 261 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr3 - 3tr4 - 3tr6",
+    "price1": "3300000",
+    "price2": "3600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773287080543",
+    "address": "Ngõ 254/7 Số 36A Minh Khai, Bắc Từ Liêm",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773287215138",
+    "address": "Ngõ 261 Phú Diễn, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": null
+  },
+  {
+    "id": "1773287325769",
+    "address": "Ngõ 261 Phú Diễn, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": null
+  },
+  {
+    "id": "1773287612810",
+    "address": "Nhà 542 Trần Cung, Bắc Từ Liêm",
+    "price": "6tr2 - 6tr4",
+    "price1": "6200000",
+    "price2": "6400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773289349843",
+    "address": "Số 18 Ngõ 23 Ngách 72 Hẻm 7 Đức Diễn, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": null
+  },
+  {
+    "id": "1773289652483",
+    "address": "14 ngõ 136 ngách 129 Cầu Diễn, Bắc Từ Liêm",
+    "price": "2tr8",
+    "price1": "2.800.000",
+    "price2": "2.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773289740264",
+    "address": "Ngõ 151 Trung Kiên, Tây Tựu, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773289776663",
+    "address": "Số 15 ngõ 401 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773289894401",
+    "address": "Số 15 ngõ 401 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773290024375",
+    "address": "Ngõ 23 Đức Diễn, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773290262812",
+    "address": "Ngõ 17 Đình Quán, Cầu Diễn, Bắc Từ Liêm",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773290754599",
+    "address": "Ngõ 401 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr3-3tr5",
+    "price1": "3.300.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1773290794772",
+    "address": "Ngõ 43 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "5tr6",
+    "price1": "5.600.000",
+    "price2": "5.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773290839566",
+    "address": "285 Phạm Văn Đồng, Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773290863463",
+    "address": "Số 53 Ngõ 134 Cầu Diễn, Bắc Từ Liêm",
+    "price": "2tr8",
+    "price1": "2.800.000",
+    "price2": "2.800.000",
+    "type": null
+  },
+  {
+    "id": "1773290904516",
+    "address": "9A/12B/89 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773290941267",
+    "address": "Số 535 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr8-p301",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773291030470",
+    "address": "Ngõ 542 Trần Cung, Bắc Từ Liêm",
+    "price": "6tr4-p404",
+    "price1": "6.400.000",
+    "price2": "6.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773291736060",
+    "address": "10 ngõ 7 Nhật Tảo, Bắc Từ Liêm",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773295399907",
+    "address": "Số 53 ngõ 134 Cầu Diễn, Bắc Từ Liêm",
+    "price": "2tr8",
+    "price1": "2.800.000",
+    "price2": "2.800.000",
+    "type": null
+  },
+  {
+    "id": "1773295444932",
+    "address": "Số 15 ngõ 401 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773295586730",
+    "address": "Số 27 Ngoạ Long, Minh Khai, Bắc Từ Liêm",
+    "price": "2tr8",
+    "price1": "2.800.000",
+    "price2": "2.800.000",
+    "type": null
+  },
+  {
+    "id": "1773295771579",
+    "address": "10 ngõ 7 Nhật Tảo, Bắc Từ Liêm",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773297058388",
+    "address": "172 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr5-5tr8",
+    "price1": "3.500.000",
+    "price2": "5.800.000",
+    "type": "studio, 1n1k"
+  },
+  {
+    "id": "1773298763206",
+    "address": "Số 14 Ngõ 103/2 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773298967427",
+    "address": "Số 17 Ngách 43/33 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773298986942",
+    "address": "322 Hoàng Công Chất, Bắc Từ Liêm",
+    "price": "2tr8",
+    "price1": "2.800.000",
+    "price2": "2.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773299100413",
+    "address": "Số 12B Ngõ 394 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773299129977",
+    "address": "181 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773299352937",
+    "address": "Số 23 Ngõ 397 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773299951242",
+    "address": "Số 41 Ngõ 514 Trần Cung, Bắc Từ Liêm",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773299996803",
+    "address": "Số 25 Ngách 34 Ngõ 514 Trần Cung, Bắc Từ Liêm",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773300758376",
+    "address": "8 Ngõ 485 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1773303874671",
+    "address": "6/23 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773304206781",
+    "address": "7 Hẻm 9/11 Ngõ Văn Chương, Tôn Đức Thắng",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773304313488",
+    "address": "Số 3 ngõ 495 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773304487849",
+    "address": "Số 8 ngõ 485 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773304734961",
+    "address": "Số 112/12 Nguyên Xá, Bắc Từ Liêm",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773304874458",
+    "address": "433 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr8,6tr8",
+    "price1": "4.800.000",
+    "price2": "6.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773304909698",
+    "address": "Ngõ 495 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773304996299",
+    "address": "29 ngõ 205/165 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773305018612",
+    "address": "Ngõ 172 Phú Diễn, Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773305293855",
+    "address": "Số 18 ngõ 205/37 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "1n1k, gác xép"
+  },
+  {
+    "id": "1773305546510",
+    "address": "Số 3 ngõ 495 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773306028496",
+    "address": "Ngõ 23 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr3 - 4tr4",
+    "price1": "4.300.000",
+    "price2": "4.400.000",
+    "type": null
+  },
+  {
+    "id": "1773307124359",
+    "address": "Số 7 Ngõ 333/40 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr7",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773308488330",
+    "address": "Ngõ 195 Cầu Diễn, Bắc Từ Liêm",
+    "price": "3tr",
+    "price1": "3.000.000",
+    "price2": "3.000.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773309047478",
+    "address": "Ngõ 134 Cầu Diễn, Bắc Từ Liêm",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773310232710",
+    "address": "Số 16B ngõ 220 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "1tr8",
+    "price1": "1.800.000",
+    "price2": "1.800.000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773310432657",
+    "address": "Số 16B ngõ 220 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "2tr8",
+    "price1": "2.800.000",
+    "price2": "2.800.000",
+    "type": null
+  },
+  {
+    "id": "1773310583448",
+    "address": "79 Sông Nhuệ, P. Đức Thắng, Bắc Từ Liêm",
+    "price": "1tr8",
+    "price1": "1.800.000",
+    "price2": "1.800.000",
+    "type": null
+  },
+  {
+    "id": "1773310703068",
+    "address": "23/29/10 Đức Diễn, Bắc Từ Liêm",
+    "price": "3tr1",
+    "price1": "3.100.000",
+    "price2": "3.100.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773311910604",
+    "address": "207/158 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773312276957",
+    "address": "481 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773312777909",
+    "address": "481 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773313376087",
+    "address": "ngõ 401 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773315227386",
+    "address": "ngõ 220 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "1tr8",
+    "price1": "1800000",
+    "price2": "1800000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773315784281",
+    "address": "Ngõ 82 Phú Kiều, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773316134284",
+    "address": "196 Hồ Tùng Mậu, Bắc Từ Liêm",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773316250302",
+    "address": "Số 1 ngõ 521/47 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "4tr9 - 5tr",
+    "price1": "4900000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773316917751",
+    "address": "136 Hồ Tùng Mậu, Bắc Từ Liêm",
+    "price": "4tr - 4tr6 - 5tr2",
+    "price1": "4000000",
+    "price2": "5200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773317093199",
+    "address": "342 Hồ Tùng Mậu, Bắc Từ Liêm",
+    "price": "4tr - 4tr3",
+    "price1": "4000000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773317998476",
+    "address": "Số 18 ngõ 205/37 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "1n1k, gác xép"
+  },
+  {
+    "id": "1773318377734",
+    "address": "Ngõ 172 Phú Diễn, Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773321222098",
+    "address": "Số 186 P.Tân Phong, Thuỵ Phương, Bắc Từ Liêm",
+    "price": "3tr4 - 4tr3",
+    "price1": "3400000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773321905182",
+    "address": "125 Tân Xuân, Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": null
+  },
+  {
+    "id": "1773321927231",
+    "address": "ngách 59 ngõ 205 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773322253276",
+    "address": "12 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "6tr9",
+    "price1": "6900000",
+    "price2": "6900000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773322650983",
+    "address": "Ngõ 401 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr - 3tr3",
+    "price1": "3000000",
+    "price2": "3300000",
+    "type": null
+  },
+  {
+    "id": "1773322782068",
+    "address": "495 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773325765167",
+    "address": "ngõ 334 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "3tr9",
+    "price1": "3900000",
+    "price2": "3900000",
+    "type": null
+  },
+  {
+    "id": "1773326272223",
+    "address": "Nhà số 2 Ngõ 381/1 Thụy Phương, Bắc Từ Liêm",
+    "price": "3tr9",
+    "price1": "3900000",
+    "price2": "3900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773326646071",
+    "address": "Nhà 49 Ngõ 99 Cầu Diễn, Bắc Từ Liêm",
+    "price": "2tr6 - 3tr3",
+    "price1": "2600000",
+    "price2": "3300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773328005626",
+    "address": "29 ngõ 205/165 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773328193867",
+    "address": "Số 4 Ngõ 205/78 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773329116582",
+    "address": "Ngách 207 ngõ 205 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "2tr5 - 2tr6",
+    "price1": "2500000",
+    "price2": "2600000",
+    "type": null
+  },
+  {
+    "id": "1773329203355",
+    "address": "433 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr8 - 6tr8",
+    "price1": "4800000",
+    "price2": "6800000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773329429843",
+    "address": "Số nhà 12A, ngõ 94 Hoàng Công Chất, Cầu Diễn, Bắc Từ Liêm",
+    "price": "5tr6 - 5tr7",
+    "price1": "5600000",
+    "price2": "5700000",
+    "type": null
+  },
+  {
+    "id": "1773330745290",
+    "address": "1a/195 đường Cầu Diễn, Bắc Từ Liêm",
+    "price": "2tr",
+    "price1": "2000000",
+    "price2": "2000000",
+    "type": null
+  },
+  {
+    "id": "1773330775638",
+    "address": "69/195 Cầu Diễn, Bắc Từ Liêm",
+    "price": "2tr6",
+    "price1": "2600000",
+    "price2": "2600000",
+    "type": null
+  },
+  {
+    "id": "1773330950535",
+    "address": "Số 112/12 Nguyên Xá, Bắc Từ Liêm",
+    "price": "3tr4",
+    "price1": "3400000",
+    "price2": "3400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773331472105",
+    "address": "ngõ 521/47 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "4tr9-5tr",
+    "price1": "4900000",
+    "price2": "5000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773331639591",
+    "address": "481 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773331739171",
+    "address": "205 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "8tr5",
+    "price1": "8500000",
+    "price2": "8500000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773331800403",
+    "address": "481 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr5 - 4tr8",
+    "price1": "4500000",
+    "price2": "4800000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773332993086",
+    "address": "Số 186 P.Tân Phong - Thuỵ Phương - Bắc Từ Liêm",
+    "price": "3tr4",
+    "price1": "3400000",
+    "price2": "3400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773332993086",
+    "address": "Số 186 P.Tân Phong - Thuỵ Phương - Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773332993086",
+    "address": "Số 186 P.Tân Phong - Thuỵ Phương - Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773338863105",
+    "address": "Ngõ 205/165 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "5tr3 - 5tr5",
+    "price1": "5300000",
+    "price2": "5500000",
+    "type": null
+  },
+  {
+    "id": "1773338998453",
+    "address": "Ngõ 205/165 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": null
+  },
+  {
+    "id": "1773376467784",
+    "address": "Số 54 ngõ 119 Cổ Nhuế - Bắc Từ Liêm",
+    "price": "3tr9 - 4tr1",
+    "price1": "3900000",
+    "price2": "4100000",
+    "type": "studio"
+  },
+  {
+    "id": "1773376954904",
+    "address": "Ngõ 119 Cổ Nhuế - Bắc Từ Liêm",
+    "price": "4tr4",
+    "price1": "4400000",
+    "price2": "4400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773376994509",
+    "address": "Ngõ 119 Cổ Nhuế - Bắc Từ Liêm",
+    "price": "4tr,4tr5",
+    "price1": "4000000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773377013487",
+    "address": "442 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773377567293",
+    "address": "Số 18, hẻm 7, ngách 72 ngõ 23 Đức Diễn - Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773377678525",
+    "address": "Ngõ 254/101/3 Minh Khai",
+    "price": "2tr6",
+    "price1": "2600000",
+    "price2": "2600000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773377717603",
+    "address": "Ngõ 187 Phú Diễn - Bắc Từ Liêm",
+    "price": "4tr8 - 5tr",
+    "price1": "4800000",
+    "price2": "5000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773377852382",
+    "address": "Ngõ cổ 39 Đường Đông Ngạc - Bắc Từ Liêm",
+    "price": "6tr",
+    "price1": "6000000",
+    "price2": "6000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773377919265",
+    "address": "Ngõ cổ 39 Đường Đông Ngạc - Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773382032427",
+    "address": "Nhà số 8 ngõ 191 Phạm Văn Đồng - Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773383166452",
+    "address": "Ngõ 205 Phú Diễn",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773383537358",
+    "address": "Số 9 37/12 Phạm Văn Đồng, Xuân Đỉnh, Bắc Từ Liêm, Hà Nội",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773384141269",
+    "address": "Số 3 ngõ 401/20/27 Cổ Nhuế - Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": null
+  },
+  {
+    "id": "1773384813694",
+    "address": "Số 14, 117/15/1 Trần Cung",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773385134641",
+    "address": "Ngõ 281 Phú Diễn - Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": null
+  },
+  {
+    "id": "1773386537123",
+    "address": "Khu B đại học Mỏ, Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": null
+  },
+  {
+    "id": "1773387504471",
+    "address": "277 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "4tr2 - 4tr6",
+    "price1": "4200000",
+    "price2": "4600000",
+    "type": "giường tầng"
+  },
+  {
+    "id": "1773388283715",
+    "address": "196 Hồ Tùng Mậu - Bắc Từ Liêm",
+    "price": "6tr2",
+    "price1": "6200000",
+    "price2": "6200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773388375365",
+    "address": "136 Hồ Tùng Mậu - Bắc Từ Liêm",
+    "price": "4tr - 4tr6",
+    "price1": "4000000",
+    "price2": "4600000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773388428779",
+    "address": "342 Hồ Tùng Mậu - Bắc Từ Liêm",
+    "price": "4tr - 4tr3",
+    "price1": "4000000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773388860459",
+    "address": "Số 18 ngõ 205/37 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "4tr8",
+    "price1": "4800000",
+    "price2": "4800000",
+    "type": "1n1k, gác xép"
+  },
+  {
+    "id": "1773388925481",
+    "address": "Ngõ 172 Phú Diễn - Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773389254035",
+    "address": "29 ngõ 205/165 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773389414154",
+    "address": "433 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr8- 6tr8",
+    "price1": "4800000",
+    "price2": "6800000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773390192999",
+    "address": "Số 186 P.Tân Phong - Thuỵ Phương - Bắc Từ Liêm",
+    "price": "3tr4",
+    "price1": "3400000",
+    "price2": "3400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773390192999",
+    "address": "Số 186 P.Tân Phong - Thuỵ Phương - Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773390192999",
+    "address": "Số 186 P.Tân Phong - Thuỵ Phương - Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773390454043",
+    "address": "Ngõ 256 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "3tr2",
+    "price1": "3200000",
+    "price2": "3200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773390789612",
+    "address": "Ngõ 333 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "2tr8 - 3tr",
+    "price1": "2800000",
+    "price2": "3000000",
+    "type": null
+  },
+  {
+    "id": "1773391137310",
+    "address": "22 Phúc Diễn - Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773391256598",
+    "address": "22 Phúc Diễn - Bắc Từ Liêm",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773391307416",
+    "address": "1a/195 đường cầu diễn, bắc từ liêm",
+    "price": "2tr",
+    "price1": "2000000",
+    "price2": "2000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773391523171",
+    "address": "69/195 đường cầu diễn, bắc từ liêm , HN",
+    "price": "2tr6",
+    "price1": "2600000",
+    "price2": "2600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773391608555",
+    "address": "Văn Tiến Dũng- Bắc Từ Liêm- HN",
+    "price": "1tr7",
+    "price1": "1700000",
+    "price2": "1700000",
+    "type": "studio"
+  },
+  {
+    "id": "1773392737238",
+    "address": "SỐ 4 NGÕ 136/129/12 Cầu Diễn - BẮC TỪ LIÊM",
+    "price": "9tr9",
+    "price1": "9900000",
+    "price2": "9900000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773392737238",
+    "address": "SỐ 4 NGÕ 136/129/12 Cầu Diễn - BẮC TỪ LIÊM",
+    "price": "8tr8",
+    "price1": "8800000",
+    "price2": "8800000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773392842047",
+    "address": "SỐ 4 NGÕ 136/129/12 Cầu Diễn - BẮC TỪ LIÊM",
+    "price": "4tr9",
+    "price1": "4900000",
+    "price2": "4900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773392842047",
+    "address": "SỐ 4 NGÕ 136/129/12 Cầu Diễn - BẮC TỪ LIÊM",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773394265294",
+    "address": "Số nhà 12 ngõ 205/91/3 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773394265294",
+    "address": "Số nhà 12 ngõ 205/91/3 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773407616750",
+    "address": "Số 14B Ngõ 319 Trần Cung - Cổ Nhuế 1 - Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773409364445",
+    "address": "196 phú diễn - Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773410270072",
+    "address": "Nhà 6 hẻm 23/72/65/22 Đức Diễn – Bắc Từ Liêm – Hà Nội",
+    "price": "2tr5",
+    "price1": "2500000",
+    "price2": "2500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773410270072",
+    "address": "Nhà 6 hẻm 23/72/65/22 Đức Diễn – Bắc Từ Liêm – Hà Nội",
+    "price": "3tr2",
+    "price1": "3200000",
+    "price2": "3200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773416088698",
+    "address": "Ngõ 172 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "9tr5",
+    "price1": "9500000",
+    "price2": "9500000",
+    "type": "2n1b"
+  },
+  {
+    "id": "1773416152207",
+    "address": "Số 9 ngõ 266/11/6 Thụy Phương, Bắc Từ Liêm",
+    "price": "3.600.000vnđ",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773418338771",
+    "address": "Nhà 78A Ngõ 205 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr5 - 3tr7 - 3tr8 - 4tr6",
+    "price1": "3500000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773418565040",
+    "address": "Số 23A ngõ 32 Nguyễn Đạo An, Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr8 - 3tr9",
+    "price1": "3800000",
+    "price2": "3900000",
+    "type": null
+  },
+  {
+    "id": "1773418953423",
+    "address": "18 ngách 70 ngõ 23 Đức Diễn, Bắc Từ Liêm",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773419092164",
+    "address": "Số 15 ngõ 273 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr/tháng",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": null
+  },
+  {
+    "id": "1773419343829",
+    "address": "Số 7 Ngõ 132 Cầu Diễn, Nguyên Xá, Bắc Từ Liêm",
+    "price": "3tr3",
+    "price1": "3300000",
+    "price2": "3300000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773421461549",
+    "address": "Số 6 Ngõ 39 Đông Ngạc, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773429825323",
+    "address": "Ngõ 351.87.11 Thụy Phương, Bắc Từ Liêm",
+    "price": "3.7tr - 4.2tr",
+    "price1": "3700000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773478935844",
+    "address": "Số 20 ngõ 290 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr8 - 4tr",
+    "price1": "3800000",
+    "price2": "4000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773479062407",
+    "address": "Ngõ 347 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr1 - 4tr3",
+    "price1": "4100000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773479178545",
+    "address": "Số 1A ngách 39 ngõ 401 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr4",
+    "price1": "3400000",
+    "price2": "3400000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773480327319",
+    "address": "Số 15 ngõ 25/106/10 Phú Minh, Bắc Từ Liêm",
+    "price": "3tr6 - 3tr8",
+    "price1": "3600000",
+    "price2": "3800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773484623996",
+    "address": "Ngõ 39 ngách 37 Đông Ngạc, Bắc Từ Liêm",
+    "price": "3tr5 - 4tr2",
+    "price1": "3500000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773485662935",
+    "address": "Ngõ 205/189 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr4",
+    "price1": "4400000",
+    "price2": "4400000",
+    "type": "studio"
+  },
+  {
+    "id": "1773485944404",
+    "address": "Ngõ 43/64 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr2 - 5tr8",
+    "price1": "4200000",
+    "price2": "5800000",
+    "type": "studio, 1n1k"
+  },
+  {
+    "id": "1773485973490",
+    "address": "Ngõ 205/196 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "studio"
+  },
+  {
+    "id": "1773486021376",
+    "address": "401/4 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4200000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773486060496",
+    "address": "486/7a Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773486099535",
+    "address": "486/7a Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr2",
+    "price1": "5200000",
+    "price2": "5200000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773486161367",
+    "address": "307 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "3tr7",
+    "price1": "3700000",
+    "price2": "3700000",
+    "type": "studio"
+  },
+  {
+    "id": "1773486220702",
+    "address": "397 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "5tr",
+    "price1": "5000000",
+    "price2": "5000000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773486336233",
+    "address": "Số 40 ngõ 268 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "4tr - 4tr2",
+    "price1": "4000000",
+    "price2": "4200000",
+    "type": "studio"
+  },
+  {
+    "id": "1773486618641",
+    "address": "Số 38 ngõ 268 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773487831489",
+    "address": "Số 35 ngõ 401 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr - 4tr9",
+    "price1": "4000000",
+    "price2": "4900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773487875519",
+    "address": "Số 15 ngõ 401 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": "5500000",
+    "price2": "5500000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773487917941",
+    "address": "Số 23 ngõ 542 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr3",
+    "price1": "5300000",
+    "price2": "5300000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773487978370",
+    "address": "Số 23 ngõ 542 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "đơn kk"
+  },
+  {
+    "id": "1773488191326",
+    "address": "16 cầu Noi (145 Cổ Nhuế), Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773488211574",
+    "address": "16 cầu Noi (146 Cổ Nhuế), Bắc Từ Liêm",
+    "price": "3tr7",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": "đơn, kk"
+  },
+  {
+    "id": "1773488248869",
+    "address": "5 ngõ 542 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr9",
+    "price1": "5.900.000",
+    "price2": "5.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773488322952",
+    "address": "ngách 43/112 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773488344694",
+    "address": "ngõ 43/112 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "đơn, vskk"
+  },
+  {
+    "id": "1773492976071",
+    "address": "số 5 ngách 87/10 Đường Tân Xuân, Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": null
+  },
+  {
+    "id": "1773494735897",
+    "address": "ngõ 3 Phú Kiều, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773494921228",
+    "address": "205 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr1-4tr2",
+    "price1": "4.100.000",
+    "price2": "4.200.000",
+    "type": null
+  },
+  {
+    "id": "1773494980998",
+    "address": "397 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773495083183",
+    "address": "486/7a Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773495122799",
+    "address": "401/4 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773495153836",
+    "address": "Ngõ 205/196 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr6",
+    "price1": "4.600.000",
+    "price2": "4.600.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773495215254",
+    "address": "Ngõ 205/189 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773495245709",
+    "address": "ngõ 3 Phú Kiều, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773495514034",
+    "address": "số 25 ngõ phố Viên 1, Bắc Từ Liêm",
+    "price": "2tr7-3tr2",
+    "price1": "2.700.000",
+    "price2": "3.200.000",
+    "type": null
+  },
+  {
+    "id": "1773495538946",
+    "address": "109 Sông Nhuệ, Bắc Từ Liêm",
+    "price": "2tr6",
+    "price1": "2.600.000",
+    "price2": "2.600.000",
+    "type": null
+  },
+  {
+    "id": "1773495878484",
+    "address": "ngõ 205 ngách 196 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": null
+  },
+  {
+    "id": "1773495965625",
+    "address": "Số 51A ngõ 205 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr6-5tr8",
+    "price1": "4.600.000",
+    "price2": "5.800.000",
+    "type": null
+  },
+  {
+    "id": "1773496156315",
+    "address": "Số 51A ngõ 205 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr",
+    "price1": "5.000.000",
+    "price2": "5.000.000",
+    "type": null
+  },
+  {
+    "id": "1773496687350",
+    "address": "53 Lê Văn Hiến, Đức Thắng, Bắc Từ Liêm",
+    "price": "2tr4-6tr5",
+    "price1": "2.400.000",
+    "price2": "6.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773496946514",
+    "address": "ngõ 304 Hồ Tùng Mậu, Bắc Từ Liêm",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773497349590",
+    "address": "Ngõ 136 Cầu Diễn, Bắc Từ Liêm",
+    "price": "4tr5-5tr",
+    "price1": "4.500.000",
+    "price2": "5.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773497400444",
+    "address": "Số Nhà 19 Ngách 64 Ngõ 43 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773497632108",
+    "address": "nhà số 22 ngõ 82 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "5tr-6tr",
+    "price1": "5.000.000",
+    "price2": "6.000.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773500177019",
+    "address": "Ngõ 35 Tự Hoàng, Bắc Từ Liêm",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": null
+  },
+  {
+    "id": "1773500832942",
+    "address": "số 74/8 ngõ 136 Cầu Diễn, Bắc Từ Liêm",
+    "price": "3tr3-3tr6",
+    "price1": "3.300.000",
+    "price2": "3.600.000",
+    "type": null
+  },
+  {
+    "id": "1773501187210",
+    "address": "Số 50A Nguyên Xá, Bắc Từ Liêm",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": null
+  },
+  {
+    "id": "1773504491826",
+    "address": "Số 51/23 ngõ 304 Hồ Tùng Mậu, Bắc Từ Liêm",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773504523205",
+    "address": "Số 3 ngõ 3 Phú Kiều, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773504599881",
+    "address": "Số 7 ngõ 3 Phú Kiều, Bắc Từ Liêm",
+    "price": "4tr-4tr5",
+    "price1": "4.000.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773504625653",
+    "address": "Số 76 ngõ 205 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773507271819",
+    "address": "Số 15/16 ngõ 347 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr2-4tr4",
+    "price1": "4200000",
+    "price2": "4400000",
+    "type": null
+  },
+  {
+    "id": "1773511576427",
+    "address": "Số 373 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr8-5tr",
+    "price1": "4800000",
+    "price2": "5000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773511585402",
+    "address": "Ngõ 37 Cầu Noi, Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr9-5tr2",
+    "price1": "4900000",
+    "price2": "5200000",
+    "type": null
+  },
+  {
+    "id": "1773512933754",
+    "address": "Ngõ 347 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr1-4tr3",
+    "price1": "4100000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773542361460",
+    "address": "Số 2 ngõ 381/1 Thụy Phương, Bắc Từ Liêm",
+    "price": "3tr4-3tr9",
+    "price1": "3400000",
+    "price2": "3900000",
+    "type": "studio"
+  },
+  {
+    "id": "1773547160501",
+    "address": "Nhà số 9 ngõ 103/136 Cầu Diễn, Bắc Từ Liêm",
+    "price": "3tr1",
+    "price1": "3100000",
+    "price2": "3100000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773548540209",
+    "address": "Số 19B ngõ 254 Minh Khai",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": null
+  },
+  {
+    "id": "1773548693786",
+    "address": "Ngõ 117 Trần Cung",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "1n1b"
+  },
+  {
+    "id": "1773548893433",
+    "address": "Số 20 ngõ 290 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr8-4tr",
+    "price1": "3800000",
+    "price2": "4000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773549786953",
+    "address": "Ngõ 521 Cổ Nhuế",
+    "price": "3tr2",
+    "price1": "3200000",
+    "price2": "3200000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773554653456",
+    "address": "315 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "8tr",
+    "price1": "8000000",
+    "price2": "8000000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773554696887",
+    "address": "315 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "8tr",
+    "price1": "8000000",
+    "price2": "8000000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773556324235",
+    "address": "Ngõ 351/87/11 Thụy Phương, Bắc Từ Liêm",
+    "price": "3tr7",
+    "price1": "3700000",
+    "price2": "3700000",
+    "type": "studio"
+  },
+  {
+    "id": "1773556368076",
+    "address": "Số nhà 2 hẻm 195/91/9 Trần Cung, Cổ Nhuế 1, Bắc Từ Liêm",
+    "price": "2tr4",
+    "price1": "2400000",
+    "price2": "2400000",
+    "type": null
+  },
+  {
+    "id": "1773559359674",
+    "address": "16/59/205 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": "studio"
+  },
+  {
+    "id": "1773559620325",
+    "address": "Số 40 Ngõ 546 Trần Cung, Bắc Từ Liêm",
+    "price": "4tr6",
+    "price1": "4600000",
+    "price2": "4600000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773559647902",
+    "address": "Nhà số 2 Ngõ 381/1 Thụy Phương, Bắc Từ Liêm",
+    "price": "3tr550k",
+    "price1": "3550000",
+    "price2": "3550000",
+    "type": "studio"
+  },
+  {
+    "id": "1773561531978",
+    "address": "Số 7 Ngách 1 Ngõ 112 Nguyên Xá, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773562988830",
+    "address": "Ngõ 191/28 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773563729891",
+    "address": "Ngõ 521 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "2tr8",
+    "price1": "2800000",
+    "price2": "2800000",
+    "type": null
+  },
+  {
+    "id": "1773563846851",
+    "address": "Ngõ 195/59 Trần Cung",
+    "price": "2tr3",
+    "price1": "2300000",
+    "price2": "2300000",
+    "type": null
+  },
+  {
+    "id": "1773563876918",
+    "address": "Ngõ 25 Võ Quý Huân, Phú Diễn, Bắc Từ Liêm",
+    "price": "1tr8",
+    "price1": "1800000",
+    "price2": "1800000",
+    "type": null
+  },
+  {
+    "id": "1773563922399",
+    "address": "85 ngõ 273 Trần Cung",
+    "price": "4tr7",
+    "price1": "4700000",
+    "price2": "4700000",
+    "type": null
+  },
+  {
+    "id": "1773568236854",
+    "address": "Ngõ 205 Xuân Đỉnh",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773568283673",
+    "address": "Số nhà 73/25 đường Phú Minh, Văn Trì, Minh Khai, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773568918285",
+    "address": "Ngõ 277 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "8tr5",
+    "price1": "8500000",
+    "price2": "8500000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773568939198",
+    "address": "277 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "gác xép, giường tầng"
+  },
+  {
+    "id": "1773569386525",
+    "address": "Ngõ 68 đường Phú Diễn",
+    "price": "2tr3",
+    "price1": "2300000",
+    "price2": "2300000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773569388493",
+    "address": "Nhà số 10 ngõ 91/8 Cầu Diễn, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4300000",
+    "price2": "4300000",
+    "type": "studio"
+  },
+  {
+    "id": "1773569424324",
+    "address": "Nhà số 10 ngõ 91/8 Cầu Diễn, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773570104711",
+    "address": "6/10 Ngõ 191 Phạm Văn Đồng, Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "3tr7",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": "gác xép, vskk"
+  },
+  {
+    "id": "1773570104711",
+    "address": "6/10 Ngõ 191 Phạm Văn Đồng, Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "gác xép, vskk"
+  },
+  {
+    "id": "1773570292532",
+    "address": "37/12 Phạm Văn Đồng, Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773570292532",
+    "address": "37/12 Phạm Văn Đồng, Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773570861394",
+    "address": "Ngõ 132 Đường Cầu Diễn - Bắc Từ Liêm",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": null
+  },
+  {
+    "id": "1773570922810",
+    "address": "Nhà số 2 ngõ 381/1 Thụy Phương - Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1773570922810",
+    "address": "Nhà số 2 ngõ 381/1 Thụy Phương - Bắc Từ Liêm",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": null
+  },
+  {
+    "id": "1773572148954",
+    "address": "355 Xuân Đỉnh",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "gác xép, vskk"
+  },
+  {
+    "id": "1773572148954",
+    "address": "355 Xuân Đỉnh",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "gác xép, vskk"
+  },
+  {
+    "id": "1773572994235",
+    "address": "Số 2 ngõ 359 Trần Cung - Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773577945751",
+    "address": "Ngõ 381/1 Thụy Phương – Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1773577945751",
+    "address": "Ngõ 381/1 Thụy Phương – Bắc Từ Liêm",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": null
+  },
+  {
+    "id": "1773578310627",
+    "address": "Ngõ 304 Hồ Tùng Mậu",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773579070876",
+    "address": "Nhà số 01 ngách 42 ngõ 280 Cổ Nhuế - Bắc Từ Liêm - Hà Nội",
+    "price": "2tr6",
+    "price1": "2.600.000",
+    "price2": "2.600.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773579188133",
+    "address": "Nhà số 2 ngách 1 ngõ 36 Cầu Diễn - Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773579479899",
+    "address": "1a/195 Đường Cầu Diễn, Bắc Từ Liêm",
+    "price": "2tr",
+    "price1": "2.000.000",
+    "price2": "2.000.000",
+    "type": null
+  },
+  {
+    "id": "1773580793774",
+    "address": "Ngõ 323/83 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": null
+  },
+  {
+    "id": "1773581074647",
+    "address": "Số 2a ngõ 82 Phú Kiều - Bắc Từ Liêm",
+    "price": "2tr9",
+    "price1": "2.900.000",
+    "price2": "2.900.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773581608952",
+    "address": "Ngõ 196 Phú Diễn - Bắc Từ Liêm",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": null
+  },
+  {
+    "id": "1773583510140",
+    "address": "Số 2 Ngõ 359 Trần Cung - Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773586225706",
+    "address": "Ngõ 304 Hồ Tùng Mậu - Bắc Từ Liêm",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773586655510",
+    "address": "Ngõ 487 Cổ Nhuế - Bắc Từ Liêm",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773586655510",
+    "address": "Ngõ 487 Cổ Nhuế - Bắc Từ Liêm",
+    "price": "7tr",
+    "price1": "7.000.000",
+    "price2": "7.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773587140900",
+    "address": "Ngõ 207 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": null
+  },
+  {
+    "id": "1773587292683",
+    "address": "Ngõ 117 Trần Cung, Bắc Từ Liêm",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773587391700",
+    "address": "302 Minh Khai",
+    "price": "6tr",
+    "price1": "6.000.000",
+    "price2": "6.000.000",
+    "type": null
+  },
+  {
+    "id": "1773588050347",
+    "address": "Số 4 Ngách 195/48 Trần Cung - Cổ Nhuế - Bắc Từ Liêm",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773589536135",
+    "address": "355 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "3tr1",
+    "price1": "3.100.000",
+    "price2": "3.100.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773590450453",
+    "address": "433 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773590450453",
+    "address": "433 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "6tr8",
+    "price1": "6.800.000",
+    "price2": "6.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773590679725",
+    "address": "29 ngõ 205/165 Xuân Đỉnh",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773590757807",
+    "address": "Ngõ 172 Phú Diễn - Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773590787035",
+    "address": "Số 18 ngõ 205/37 Xuân Đỉnh",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773590995104",
+    "address": "Số 112/12 Nguyên Xá, Bắc Từ Liêm, Hà Nội",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773592711534",
+    "address": "323/83 Xuân Đỉnh - Bắc Từ Liêm",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "gác xép, vskk"
+  },
+  {
+    "id": "1773595292181",
+    "address": "172 Phú Diễn, Bắc Từ Liêm",
+    "price": "4tr2",
+    "price1": 4200000,
+    "price2": 4200000,
+    "type": "studio"
+  },
+  {
+    "id": "1773595388944",
+    "address": "433 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "6tr8",
+    "price1": 6800000,
+    "price2": 6800000,
+    "type": "1n1k"
+  },
+  {
+    "id": "1773595408261",
+    "address": "433 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr8",
+    "price1": 4800000,
+    "price2": 4800000,
+    "type": "1n1k"
+  },
+  {
+    "id": "1773596779776",
+    "address": "18/56 ngõ 43 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "5tr6",
+    "price1": 5600000,
+    "price2": 5600000,
+    "type": null
+  },
+  {
+    "id": "1773619485409",
+    "address": "15 ngõ 25/106/10 Phú Minh, Bắc Từ Liêm",
+    "price": "3tr6 - 3tr8",
+    "price1": 3600000,
+    "price2": 3800000,
+    "type": null
+  },
+  {
+    "id": "1773624939231",
+    "address": "Số 6 Ngõ 39 Đông Ngạc, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": 4000000,
+    "price2": 4000000,
+    "type": "1n1k"
+  },
+  {
+    "id": "1773626724094",
+    "address": "Ngõ 323/83 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr9",
+    "price1": 3900000,
+    "price2": 3900000,
+    "type": null
+  },
+  {
+    "id": "1773627942699",
+    "address": "58 Ngõ 214 Phú Diễn, Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": 5500000,
+    "price2": 5500000,
+    "type": "studio"
+  },
+  {
+    "id": "1773627968248",
+    "address": "58 Ngõ 214 Phú Diễn, Bắc Từ Liêm",
+    "price": "5tr8",
+    "price1": 5800000,
+    "price2": 5800000,
+    "type": "1n1k"
+  },
+  {
+    "id": "1773628257040",
+    "address": "32 Ngõ 196 Phú Diễn, Bắc Từ Liêm",
+    "price": "4tr5 - 4tr8",
+    "price1": 4500000,
+    "price2": 4800000,
+    "type": "studio"
+  },
+  {
+    "id": "1773629372468",
+    "address": "19 ngõ 70/43 Văn Trì, Bắc Từ Liêm",
+    "price": "3tr2 - 3tr3",
+    "price1": 3200000,
+    "price2": 3300000,
+    "type": null
+  },
+  {
+    "id": "1773629732752",
+    "address": "81 ngõ 59 Văn Tiến Dũng, Bắc Từ Liêm",
+    "price": "3tr9",
+    "price1": 3900000,
+    "price2": 3900000,
+    "type": null
+  },
+  {
+    "id": "1773630343660",
+    "address": "Ngõ 401 ngách 23 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr3 - 3tr5",
+    "price1": 3300000,
+    "price2": 3500000,
+    "type": "studio"
+  },
+  {
+    "id": "1773630422990",
+    "address": "519 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": 5500000,
+    "price2": 5500000,
+    "type": "1n1k"
+  },
+  {
+    "id": "1773630908338",
+    "address": "3B ngõ 81 Nhổn, Bắc Từ Liêm",
+    "price": "3tr2",
+    "price1": 3200000,
+    "price2": 3200000,
+    "type": null
+  },
+  {
+    "id": "1773631312291",
+    "address": "01 ngách 42 ngõ 280 Cổ Nhuế 2, Bắc Từ Liêm",
+    "price": "2tr6",
+    "price1": 2600000,
+    "price2": 2600000,
+    "type": null
+  },
+  {
+    "id": "1773633623342",
+    "address": "15 ngõ 136 Cầu Diễn, Bắc Từ Liêm",
+    "price": "4tr5 - 5tr",
+    "price1": 4500000,
+    "price2": 5000000,
+    "type": "studio"
+  },
+  {
+    "id": "1773635693746",
+    "address": "28 ngõ 214 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr6",
+    "price1": 3600000,
+    "price2": 3600000,
+    "type": "studio"
+  },
+  {
+    "id": "1773636104424",
+    "address": "2 ngách 123 ngõ 401 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": 3500000,
+    "price2": 3500000,
+    "type": null
+  },
+  {
+    "id": "1773637085105",
+    "address": "Ngách 37/16, Ngõ 205 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr6 - 5tr8",
+    "price1": 4600000,
+    "price2": 5800000,
+    "type": "2 ngủ"
+  },
+  {
+    "id": "1773637301655",
+    "address": "Ngõ 205 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr8 - 5tr",
+    "price1": 3800000,
+    "price2": 5000000,
+    "type": "studio, 1n1k"
+  },
+  {
+    "id": "1773637326366",
+    "address": "85 Phan Bá Vành, Phú Diễn, Bắc Từ Liêm",
+    "price": "2tr3 - 2tr5",
+    "price1": 2300000,
+    "price2": 2500000,
+    "type": null
+  },
+  {
+    "id": "1773641051137",
+    "address": "25 ngõ 290 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr3 - 5tr5",
+    "price1": 4300000,
+    "price2": 5500000,
+    "type": "studio, 1n1k"
+  },
+  {
+    "id": "1773642049222",
+    "address": "Ngõ 205/165/42 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr9 - 5tr8",
+    "price1": 4900000,
+    "price2": 5800000,
+    "type": "studio"
+  },
+  {
+    "id": "1773642079511",
+    "address": "LK24 Khu Đô Thị Vân Canh, Bắc Từ Liêm",
+    "price": "3tr8",
+    "price1": 3800000,
+    "price2": 3800000,
+    "type": "studio"
+  },
+  {
+    "id": "1773642191349",
+    "address": "LK24 Khu Đô Thị Vân Canh, Bắc Từ Liêm",
+    "price": "4tr - 4tr3",
+    "price1": 4000000,
+    "price2": 4300000,
+    "type": "studio"
+  },
+  {
+    "id": "1773642948102",
+    "address": "143.37.5A-5B Xuân Phương, Bắc Từ Liêm",
+    "price": "3tr6 - 4tr",
+    "price1": 3600000,
+    "price2": 4000000,
+    "type": "studio"
+  },
+  {
+    "id": "1773644187102",
+    "address": "5 ngõ 14 Nhật Tảo, Đông Ngạc, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": 4000000,
+    "price2": 4000000,
+    "type": "1n1k"
+  },
+  {
+    "id": "1773644257320",
+    "address": "5 ngõ 14 Nhật Tảo, Đông Ngạc, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": 4300000,
+    "price2": 4300000,
+    "type": "1n1k"
+  },
+  {
+    "id": "1773645695046",
+    "address": "số 16 ngõ 12 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773645832919",
+    "address": "số 16 ngõ 12 Phạm Văn Đồng, Bắc Từ Liêm",
+    "price": "4tr5tr",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "studio, gác xép"
+  },
+  {
+    "id": "1773645909408",
+    "address": "số 186 P.Tân Phong, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773646388543",
+    "address": "Số 5 ngõ 401 ngách 20 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": null
+  },
+  {
+    "id": "1773646409864",
+    "address": "Ngõ 117 Trần Cung, Bắc Từ Liêm",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773646791998",
+    "address": "Khu B đại học Mỏ, Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr6 - 4tr5",
+    "price1": "3.600.000",
+    "price2": "4.500.000",
+    "type": null
+  },
+  {
+    "id": "1773649600357",
+    "address": "Số 3A ngõ 21 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "7tr2",
+    "price1": "7.200.000",
+    "price2": "7.200.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773649602760",
+    "address": "Số 2B ngách 205/165 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "8tr5",
+    "price1": "8.500.000",
+    "price2": "8.500.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773649653520",
+    "address": "Ngõ 315 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "8tr",
+    "price1": "8.000.000",
+    "price2": "8.000.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1773650041487",
+    "address": "Ngõ 85 Đức Diễn, Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": null
+  },
+  {
+    "id": "1773650091681",
+    "address": "Ngõ 85 Đức Diễn, Bắc Từ Liêm",
+    "price": "5tr050k",
+    "price1": "5.050.000",
+    "price2": "5.050.000",
+    "type": null
+  },
+  {
+    "id": "1773650428897",
+    "address": "sn 41 ngõ 514 Trần Cung, Bắc Từ Liêm",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": null
+  },
+  {
+    "id": "1773650657952",
+    "address": "Số 25 ngách 34 ngõ 514 Trần Cung, Bắc Từ Liêm",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": null
+  },
+  {
+    "id": "1773652025229",
+    "address": "số 41 ngách 43/112 ngõ 43 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": null
+  },
+  {
+    "id": "1773652272117",
+    "address": "16 Cầu Noi (ngõ 145 Cổ Nhuế), Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773652301784",
+    "address": "Số 7 ngách 1 ngõ 112 Nguyên Xá, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773652336647",
+    "address": "Số 04 ngách 66 ngõ 59 Văn Tiến Dũng, Bắc Từ Liêm",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "vskk"
+  },
+  {
+    "id": "1773652369101",
+    "address": "số 5 ngõ 542 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr9",
+    "price1": "5.900.000",
+    "price2": "5.900.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773652519750",
+    "address": "số 23 ngõ 542 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773652549086",
+    "address": "ngõ 1 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr4",
+    "price1": "5.400.000",
+    "price2": "5.400.000",
+    "type": null
+  },
+  {
+    "id": "1773652647021",
+    "address": "số 15 ngõ 401 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "5tr5",
+    "price1": "5.500.000",
+    "price2": "5.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773653239434",
+    "address": "Ngõ 60 Nguyễn Đạo An, Bắc Từ Liêm",
+    "price": "3tr",
+    "price1": "3.000.000",
+    "price2": "3.000.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773656459448",
+    "address": "ngõ 485 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": null
+  },
+  {
+    "id": "1773656501311",
+    "address": "Số Nhà 10 Ngõ 193/64/38 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr",
+    "price1": "3.000.000",
+    "price2": "3.000.000",
+    "type": null
+  },
+  {
+    "id": "1773656703065",
+    "address": "Ngõ 485 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": null
+  },
+  {
+    "id": "1773656797734",
+    "address": "Ngõ 23.29.10 Đức Diễn, Bắc Từ Liêm",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": null
+  },
+  {
+    "id": "1773657015072",
+    "address": "Ngõ 485 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": null
+  },
+  {
+    "id": "1773658104051",
+    "address": "103 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": null
+  },
+  {
+    "id": "1773658226388",
+    "address": "CCMN 8 Ngõ 485 Xuân Đỉnh, Bắc Từ Liêm",
+    "price": "4tr1",
+    "price1": "4100000",
+    "price2": "4100000",
+    "type": null
+  },
+  {
+    "id": "1773662561776",
+    "address": "Số 5 ngõ 72 Đình Quán, Văn Tiến Dũng, Minh Khai, Bắc Từ Liêm",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": null
+  },
+  {
+    "id": "1773662561776",
+    "address": "Số 5 ngõ 72 Đình Quán, Văn Tiến Dũng, Minh Khai, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": null
+  },
+  {
+    "id": "1773662620465",
+    "address": "Số 11/107b/139 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": null
+  },
+  {
+    "id": "1773662656182",
+    "address": "Số 12 ngõ 44 Đình Quán, phường Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr9",
+    "price1": "3900000",
+    "price2": "3900000",
+    "type": null
+  },
+  {
+    "id": "1773662656182",
+    "address": "Số 12 ngõ 44 Đình Quán, phường Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr7",
+    "price1": "3700000",
+    "price2": "3700000",
+    "type": null
+  },
+  {
+    "id": "1773665401514",
+    "address": "Ngách 17/18 ngõ 347 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773665401514",
+    "address": "Ngách 17/18 ngõ 347 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773665401514",
+    "address": "Ngách 17/18 ngõ 347 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "3tr8",
+    "price1": "3800000",
+    "price2": "3800000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773665683540",
+    "address": "Số 14 ngõ 261 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr6",
+    "price1": "3600000",
+    "price2": "3600000",
+    "type": null
+  },
+  {
+    "id": "1773667154078",
+    "address": "Số 7 ngõ 3 Phú Kiều, Bắc Từ Liêm",
+    "price": "4tr5",
+    "price1": "4500000",
+    "price2": "4500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773667154078",
+    "address": "Số 7 ngõ 3 Phú Kiều, Bắc Từ Liêm",
+    "price": "4tr",
+    "price1": "4000000",
+    "price2": "4000000",
+    "type": "studio"
+  },
+  {
+    "id": "1773667182240",
+    "address": "Số 76 ngõ 205 Phú Diễn, Bắc Từ Liêm",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "studio"
+  },
+  {
+    "id": "1773667652427",
+    "address": "Ngõ 521 Cổ Nhuế, Bắc Từ Liêm",
+    "price": "2tr7",
+    "price1": "2700000",
+    "price2": "2700000",
+    "type": null
+  }
+]

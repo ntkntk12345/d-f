@@ -1,0 +1,377 @@
+Thanh Trì
+Văn Điển
+Tứ Hiệp
+Yên Mỹ
+Tam Hiệp
+Thanh Liệt
+Tân Triều
+Tả Thanh Oai
+Ngũ Hiệp
+Vĩnh Quỳnh
+Liên Ninh
+Hữu Hòa
+Duyên Hà
+Đông Mỹ
+Đại Áng
+Vạn Phúc
+Cầu Bươu
+Kim Giang
+
+Hà Đông
+Quang Trung
+Nguyễn Trãi
+Hà Cầu
+Yết Kiêu
+Phú La
+Phúc La
+Kiến Hưng
+Mộ Lao
+Văn Quán
+La Khê
+Dương Nội
+Yên Nghĩa
+Đồng Mai
+Biên Giang
+Tố Hữu
+Lê Trọng Tấn
+Trần Phú
+Phùng Hưng
+Ba La
+Quốc Lộ 6
+Vành Đai 3
+Chu Văn An
+Cầu Đơ
+Làng Lụa Vạn Phúc
+Xa La
+Văn Khê
+Mỗ Lao
+Khu Đô Thị Văn Phú
+Khu Đô Thị Dương Nội
+Khu Đô Thị Kiến Hưng
+Khu Đô Thị Thanh Hà
+Khu Đô Thị An Hưng
+Khu Đô Thị Văn Quán
+Bến Xe Yên Nghĩa
+Làng Vạn Phúc
+Làng La Khê
+Làng Mộ Lao
+Làng Yên Nghĩa
+Làng Đồng Mai
+Làng Biên Giang
+
+Ba Đình
+Phúc Xá
+Trúc Bạch
+Vĩnh Phúc
+Cống Vị
+Liễu Giai
+Nguyễn Trung Trực
+Quán Thánh
+Ngọc Hà
+Điện Biên
+Đội Cấn
+Kim Mã
+Giảng Võ
+Thành Công
+Hoàng Hoa Thám
+Nguyễn Thái Học
+Điện Biên Phủ
+Hùng Vương
+Phan Đình Phùng
+Thụy Khuê
+Văn Cao
+Lăng Bác
+Quảng Trường Ba Đình
+Phủ Chủ Tịch
+Vườn Bách Thảo
+Hồ Trúc Bạch
+Hồ Tây
+Khu Ngoại Giao Đoàn
+Khu Thành Công
+Khu Giảng Võ
+Khu Kim Mã
+Khu Ngọc Hà
+
+Long Biên
+Thượng Thanh
+Ngọc Thụy
+Giang Biên
+Đức Giang
+Việt Hưng
+Gia Thụy
+Ngọc Lâm
+Phúc Đồng
+Long Biên
+Thạch Bàn
+Sài Đồng
+Phúc Lợi
+Cự Khối
+Bồ Đề
+Nguyễn Văn Cừ
+Ngô Gia Tự
+Cổ Linh
+Nguyễn Đức Thuận
+Lý Sơn
+Đàm Quang Trung
+Đê Nguyễn Văn Linh
+Quốc Lộ 5
+Quốc Lộ 1A
+Vành Đai
+Khu Đô Thị Việt Hưng
+Khu Đô Thị Sài Đồng
+Khu Đô Thị Thạch Bàn
+Khu Đô Thị Phúc Đồng
+Khu Đô Thị Vinhomes Riverside
+Cầu Chương Dương
+Cầu Long Biên
+Cầu Vĩnh Tuy
+Aeon Mall Long Biên
+Bến Xe Gia Lâm
+
+Tây Hồ
+Bưởi
+Thụy Khuê
+Yên Phụ
+Tứ Liên
+Quảng An
+Xuân La
+Phú Thượng
+Nhật Tân
+Âu Cơ
+Lạc Long Quân
+Võ Chí Công
+Nghi Tàm
+Trích Sài
+Nguyễn Hoàng Tôn
+An Dương Vương
+Phủ Tây Hồ
+Làng Nghi Tàm
+Làng Nhật Tân
+Làng Quảng Bá
+Khu Ciputra
+Bến Hoa Phú Thượng
+Chợ Hoa Quảng Bá
+Thung Lũng Hoa Hồ Tây
+
+Bắc Từ Liêm
+Thượng Cát
+Liên Mạc
+Đông Ngạc
+Thụy Phương
+Minh Khai
+Cổ Nhuế 1
+Cổ Nhuế 2
+Phú Diễn
+Phúc Diễn
+Tây Tựu
+Xuân Đỉnh
+Đức Thắng
+Trần Cung
+Kẻ Vẽ
+Khu Ngoại Giao Đoàn
+Khu Ciputra
+Khu Thành Phố Giao Lưu
+Công Viên Hòa Bình
+
+Hai Bà Trưng
+Nguyễn Du
+Bạch Đằng
+Phạm Đình Hổ
+Bùi Thị Xuân
+Ngô Thì Nhậm
+Lê Đại Hành
+Đống Mác
+Thanh Nhàn
+Đồng Tâm
+Vĩnh Tuy
+Quỳnh Lôi
+Minh Khai
+Quỳnh Mai
+Mai Động
+Bách Khoa
+Đại Cồ Việt
+Giải Phóng
+Bạch Mai
+Trần Khát Chân
+Phố Huế
+Lò Đúc
+Kim Ngưu
+Nguyễn Khoái
+Times City
+Chợ Mơ
+Cầu Vĩnh Tuy
+Khu Kim Ngưu
+Khu Thanh Nhàn
+
+Mỹ Đình
+
+Nam Từ Liêm
+Mễ Trì
+Phú Đô
+Đại Mỗ
+Trung Văn
+Tây Mỗ
+Xuân Phương
+Cầu Diễn
+Phạm Hùng
+Đại Lộ Thăng Long
+Lê Đức Thọ
+Hàm Nghi
+Nguyễn Cơ Thạch
+Châu Văn Liêm
+Trần Hữu Dực
+Dương Đình Nghệ
+Hồ Tùng Mậu
+
+Hoàng Mai
+Định Công
+Đại Kim
+Giáp Bát
+Hoàng Liệt
+Lĩnh Nam
+Tân Mai
+Thanh Trì
+Thịnh Liệt
+Trần Phú
+Tương Mai
+Vĩnh Hưng
+Yên Sở
+Tam Trinh
+Nguyễn Tam Trinh
+Minh Khai
+Kim Đồng
+Trương Định
+Linh Đàm
+Times City
+Gamuda
+Bến Xe Giáp Bát
+Công Viên Yên Sở
+Hồ Định Công
+Hồ Linh Đàm
+
+Hoàn Kiếm
+Chương Dương
+Cửa Đông
+Cửa Nam
+Đồng Xuân
+Hàng Bạc
+Hàng Bài
+Hàng Bồ
+Hàng Buồm
+Hàng Đào
+Hàng Gai
+Hàng Mã
+Hàng Trống
+Lý Thái Tổ
+Phan Chu Trinh
+Tràng Tiền
+Tràng Thi
+Hàng Khay
+Đinh Tiên Hoàng
+Phố Cổ
+Hồ Gươm
+Bờ Hồ
+Quảng Trường Đông Kinh Nghĩa Thục
+Nhà Hát Lớn
+Phố Đi Bộ Hồ Gươm
+Chợ Đồng Xuân
+Ô Quan Chưởng
+Cầu Thê Húc
+
+Cầu Giấy
+Dịch Vọng
+Dịch Vọng Hậu
+Mai Dịch
+Nghĩa Đô
+Nghĩa Tân
+Quan Hoa
+Trung Hòa
+Yên Hòa
+Cầu Giấy
+Xuân Thủy
+Hồ Tùng Mậu
+Phạm Văn Đồng
+Trần Duy Hưng
+Hoàng Quốc Việt
+Trung Kính
+Dương Đình Nghệ
+Phạm Hùng
+
+Thanh Xuân
+Hạ Đình
+Khương Đình
+Khương Mai
+Khương Trung
+Kim Giang
+Nhân Chính
+Phương Liệt
+Thanh Xuân Bắc
+Thanh Xuân Nam
+Thanh Xuân Trung
+Thượng Đình
+Khuất Duy Tiến
+Lê Văn Lương
+Trường Chinh
+Giải Phóng
+Vành Đai 3
+Hoàng Văn Thái
+Ngã Tư Sở
+Royal City
+Khu Tập Thể Thanh Xuân Bắc
+Khu Tập Thể Kim Liên
+Khu Tập Thể Khương Trung
+Khu Đô Thị Trung Hòa Nhân Chính
+
+Đống Đa
+Cát Linh
+Văn Miếu
+Quốc Tử Giám
+Láng Thượng
+Ô Chợ Dừa
+Văn Chương
+Hàng Bột
+Láng Hạ
+Khâm Thiên
+Thổ Quan
+Trung Phụng
+Trung Liệt
+Phương Liên
+Phương Mai
+Kim Liên
+Nam Đồng
+Tôn Đức Thắng
+Tây Sơn
+Nguyễn Lương Bằng
+Xã Đàn
+Láng
+Thái Hà
+Hoàng Cầu
+Đê La Thành
+Chùa Láng
+Hồ Hoàng Cầu
+
+Hoài Đức
+Trạm Trôi
+An Khánh
+An Thượng
+Cát Quế
+Dương Liễu
+Đắc Sở
+Đông La
+Đức Giang
+Đức Thượng
+Kim Chung
+La Phù
+Lại Yên
+Minh Khai
+Sơn Đồng
+Song Phương
+Tiền Yên
+Vân Canh
+Yên Sở
+Lai Xá
+Khu Đô Thị An Khánh
+Khu Đô Thị Splendora
+Khu Đô Thị Vân Canh
+Khu Đô Thị Kim Chung Di Trạch
+Khu Công Nghiệp Lai Xá

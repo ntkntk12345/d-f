@@ -1,0 +1,111 @@
+    def _resolve_output_thread_id_all(self, target_name_or_id):
+        """
+        Find ALL group IDs matching the target (for multi-group routing).
+        Returns list of group IDs.
+        """
+        if not target_name_or_id:
+            return []
+        
+        target_str = str(target_name_or_id).strip()
+        matched_ids = []
+        
+        # Handle "name | id" format (exact ID match only - single result)
+        if "|" in target_str:
+            parts = [p.strip() for p in target_str.split("|", 1)]
+            if len(parts) == 2:
+                expected_name = parts[0]
+                expected_id = parts[1]
+                
+                if expected_id.isdigit():
+                    self._build_group_name_cache()
+                    
+                    # Reverse lookup: find name from ID
+                    actual_group_name = None
+                    for name, gid in self.group_name_cache.items():
+                        if str(gid) == str(expected_id):
+                            actual_group_name = name
+                            break
+                    
+                    if actual_group_name:
+                        expected_name_norm = self._normalize_for_match(expected_name)
+                        actual_name_norm = self._normalize_for_match(actual_group_name)
+                        
+                        if expected_name_norm in actual_name_norm or actual_name_norm in expected_name_norm:
+                            print(f"[RESOLVE] ✓ Matched với ID verification: '{expected_name}' | {expected_id}")
+                            return [str(expected_id)]
+                        else:
+                            print(f"[RESOLVE] ✗ ID {expected_id} tồn tại nhưng tên không khớp")
+                            return []
+                    else:
+                        print(f"[RESOLVE] ✗ Không tìm thấy group với ID {expected_id}")
+                        return []
+                else:
+                    # Not an ID, fallback to name search
+                    target_str = expected_name
+        
+        # If pure ID (single result)
+        if target_str.isdigit():
+            print(f"[RESOLVE_ALL] Target '{target_str}' là ID")
+            return [str(target_str)]
+        
+        # Name -> IDs (FIND ALL MATCHES)
+        self._build_group_name_cache()
+        
+        target_lower = target_str.lower()
+        target_norm = self._normalize_for_match(target_str)
+        
+        # Find ALL groups whose name contains target (substring match)
+        if len(target_norm) >= 3:
+            for name, group_id in self.group_name_cache.items():
+                name_norm = self._normalize_for_match(name)
+                # Match if target is in group name
+                if target_norm in name_norm:
+                    matched_ids.append(str(group_id))
+                    print(f"[RESOLVE_ALL] Matched group '{name}' (ID: {group_id})")
+        
+        if matched_ids:
+            print(f"[RESOLVE_ALL] Tìm thấy {len(matched_ids)} nhóm cho target '{target_str}'")
+            return matched_ids
+        
+        print(f"[RESOLVE_ALL] Không tìm thấy nhóm nào cho target '{target_str}'")
+        return []
+
+    def _resolve_keyword_to_all_dest_ids(self, keyword):
+        """
+        Resolve keyword to ALL matching dest_group_ids.
+        Returns list of (dest_id, target) tuples.
+        """
+        if not keyword:
+            return []
+        
+        keyword_norm = self._normalize_for_match(keyword)
+        keyword_lower = keyword.lower()
+        target = None
+        
+        # Find target name from keyword_to_output_target
+        if keyword_lower in self.keyword_to_output_target:
+            target = self.keyword_to_output_target[keyword_lower]
+        elif keyword_norm in self.keyword_to_output_target:
+            target = self.keyword_to_output_target[keyword_norm]
+        else:
+            for kw, tg in self.keyword_to_output_target.items():
+                kw_norm = self._normalize_for_match(kw)
+                if kw_norm == keyword_norm or kw == keyword_lower:
+                    target = tg
+                    break
+        
+        # If no explicit mapping, try district_names
+        if not target:
+            for district in self.district_names:
+                d_norm = self._normalize_for_match(district)
+                if d_norm == keyword_norm or district.lower() == keyword_lower:
+                    target = district
+                    break
+        
+        if not target:
+            return []
+        
+        # Resolve target to ALL matching group IDs
+        resolved_ids = self._resolve_output_thread_id_all(target)
+        return [(str(gid), target) for gid in resolved_ids]
+

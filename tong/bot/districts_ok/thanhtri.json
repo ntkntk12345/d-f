@@ -1,0 +1,594 @@
+[
+  {
+    "id": "1773901180845",
+    "address": "Ngõ 83 Tân Triều",
+    "price": "3tr5",
+    "price1": "3500000",
+    "price2": "3500000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773906472776",
+    "address": "Ngõ 4 Cầu Bươi, Hà Đông",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773906920416",
+    "address": "Ngõ 634/29 Kim Giang",
+    "price": "5tr8 - 5tr9",
+    "price1": "5.800.000",
+    "price2": "5.900.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773908175517",
+    "address": "mặt phố 83 tả thanh oai, Thanh Trì",
+    "price": "3tr - 3tr5",
+    "price1": "3.000.000",
+    "price2": "3.500.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773909495074",
+    "address": "Ngõ 250 Kim Giang, Gần ĐH Thăng Long",
+    "price": "15tr",
+    "price1": "15000000",
+    "price2": "15000000",
+    "type": "2 ngủ, vsc"
+  },
+  {
+    "id": "1773925677861",
+    "address": "55/19 Thanh Liệt, Kim Giang",
+    "price": "2tr3",
+    "price1": "2.300.000",
+    "price2": "2.300.000",
+    "type": null
+  },
+  {
+    "id": "1773900851123",
+    "address": "124/28 Tân Triều",
+    "price": null,
+    "price1": null,
+    "price2": null,
+    "type": null
+  },
+  {
+    "id": "1773927655774",
+    "address": "204 Kim Giang",
+    "price": null,
+    "price1": null,
+    "price2": null,
+    "type": null
+  },
+  {
+    "id": "1773938901037",
+    "address": "23/83B Đường Tân Triều",
+    "price": null,
+    "price1": null,
+    "price2": null,
+    "type": null
+  },
+  {
+    "id": "1773971545783",
+    "address": "nhà 46 ngõ 73 tân triều hoặc ngõ 300 nguyễn xiển cạnh cc Ecogreen, Thanh Trì",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "studio, vskk"
+  },
+  {
+    "id": "1773971166410",
+    "address": "Kim Giang",
+    "price": "15tr",
+    "price1": "15.000.000",
+    "price2": "15.000.000",
+    "type": null
+  },
+  {
+    "id": "1773976070764",
+    "address": "83 Tả Thanh Oai – Quận: Thanh Trì",
+    "price": "3tr – 3tr3 – 3tr5",
+    "price1": "3.000.000",
+    "price2": "3.300.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773976692055",
+    "address": "sn 6 ngách 44 ngõ 482 Kim Giang - Thanh Trì",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1773980695064",
+    "address": "Số Nhà 8 Ngõ 175 Yên Xá, Thanh Trì",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1773983856494",
+    "address": "Số 64 ngõ 138 Tân Triều, Thanh Trì",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": null
+  },
+  {
+    "id": "1773989826760",
+    "address": "số nhà 25 ngõ 168 Kim Giang",
+    "price": "2tr3-2tr5",
+    "price1": "2.300.000",
+    "price2": "2.500.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1773999346104",
+    "address": "Ngõ 168 ngách 97 nhà 73 Kim Giang",
+    "price": "3tr",
+    "price1": "3.000.000",
+    "price2": "3.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1773999346104",
+    "address": "Ngõ 168 ngách 97 nhà 73 Kim Giang",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774005234878",
+    "address": "55/19 Thanh Liệt, ngõ 750 Kim Giang",
+    "price": "2tr3",
+    "price1": "2.300.000",
+    "price2": "2.300.000",
+    "type": null
+  },
+  {
+    "id": "1774010922045",
+    "address": "Số Nhà 34 Ngõ 4 Cầu Bươu, Thanh Trì, HN",
+    "price": "4tr1-p303,502,503",
+    "price1": "4.100.000",
+    "price2": "4.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774011513564",
+    "address": "4/7/858 Kim Giang - Thanh Trì",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774012036948",
+    "address": "29/51/816 Kim Giang - Thanh Trì",
+    "price": "3tr5tr4,4tr2",
+    "price1": "3.500.000",
+    "price2": "4.200.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774017599626",
+    "address": "ngõ 80 Xuân Phương",
+    "price": "3tr2-3tr4",
+    "price1": "3.200.000",
+    "price2": "3.400.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774017606454",
+    "address": "74/124 Tân Triều - Thanh Trì",
+    "price": "2tr9",
+    "price1": "2.900.000",
+    "price2": "2.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774022396655",
+    "address": "74/124 Tân Triều - Thanh Trì",
+    "price": "2tr9",
+    "price1": "2.900.000",
+    "price2": "2.900.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774024127876",
+    "address": "123 yên xá",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774029926332",
+    "address": "125 Yên Xá - Thanh Trì",
+    "price": "4tr8",
+    "price1": "4.800.000",
+    "price2": "4.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774030278743",
+    "address": "30 ngõ 150 triều khúc - Thanh Trì",
+    "price": "4tr3",
+    "price1": "4.300.000",
+    "price2": "4.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774030313258",
+    "address": "87/10 Yên Xá - Thanh Trì",
+    "price": "3tr4",
+    "price1": "3.400.000",
+    "price2": "3.400.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774030337703",
+    "address": "Số 6 ngõ 136 Triều Khúc - Thanh Trì",
+    "price": "6tr5",
+    "price1": "6.500.000",
+    "price2": "6.500.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774030352663",
+    "address": "90 ngõ 66b Triều khúc - Thanh Trì",
+    "price": "4tr4",
+    "price1": "4.400.000",
+    "price2": "4.400.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774030359032",
+    "address": "90 ngõ 66b Triều khúc - Thanh Trì",
+    "price": "6tr4",
+    "price1": "6.400.000",
+    "price2": "6.400.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774030377874",
+    "address": "3b ngõ 160 Tân Triều - Thanh Trì",
+    "price": "4tr1",
+    "price1": "4.100.000",
+    "price2": "4.100.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774030228779",
+    "address": "Khu tái định cư cuối 66b Triều khúc, Thanh Trì",
+    "price": "4tr5",
+    "price1": "4.500.000",
+    "price2": "4.500.000",
+    "type": "gác xép, giường tầng"
+  },
+  {
+    "id": "1773981065440",
+    "address": "12A 816/51 Kim Giang",
+    "price": null,
+    "price1": null,
+    "price2": null,
+    "type": null
+  },
+  {
+    "id": "1774059359954",
+    "address": "54/482 Kim Giang, Thanh Trì",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "đơn, vskk"
+  },
+  {
+    "id": "1774062593201",
+    "address": "250 kim Giang nhà số 106",
+    "price": "2tr6",
+    "price1": "2.600.000",
+    "price2": "2.600.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774078855921",
+    "address": "Ngõ 774 Kim Giang",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "studio, vsc"
+  },
+  {
+    "id": "1774079306347",
+    "address": "Ngõ 634/29 Kim Giang",
+    "price": "5tr8",
+    "price1": "5.800.000",
+    "price2": "5.800.000",
+    "type": "vsc"
+  },
+  {
+    "id": "1774074974000",
+    "address": "Kim Giang, Linh Đàm",
+    "price": "9tr5/tháng",
+    "price1": "9.500.000",
+    "price2": "9.500.000",
+    "type": null
+  },
+  {
+    "id": "1774082599050",
+    "address": "Triều Khúc, Tân Triều",
+    "price": "11tr5/th",
+    "price1": "11.500.000",
+    "price2": "11.500.000",
+    "type": null
+  },
+  {
+    "id": "1774084254278",
+    "address": "CT6 Xa La, Hà Đông, Kiến Hưng",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": null
+  },
+  {
+    "id": "1774107106640",
+    "address": "ngõ 120 Kim Giang",
+    "price": "4tr6 - 5tr2",
+    "price1": "4.600.000",
+    "price2": "5.200.000",
+    "type": null
+  },
+  {
+    "id": "1774112269620",
+    "address": "Nhà số 2 ngõ 123/23 Yên Xá, Thanh Trì",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774113771019",
+    "address": "Nhà số 31A ngách 53/1 Tân Triều- Thanh Trì",
+    "price": "3tr7 - 3tr8",
+    "price1": "3.700.000",
+    "price2": "3.800.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774148493615",
+    "address": "45 ngõ 750 Kim Giang, Thanh Liệt",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774148613302",
+    "address": "2 ngõ 816/42 Kim Giang – Thanh Liệt",
+    "price": "3tr8",
+    "price1": "3.800.000",
+    "price2": "3.800.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774148795353",
+    "address": "2 ngõ 816/42 Kim Giang – Thanh Liệt",
+    "price": "4tr",
+    "price1": "4.000.000",
+    "price2": "4.000.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774149123741",
+    "address": "2 ngõ 816/42 Kim Giang – Thanh Liệt",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774150018460",
+    "address": "Số 9B/108/68 triều khúc - Thanh Trì - Hà Đông",
+    "price": "4tr2",
+    "price1": "4.200.000",
+    "price2": "4.200.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774150317172",
+    "address": "70 ngõ 8 Cầu Bươu – KĐT Đại Thanh",
+    "price": "3tr6",
+    "price1": "3.600.000",
+    "price2": "3.600.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774150628684",
+    "address": "Nhà 79 Ngõ 123 Yên Xá- Thanh Trì- HN",
+    "price": "3tr",
+    "price1": "3.000.000",
+    "price2": "3.000.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774160958980",
+    "address": "ngõ 123 yên xá",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774167691537",
+    "address": "CHDV Triều Khúc Tân Triều",
+    "price": "11tr5/th",
+    "price1": "11.500.000",
+    "price2": "11.500.000",
+    "type": null
+  },
+  {
+    "id": "1774172960365",
+    "address": "Ngõ 20 Tân Triều, Thanh Trì",
+    "price": "5tr2",
+    "price1": "5.200.000",
+    "price2": "5.200.000",
+    "type": "1n1k"
+  },
+  {
+    "id": "1774185671119",
+    "address": "ngõ 5 Tân Triều",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774185872409",
+    "address": "nhà 10, ngõ 121 Đại Hưng - Phường Ngọc Hồi - Thanh Trì",
+    "price": "3tr2",
+    "price1": "3.200.000",
+    "price2": "3.200.000",
+    "type": null
+  },
+  {
+    "id": "1774185924894",
+    "address": "ngõ 482 ngách 2 hẻm 20 đường Kim Giang",
+    "price": "3tr4 - 3tr5",
+    "price1": "3.400.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1774186180652",
+    "address": "ngõ 482 ngách 2 hẻm 20 đường Kim Giang",
+    "price": "3tr4 - 3tr5",
+    "price1": "3.400.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1774187420866",
+    "address": "ngõ 138 Tân Triều",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "2n1k"
+  },
+  {
+    "id": "1774188289635",
+    "address": "ngõ 98 Tân Triều",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774189089857",
+    "address": "ngõ 21 yên xá",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774190559570",
+    "address": "71 ngõ 83 Tân Triều Thanh Trì",
+    "price": "3tr7/tháng",
+    "price1": "3.700.000",
+    "price2": "3.700.000",
+    "type": null
+  },
+  {
+    "id": "1774193278087",
+    "address": "ngõ 83 Tân Triều",
+    "price": "3tr3",
+    "price1": "3.300.000",
+    "price2": "3.300.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774194664212",
+    "address": "ngõ 5 Tân Triều",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774196520638",
+    "address": "Ngõ 87/10 Yên Xá - Thanh Trì",
+    "price": "3tr3,3tr5",
+    "price1": "3.300.000",
+    "price2": "3.500.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774197294921",
+    "address": "ngõ 124 Tân Triều",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774197777433",
+    "address": "ngõ 73 Tân Triều",
+    "price": "3tr2",
+    "price1": "3.200.000",
+    "price2": "3.200.000",
+    "type": "studio"
+  },
+  {
+    "id": "1774233131027",
+    "address": "ngõ 83 Tân Triều, Thanh Trì",
+    "price": "3tr9 - 4tr - 4tr2 - 4tr3",
+    "price1": "3.900.000",
+    "price2": "4.300.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774237740047",
+    "address": "nhà số 8,ngõ 482 ngách 2 hẻm 2 Đường Kim Giang",
+    "price": "3tr4 - 3tr5",
+    "price1": "3.400.000",
+    "price2": "3.500.000",
+    "type": null
+  },
+  {
+    "id": "1774245659834",
+    "address": "95 Cầu Bươu (đối diện bệnh viện K Tân Triều)",
+    "price": "2tr5",
+    "price1": "2.500.000",
+    "price2": "2.500.000",
+    "type": "đơn"
+  },
+  {
+    "id": "1774246989110",
+    "address": "ngõ 250/89 Kim Giang (cuối ngõ 250 Kim Giang, rất gần ĐH Thăng Long)",
+    "price": "4tr1 - 4tr2",
+    "price1": "4.100.000",
+    "price2": "4.200.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774250012973",
+    "address": "ngõ 83/42 Tân Triều",
+    "price": "3tr9",
+    "price1": "3.900.000",
+    "price2": "3.900.000",
+    "type": "gác xép"
+  },
+  {
+    "id": "1774252251346",
+    "address": "ngõ 482 Kim Giang",
+    "price": "3tr5",
+    "price1": "3.500.000",
+    "price2": "3.500.000",
+    "type": "studio"
+  }
+]
