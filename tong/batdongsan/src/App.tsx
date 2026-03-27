@@ -20,6 +20,7 @@ const useFavoritesSyncHook = favoritesHooks.useFavoritesSync || (() => undefined
 const Home = lazy(() => import("@/pages/Home").then((module) => ({ default: module.Home })));
 const Search = lazy(() => import("@/pages/Search").then((module) => ({ default: module.Search })));
 const PropertyDetail = lazy(() => import("@/pages/PropertyDetail").then((module) => ({ default: module.PropertyDetail })));
+const FeaturedPostDetail = lazy(() => import("@/pages/FeaturedPostDetail").then((module) => ({ default: module.FeaturedPostDetail })));
 const DangTin = lazy(() => import("@/pages/DangTin").then((module) => ({ default: module.DangTin })));
 const DangNhap = lazy(() => import("@/pages/DangNhap").then((module) => ({ default: module.DangNhap })));
 const DangKy = lazy(() => import("@/pages/DangKy").then((module) => ({ default: module.DangKy })));
@@ -76,6 +77,7 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/search" component={Search} />
         <Route path="/property/:id" component={PropertyDetail} />
+        <Route path="/tin-noi-bat/:id" component={FeaturedPostDetail} />
         <Route path="/dang-tin" component={DangTin} />
         <Route path="/dang-nhap" component={DangNhap} />
         <Route path="/dang-ky" component={DangKy} />

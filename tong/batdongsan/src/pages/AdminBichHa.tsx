@@ -1003,16 +1003,29 @@ export function AdminBichHa() {
                                 Tạo lúc {formatDateTime(post.createdAt)} • Cập nhật {formatDateTime(post.updatedAt)}
                               </p>
                             </div>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              onClick={() => handleDeleteFeaturedPost(post.id)}
-                              disabled={deletingFeaturedPostId === post.id}
-                              className="h-10 rounded-2xl border-red-200 bg-white px-4 text-red-600 hover:bg-red-50"
-                            >
-                              <Trash2 className="mr-2 h-4 w-4" />
-                              {deletingFeaturedPostId === post.id ? "Đang xóa..." : "Xóa"}
-                            </Button>
+                            <div className="flex flex-wrap items-center gap-2">
+                              <Button
+                                asChild
+                                type="button"
+                                variant="outline"
+                                className="h-10 rounded-2xl border-slate-200 bg-white px-4 text-slate-700 hover:bg-slate-50"
+                              >
+                                <a href={`/tin-noi-bat/${post.id}`} target="_blank" rel="noreferrer">
+                                  <Link2 className="mr-2 h-4 w-4" />
+                                  Xem
+                                </a>
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => handleDeleteFeaturedPost(post.id)}
+                                disabled={deletingFeaturedPostId === post.id}
+                                className="h-10 rounded-2xl border-red-200 bg-white px-4 text-red-600 hover:bg-red-50"
+                              >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                {deletingFeaturedPostId === post.id ? "Đang xóa..." : "Xóa"}
+                              </Button>
+                            </div>
                           </div>
                           <p className="whitespace-pre-line text-sm leading-6 text-slate-600">{post.content}</p>
 

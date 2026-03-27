@@ -1,106 +1,14 @@
 import { CheckCircle2, MapPin } from "lucide-react";
+import { useLocation } from "wouter";
 import { CollageImagePreview } from "@/components/media/CollageImagePreview";
 import { useSiteContact } from "@/context/SiteContactContext";
 import type { FeaturedPost } from "@/lib/local-properties";
-
-function normalizeFeaturedText(value: string) {
-  return value
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\u0111/g, "d")
-    .replace(/[\u0300-\u036f]/g, "")
-    .trim();
-}
-
-function cleanupFeaturedLine(value: string) {
-  return value.replace(/^[\s|,*\-•–—~+.:;!?()[\]{}"'`_=/\\]+/, "").replace(/^[\s📍✨💰🔥🏡🏠⭐]+/u, "").trim();
-}
-
-function getFeaturedContentLines(content: string) {
-  return content
-    .split(/\n+/)
-    .map((line) => cleanupFeaturedLine(line))
-    .filter(Boolean);
-}
-
-function getFeaturedPostImages(post: FeaturedPost) {
-  return post.imageUrls?.length
-    ? post.imageUrls
-    : post.imageUrl
-      ? [post.imageUrl]
-      : [];
-}
-
-function extractFeaturedAddress(post: FeaturedPost) {
-  if (post.address?.trim()) {
-    return post.address.trim();
-  }
-
-  const lines = getFeaturedContentLines(post.content);
-  const addressLine = lines.find((line) => {
-    const normalized = normalizeFeaturedText(line);
-    return (
-      normalized.includes("dia chi") ||
-      normalized.includes("vi tri") ||
-      /(ngo|ngach|duong|pho|so\s*\d|quan|huyen|my dinh|ha noi|dong da|cau giay|nam tu liem)/.test(normalized)
-    );
-  });
-
-  return addressLine || cleanupFeaturedLine(post.summary) || post.title;
-}
-
-function extractFeaturedRoomType(post: FeaturedPost) {
-  if (post.roomType?.trim()) {
-    return post.roomType.trim();
-  }
-
-  const candidates = `${post.title}\n${post.summary}\n${post.content}`;
-  const normalized = normalizeFeaturedText(candidates);
-  const roomTypePatterns: Array<[RegExp, string]> = [
-    [/\b2n1k\b/, "2N1K"],
-    [/\b1n1k\b/, "1N1K"],
-    [/\bstudio\b/, "Studio"],
-    [/\bgac xep\b/, "Gác xép"],
-    [/\bgiuong tang\b/, "Giường tầng"],
-    [/\bo ghep\b/, "Ở ghép"],
-    [/\bchung cu mini\b/, "Chung cư mini"],
-    [/\bphong tro\b/, "Phòng trọ"],
-  ];
-
-  for (const [pattern, label] of roomTypePatterns) {
-    if (pattern.test(normalized)) {
-      return label;
-    }
-  }
-
-  return "Phòng cho thuê";
-}
-
-function extractFeaturedPrice(post: FeaturedPost) {
-  if (post.priceLabel?.trim()) {
-    return post.priceLabel.trim();
-  }
-
-  const lines = getFeaturedContentLines(post.content);
-  const priceLine = lines.find((line) => {
-    const normalized = normalizeFeaturedText(line);
-    return /\d/.test(normalized) && (
-      normalized.includes("gia") ||
-      normalized.includes("/thang") ||
-      normalized.includes("trieu") ||
-      /(^|[^a-z])(tr|k)([^a-z]|$)/.test(normalized)
-    );
-  });
-
-  if (!priceLine) {
-    return null;
-  }
-
-  return priceLine
-    .replace(/^gia\s*phong\s*[:\-]?\s*/i, "")
-    .replace(/^gia\s*[:\-]?\s*/i, "")
-    .trim();
-}
+import {
+  extractFeaturedAddress,
+  extractFeaturedPrice,
+  extractFeaturedRoomType,
+  getFeaturedPostImages,
+} from "@/lib/featured-post-utils";
 
 function formatFeaturedUpdatedDate(value: string) {
   try {
@@ -119,6 +27,7 @@ type FeaturedPostCardProps = {
 };
 
 export function FeaturedPostCard({ post }: FeaturedPostCardProps) {
+  const [, navigate] = useLocation();
   const { contactLink } = useSiteContact();
   const imageUrls = getFeaturedPostImages(post);
   const addressLabel = extractFeaturedAddress(post);
@@ -126,8 +35,20 @@ export function FeaturedPostCard({ post }: FeaturedPostCardProps) {
   const priceLabel = extractFeaturedPrice(post);
   const actionHref = post.actionUrl || contactLink;
 
+  const handleOpenDetails = () => navigate(`/tin-noi-bat/${post.id}`);
+
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border/50 bg-white shadow-sm transition-all duration-300 hover:shadow-xl">
+    <article
+      role="link"
+      tabIndex={0}
+      onClick={handleOpenDetails}
+      onKeyDown={(event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        handleOpenDetails();
+      }}
+      className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border/50 bg-white shadow-sm transition-all duration-300 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary/30"
+    >
       <div className="relative overflow-hidden" style={{ paddingBottom: "75%" }}>
         <CollageImagePreview
           images={imageUrls}
@@ -179,6 +100,7 @@ export function FeaturedPostCard({ post }: FeaturedPostCardProps) {
               href={actionHref}
               target="_blank"
               rel="noreferrer"
+              onClick={(event) => event.stopPropagation()}
               className="w-full shrink-0 rounded-lg border border-red-500 px-2.5 py-2 text-center text-[11px] font-bold text-red-600 transition-colors hover:bg-red-50 min-[420px]:w-auto min-[420px]:py-1.5"
             >
               {post.actionLabel || "Liên hệ ngay"}

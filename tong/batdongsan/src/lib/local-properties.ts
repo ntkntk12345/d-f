@@ -62,6 +62,34 @@ export type PropertySearchResponse = PropertyPreviewListResponse & {
 
 type PropertyManifest = Record<string, string>;
 
+type ApiPropertyDetail = {
+  id: number;
+  title: string;
+  type: string;
+  category: string;
+  price: number;
+  priceUnit: string;
+  area: number;
+  address: string;
+  province: string;
+  district: string;
+  ward?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  floors?: number;
+  description: string;
+  images?: string[];
+  contactName?: string;
+  contactPhone?: string;
+  contactLink?: string;
+  isFeatured?: boolean;
+  isVerified?: boolean;
+  postedAt: string;
+  expiresAt?: string;
+  views: number;
+  pricePerSqm?: number;
+};
+
 type QueryOptions = {
   enabled?: boolean;
 };
@@ -81,6 +109,74 @@ export const EMPTY_PROPERTY_RECOMMENDATIONS: PropertyRecommendations = {
 function getStaticDataUrl(relativePath: string) {
   const base = import.meta.env.BASE_URL.replace(/\/$/, "");
   return `${base}/data/properties/${relativePath}?v=${encodeURIComponent(__APP_BUILD_ID__)}`;
+}
+
+function normalizePropertyKey(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
+}
+
+function buildApiPropertyTimeline(description: string, postedAt: string) {
+  const text = description.trim();
+  if (!text) return [];
+
+  const timestamp = Number.isNaN(Date.parse(postedAt)) ? Date.now() : Date.parse(postedAt);
+  return [
+    {
+      type: "text" as const,
+      timestamp,
+      text,
+    },
+  ];
+}
+
+function normalizeApiProperty(raw: ApiPropertyDetail): Property {
+  const images = Array.isArray(raw.images) ? raw.images.filter(Boolean) : [];
+  const districtKey = normalizePropertyKey(raw.district || "");
+  const sourceKeywords = [raw.ward, raw.district, raw.province].filter(
+    (value): value is string => Boolean(value?.trim()),
+  );
+
+  return {
+    id: raw.id,
+    title: raw.title,
+    type: raw.type,
+    category: raw.category,
+    price: raw.price,
+    priceFrom: raw.price,
+    priceTo: raw.price,
+    priceUnit: raw.priceUnit,
+    area: raw.area,
+    address: raw.address,
+    province: raw.province,
+    district: raw.district,
+    districtKey,
+    ward: raw.ward,
+    bedrooms: raw.bedrooms ?? null,
+    bathrooms: raw.bathrooms ?? null,
+    floors: raw.floors ?? null,
+    roomType: null,
+    description: raw.description,
+    images,
+    contactName: raw.contactName || ADMIN_CONTACT_NAME,
+    contactPhone: raw.contactPhone || ADMIN_CONTACT_LABEL,
+    contactLink: raw.contactLink || ADMIN_CONTACT_LINK,
+    isFeatured: raw.isFeatured === true,
+    isVerified: raw.isVerified === true,
+    postedAt: raw.postedAt,
+    views: raw.views || 0,
+    pricePerSqm: raw.pricePerSqm ?? null,
+    sourceFile: "api/properties",
+    sourceRawId: String(raw.id),
+    sourceText: raw.description,
+    sourceKeywords,
+    photoItems: images.map((url) => ({ url })),
+    videoItems: [],
+    timelineItems: buildApiPropertyTimeline(raw.description, raw.postedAt),
+  };
 }
 
 async function readStaticJson<T>(relativePath: string): Promise<T> {
@@ -200,6 +296,22 @@ export function useFeaturedPosts(options: QueryOptions = {}) {
   });
 }
 
+export function useGetFeaturedPost(id: string | undefined, options: QueryOptions = {}) {
+  const featuredPostsQuery = useFeaturedPosts({
+    enabled: (options.enabled ?? true) && Boolean(id),
+  });
+  const data = useMemo(
+    () => featuredPostsQuery.data?.find((post) => post.id === id),
+    [featuredPostsQuery.data, id],
+  );
+
+  return {
+    data,
+    isLoading: featuredPostsQuery.isLoading,
+    error: featuredPostsQuery.error,
+  };
+}
+
 function usePropertyManifest(options: QueryOptions = {}) {
   return useQuery({
     queryKey: ["property-manifest"],
@@ -272,18 +384,31 @@ export function useGetFeaturedProperties() {
 }
 
 export function useGetProperty(id: number) {
-  const propertyManifestQuery = usePropertyManifest({ enabled: id > 0 });
-  const districtKey = id > 0 ? propertyManifestQuery.data?.[String(id)] : undefined;
-  const districtPropertiesQuery = useDistrictProperties(districtKey, { enabled: Boolean(districtKey) });
+  return useQuery({
+    queryKey: ["property-detail", id],
+    enabled: id > 0,
+    staleTime: SEARCH_QUERY_STALE_TIME_MS,
+    gcTime: STATIC_DATA_STALE_TIME_MS,
+    refetchOnWindowFocus: false,
+    queryFn: async () => {
+      const manifest = await readStaticJson<PropertyManifest>("manifest.json");
+      const districtKey = manifest[String(id)];
 
-  const data = useMemo(
-    () => districtPropertiesQuery.data?.find((property) => property.id === id),
-    [districtPropertiesQuery.data, id],
-  );
+      if (districtKey) {
+        const districtProperties = await readStaticJson<Property[]>(`districts/${districtKey}.json`);
+        const staticProperty = districtProperties.find((property) => property.id === id);
+        if (staticProperty) {
+          return staticProperty;
+        }
+      }
 
-  return {
-    data,
-    isLoading: propertyManifestQuery.isLoading || districtPropertiesQuery.isLoading,
-    error: propertyManifestQuery.error || districtPropertiesQuery.error,
-  };
+      const { res, data } = await apiJsonFetch<ApiPropertyDetail | null>(`/properties/${id}`, null);
+
+      if (!res.ok || !data) {
+        throw new Error(`Cannot load property ${id}`);
+      }
+
+      return normalizeApiProperty(data);
+    },
+  });
 }
