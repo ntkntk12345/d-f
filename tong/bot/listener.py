@@ -7,7 +7,7 @@ import threading
 import queue
 import hashlib
 import unicodedata
-from datetime import datetime
+from datetime import datetime, timezone
 
 from config import API_KEY, SECRET_KEY, ACCOUNTS
 from zlapi import ZaloAPI
@@ -26,7 +26,7 @@ BOT_SERVICE_FILE_LOCK = threading.Lock()
 
 
 def _utc_now_iso():
-    return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def _default_service_control():

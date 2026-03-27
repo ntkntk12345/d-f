@@ -31,7 +31,7 @@ VN_TZ = timezone(timedelta(hours=7))
 
 
 def _utc_now_iso():
-    return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def _default_service_control():
@@ -150,6 +150,8 @@ class SenderBot:
         self.sender_enabled = True
         self.control_reload_interval = 5.0
         self.last_control_refresh = 0.0
+        self.featured_feed_poll_interval = 5.0
+        self.last_featured_feed_hash = None
         
         self.senders = []
         self.current_sender_index = 0
@@ -345,6 +347,17 @@ class SenderBot:
 
         return posts, send_interval_days
 
+    def _build_featured_feed_hash(self, posts, send_interval_days):
+        try:
+            normalized_payload = {
+                "sendIntervalDays": send_interval_days,
+                "posts": posts if isinstance(posts, list) else [],
+            }
+            raw = json.dumps(normalized_payload, ensure_ascii=False, sort_keys=True)
+            return hashlib.md5(raw.encode("utf-8")).hexdigest()
+        except Exception:
+            return None
+
     def _load_pending_featured_post_ids(self):
         payload = self._load_json_file(self.pending_queue_file, [])
         if not isinstance(payload, list):
@@ -482,9 +495,15 @@ class SenderBot:
                     continue
 
                 posts, default_interval_days = self._load_featured_feed_posts()
+                feed_hash = self._build_featured_feed_hash(posts, default_interval_days)
+                if feed_hash and feed_hash != self.last_featured_feed_hash:
+                    self.last_featured_feed_hash = feed_hash
+                    print("[FEATURED] Detected admin featured feed update.")
+
                 state = self._load_featured_post_state()
                 queued_ids = self._load_pending_featured_post_ids()
                 now_ts = time.time()
+                state_changed = False
 
                 for post in posts:
                     if not isinstance(post, dict):
@@ -510,12 +529,15 @@ class SenderBot:
                         continue
 
                     self._append_item_to_pending_queue(queue_item)
+                    self._mark_runtime_work()
                     queued_ids.add(post_id)
                     state.setdefault(post_id, {})
                     state[post_id]["lastQueuedAt"] = now_ts
+                    state_changed = True
                     print(f"[FEATURED] Queued featured post {post_id} for broadcast.")
 
-                self._save_featured_post_state(state)
+                if state_changed:
+                    self._save_featured_post_state(state)
             except Exception as e:
                 print(f"[FEATURED] Scheduler error: {e}")
                 update_bot_service_status(
@@ -525,7 +547,7 @@ class SenderBot:
                     lastError=str(e),
                 )
 
-            time.sleep(300)
+            time.sleep(self.featured_feed_poll_interval)
 
     def _init_district_files(self):
         """Tạo sẵn các file JSON theo quận nếu chưa có"""
