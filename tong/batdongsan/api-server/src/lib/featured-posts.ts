@@ -27,11 +27,18 @@ export type FeaturedPostRecord = {
   actionLabel?: string;
   actionUrl?: string;
   routingKeywords: string[];
+  createdByType?: "admin" | "ctv";
+  createdById?: number;
+  createdByUsername?: string;
+  createdByNickname?: string;
   createdAt: string;
   updatedAt: string;
 };
 
-export type FeaturedPostPublic = Omit<FeaturedPostRecord, "routingKeywords">;
+export type FeaturedPostPublic = Omit<
+  FeaturedPostRecord,
+  "routingKeywords" | "createdByType" | "createdById" | "createdByUsername" | "createdByNickname"
+>;
 
 export type CreateFeaturedPostInput = {
   title: string;
@@ -45,6 +52,10 @@ export type CreateFeaturedPostInput = {
   actionLabel?: string;
   actionUrl?: string;
   routingKeywords: string[];
+  createdByType?: "admin" | "ctv";
+  createdById?: number;
+  createdByUsername?: string;
+  createdByNickname?: string;
 };
 
 function normalizeText(value: unknown, maxLength: number) {
@@ -103,6 +114,10 @@ function normalizeActionUrl(value: unknown) {
   return normalizeSiteContactLink(raw) || undefined;
 }
 
+function normalizeCreatedByType(value: unknown) {
+  return value === "ctv" ? "ctv" : "admin";
+}
+
 function buildFeaturedPostTitle(roomType: string, address: string, fallbackTitle: string) {
   if (fallbackTitle) {
     return fallbackTitle;
@@ -130,6 +145,10 @@ function normalizeFeaturedPostRecord(value: unknown): FeaturedPostRecord | null 
   const actionLabel = normalizeActionLabel(raw.actionLabel);
   const actionUrl = normalizeActionUrl(raw.actionUrl);
   const routingKeywords = normalizeKeywords(raw.routingKeywords);
+  const createdByType = normalizeCreatedByType(raw.createdByType);
+  const createdById = Number(raw.createdById);
+  const createdByUsername = normalizeText(raw.createdByUsername, 64) || undefined;
+  const createdByNickname = normalizeText(raw.createdByNickname, 120) || undefined;
   const createdAt = normalizeText(raw.createdAt, 64);
   const updatedAt = normalizeText(raw.updatedAt, 64);
 
@@ -150,6 +169,10 @@ function normalizeFeaturedPostRecord(value: unknown): FeaturedPostRecord | null 
     actionLabel,
     actionUrl,
     routingKeywords,
+    createdByType,
+    createdById: Number.isInteger(createdById) && createdById > 0 ? createdById : undefined,
+    createdByUsername,
+    createdByNickname,
     createdAt: createdAt || new Date().toISOString(),
     updatedAt: updatedAt || new Date().toISOString(),
   };
@@ -271,6 +294,10 @@ async function syncFeaturedPostsToBot(posts: FeaturedPostRecord[]) {
           actionLabel: post.actionLabel || FEATURED_POST_DEFAULT_ACTION_LABEL,
           actionUrl: post.actionUrl || null,
           routingKeywords: post.routingKeywords,
+          createdByType: post.createdByType || "admin",
+          createdById: post.createdById || null,
+          createdByUsername: post.createdByUsername || null,
+          createdByNickname: post.createdByNickname || null,
           createdAt: post.createdAt,
           updatedAt: post.updatedAt,
         };
@@ -422,6 +449,10 @@ export async function createFeaturedPost(input: CreateFeaturedPostInput) {
   const actionLabel = normalizeActionLabel(input.actionLabel);
   const actionUrl = normalizeActionUrl(input.actionUrl);
   const imageDataUrls = getInputImageDataUrls(input);
+  const createdByType = normalizeCreatedByType(input.createdByType);
+  const createdByUsername = normalizeText(input.createdByUsername, 64) || undefined;
+  const createdByNickname = normalizeText(input.createdByNickname, 120) || undefined;
+  const createdById = Number(input.createdById);
 
   if (!title) {
     throw new Error("FEATURED_POST_TITLE_REQUIRED");
@@ -433,10 +464,6 @@ export async function createFeaturedPost(input: CreateFeaturedPostInput) {
 
   if (!address) {
     throw new Error("FEATURED_POST_ADDRESS_REQUIRED");
-  }
-
-  if (!roomType) {
-    throw new Error("FEATURED_POST_ROOM_TYPE_REQUIRED");
   }
 
   if (!priceLabel) {
@@ -470,6 +497,10 @@ export async function createFeaturedPost(input: CreateFeaturedPostInput) {
     actionLabel,
     actionUrl,
     routingKeywords,
+    createdByType,
+    createdById: Number.isInteger(createdById) && createdById > 0 ? createdById : undefined,
+    createdByUsername,
+    createdByNickname,
     createdAt: now,
     updatedAt: now,
   };

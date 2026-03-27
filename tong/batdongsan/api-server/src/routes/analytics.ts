@@ -1,9 +1,29 @@
-import { Router, type Request } from "express";
+import { Router, type Request, type Response } from "express";
 import { desc, gte } from "drizzle-orm";
 import { db } from "../../db";
 import { trafficVisitsTable, usersTable } from "../../db/schema";
-import { optionalAuth, requireBichHaAdmin, signBichHaAdminToken } from "../middleware/auth";
-import { createFeaturedPost, deleteFeaturedPost, listFeaturedPosts, listFeaturedPostsForPublic } from "../lib/featured-posts";
+import {
+  optionalAuth,
+  requireBichHaAdmin,
+  requireBichHaCtv,
+  signBichHaAdminToken,
+  signBichHaCtvToken,
+} from "../middleware/auth";
+import {
+  createBichHaCtvAccount,
+  deleteBichHaCtvAccount,
+  listBichHaCtvAccounts,
+  updateBichHaCtvAccount,
+  verifyBichHaCtvCredentials,
+} from "../lib/bichha-ctv-accounts";
+import {
+  createFeaturedPost,
+  deleteFeaturedPost,
+  listFeaturedPosts,
+  listFeaturedPostsForPublic,
+  type FeaturedPostRecord,
+} from "../lib/featured-posts";
+import { getBotServicesDashboard, isBotServiceName, setBotServiceEnabled } from "../lib/bot-services";
 import { getPropertyPostingAvailability, setPropertyPostingEnabled } from "../lib/posting-settings";
 import { getSiteContactControl, normalizeSiteContactLink, setSiteContactLink } from "../lib/site-contact";
 import { getSiteMaintenanceStatus, setSiteMaintenanceEnabled } from "../lib/site-maintenance";
@@ -136,11 +156,104 @@ function buildDailyStats(visits: VisitEntry[], dateKeys: string[]) {
   });
 }
 
+function filterFeaturedPostsForCtv(posts: FeaturedPostRecord[], ctvId: number) {
+  return posts.filter((post) => post.createdByType === "ctv" && post.createdById === ctvId);
+}
+
+function parseNumericId(value: unknown) {
+  const parsed = Number(Array.isArray(value) ? value[0] : value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : null;
+}
+
+function sendFeaturedPostCreateError(res: Response, error: unknown) {
+  const message = error instanceof Error ? error.message : "Khong the tao bai viet noi bat";
+
+  if (message === "FEATURED_POST_TITLE_REQUIRED") {
+    res.status(400).json({ message: "Vui long nhap tieu de bai viet" });
+    return;
+  }
+
+  if (message === "FEATURED_POST_CONTENT_REQUIRED") {
+    res.status(400).json({ message: "Vui long nhap noi dung bai viet" });
+    return;
+  }
+
+  if (message === "FEATURED_POST_PRICE_REQUIRED") {
+    res.status(400).json({ message: "Vui long nhap gia phong" });
+    return;
+  }
+
+  if (message === "FEATURED_POST_ADDRESS_REQUIRED") {
+    res.status(400).json({ message: "Vui long nhap dia chi" });
+    return;
+  }
+
+  if (message === "FEATURED_POST_KEYWORDS_REQUIRED") {
+    res.status(400).json({ message: "Vui long nhap it nhat 1 keyword de bot dinh tuyen nhom" });
+    return;
+  }
+
+  if (message === "INVALID_FEATURED_IMAGE_FORMAT") {
+    res.status(400).json({ message: "Anh bai viet khong hop le" });
+    return;
+  }
+
+  if (message === "INVALID_FEATURED_IMAGE_SIZE") {
+    res.status(400).json({ message: "Anh bai viet vuot qua gioi han 5MB" });
+    return;
+  }
+
+  if (message === "INVALID_FEATURED_IMAGE_COUNT") {
+    res.status(400).json({ message: "Moi bai viet noi bat toi da 10 anh" });
+    return;
+  }
+
+  console.error("[bichha.featured-posts.create]", error);
+  res.status(500).json({ message: "Khong the tao bai viet noi bat" });
+}
+
+function sendCtvAccountError(res: Response, error: unknown) {
+  const message = error instanceof Error ? error.message : "Khong the cap nhat tai khoan CTV";
+
+  if (message === "BICHHA_CTV_USERNAME_REQUIRED") {
+    res.status(400).json({ message: "Vui long nhap username CTV" });
+    return;
+  }
+
+  if (message === "BICHHA_CTV_PASSWORD_REQUIRED") {
+    res.status(400).json({ message: "Mat khau CTV phai co it nhat 4 ky tu" });
+    return;
+  }
+
+  if (message === "BICHHA_CTV_PASSWORD_TOO_SHORT") {
+    res.status(400).json({ message: "Mat khau moi phai co it nhat 4 ky tu" });
+    return;
+  }
+
+  if (message === "BICHHA_CTV_NICKNAME_REQUIRED") {
+    res.status(400).json({ message: "Vui long nhap biet danh CTV" });
+    return;
+  }
+
+  if (message === "BICHHA_CTV_USERNAME_EXISTS") {
+    res.status(409).json({ message: "Username CTV da ton tai" });
+    return;
+  }
+
+  if (message === "BICHHA_CTV_ACCOUNT_ID_INVALID") {
+    res.status(400).json({ message: "ID tai khoan CTV khong hop le" });
+    return;
+  }
+
+  console.error("[bichha.ctv-accounts]", error);
+  res.status(500).json({ message: "Khong the cap nhat tai khoan CTV" });
+}
+
 router.post("/analytics/track", optionalAuth, async (req, res) => {
   try {
     const path = normalizePath(req.body?.path);
 
-    if (path.startsWith("/admin/bichha")) {
+    if (path.startsWith("/admin/bichha") || path.startsWith("/ctv/bichha")) {
       res.status(204).end();
       return;
     }
@@ -173,6 +286,25 @@ router.post("/admin/bichha/login", async (req, res) => {
     token: signBichHaAdminToken(username),
     username,
   });
+});
+
+router.post("/ctv/bichha/login", async (req, res) => {
+  try {
+    const account = await verifyBichHaCtvCredentials(req.body?.username, req.body?.password);
+
+    if (!account) {
+      res.status(401).json({ message: "Username hoac mat khau CTV khong dung" });
+      return;
+    }
+
+    res.json({
+      token: signBichHaCtvToken(account),
+      profile: account,
+    });
+  } catch (error) {
+    console.error("[ctv.bichha.login]", error);
+    res.status(500).json({ message: "Khong the dang nhap CTV" });
+  }
 });
 
 router.get("/site/maintenance-status", async (_req, res) => {
@@ -212,7 +344,16 @@ router.get("/admin/bichha/dashboard", requireBichHaAdmin, async (_req, res) => {
     const dateKeys7 = dateKeys30.slice(-7);
     const firstDateKey = dateKeys30[0];
 
-    const [visits, users, postingControl, maintenanceControl, contactControl, featuredPosts] = await Promise.all([
+    const [
+      visits,
+      users,
+      postingControl,
+      maintenanceControl,
+      contactControl,
+      featuredPosts,
+      botServices,
+      ctvAccounts,
+    ] = await Promise.all([
       db.select({
         visitDate: trafficVisitsTable.visitDate,
         ipAddress: trafficVisitsTable.ipAddress,
@@ -237,6 +378,8 @@ router.get("/admin/bichha/dashboard", requireBichHaAdmin, async (_req, res) => {
       getSiteMaintenanceStatus({ forceRefresh: true }),
       getSiteContactControl({ forceRefresh: true }),
       listFeaturedPosts(),
+      getBotServicesDashboard(),
+      listBichHaCtvAccounts(),
     ]);
 
     const dailyStats1 = buildDailyStats(visits, dateKeys1);
@@ -257,7 +400,9 @@ router.get("/admin/bichha/dashboard", requireBichHaAdmin, async (_req, res) => {
       postingControl,
       maintenanceControl,
       contactControl,
+      botServices,
       featuredPosts,
+      ctvAccounts,
       accounts: {
         total: users.length,
         users,
@@ -266,6 +411,22 @@ router.get("/admin/bichha/dashboard", requireBichHaAdmin, async (_req, res) => {
   } catch (error) {
     console.error("[analytics.dashboard]", error);
     res.status(500).json({ message: "Khong the tai du lieu dashboard" });
+  }
+});
+
+router.get("/ctv/bichha/dashboard", requireBichHaCtv, async (req, res) => {
+  try {
+    const posts = await listFeaturedPosts();
+    const ownPosts = filterFeaturedPostsForCtv(posts, req.bichHaCtv!.id);
+
+    res.json({
+      generatedAt: new Date().toISOString(),
+      profile: req.bichHaCtv,
+      featuredPosts: ownPosts,
+    });
+  } catch (error) {
+    console.error("[ctv.bichha.dashboard]", error);
+    res.status(500).json({ message: "Khong the tai dashboard CTV" });
   }
 });
 
@@ -321,6 +482,89 @@ router.post("/admin/bichha/contact-settings", requireBichHaAdmin, async (req, re
   }
 });
 
+router.post("/admin/bichha/bot-services/:service", requireBichHaAdmin, async (req, res) => {
+  try {
+    const serviceName = Array.isArray(req.params.service) ? req.params.service[0] : req.params.service;
+
+    if (!isBotServiceName(serviceName)) {
+      res.status(400).json({ message: "service khong hop le" });
+      return;
+    }
+
+    if (typeof req.body?.isEnabled !== "boolean") {
+      res.status(400).json({ message: "isEnabled phai la boolean" });
+      return;
+    }
+
+    const serviceStatus = await setBotServiceEnabled(serviceName, req.body.isEnabled);
+    res.json(serviceStatus);
+  } catch (error) {
+    console.error("[admin.bichha.bot-services]", error);
+    res.status(500).json({ message: "Khong the cap nhat bot service" });
+  }
+});
+
+router.post("/admin/bichha/ctv-accounts", requireBichHaAdmin, async (req, res) => {
+  try {
+    const account = await createBichHaCtvAccount({
+      username: req.body?.username,
+      password: req.body?.password,
+      nickname: req.body?.nickname,
+      isEnabled: req.body?.isEnabled,
+    });
+
+    res.status(201).json(account);
+  } catch (error) {
+    sendCtvAccountError(res, error);
+  }
+});
+
+router.patch("/admin/bichha/ctv-accounts/:id", requireBichHaAdmin, async (req, res) => {
+  try {
+    const accountId = parseNumericId(req.params.id);
+    if (!accountId) {
+      res.status(400).json({ message: "ID tai khoan CTV khong hop le" });
+      return;
+    }
+
+    const account = await updateBichHaCtvAccount(accountId, {
+      username: req.body?.username,
+      password: req.body?.password,
+      nickname: req.body?.nickname,
+      isEnabled: req.body?.isEnabled,
+    });
+
+    if (!account) {
+      res.status(404).json({ message: "Khong tim thay tai khoan CTV" });
+      return;
+    }
+
+    res.json(account);
+  } catch (error) {
+    sendCtvAccountError(res, error);
+  }
+});
+
+router.delete("/admin/bichha/ctv-accounts/:id", requireBichHaAdmin, async (req, res) => {
+  try {
+    const accountId = parseNumericId(req.params.id);
+    if (!accountId) {
+      res.status(400).json({ message: "ID tai khoan CTV khong hop le" });
+      return;
+    }
+
+    const deleted = await deleteBichHaCtvAccount(accountId);
+    if (!deleted) {
+      res.status(404).json({ message: "Khong tim thay tai khoan CTV" });
+      return;
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    sendCtvAccountError(res, error);
+  }
+});
+
 router.post("/admin/bichha/featured-posts", requireBichHaAdmin, async (req, res) => {
   try {
     const post = await createFeaturedPost({
@@ -335,59 +579,40 @@ router.post("/admin/bichha/featured-posts", requireBichHaAdmin, async (req, res)
       actionLabel: req.body?.actionLabel,
       actionUrl: req.body?.actionUrl,
       routingKeywords: Array.isArray(req.body?.routingKeywords) ? req.body.routingKeywords : [],
+      createdByType: "admin",
+      createdByUsername: req.bichHaAdmin?.username || BICHHA_ADMIN_USERNAME,
+      createdByNickname: "Admin",
     });
 
     res.status(201).json(post);
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Khong the tao bai viet noi bat";
+    sendFeaturedPostCreateError(res, error);
+  }
+});
 
-    if (message === "FEATURED_POST_TITLE_REQUIRED") {
-      res.status(400).json({ message: "Vui long nhap tieu de bai viet" });
-      return;
-    }
+router.post("/ctv/bichha/featured-posts", requireBichHaCtv, async (req, res) => {
+  try {
+    const post = await createFeaturedPost({
+      title: req.body?.title,
+      summary: req.body?.summary,
+      content: req.body?.content,
+      address: req.body?.address,
+      roomType: req.body?.roomType,
+      priceLabel: req.body?.priceLabel,
+      imageDataUrls: Array.isArray(req.body?.imageDataUrls) ? req.body.imageDataUrls : [],
+      imageDataUrl: req.body?.imageDataUrl,
+      actionLabel: req.body?.actionLabel,
+      actionUrl: req.body?.actionUrl,
+      routingKeywords: Array.isArray(req.body?.routingKeywords) ? req.body.routingKeywords : [],
+      createdByType: "ctv",
+      createdById: req.bichHaCtv?.id,
+      createdByUsername: req.bichHaCtv?.username,
+      createdByNickname: req.bichHaCtv?.nickname,
+    });
 
-    if (message === "FEATURED_POST_CONTENT_REQUIRED") {
-      res.status(400).json({ message: "Vui long nhap noi dung bai viet" });
-      return;
-    }
-
-    if (message === "FEATURED_POST_PRICE_REQUIRED") {
-      res.status(400).json({ message: "Vui long nhap gia phong" });
-      return;
-    }
-
-    if (message === "FEATURED_POST_ADDRESS_REQUIRED") {
-      res.status(400).json({ message: "Vui long nhap dia chi" });
-      return;
-    }
-
-    if (message === "FEATURED_POST_ROOM_TYPE_REQUIRED") {
-      res.status(400).json({ message: "Vui long nhap loai phong" });
-      return;
-    }
-
-    if (message === "FEATURED_POST_KEYWORDS_REQUIRED") {
-      res.status(400).json({ message: "Vui long nhap it nhat 1 keyword de bot dinh tuyen nhom" });
-      return;
-    }
-
-    if (message === "INVALID_FEATURED_IMAGE_FORMAT") {
-      res.status(400).json({ message: "Anh bai viet khong hop le" });
-      return;
-    }
-
-    if (message === "INVALID_FEATURED_IMAGE_SIZE") {
-      res.status(400).json({ message: "Anh bai viet vuot qua gioi han 5MB" });
-      return;
-    }
-
-    if (message === "INVALID_FEATURED_IMAGE_COUNT") {
-      res.status(400).json({ message: "Moi bai viet noi bat toi da 10 anh" });
-      return;
-    }
-
-    console.error("[admin.bichha.featured-posts.create]", error);
-    res.status(500).json({ message: "Khong the tao bai viet noi bat" });
+    res.status(201).json(post);
+  } catch (error) {
+    sendFeaturedPostCreateError(res, error);
   }
 });
 

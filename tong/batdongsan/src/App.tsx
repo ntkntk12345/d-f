@@ -30,6 +30,7 @@ const AccountSettings = lazy(() => import("@/pages/AccountSettings").then((modul
 const ChangePassword = lazy(() => import("@/pages/ChangePassword").then((module) => ({ default: module.ChangePassword })));
 const Admin = lazy(() => import("@/pages/Admin").then((module) => ({ default: module.Admin })));
 const AdminBichHa = lazy(() => import("@/pages/AdminBichHa").then((module) => ({ default: module.AdminBichHa })));
+const CtvBichHa = lazy(() => import("@/pages/CtvBichHa").then((module) => ({ default: module.CtvBichHa })));
 const OGhep = lazy(() => import("@/pages/OGhep").then((module) => ({ default: module.OGhep })));
 const NotFound = lazy(() => import("@/pages/not-found").then((module) => ({ default: module.default })));
 
@@ -65,7 +66,7 @@ function Router() {
     "/doi-mat-khau",
     "/o-ghep",
   ].includes(location);
-  const isStandalonePage = location.startsWith("/admin/bichha");
+  const isStandalonePage = location.startsWith("/admin/bichha") || location.startsWith("/ctv/bichha");
   const {
     data: maintenanceStatus,
     isLoading: isMaintenanceStatusLoading,
@@ -87,6 +88,7 @@ function Router() {
         <Route path="/cai-dat-tai-khoan" component={AccountSettings} />
         <Route path="/doi-mat-khau" component={ChangePassword} />
         <Route path="/admin/bichha" component={AdminBichHa} />
+        <Route path="/ctv/bichha" component={CtvBichHa} />
         <Route path="/admin" component={Admin} />
         <Route path="/o-ghep" component={OGhep} />
         <Route component={NotFound} />

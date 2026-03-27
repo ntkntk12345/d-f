@@ -5,6 +5,7 @@ const EXEMPT_PATH_PREFIXES = [
   "/healthz",
   "/site/maintenance-status",
   "/admin/bichha",
+  "/ctv/bichha",
 ];
 
 function isMaintenanceExempt(req: Request) {

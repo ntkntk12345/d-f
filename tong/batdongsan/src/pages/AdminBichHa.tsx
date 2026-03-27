@@ -1,43 +1,34 @@
-import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
-import { BarChart3, CalendarDays, ImagePlus, Link2, LogOut, Plus, Power, RefreshCw, ShieldCheck, Trash2, Users, Wrench } from "lucide-react";
+import { type ChangeEvent, type FormEvent, useEffect, useMemo, useState } from "react";
+import { Copy, Link2, LogOut, Plus, Power, RefreshCw, ShieldCheck, Trash2 } from "lucide-react";
 import { CollageImagePreview } from "@/components/media/CollageImagePreview";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import { apiJsonFetch } from "@/context/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 import { fileToOptimizedImageDataUrl, getDataUrlByteSize } from "@/lib/image-data-url";
 
 const STORAGE_KEY = "bichha_admin_dashboard_token";
 const MAX_FEATURED_IMAGE_COUNT = 10;
 const MAX_TOTAL_FEATURED_IMAGE_BYTES = 6 * 1024 * 1024;
 
-type DashboardSummary = {
-  totalHits: number;
-  totalVisitors: number;
-  uniqueIps: number;
-  knownAccountsVisited: number;
+type Summary = { totalHits: number; totalVisitors: number; uniqueIps: number; knownAccountsVisited: number };
+type IpVisit = { ipAddress: string; hits: number };
+type DailyStat = { date: string; totalHits: number; uniqueIps: number; knownAccountsVisited: number; ipVisits: IpVisit[] };
+type User = { id: number; name: string; phone: string; role: number; createdAt: string };
+type BotService = {
+  enabled: boolean;
+  running: boolean;
+  state: string;
+  lastHeartbeatAt?: string;
+  lastWorkAt?: string;
+  restartCount: number;
+  lastError?: string | null;
 };
-
-type IpVisit = {
-  ipAddress: string;
-  hits: number;
-};
-
-type DailyStat = {
-  date: string;
-  totalHits: number;
-  uniqueIps: number;
-  knownAccountsVisited: number;
-  ipVisits: IpVisit[];
-};
-
-type DashboardUser = {
-  id: number;
-  name: string;
-  phone: string;
-  role: number;
-  createdAt: string;
-};
-
-type DashboardFeaturedPost = {
+type FeaturedPost = {
   id: string;
   title: string;
   summary: string;
@@ -47,1133 +38,791 @@ type DashboardFeaturedPost = {
   priceLabel?: string;
   imageUrls?: string[];
   imageUrl?: string;
-  actionLabel?: string;
-  actionUrl?: string;
   routingKeywords: string[];
+  createdByType?: "admin" | "ctv";
+  createdByUsername?: string;
+  createdByNickname?: string;
   createdAt: string;
   updatedAt: string;
 };
-
-type DashboardResponse = {
+type CtvAccount = { id: number; username: string; nickname: string; isEnabled: boolean; createdAt: string; updatedAt: string };
+type Dashboard = {
   generatedAt: string;
-  timezone: string;
-  summary1Day: DashboardSummary;
-  summary7Days: DashboardSummary;
-  summary30Days: DashboardSummary;
+  summary1Day: Summary;
+  summary7Days: Summary;
+  summary30Days: Summary;
   dailyStats1: DailyStat[];
   dailyStats7: DailyStat[];
   dailyStats30: DailyStat[];
-  postingControl: {
-    isEnabled: boolean;
-    message: string;
-    updatedAt?: string;
-  };
-  maintenanceControl: {
-    isEnabled: boolean;
-    message: string;
-    updatedAt?: string;
-  };
-  contactControl: {
-    contactLink: string;
-    message: string;
-    updatedAt?: string;
-  };
-  featuredPosts: DashboardFeaturedPost[];
-  accounts: {
-    total: number;
-    users: DashboardUser[];
-  };
+  postingControl: { isEnabled: boolean; message: string; updatedAt?: string };
+  maintenanceControl: { isEnabled: boolean; message: string; updatedAt?: string };
+  contactControl: { contactLink: string; message: string; updatedAt?: string };
+  botServices: { listener: BotService; sender: BotService };
+  featuredPosts: FeaturedPost[];
+  ctvAccounts: CtvAccount[];
+  accounts: { total: number; users: User[] };
+};
+type CtvEdit = { username: string; nickname: string; password: string; isEnabled: boolean };
+type FeaturedForm = {
+  title: string;
+  summary: string;
+  content: string;
+  address: string;
+  roomType: string;
+  priceLabel: string;
+  routingKeywordsText: string;
+  actionLabel: string;
+  actionUrl: string;
 };
 
-function formatDateLabel(value: string) {
-  const date = new Date(`${value}T00:00:00`);
-  return new Intl.DateTimeFormat("vi-VN", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(date);
+const EMPTY_SUMMARY: Summary = { totalHits: 0, totalVisitors: 0, uniqueIps: 0, knownAccountsVisited: 0 };
+const EMPTY_DASHBOARD: Dashboard = {
+  generatedAt: "",
+  summary1Day: EMPTY_SUMMARY,
+  summary7Days: EMPTY_SUMMARY,
+  summary30Days: EMPTY_SUMMARY,
+  dailyStats1: [],
+  dailyStats7: [],
+  dailyStats30: [],
+  postingControl: { isEnabled: true, message: "" },
+  maintenanceControl: { isEnabled: false, message: "" },
+  contactControl: { contactLink: "", message: "" },
+  botServices: {
+    listener: { enabled: true, running: false, state: "unknown", restartCount: 0 },
+    sender: { enabled: true, running: false, state: "unknown", restartCount: 0 },
+  },
+  featuredPosts: [],
+  ctvAccounts: [],
+  accounts: { total: 0, users: [] },
+};
+const EMPTY_FEATURED_FORM: FeaturedForm = {
+  title: "",
+  summary: "",
+  content: "",
+  address: "",
+  roomType: "",
+  priceLabel: "",
+  routingKeywordsText: "",
+  actionLabel: "Lien he ngay",
+  actionUrl: "",
+};
+
+function fmtDate(value?: string) {
+  if (!value) return "Chua co";
+  return new Intl.DateTimeFormat("vi-VN", { dateStyle: "short", timeStyle: "short" }).format(new Date(value));
 }
 
-function formatDateTime(value: string) {
-  const date = new Date(value);
+function fmtDay(value: string) {
+  return new Intl.DateTimeFormat("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(`${value}T00:00:00`));
+}
 
-  return new Intl.DateTimeFormat("vi-VN", {
-    dateStyle: "short",
-    timeStyle: "short",
-  }).format(date);
+function postImages(post: FeaturedPost) {
+  return post.imageUrls?.length ? post.imageUrls : post.imageUrl ? [post.imageUrl] : [];
+}
+
+function postRoom(post: FeaturedPost) {
+  return post.roomType?.trim() || "Phong cho thue";
+}
+
+function postAddress(post: FeaturedPost) {
+  return post.address?.trim() || post.title;
+}
+
+function postPrice(post: FeaturedPost) {
+  return post.priceLabel?.trim() || post.summary || "Lien he";
+}
+
+function postAuthor(post: FeaturedPost) {
+  return post.createdByNickname?.trim() || post.createdByUsername?.trim() || (post.createdByType === "ctv" ? "CTV" : "Admin");
+}
+
+function compactIp(value: string) {
+  return value.includes(":") && value.length > 24 ? `${value.slice(0, 10)}...${value.slice(-8)}` : value;
+}
+
+function getMessage(data: unknown, fallback: string) {
+  if (data && typeof data === "object" && "message" in data && typeof data.message === "string") {
+    return data.message;
+  }
+  return fallback;
+}
+
+function parseKeywords(value: string) {
+  return Array.from(new Set(value.split(/[\n,]/).map((item) => item.trim()).filter(Boolean)));
+}
+
+async function copyText(value: string) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(value);
+    return;
+  }
+
+  const textArea = document.createElement("textarea");
+  textArea.value = value;
+  textArea.style.position = "fixed";
+  textArea.style.opacity = "0";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  document.execCommand("copy");
+  document.body.removeChild(textArea);
 }
 
 export function AdminBichHa() {
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem(STORAGE_KEY));
-  const [username, setUsername] = useState("admin");
-  const [password, setPassword] = useState("");
-  const [range, setRange] = useState<1 | 7 | 30>(7);
-  const [dashboard, setDashboard] = useState<DashboardResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isTogglingPosting, setIsTogglingPosting] = useState(false);
-  const [isTogglingMaintenance, setIsTogglingMaintenance] = useState(false);
-  const [contactLinkInput, setContactLinkInput] = useState("");
-  const [isSavingContactLink, setIsSavingContactLink] = useState(false);
-  const [featuredContent, setFeaturedContent] = useState("");
-  const [featuredPriceLabel, setFeaturedPriceLabel] = useState("");
-  const [featuredAddress, setFeaturedAddress] = useState("");
-  const [featuredRoomType, setFeaturedRoomType] = useState("");
-  const [featuredKeywords, setFeaturedKeywords] = useState("");
-  const [featuredImageDataUrls, setFeaturedImageDataUrls] = useState<string[]>([]);
-  const [isProcessingFeaturedImage, setIsProcessingFeaturedImage] = useState(false);
-  const [isCreatingFeaturedPost, setIsCreatingFeaturedPost] = useState(false);
-  const [deletingFeaturedPostId, setDeletingFeaturedPostId] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
+  const [token, setToken] = useState<string | null>(() => (typeof window === "undefined" ? null : window.localStorage.getItem(STORAGE_KEY)));
+  const [dashboard, setDashboard] = useState<Dashboard | null>(null);
+  const [loginForm, setLoginForm] = useState({ username: "admin", password: "" });
+  const [loading, setLoading] = useState(Boolean(token));
+  const [loggingIn, setLoggingIn] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [savingKey, setSavingKey] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("bot");
+  const [trafficRange, setTrafficRange] = useState<1 | 7 | 30>(1);
+  const [expandedDays, setExpandedDays] = useState<Record<string, boolean>>({});
+  const [contactLink, setContactLink] = useState("");
+  const [featuredForm, setFeaturedForm] = useState<FeaturedForm>(EMPTY_FEATURED_FORM);
+  const [featuredImages, setFeaturedImages] = useState<string[]>([]);
+  const [ctvForm, setCtvForm] = useState<CtvEdit>({ username: "", nickname: "", password: "", isEnabled: true });
+  const [ctvEdits, setCtvEdits] = useState<Record<number, CtvEdit>>({});
 
-  const loadDashboard = async (authToken: string) => {
-    setIsLoading(true);
-    setError(null);
+  const trafficData = useMemo(() => {
+    if (!dashboard) return { summary: EMPTY_SUMMARY, days: [] as DailyStat[] };
+    if (trafficRange === 30) return { summary: dashboard.summary30Days, days: dashboard.dailyStats30 };
+    if (trafficRange === 7) return { summary: dashboard.summary7Days, days: dashboard.dailyStats7 };
+    return { summary: dashboard.summary1Day, days: dashboard.dailyStats1 };
+  }, [dashboard, trafficRange]);
 
-    const { res, data } = await apiJsonFetch<DashboardResponse | { message?: string }>(
-      "/admin/bichha/dashboard",
-      { message: "Khong the tai dashboard" },
-      {},
-      authToken,
-    );
+  function clearSession() {
+    setToken(null);
+    setDashboard(null);
+    setLoading(false);
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(STORAGE_KEY);
+    }
+  }
 
-    if (!res.ok || !("accounts" in data)) {
-      const message = "message" in data && typeof data.message === "string"
-        ? data.message
-        : "Khong the tai dashboard";
+  async function loadDashboard(nextToken: string | null, silent = false) {
+    if (!nextToken) {
+      clearSession();
+      return;
+    }
 
-      if (res.status === 401 || res.status === 403) {
-        localStorage.removeItem(STORAGE_KEY);
-        setToken(null);
+    if (silent) setRefreshing(true);
+    else setLoading(true);
+
+    const { res, data } = await apiJsonFetch<Dashboard>("/admin/bichha/dashboard", EMPTY_DASHBOARD, {}, nextToken);
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        clearSession();
+        toast({ title: "Phien dang nhap het han", variant: "destructive" });
+      } else {
+        toast({ title: "Khong the tai dashboard", description: getMessage(data, "Thu lai sau."), variant: "destructive" });
       }
-
-      setDashboard(null);
-      setError(message);
-      setIsLoading(false);
+      setRefreshing(false);
+      setLoading(false);
       return;
     }
 
     setDashboard(data);
-    setIsLoading(false);
-  };
+    setRefreshing(false);
+    setLoading(false);
+  }
 
   useEffect(() => {
     if (!token) {
-      setDashboard(null);
+      setLoading(false);
       return;
     }
-
     void loadDashboard(token);
   }, [token]);
 
   useEffect(() => {
     if (!dashboard) return;
-    setContactLinkInput(dashboard.contactControl.contactLink || "");
-  }, [dashboard?.contactControl.contactLink]);
+    setContactLink(dashboard.contactControl.contactLink || "");
+    setCtvEdits(Object.fromEntries(dashboard.ctvAccounts.map((account) => [
+      account.id,
+      { username: account.username, nickname: account.nickname, password: "", isEnabled: account.isEnabled },
+    ])));
+  }, [dashboard]);
 
-  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+  async function runRequest(path: string, options: RequestInit, successTitle: string) {
+    if (!token) return false;
+    const { res, data } = await apiJsonFetch<Record<string, unknown>>(path, {}, options, token);
+    if (!res.ok) {
+      if (res.status === 401) {
+        clearSession();
+      }
+      toast({ title: getMessage(data, "Khong the cap nhat"), variant: "destructive" });
+      return false;
+    }
+    toast({ title: successTitle });
+    await loadDashboard(token, true);
+    return true;
+  }
+
+  async function handleLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setIsSubmitting(true);
-    setError(null);
+    setLoggingIn(true);
 
     const { res, data } = await apiJsonFetch<{ token?: string; message?: string }>(
       "/admin/bichha/login",
       {},
-      {
-        method: "POST",
-        body: JSON.stringify({ username, password }),
-      },
+      { method: "POST", body: JSON.stringify(loginForm) },
     );
 
+    setLoggingIn(false);
     if (!res.ok || !data.token) {
-      setError(data.message || "Dang nhap that bai");
-      setIsSubmitting(false);
+      toast({ title: data.message || "Dang nhap that bai", variant: "destructive" });
       return;
     }
 
-    localStorage.setItem(STORAGE_KEY, data.token);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(STORAGE_KEY, data.token);
+    }
     setToken(data.token);
-    setPassword("");
-    setIsSubmitting(false);
-  };
+    setLoginForm((current) => ({ ...current, password: "" }));
+  }
 
-  const handleLogout = () => {
-    localStorage.removeItem(STORAGE_KEY);
-    setToken(null);
-    setDashboard(null);
-    setPassword("");
-    setError(null);
-  };
-
-  const handleTogglePosting = async () => {
-    if (!token || !dashboard) {
-      return;
+  async function handleCopy(value: string, label: string) {
+    try {
+      await copyText(value);
+      toast({ title: `Da copy ${label}` });
+    } catch {
+      toast({ title: `Khong the copy ${label}`, variant: "destructive" });
     }
+  }
 
-    setIsTogglingPosting(true);
-    setError(null);
-
-    const { res, data } = await apiJsonFetch<
-      DashboardResponse["postingControl"] | { message?: string }
-    >(
-      "/admin/bichha/posting-status",
-      { message: "Khong the cap nhat trang thai dang bai" },
-      {
-        method: "POST",
-        body: JSON.stringify({
-          isEnabled: !dashboard.postingControl.isEnabled,
-        }),
-      },
-      token,
-    );
-
-    if (!res.ok || !("isEnabled" in data)) {
-      const message = "message" in data && typeof data.message === "string"
-        ? data.message
-        : "Khong the cap nhat trang thai dang bai";
-
-      if (res.status === 401 || res.status === 403) {
-        handleLogout();
-      }
-
-      setError(message);
-      setIsTogglingPosting(false);
-      return;
-    }
-
-    setDashboard((current) => current ? {
-      ...current,
-      postingControl: data,
-    } : current);
-    setIsTogglingPosting(false);
-  };
-
-  const handleToggleMaintenance = async () => {
-    if (!token || !dashboard) {
-      return;
-    }
-
-    setIsTogglingMaintenance(true);
-    setError(null);
-
-    const { res, data } = await apiJsonFetch<
-      DashboardResponse["maintenanceControl"] | { message?: string }
-    >(
-      "/admin/bichha/maintenance-status",
-      { message: "Khong the cap nhat trang thai bao tri" },
-      {
-        method: "POST",
-        body: JSON.stringify({
-          isEnabled: !dashboard.maintenanceControl.isEnabled,
-        }),
-      },
-      token,
-    );
-
-    if (!res.ok || !("isEnabled" in data)) {
-      const message = "message" in data && typeof data.message === "string"
-        ? data.message
-        : "Khong the cap nhat trang thai bao tri";
-
-      if (res.status === 401 || res.status === 403) {
-        handleLogout();
-      }
-
-      setError(message);
-      setIsTogglingMaintenance(false);
-      return;
-    }
-
-    setDashboard((current) => current ? {
-      ...current,
-      maintenanceControl: data,
-    } : current);
-    setIsTogglingMaintenance(false);
-  };
-
-  const handleSaveContactLink = async () => {
-    if (!token || !dashboard) {
-      return;
-    }
-
-    const nextContactLink = contactLinkInput.trim();
-    if (!nextContactLink) {
-      setError("Vui long nhap link lien he");
-      return;
-    }
-
-    setIsSavingContactLink(true);
-    setError(null);
-
-    const { res, data } = await apiJsonFetch<
-      DashboardResponse["contactControl"] | { message?: string }
-    >(
-      "/admin/bichha/contact-settings",
-      { message: "Khong the cap nhat link lien he" },
-      {
-        method: "POST",
-        body: JSON.stringify({
-          contactLink: nextContactLink,
-        }),
-      },
-      token,
-    );
-
-    if (!res.ok || !("contactLink" in data)) {
-      const message = "message" in data && typeof data.message === "string"
-        ? data.message
-        : "Khong the cap nhat link lien he";
-
-      if (res.status === 401 || res.status === 403) {
-        handleLogout();
-      }
-
-      setError(message);
-      setIsSavingContactLink(false);
-      return;
-    }
-
-    setDashboard((current) => current ? {
-      ...current,
-      contactControl: data,
-    } : current);
-    setContactLinkInput(data.contactLink);
-    setIsSavingContactLink(false);
-  };
-
-  const getFeaturedPostImageUrls = (post: DashboardFeaturedPost) => post.imageUrls?.length
-    ? post.imageUrls
-    : post.imageUrl
-      ? [post.imageUrl]
-      : [];
-
-  const getFeaturedPostAddress = (post: DashboardFeaturedPost) => post.address?.trim() || post.title;
-  const getFeaturedPostRoomType = (post: DashboardFeaturedPost) => post.roomType?.trim() || "Phòng cho thuê";
-  const getFeaturedPostPriceLabel = (post: DashboardFeaturedPost) => post.priceLabel?.trim() || post.summary || "Liên hệ";
-
-  const resetFeaturedPostForm = () => {
-    setFeaturedContent("");
-    setFeaturedPriceLabel("");
-    setFeaturedAddress("");
-    setFeaturedRoomType("");
-    setFeaturedKeywords("");
-    setFeaturedImageDataUrls([]);
-    setIsProcessingFeaturedImage(false);
-  };
-
-  const handleRemoveFeaturedImage = (imageIndex: number) => {
-    setFeaturedImageDataUrls((current) => current.filter((_, index) => index !== imageIndex));
-  };
-
-  const handleFeaturedImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
+  async function handleFeaturedImages(event: ChangeEvent<HTMLInputElement>) {
     const files = Array.from(event.target.files || []);
     event.target.value = "";
-
-    if (files.length === 0) {
-      return;
-    }
-
-    if (featuredImageDataUrls.length >= MAX_FEATURED_IMAGE_COUNT) {
-      setError(`Mỗi bài viết chỉ được tối đa ${MAX_FEATURED_IMAGE_COUNT} ảnh.`);
-      return;
-    }
-
-    if (files.some((file) => !file.type.startsWith("image/"))) {
-      setError("Ảnh bài viết không hợp lệ");
-      return;
-    }
-
-    const availableSlots = Math.max(0, MAX_FEATURED_IMAGE_COUNT - featuredImageDataUrls.length);
-    const nextFiles = files.slice(0, availableSlots);
-    setIsProcessingFeaturedImage(true);
+    if (!files.length) return;
 
     try {
-      const processedImageDataUrls: string[] = [];
-
-      for (const file of nextFiles) {
-        const nextImageDataUrl = await fileToOptimizedImageDataUrl(file, {
-          maxSize: 1600,
-          quality: 0.84,
-        });
-
-        if (getDataUrlByteSize(nextImageDataUrl) > 5 * 1024 * 1024) {
-          setError("Mỗi ảnh bài viết phải nhỏ hơn 5MB sau khi nén.");
-          return;
-        }
-
-        processedImageDataUrls.push(nextImageDataUrl);
+      let nextImages = [...featuredImages];
+      for (const file of files) {
+        if (nextImages.length >= MAX_FEATURED_IMAGE_COUNT) break;
+        nextImages.push(await fileToOptimizedImageDataUrl(file, { maxSize: 1600, outputType: "image/jpeg", quality: 0.82 }));
       }
-
-      const mergedImageDataUrls = [...featuredImageDataUrls, ...processedImageDataUrls];
-      const totalBytes = mergedImageDataUrls.reduce(
-        (sum, imageDataUrl) => sum + getDataUrlByteSize(imageDataUrl),
-        0,
-      );
-
+      const totalBytes = nextImages.reduce((sum, item) => sum + getDataUrlByteSize(item), 0);
       if (totalBytes > MAX_TOTAL_FEATURED_IMAGE_BYTES) {
-        setError("Tổng dung lượng ảnh đang vượt giới hạn. Vui lòng bớt ảnh hoặc chọn ảnh nhẹ hơn.");
+        toast({ title: "Tong dung luong anh qua lon", variant: "destructive" });
         return;
       }
-
-      setFeaturedImageDataUrls(mergedImageDataUrls);
-      setError(null);
-
-      if (files.length > nextFiles.length) {
-        setError(`Chỉ giữ tối đa ${MAX_FEATURED_IMAGE_COUNT} ảnh đầu tiên cho mỗi bài viết.`);
+      if (nextImages.length > MAX_FEATURED_IMAGE_COUNT) {
+        nextImages = nextImages.slice(0, MAX_FEATURED_IMAGE_COUNT);
       }
+      setFeaturedImages(nextImages);
     } catch {
-      setError("Không thể xử lý ảnh bài viết. Vui lòng thử ảnh khác.");
-    } finally {
-      setIsProcessingFeaturedImage(false);
+      toast({ title: "Khong the xu ly anh", variant: "destructive" });
     }
-  };
+  }
 
-  const handleCreateFeaturedPost = async () => {
-    if (!token || !dashboard) {
-      return;
-    }
+  async function handleCreateFeatured(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSavingKey("featured-create");
+    const payload = {
+      title: featuredForm.title,
+      summary: featuredForm.summary,
+      content: featuredForm.content,
+      address: featuredForm.address,
+      roomType: featuredForm.roomType.trim() || undefined,
+      priceLabel: featuredForm.priceLabel,
+      routingKeywords: parseKeywords(featuredForm.routingKeywordsText),
+      actionLabel: featuredForm.actionLabel.trim() || undefined,
+      actionUrl: featuredForm.actionUrl.trim() || contactLink || undefined,
+      imageDataUrls: featuredImages,
+    };
 
-    if (!featuredContent.trim()) {
-      setError("Vui long nhap thong tin gui");
-      return;
-    }
+    const done = await runRequest("/admin/bichha/featured-posts", { method: "POST", body: JSON.stringify(payload) }, "Da tao bai noi bat");
+    setSavingKey(null);
+    if (!done) return;
 
-    if (!featuredPriceLabel.trim()) {
-      setError("Vui long nhap gia phong");
-      return;
-    }
+    setFeaturedForm({ ...EMPTY_FEATURED_FORM, actionUrl: contactLink || "" });
+    setFeaturedImages([]);
+  }
 
-    if (!featuredAddress.trim()) {
-      setError("Vui long nhap dia chi");
-      return;
-    }
+  async function handleDeleteFeatured(postId: string) {
+    if (!window.confirm("Xoa bai noi bat nay?")) return;
+    setSavingKey(`featured-delete-${postId}`);
+    await runRequest(`/admin/bichha/featured-posts/${postId}`, { method: "DELETE" }, "Da xoa bai noi bat");
+    setSavingKey(null);
+  }
 
-    if (!featuredRoomType.trim()) {
-      setError("Vui long nhap loai phong");
-      return;
-    }
+  async function handleCreateCtv(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSavingKey("ctv-create");
+    const done = await runRequest("/admin/bichha/ctv-accounts", { method: "POST", body: JSON.stringify(ctvForm) }, "Da tao tai khoan CTV");
+    setSavingKey(null);
+    if (!done) return;
+    setCtvForm({ username: "", nickname: "", password: "", isEnabled: true });
+  }
 
-    setIsCreatingFeaturedPost(true);
-    setError(null);
+  async function handleUpdateCtv(accountId: number) {
+    setSavingKey(`ctv-save-${accountId}`);
+    const edit = ctvEdits[accountId];
+    await runRequest(`/admin/bichha/ctv-accounts/${accountId}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        username: edit.username,
+        nickname: edit.nickname,
+        password: edit.password.trim() || undefined,
+        isEnabled: edit.isEnabled,
+      }),
+    }, "Da cap nhat CTV");
+    setSavingKey(null);
+  }
 
-    const routingKeywords = featuredKeywords
-      .split(/[\n,]+/)
-      .map((item) => item.trim())
-      .filter(Boolean);
-
-    const { res, data } = await apiJsonFetch<DashboardFeaturedPost | { message?: string }>(
-      "/admin/bichha/featured-posts",
-      { message: "Khong the tao bai viet noi bat" },
-      {
-        method: "POST",
-        body: JSON.stringify({
-          content: featuredContent,
-          priceLabel: featuredPriceLabel,
-          address: featuredAddress,
-          roomType: featuredRoomType,
-          imageDataUrls: featuredImageDataUrls.length > 0 ? featuredImageDataUrls : undefined,
-          routingKeywords,
-        }),
-      },
-      token,
-    );
-
-    if (!res.ok || !("id" in data)) {
-      const message = "message" in data && typeof data.message === "string"
-        ? data.message
-        : "Khong the tao bai viet noi bat";
-
-      if (res.status === 401 || res.status === 403) {
-        handleLogout();
-      }
-
-      setError(message);
-      setIsCreatingFeaturedPost(false);
-      return;
-    }
-
-    setDashboard((current) => current ? {
-      ...current,
-      featuredPosts: [data, ...current.featuredPosts],
-    } : current);
-    resetFeaturedPostForm();
-    setIsCreatingFeaturedPost(false);
-  };
-
-  const handleDeleteFeaturedPost = async (postId: string) => {
-    if (!token || !dashboard) {
-      return;
-    }
-
-    const confirmed = window.confirm("Xóa bài viết này khỏi web và bot?");
-    if (!confirmed) {
-      return;
-    }
-
-    setDeletingFeaturedPostId(postId);
-    setError(null);
-
-    const { res, data } = await apiJsonFetch<{ success?: boolean; message?: string }>(
-      `/admin/bichha/featured-posts/${postId}`,
-      { message: "Khong the xoa bai viet noi bat" },
-      {
-        method: "DELETE",
-      },
-      token,
-    );
-
-    if (!res.ok || !data.success) {
-      if (res.status === 401 || res.status === 403) {
-        handleLogout();
-      }
-
-      setError(data.message || "Khong the xoa bai viet noi bat");
-      setDeletingFeaturedPostId(null);
-      return;
-    }
-
-    setDashboard((current) => current ? {
-      ...current,
-      featuredPosts: current.featuredPosts.filter((post) => post.id !== postId),
-    } : current);
-    setDeletingFeaturedPostId(null);
-  };
-
-  const activeSummary = range === 1
-    ? dashboard?.summary1Day
-    : range === 7
-      ? dashboard?.summary7Days
-      : dashboard?.summary30Days;
-  const activeStats = range === 1
-    ? dashboard?.dailyStats1
-    : range === 7
-      ? dashboard?.dailyStats7
-      : dashboard?.dailyStats30;
-  const isContactLinkDirty =
-    contactLinkInput.trim() !== (dashboard?.contactControl.contactLink || "").trim();
+  async function handleDeleteCtv(accountId: number) {
+    if (!window.confirm("Xoa tai khoan CTV nay?")) return;
+    setSavingKey(`ctv-delete-${accountId}`);
+    await runRequest(`/admin/bichha/ctv-accounts/${accountId}`, { method: "DELETE" }, "Da xoa tai khoan CTV");
+    setSavingKey(null);
+  }
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#fff6e7,_#fff_55%,_#f3f4f6)] px-4 py-10">
-        <div className="mx-auto max-w-md overflow-hidden rounded-[28px] border border-[#f2d3a1] bg-white shadow-[0_30px_80px_rgba(180,83,9,0.12)]">
-          <div className="bg-gradient-to-r from-[#b45309] via-[#d97706] to-[#f59e0b] px-6 py-7 text-white">
-            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15">
-              <ShieldCheck className="h-6 w-6" />
+      <div className="flex min-h-screen items-center justify-center bg-[linear-gradient(145deg,#f8fafc,#eef2ff_45%,#fff7ed)] px-4 py-10">
+        <form onSubmit={handleLogin} className="w-full max-w-md space-y-5 rounded-3xl border bg-white p-8 shadow-2xl">
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
+              <ShieldCheck className="h-4 w-4" /> Admin BichHa
             </div>
-            <h1 className="text-2xl font-black tracking-tight">BichHa Dashboard</h1>
-            <p className="mt-2 text-sm text-white/80">
-              Dang nhap de xem thong ke traffic, IP truy cap va danh sach tai khoan.
-            </p>
+            <h1 className="text-3xl font-bold text-foreground">Dang nhap dashboard</h1>
+            <p className="text-sm text-muted-foreground">Trang dieu khien rieng cho bot, traffic, bai noi bat va CTV.</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-4 px-6 py-6">
-            <div>
-              <label className="mb-2 block text-sm font-semibold text-slate-700">Tai khoan</label>
-              <input
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-                className="h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none transition focus:border-amber-500"
-                placeholder="admin"
-                autoComplete="username"
-              />
-            </div>
-            <div>
-              <label className="mb-2 block text-sm font-semibold text-slate-700">Mat khau</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                className="h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none transition focus:border-amber-500"
-                placeholder="Nhap mat khau"
-                autoComplete="current-password"
-              />
-            </div>
-            {error && (
-              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
-                {error}
-              </div>
-            )}
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="h-12 w-full rounded-2xl bg-[#c2410c] text-sm font-bold text-white hover:bg-[#9a3412]"
-            >
-              {isSubmitting ? "Dang dang nhap..." : "Dang nhap dashboard"}
-            </Button>
-          </form>
+          <div className="space-y-3">
+            <Input value={loginForm.username} onChange={(event) => setLoginForm((current) => ({ ...current, username: event.target.value }))} placeholder="Username" />
+            <Input type="password" value={loginForm.password} onChange={(event) => setLoginForm((current) => ({ ...current, password: event.target.value }))} placeholder="Password" />
+          </div>
+
+          <Button type="submit" className="w-full" disabled={loggingIn}>
+            {loggingIn ? "Dang xu ly..." : "Dang nhap"}
+          </Button>
+        </form>
+      </div>
+    );
+  }
+
+  if (loading || !dashboard) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-100">
+        <div className="flex items-center gap-3 rounded-2xl border bg-white px-6 py-4 text-sm font-medium text-muted-foreground shadow-sm">
+          <RefreshCw className="h-4 w-4 animate-spin" /> Dang tai dashboard...
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#f6f6f3]">
-      <div className="border-b border-black/5 bg-[linear-gradient(135deg,#1f2937,#111827_45%,#78350f)] text-white">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-white/75">
-              <BarChart3 className="h-3.5 w-3.5" />
-              Admin / BichHa
+    <div className="min-h-screen bg-slate-100">
+      <div className="sticky top-0 z-20 border-b bg-white/95 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
+              <ShieldCheck className="h-4 w-4" /> BichHa Dashboard
             </div>
-            <h1 className="mt-3 text-2xl font-black tracking-tight sm:text-3xl">Tong hop traffic va tai khoan</h1>
-            <p className="mt-2 max-w-2xl text-sm text-white/70">
-              Moi ngay se hien thi tung IP truy cap va so lan vao he thong.
-            </p>
+            <h1 className="text-2xl font-bold text-foreground">Bot, featured post, CTV va traffic</h1>
+            <p className="text-sm text-muted-foreground">Cap nhat luc {fmtDate(dashboard.generatedAt)}</p>
           </div>
 
-          <div className="grid w-full grid-cols-2 gap-2 sm:w-auto sm:flex sm:flex-wrap sm:items-center">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => token && loadDashboard(token)}
-              disabled={isLoading}
-              className="h-10 rounded-2xl border-white/15 bg-white/10 px-4 text-white hover:bg-white/15 sm:rounded-full"
-            >
-              <RefreshCw className={`mr-2 h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
-              Lam moi
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" onClick={() => void loadDashboard(token, true)} disabled={refreshing}>
+              <RefreshCw className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`} /> Lam moi
             </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleLogout}
-              className="h-10 rounded-2xl border-white/15 bg-white/10 px-4 text-white hover:bg-white/15 sm:rounded-full"
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              Dang xuat
+            <Button variant="outline" asChild>
+              <a href="/" target="_blank" rel="noreferrer">Mo website</a>
+            </Button>
+            <Button variant="outline" onClick={clearSession}>
+              <LogOut className="h-4 w-4" /> Dang xuat
             </Button>
           </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 py-6">
-        <div className="mb-6 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-          <div className="grid w-full grid-cols-3 rounded-[22px] border border-slate-200 bg-white p-1 shadow-sm sm:inline-flex sm:w-auto sm:rounded-full">
-            {[1, 7, 30].map((value) => (
-              <button
-                key={value}
-                type="button"
-                onClick={() => setRange(value as 1 | 7 | 30)}
-                className={`rounded-2xl px-4 py-2 text-sm font-semibold transition sm:rounded-full ${
-                  range === value ? "bg-[#b45309] text-white" : "text-slate-600 hover:bg-slate-50"
-                }`}
-              >
-                {value} ngay
-              </button>
-            ))}
-          </div>
-
-          <p className="text-sm text-slate-500">
-            Cap nhat luc {dashboard ? formatDateTime(dashboard.generatedAt) : "--"} ({dashboard?.timezone || "Asia/Ho_Chi_Minh"})
-          </p>
+      <div className="mx-auto max-w-7xl space-y-6 px-4 py-6">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          <div className="rounded-2xl border bg-white p-4 shadow-sm"><p className="text-xs uppercase text-muted-foreground">Hit 1 ngay</p><p className="mt-2 text-3xl font-bold">{dashboard.summary1Day.totalHits}</p></div>
+          <div className="rounded-2xl border bg-white p-4 shadow-sm"><p className="text-xs uppercase text-muted-foreground">IP 1 ngay</p><p className="mt-2 text-3xl font-bold">{dashboard.summary1Day.uniqueIps}</p></div>
+          <div className="rounded-2xl border bg-white p-4 shadow-sm"><p className="text-xs uppercase text-muted-foreground">Bai noi bat</p><p className="mt-2 text-3xl font-bold">{dashboard.featuredPosts.length}</p></div>
+          <div className="rounded-2xl border bg-white p-4 shadow-sm"><p className="text-xs uppercase text-muted-foreground">CTV / Tai khoan</p><p className="mt-2 text-3xl font-bold">{dashboard.ctvAccounts.length} / {dashboard.accounts.total}</p></div>
         </div>
 
-        {error && (
-          <div className="mb-6 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
-            {error}
-          </div>
-        )}
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="h-auto w-full flex-wrap justify-start gap-2 rounded-none bg-transparent p-0">
+            <TabsTrigger value="bot" className="border bg-white data-[state=active]:border-primary">Bot & Site</TabsTrigger>
+            <TabsTrigger value="featured" className="border bg-white data-[state=active]:border-primary">Bai noi bat</TabsTrigger>
+            <TabsTrigger value="ctv" className="border bg-white data-[state=active]:border-primary">CTV</TabsTrigger>
+            <TabsTrigger value="traffic" className="border bg-white data-[state=active]:border-primary">Traffic</TabsTrigger>
+            <TabsTrigger value="accounts" className="border bg-white data-[state=active]:border-primary">Tai khoan</TabsTrigger>
+          </TabsList>
 
-        <section className="mb-6 rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <div
-                className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] ${
-                  dashboard?.postingControl.isEnabled
-                    ? "bg-emerald-100 text-emerald-700"
-                    : "bg-red-100 text-red-700"
-                }`}
-              >
-                <Power className="h-3.5 w-3.5" />
-                {dashboard?.postingControl.isEnabled ? "Dang mo dang bai" : "Dang tam tat dang bai"}
-              </div>
-              <h2 className="mt-3 text-xl font-black text-slate-900">Dieu khien dang bai</h2>
-              <p className="mt-2 max-w-2xl text-sm text-slate-500">
-                {dashboard?.postingControl.message || "Chua co trang thai dang bai."}
-              </p>
-              <p className="mt-2 text-xs text-slate-400">
-                Cap nhat gan nhat: {dashboard?.postingControl.updatedAt ? formatDateTime(dashboard.postingControl.updatedAt) : "--"}
-              </p>
-            </div>
-
-            <Button
-              type="button"
-              onClick={handleTogglePosting}
-              disabled={!dashboard || isTogglingPosting}
-              className={`h-12 rounded-2xl px-5 text-sm font-bold text-white ${
-                dashboard?.postingControl.isEnabled
-                  ? "bg-red-600 hover:bg-red-700"
-                  : "bg-emerald-600 hover:bg-emerald-700"
-              }`}
-            >
-              <Power className="mr-2 h-4 w-4" />
-              {isTogglingPosting
-                ? "Dang cap nhat..."
-                : dashboard?.postingControl.isEnabled
-                  ? "Tat dang bai"
-                  : "Bat dang bai"}
-            </Button>
-          </div>
-        </section>
-
-        <section className="mb-6 rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <div
-                className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] ${
-                  dashboard?.maintenanceControl.isEnabled
-                    ? "bg-amber-100 text-amber-700"
-                    : "bg-slate-100 text-slate-700"
-                }`}
-              >
-                <Wrench className="h-3.5 w-3.5" />
-                {dashboard?.maintenanceControl.isEnabled ? "Dang bat bao tri" : "Dang tat bao tri"}
-              </div>
-              <h2 className="mt-3 text-xl font-black text-slate-900">Che do bao tri website</h2>
-              <p className="mt-2 max-w-2xl text-sm text-slate-500">
-                {dashboard?.maintenanceControl.message || "Chua co trang thai bao tri."}
-              </p>
-              <p className="mt-2 text-xs text-slate-400">
-                Cap nhat gan nhat: {dashboard?.maintenanceControl.updatedAt ? formatDateTime(dashboard.maintenanceControl.updatedAt) : "--"}
-              </p>
-            </div>
-
-            <Button
-              type="button"
-              onClick={handleToggleMaintenance}
-              disabled={!dashboard || isTogglingMaintenance}
-              className={`h-12 rounded-2xl px-5 text-sm font-bold text-white ${
-                dashboard?.maintenanceControl.isEnabled
-                  ? "bg-slate-800 hover:bg-slate-900"
-                  : "bg-amber-600 hover:bg-amber-700"
-              }`}
-            >
-              <Wrench className="mr-2 h-4 w-4" />
-              {isTogglingMaintenance
-                ? "Dang cap nhat..."
-                : dashboard?.maintenanceControl.isEnabled
-                  ? "Tat bao tri"
-                  : "Bat bao tri"}
-            </Button>
-          </div>
-        </section>
-
-        <section className="mb-6 rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
-            <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 rounded-full bg-sky-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-sky-700">
-                <Link2 className="h-3.5 w-3.5" />
-                Link liên hệ
-              </div>
-              <h2 className="mt-3 text-xl font-black text-slate-900">Link cho nút Liên hệ Zalo</h2>
-              <p className="mt-2 text-sm text-slate-500">
-                Đổi tại đây thì nút liên hệ ở navbar, PropertyCard và trang chi tiết sẽ dùng link mới này.
-              </p>
-              <p className="mt-2 text-sm text-slate-500">
-                {dashboard?.contactControl.message || "Chưa có link liên hệ."}
-              </p>
-              <p className="mt-2 text-xs text-slate-400">
-                Cập nhật gần nhất: {dashboard?.contactControl.updatedAt ? formatDateTime(dashboard.contactControl.updatedAt) : "--"}
-              </p>
-            </div>
-
-            <div className="w-full max-w-xl space-y-3">
-              <label className="block text-sm font-semibold text-slate-700">Link liên hệ</label>
-              <input
-                type="url"
-                value={contactLinkInput}
-                onChange={(event) => setContactLinkInput(event.target.value)}
-                className="h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none transition focus:border-sky-500"
-                placeholder="https://zalo.me/0876480130/"
-                autoComplete="off"
-              />
-              <p className="text-xs text-slate-400">
-                Có thể nhập `https://zalo.me/...`, `zalo://...`, `tel:...` hoặc domain đầy đủ.
-              </p>
-              <div className="flex flex-wrap items-center gap-3">
-                <Button
-                  type="button"
-                  onClick={handleSaveContactLink}
-                  disabled={!dashboard || isSavingContactLink || !isContactLinkDirty}
-                  className="h-12 rounded-2xl bg-sky-600 px-5 text-sm font-bold text-white hover:bg-sky-700"
-                >
-                  <Link2 className="mr-2 h-4 w-4" />
-                  {isSavingContactLink ? "Đang lưu..." : "Lưu link liên hệ"}
-                </Button>
-                {dashboard?.contactControl.contactLink && (
-                  <a
-                    href={dashboard.contactControl.contactLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm font-semibold text-sky-700 hover:underline"
-                  >
-                    Mở link hiện tại
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="mb-6 rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="mb-5 flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-            <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-amber-700">
-                <ImagePlus className="h-3.5 w-3.5" />
-                Bài viết nổi bật
-              </div>
-              <h2 className="mt-3 text-xl font-black text-slate-900">Đăng bài lên web và bot</h2>
-              <p className="mt-2 text-sm text-slate-500">
-                Bài viết tạo tại đây sẽ hiện ở trang chủ và được bot gửi lại 4 ngày 1 lần cho đến khi bị xóa.
-              </p>
-              <p className="mt-2 text-sm text-slate-500">
-                Ngoài web sẽ hiện như một căn phòng rút gọn: loại phòng, xác minh, địa chỉ và giá. Phần "Thông tin gửi" được dùng làm mô tả khi mở chi tiết và nội dung bot gửi.
-              </p>
-              <p className="mt-2 text-sm text-slate-500">
-                Keyword là trường bắt buộc để bot định tuyến nhóm đúng logic như hiện tại.
-              </p>
-              <p className="mt-2 text-sm text-slate-500">
-                Để bot gửi thật qua Zalo, cần chạy thêm <code>sender.py</code>. Bài mới sẽ vào queue trong khoảng 5 phút đầu tiên nếu sender đang chạy.
-              </p>
-            </div>
-            <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
-              Dang co <span className="font-bold text-slate-900">{dashboard?.featuredPosts.length || 0}</span> bai viet dang hoat dong
-            </div>
-          </div>
-
-          <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
-            <div className="space-y-4 rounded-[24px] border border-slate-200 bg-slate-50 p-4 sm:p-5">
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">Thông tin gửi</label>
-                <textarea
-                  value={featuredContent}
-                  onChange={(event) => setFeaturedContent(event.target.value)}
-                  className="min-h-[170px] w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-amber-500"
-                  placeholder="Phần mô tả khi xem phòng và nội dung bot sẽ gửi..."
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">Giá</label>
-                <input
-                  value={featuredPriceLabel}
-                  onChange={(event) => setFeaturedPriceLabel(event.target.value)}
-                  className="h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm outline-none transition focus:border-amber-500"
-                  placeholder="Ví dụ: 4tr3/tháng"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">Địa chỉ</label>
-                <input
-                  value={featuredAddress}
-                  onChange={(event) => setFeaturedAddress(event.target.value)}
-                  className="h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm outline-none transition focus:border-amber-500"
-                  placeholder="Ví dụ: Số 30 ngõ 165 Chợ Khâm Thiên, Đống Đa"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">Loại phòng</label>
-                <input
-                  value={featuredRoomType}
-                  onChange={(event) => setFeaturedRoomType(event.target.value)}
-                  className="h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm outline-none transition focus:border-amber-500"
-                  placeholder="Ví dụ: Studio"
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">Keyword routing</label>
-                <textarea
-                  value={featuredKeywords}
-                  onChange={(event) => setFeaturedKeywords(event.target.value)}
-                  className="min-h-[96px] w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-amber-500"
-                  placeholder="Nhập keyword cách nhau bằng dấu phẩy hoặc xuống dòng. Ví dụ: Mỹ Đình, Nam Từ Liêm"
-                />
-                <p className="mt-2 text-xs text-slate-400">
-                  Bot sẽ dùng danh sách keyword này để gửi vào các nhóm đúng như logic bình thường.
-                </p>
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">Ảnh bài viết</label>
-                <input
-                  type="file"
-                  accept="image/png,image/jpeg,image/webp"
-                  multiple
-                  onChange={handleFeaturedImageChange}
-                  className="block w-full rounded-2xl border border-dashed border-slate-300 bg-white px-4 py-3 text-sm text-slate-500 file:mr-3 file:rounded-full file:border-0 file:bg-amber-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-amber-700"
-                />
-                <p className="mt-2 text-xs text-slate-400">
-                  Ảnh sẽ được nén tự động trước khi upload. Mỗi bài tối đa {MAX_FEATURED_IMAGE_COUNT} ảnh và tổng dung lượng nén tối đa khoảng 6MB.
-                </p>
-                {isProcessingFeaturedImage ? (
-                  <p className="mt-2 text-xs font-semibold text-amber-700">Đang xử lý ảnh...</p>
-                ) : null}
-                {featuredImageDataUrls.length > 0 ? (
-                  <div className="mt-3 space-y-3">
-                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                      {featuredImageDataUrls.map((imageDataUrl, index) => (
-                        <div key={`${imageDataUrl.slice(0, 32)}-${index}`} className="overflow-hidden rounded-[22px] border border-slate-200 bg-white">
-                          <img src={imageDataUrl} alt="" className="h-36 w-full object-cover" />
-                          <div className="flex items-center justify-between border-t border-slate-100 px-3 py-2">
-                            <span className="text-xs font-semibold text-slate-500">Ảnh {index + 1}</span>
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveFeaturedImage(index)}
-                              className="text-xs font-semibold text-red-600 hover:text-red-700"
-                            >
-                              Xóa
-                            </button>
-                          </div>
+          <TabsContent value="bot" className="space-y-4">
+            <div className="grid gap-4 xl:grid-cols-2">
+              {(["listener", "sender"] as const).map((serviceName) => {
+                const service = dashboard.botServices[serviceName];
+                const stateTone = service.running ? "bg-emerald-50 text-emerald-700" : service.enabled ? "bg-amber-50 text-amber-700" : "bg-slate-100 text-slate-700";
+                return (
+                  <div key={serviceName} className="space-y-4 rounded-2xl border bg-white p-5 shadow-sm">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="space-y-1">
+                        <div className="inline-flex items-center gap-2 text-sm font-semibold uppercase text-muted-foreground">
+                          <Power className="h-4 w-4" /> {serviceName}
                         </div>
-                      ))}
+                        <div className="flex flex-wrap items-center gap-2">
+                          <Badge className={stateTone}>{service.state || "unknown"}</Badge>
+                          <Badge variant="outline">Restart {service.restartCount}</Badge>
+                        </div>
+                      </div>
+                      <Switch
+                        checked={service.enabled}
+                        disabled={savingKey === `service-${serviceName}`}
+                        onCheckedChange={(checked) => {
+                          setSavingKey(`service-${serviceName}`);
+                          void runRequest(`/admin/bichha/bot-services/${serviceName}`, { method: "POST", body: JSON.stringify({ isEnabled: checked }) }, `Da cap nhat ${serviceName}`).finally(() => setSavingKey(null));
+                        }}
+                      />
                     </div>
-                    <p className="text-xs text-slate-400">
-                      Đã chọn {featuredImageDataUrls.length} ảnh / {Math.round(
-                        featuredImageDataUrls.reduce((sum, imageDataUrl) => sum + getDataUrlByteSize(imageDataUrl), 0) / 1024,
-                      )}KB sau khi nén
-                    </p>
-                  </div>
-                ) : null}
-              </div>
 
-              <div className="flex flex-wrap items-center gap-3">
-                <Button
-                  type="button"
-                  onClick={handleCreateFeaturedPost}
-                  disabled={!dashboard || isCreatingFeaturedPost || isProcessingFeaturedImage}
-                  className="h-12 rounded-2xl bg-amber-600 px-5 text-sm font-bold text-white hover:bg-amber-700"
-                >
-                  <Plus className="mr-2 h-4 w-4" />
-                  {isCreatingFeaturedPost
-                    ? "Đang tạo bài..."
-                    : isProcessingFeaturedImage
-                      ? "Đang xử lý ảnh..."
-                      : "Đăng bài nổi bật"}
-                </Button>
-                <button
-                  type="button"
-                  onClick={resetFeaturedPostForm}
-                  className="text-sm font-semibold text-slate-500 hover:text-slate-700"
-                >
-                  Xóa form
-                </button>
-              </div>
+                    <div className="grid gap-3 text-sm md:grid-cols-2">
+                      <div className="rounded-xl bg-slate-50 p-3">Enabled: <strong>{service.enabled ? "On" : "Off"}</strong></div>
+                      <div className="rounded-xl bg-slate-50 p-3">Running: <strong>{service.running ? "Yes" : "No"}</strong></div>
+                      <div className="rounded-xl bg-slate-50 p-3">Heartbeat: <strong>{fmtDate(service.lastHeartbeatAt)}</strong></div>
+                      <div className="rounded-xl bg-slate-50 p-3">Last work: <strong>{fmtDate(service.lastWorkAt)}</strong></div>
+                    </div>
+
+                    {service.lastError ? (
+                      <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{service.lastError}</div>
+                    ) : null}
+                  </div>
+                );
+              })}
             </div>
 
-            <div className="rounded-[24px] border border-slate-200 bg-white">
-              <div className="border-b border-slate-200 px-4 py-4">
-                <h3 className="text-lg font-black text-slate-900">Danh sách bài đăng hoạt động</h3>
-                <p className="mt-1 text-sm text-slate-500">Xóa ở đây thì web ẩn bài và bot ngừng gửi ở chu kỳ tiếp theo.</p>
+            <div className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
+              <div className="space-y-4 rounded-2xl border bg-white p-5 shadow-sm">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <h2 className="text-lg font-semibold">Bot & site control</h2>
+                    <p className="text-sm text-muted-foreground">Toggle logic chay bot va trang web ngay trong dashboard.</p>
+                  </div>
+                </div>
+
+                <div className="grid gap-3">
+                  <div className="flex items-center justify-between rounded-xl border p-4">
+                    <div>
+                      <p className="font-medium">Dang bai cong khai</p>
+                      <p className="text-sm text-muted-foreground">{dashboard.postingControl.message || "Bat tat viec dang bai tu site."}</p>
+                    </div>
+                    <Switch
+                      checked={dashboard.postingControl.isEnabled}
+                      disabled={savingKey === "posting"}
+                      onCheckedChange={(checked) => {
+                        setSavingKey("posting");
+                        void runRequest("/admin/bichha/posting-status", { method: "POST", body: JSON.stringify({ isEnabled: checked }) }, "Da cap nhat trang thai dang bai").finally(() => setSavingKey(null));
+                      }}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between rounded-xl border p-4">
+                    <div>
+                      <p className="font-medium">Bao tri website</p>
+                      <p className="text-sm text-muted-foreground">{dashboard.maintenanceControl.message || "Bat se chuyen web sang trang bao tri."}</p>
+                    </div>
+                    <Switch
+                      checked={dashboard.maintenanceControl.isEnabled}
+                      disabled={savingKey === "maintenance"}
+                      onCheckedChange={(checked) => {
+                        setSavingKey("maintenance");
+                        void runRequest("/admin/bichha/maintenance-status", { method: "POST", body: JSON.stringify({ isEnabled: checked }) }, "Da cap nhat trang thai bao tri").finally(() => setSavingKey(null));
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <form
+                  className="space-y-3 rounded-2xl border bg-slate-50 p-4"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    setSavingKey("contact");
+                    void runRequest("/admin/bichha/contact-settings", { method: "POST", body: JSON.stringify({ contactLink }) }, "Da cap nhat link lien he").finally(() => setSavingKey(null));
+                  }}
+                >
+                  <div className="flex items-center gap-2 text-sm font-medium">
+                    <Link2 className="h-4 w-4" /> Link lien he mac dinh
+                  </div>
+                  <div className="flex flex-col gap-3 sm:flex-row">
+                    <Input value={contactLink} onChange={(event) => setContactLink(event.target.value)} placeholder="https://zalo.me/..." />
+                    <Button type="submit" disabled={savingKey === "contact"}>Luu</Button>
+                    <Button type="button" variant="outline" onClick={() => void handleCopy(contactLink, "link lien he")} disabled={!contactLink}>Copy</Button>
+                  </div>
+                </form>
               </div>
 
-              <div className="max-h-[820px] overflow-auto p-4">
-                {dashboard?.featuredPosts.length ? (
-                  <div className="space-y-4">
-                    {dashboard.featuredPosts.map((post) => (
-                      <article key={post.id} className="overflow-hidden rounded-[22px] border border-slate-200 bg-slate-50">
-                        {getFeaturedPostImageUrls(post).length > 0 ? (
-                          <div className="group relative h-44 overflow-hidden bg-slate-100">
-                            <CollageImagePreview
-                              images={getFeaturedPostImageUrls(post)}
-                              alt={post.title}
-                              fallbackImages={[]}
-                              emptyStateClassName="bg-slate-100"
-                            />
-                            {getFeaturedPostImageUrls(post).length > 1 ? (
-                              <div className="absolute right-3 top-3 rounded-full bg-white/90 px-2 py-1 text-[11px] font-bold text-slate-700 shadow">
-                                {getFeaturedPostImageUrls(post).length} ảnh
-                              </div>
-                            ) : null}
-                          </div>
-                        ) : null}
-                        <div className="space-y-3 p-4">
-                          <div className="flex flex-wrap items-start justify-between gap-3">
-                            <div>
-                              <div className="flex flex-wrap items-center gap-2">
-                                <h4 className="text-base font-black text-slate-900">{getFeaturedPostRoomType(post)}</h4>
-                                <span className="rounded-full bg-emerald-100 px-2 py-1 text-[11px] font-bold text-emerald-700">
-                                  Xác minh
-                                </span>
-                              </div>
-                              <p className="mt-2 text-sm font-semibold text-slate-700">{getFeaturedPostAddress(post)}</p>
-                              <p className="mt-1 text-sm font-bold text-red-600">Giá: {getFeaturedPostPriceLabel(post)}</p>
-                              <p className="mt-1 text-xs text-slate-400">
-                                Tạo lúc {formatDateTime(post.createdAt)} • Cập nhật {formatDateTime(post.updatedAt)}
-                              </p>
-                            </div>
-                            <div className="flex flex-wrap items-center gap-2">
-                              <Button
-                                asChild
-                                type="button"
-                                variant="outline"
-                                className="h-10 rounded-2xl border-slate-200 bg-white px-4 text-slate-700 hover:bg-slate-50"
-                              >
-                                <a href={`/tin-noi-bat/${post.id}`} target="_blank" rel="noreferrer">
-                                  <Link2 className="mr-2 h-4 w-4" />
-                                  Xem
-                                </a>
-                              </Button>
-                              <Button
-                                type="button"
-                                variant="outline"
-                                onClick={() => handleDeleteFeaturedPost(post.id)}
-                                disabled={deletingFeaturedPostId === post.id}
-                                className="h-10 rounded-2xl border-red-200 bg-white px-4 text-red-600 hover:bg-red-50"
-                              >
-                                <Trash2 className="mr-2 h-4 w-4" />
-                                {deletingFeaturedPostId === post.id ? "Đang xóa..." : "Xóa"}
-                              </Button>
-                            </div>
-                          </div>
-                          <p className="whitespace-pre-line text-sm leading-6 text-slate-600">{post.content}</p>
+              <div className="space-y-4 rounded-2xl border bg-white p-5 shadow-sm">
+                <h2 className="text-lg font-semibold">Tong quan nhanh</h2>
+                <div className="grid gap-3 text-sm">
+                  <div className="rounded-xl bg-slate-50 p-4">Bai noi bat dang chay: <strong>{dashboard.featuredPosts.length}</strong></div>
+                  <div className="rounded-xl bg-slate-50 p-4">Tai khoan CTV: <strong>{dashboard.ctvAccounts.length}</strong></div>
+                  <div className="rounded-xl bg-slate-50 p-4">Tai khoan website: <strong>{dashboard.accounts.total}</strong></div>
+                  <div className="rounded-xl bg-slate-50 p-4">Hit 30 ngay: <strong>{dashboard.summary30Days.totalHits}</strong></div>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
 
-                          <div className="flex flex-wrap gap-2">
-                            {post.routingKeywords.map((keyword) => (
-                              <span
-                                key={`${post.id}-${keyword}`}
-                                className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-amber-700 shadow-sm"
-                              >
-                                {keyword}
-                              </span>
-                            ))}
-                          </div>
+          <TabsContent value="featured" className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+            <form onSubmit={handleCreateFeatured} className="space-y-4 rounded-2xl border bg-white p-5 shadow-sm">
+              <div>
+                <h2 className="text-lg font-semibold">Tao bai noi bat</h2>
+                <p className="text-sm text-muted-foreground">Room type khong bat buoc. Bot van resend 4 ngay 1 lan cho den khi xoa.</p>
+              </div>
+
+              <div className="grid gap-3 md:grid-cols-2">
+                <Input value={featuredForm.title} onChange={(event) => setFeaturedForm((current) => ({ ...current, title: event.target.value }))} placeholder="Tieu de" />
+                <Input value={featuredForm.address} onChange={(event) => setFeaturedForm((current) => ({ ...current, address: event.target.value }))} placeholder="Dia chi" />
+                <Input value={featuredForm.roomType} onChange={(event) => setFeaturedForm((current) => ({ ...current, roomType: event.target.value }))} placeholder="Dang phong (khong bat buoc)" />
+                <Input value={featuredForm.priceLabel} onChange={(event) => setFeaturedForm((current) => ({ ...current, priceLabel: event.target.value }))} placeholder="Gia phong" />
+              </div>
+
+              <Input value={featuredForm.summary} onChange={(event) => setFeaturedForm((current) => ({ ...current, summary: event.target.value }))} placeholder="Summary ngan (khong bat buoc)" />
+              <Textarea value={featuredForm.content} onChange={(event) => setFeaturedForm((current) => ({ ...current, content: event.target.value }))} placeholder="Noi dung bai dang" className="min-h-[180px]" />
+              <Textarea value={featuredForm.routingKeywordsText} onChange={(event) => setFeaturedForm((current) => ({ ...current, routingKeywordsText: event.target.value }))} placeholder="Keyword routing, cach nhau boi dau phay hoac xuong dong" className="min-h-[92px]" />
+
+              <div className="grid gap-3 md:grid-cols-2">
+                <Input value={featuredForm.actionLabel} onChange={(event) => setFeaturedForm((current) => ({ ...current, actionLabel: event.target.value }))} placeholder="Nhan nut lien he" />
+                <Input value={featuredForm.actionUrl} onChange={(event) => setFeaturedForm((current) => ({ ...current, actionUrl: event.target.value }))} placeholder="Action URL" />
+              </div>
+
+              <div className="space-y-3 rounded-2xl border bg-slate-50 p-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p className="font-medium">Anh bai viet</p>
+                    <p className="text-sm text-muted-foreground">Sender se gom thanh group album thay vi gui roi tung anh.</p>
+                  </div>
+                  <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border bg-white px-3 py-2 text-sm font-medium">
+                    <Plus className="h-4 w-4" /> Them anh
+                    <input type="file" accept="image/*" multiple className="hidden" onChange={handleFeaturedImages} />
+                  </label>
+                </div>
+
+                {featuredImages.length > 0 ? (
+                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                    {featuredImages.map((image, index) => (
+                      <div key={`${image.slice(0, 32)}-${index}`} className="overflow-hidden rounded-2xl border bg-white">
+                        <div className="relative aspect-[4/3]">
+                          <CollageImagePreview images={[image]} alt={`Featured ${index + 1}`} fallbackImages={[]} />
                         </div>
-                      </article>
+                        <div className="flex items-center justify-between px-3 py-2 text-xs">
+                          <span>Anh {index + 1}</span>
+                          <button type="button" className="text-red-600" onClick={() => setFeaturedImages((current) => current.filter((_, imageIndex) => imageIndex !== index))}>Xoa</button>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="rounded-[22px] border border-dashed border-slate-200 px-4 py-10 text-center text-sm text-slate-500">
-                    Chua co bai viet noi bat nao.
-                  </div>
+                  <div className="rounded-xl border border-dashed bg-white px-4 py-8 text-center text-sm text-muted-foreground">Chua co anh nao.</div>
                 )}
               </div>
-            </div>
-          </div>
-        </section>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <div className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Tong truy cap (IP)</p>
-            <p className="mt-3 text-3xl font-black text-slate-900">{activeSummary?.totalVisitors ?? 0}</p>
-            <p className="mt-2 text-sm text-slate-500">Tinh theo so IP khac nhau trong {range} ngay.</p>
-          </div>
-          <div className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Tong luot vao</p>
-            <p className="mt-3 text-3xl font-black text-slate-900">{activeSummary?.totalHits ?? 0}</p>
-            <p className="mt-2 text-sm text-slate-500">Dem theo tong so lan truy cap da ghi nhan.</p>
-          </div>
-          <div className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Tai khoan truy cap</p>
-            <p className="mt-3 text-3xl font-black text-slate-900">{activeSummary?.knownAccountsVisited ?? 0}</p>
-            <p className="mt-2 text-sm text-slate-500">So tai khoan da dang nhap co phat sinh luot truy cap.</p>
-          </div>
-          <div className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Tong so tai khoan</p>
-            <p className="mt-3 text-3xl font-black text-slate-900">{dashboard?.accounts.total ?? 0}</p>
-            <p className="mt-2 text-sm text-slate-500">Danh sach ben duoi hien thi ten va so dien thoai.</p>
-          </div>
-        </div>
+              <Button type="submit" disabled={savingKey === "featured-create"}>
+                <Plus className="h-4 w-4" /> {savingKey === "featured-create" ? "Dang tao..." : "Tao bai noi bat"}
+              </Button>
+            </form>
 
-        <div className="mt-8 grid gap-6 xl:grid-cols-[1.6fr_1fr]">
-          <section className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm">
-            <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-100 text-amber-700">
-                <CalendarDays className="h-5 w-5" />
+            <div className="space-y-4">
+              <div className="rounded-2xl border bg-white p-5 shadow-sm">
+                <h2 className="text-lg font-semibold">Danh sach bai noi bat</h2>
+                <p className="mt-1 text-sm text-muted-foreground">Bai do admin hoac CTV tao deu hien ai la nguoi dang.</p>
               </div>
-              <div>
-                <h2 className="text-xl font-black text-slate-900">Thong ke theo ngay</h2>
-                <p className="text-sm text-slate-500">Moi ngay gom danh sach IP va so lan truy cap.</p>
-              </div>
-            </div>
 
-            {isLoading ? (
-              <div className="rounded-3xl border border-dashed border-slate-200 px-4 py-12 text-center text-sm text-slate-500">
-                Dang tai du lieu thong ke...
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {(activeStats || []).map((item) => (
-                  <div key={item.date} className="overflow-hidden rounded-[24px] border border-slate-200">
-                    <div className="flex flex-col gap-3 bg-slate-50 px-4 py-4 md:flex-row md:items-center md:justify-between">
-                      <div>
-                        <p className="text-sm font-bold text-slate-900">{formatDateLabel(item.date)}</p>
-                        <p className="mt-1 text-xs text-slate-500">{item.totalHits} luot vao • {item.uniqueIps} IP • {item.knownAccountsVisited} tai khoan</p>
-                      </div>
-                      <div className="inline-flex rounded-full bg-white p-1 text-xs font-semibold text-slate-500 shadow-sm">
-                        <span className="rounded-full bg-amber-100 px-3 py-1 text-amber-700">Tong hit: {item.totalHits}</span>
-                      </div>
+              {dashboard.featuredPosts.length === 0 ? (
+                <div className="rounded-2xl border bg-white p-6 text-sm text-muted-foreground shadow-sm">Chua co bai noi bat nao.</div>
+              ) : dashboard.featuredPosts.map((post) => (
+                <div key={post.id} className="overflow-hidden rounded-2xl border bg-white shadow-sm">
+                  <div className="grid gap-0 md:grid-cols-[220px_1fr]">
+                    <div className="relative min-h-[180px] bg-slate-100">
+                      <CollageImagePreview images={postImages(post)} alt={post.title} fallbackImages={[]} />
                     </div>
-
-                    <div className="px-4 py-4">
-                      {item.ipVisits.length === 0 ? (
-                        <p className="text-sm text-slate-400">Chua co luot truy cap.</p>
-                      ) : (
-                        <div className="overflow-x-auto">
-                          <table className="min-w-full text-sm">
-                            <thead>
-                              <tr className="border-b border-slate-200 text-left text-xs uppercase tracking-[0.18em] text-slate-400">
-                                <th className="pb-3 pr-4">Dia chi IP</th>
-                                <th className="pb-3 text-right">So lan vao</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {item.ipVisits.map((ip) => (
-                                <tr key={`${item.date}-${ip.ipAddress}`} className="border-b border-slate-100 last:border-b-0">
-                                  <td className="py-3 pr-4 font-medium text-slate-700">{ip.ipAddress}</td>
-                                  <td className="py-3 text-right font-bold text-slate-900">{ip.hits}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                    <div className="space-y-4 p-4">
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div className="space-y-2">
+                          <div className="flex flex-wrap gap-2">
+                            <Badge>{post.createdByType === "ctv" ? "CTV" : "Admin"}</Badge>
+                            <Badge variant="outline">{postRoom(post)}</Badge>
+                          </div>
+                          <h3 className="text-lg font-semibold">{postAddress(post)}</h3>
+                          <p className="text-sm text-red-600">{postPrice(post)}</p>
                         </div>
-                      )}
+                        <Button variant="outline" onClick={() => void handleDeleteFeatured(post.id)} disabled={savingKey === `featured-delete-${post.id}`}>
+                          <Trash2 className="h-4 w-4" /> Xoa
+                        </Button>
+                      </div>
+
+                      <p className="text-sm text-muted-foreground">{post.summary || post.content.slice(0, 180)}</p>
+
+                      <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+                        <span>Nguoi tao: <strong>{postAuthor(post)}</strong></span>
+                        <span>Keyword: <strong>{post.routingKeywords.join(", ") || "--"}</strong></span>
+                        <span>Cap nhat: <strong>{fmtDate(post.updatedAt)}</strong></span>
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            )}
-          </section>
+                </div>
+              ))}
+            </div>
+          </TabsContent>
 
-          <section className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm">
-            <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
-                <Users className="h-5 w-5" />
-              </div>
+          <TabsContent value="ctv" className="grid gap-4 xl:grid-cols-[0.85fr_1.15fr]">
+            <form onSubmit={handleCreateCtv} className="space-y-4 rounded-2xl border bg-white p-5 shadow-sm">
               <div>
-                <h2 className="text-xl font-black text-slate-900">Tai khoan dang ky</h2>
-                <p className="text-sm text-slate-500">Tong hop ten, so dien thoai va ngay tao.</p>
+                <h2 className="text-lg font-semibold">Them CTV</h2>
+                <p className="text-sm text-muted-foreground">CTV chi co quyen post bai noi bat tai /ctv/bichha.</p>
+              </div>
+              <Input value={ctvForm.username} onChange={(event) => setCtvForm((current) => ({ ...current, username: event.target.value }))} placeholder="Username" />
+              <Input value={ctvForm.nickname} onChange={(event) => setCtvForm((current) => ({ ...current, nickname: event.target.value }))} placeholder="Biet danh" />
+              <Input type="password" value={ctvForm.password} onChange={(event) => setCtvForm((current) => ({ ...current, password: event.target.value }))} placeholder="Mat khau" />
+              <div className="flex items-center justify-between rounded-xl border p-4">
+                <div>
+                  <p className="font-medium">Cho phep dang nhap</p>
+                  <p className="text-sm text-muted-foreground">Tat di neu muon khoa tam thoi.</p>
+                </div>
+                <Switch checked={ctvForm.isEnabled} onCheckedChange={(checked) => setCtvForm((current) => ({ ...current, isEnabled: checked }))} />
+              </div>
+              <Button type="submit" disabled={savingKey === "ctv-create"}>
+                <Plus className="h-4 w-4" /> {savingKey === "ctv-create" ? "Dang tao..." : "Tao tai khoan"}
+              </Button>
+            </form>
+
+            <div className="space-y-4">
+              {dashboard.ctvAccounts.length === 0 ? (
+                <div className="rounded-2xl border bg-white p-6 text-sm text-muted-foreground shadow-sm">Chua co tai khoan CTV nao.</div>
+              ) : dashboard.ctvAccounts.map((account) => {
+                const edit = ctvEdits[account.id] || { username: account.username, nickname: account.nickname, password: "", isEnabled: account.isEnabled };
+                return (
+                  <div key={account.id} className="space-y-4 rounded-2xl border bg-white p-5 shadow-sm">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Badge>{edit.isEnabled ? "Dang bat" : "Dang khoa"}</Badge>
+                        <Badge variant="outline">ID {account.id}</Badge>
+                      </div>
+                      <div className="text-xs text-muted-foreground">Cap nhat {fmtDate(account.updatedAt)}</div>
+                    </div>
+
+                    <div className="grid gap-3 md:grid-cols-2">
+                      <Input value={edit.username} onChange={(event) => setCtvEdits((current) => ({ ...current, [account.id]: { ...edit, username: event.target.value } }))} placeholder="Username" />
+                      <Input value={edit.nickname} onChange={(event) => setCtvEdits((current) => ({ ...current, [account.id]: { ...edit, nickname: event.target.value } }))} placeholder="Biet danh" />
+                      <Input type="password" value={edit.password} onChange={(event) => setCtvEdits((current) => ({ ...current, [account.id]: { ...edit, password: event.target.value } }))} placeholder="Nhap mat khau moi neu can doi" className="md:col-span-2" />
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <Switch checked={edit.isEnabled} onCheckedChange={(checked) => setCtvEdits((current) => ({ ...current, [account.id]: { ...edit, isEnabled: checked } }))} />
+                        <span className="text-sm text-muted-foreground">Cho phep dang nhap</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        <Button variant="outline" onClick={() => void handleUpdateCtv(account.id)} disabled={savingKey === `ctv-save-${account.id}`}>Luu</Button>
+                        <Button variant="outline" onClick={() => void handleDeleteCtv(account.id)} disabled={savingKey === `ctv-delete-${account.id}`}>Xoa</Button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="traffic" className="space-y-4">
+            <div className="flex flex-wrap gap-2">
+              {[1, 7, 30].map((range) => (
+                <Button key={range} variant={trafficRange === range ? "default" : "outline"} onClick={() => setTrafficRange(range as 1 | 7 | 30)}>
+                  {range} ngay
+                </Button>
+              ))}
+            </div>
+
+            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+              <div className="rounded-2xl border bg-white p-4 shadow-sm"><p className="text-xs uppercase text-muted-foreground">Tong hit</p><p className="mt-2 text-3xl font-bold">{trafficData.summary.totalHits}</p></div>
+              <div className="rounded-2xl border bg-white p-4 shadow-sm"><p className="text-xs uppercase text-muted-foreground">Luot vao</p><p className="mt-2 text-3xl font-bold">{trafficData.summary.totalVisitors}</p></div>
+              <div className="rounded-2xl border bg-white p-4 shadow-sm"><p className="text-xs uppercase text-muted-foreground">IP</p><p className="mt-2 text-3xl font-bold">{trafficData.summary.uniqueIps}</p></div>
+              <div className="rounded-2xl border bg-white p-4 shadow-sm"><p className="text-xs uppercase text-muted-foreground">Tai khoan</p><p className="mt-2 text-3xl font-bold">{trafficData.summary.knownAccountsVisited}</p></div>
+            </div>
+
+            {trafficData.days.map((day) => {
+              const expanded = Boolean(expandedDays[day.date]);
+              const visibleIps = expanded ? day.ipVisits : day.ipVisits.slice(0, 10);
+              return (
+                <div key={day.date} className="space-y-4 rounded-2xl border bg-white p-5 shadow-sm">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <h3 className="text-lg font-semibold">{fmtDay(day.date)}</h3>
+                      <p className="text-sm text-muted-foreground">{day.totalHits} luot vao | {day.uniqueIps} IP | {day.knownAccountsVisited} tai khoan</p>
+                    </div>
+                    {day.ipVisits.length > 10 ? (
+                      <Button variant="outline" onClick={() => setExpandedDays((current) => ({ ...current, [day.date]: !expanded }))}>
+                        {expanded ? "Xem it" : "Xem them"}
+                      </Button>
+                    ) : null}
+                  </div>
+
+                  <div className="overflow-hidden rounded-xl border">
+                    <div className="grid grid-cols-[1fr_auto_auto] gap-3 border-b bg-slate-50 px-4 py-3 text-xs font-semibold uppercase text-muted-foreground">
+                      <span>Dia chi IP</span>
+                      <span>So lan vao</span>
+                      <span />
+                    </div>
+                    {visibleIps.length === 0 ? (
+                      <div className="px-4 py-6 text-sm text-muted-foreground">Khong co du lieu IP.</div>
+                    ) : visibleIps.map((visit) => (
+                      <div key={`${day.date}-${visit.ipAddress}`} className="grid grid-cols-[1fr_auto_auto] items-center gap-3 border-b px-4 py-3 text-sm last:border-b-0">
+                        <span className="break-all">{compactIp(visit.ipAddress)}</span>
+                        <span className="font-semibold">{visit.hits}</span>
+                        <Button variant="ghost" size="icon" onClick={() => void handleCopy(visit.ipAddress, "IP")}>
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </TabsContent>
+
+          <TabsContent value="accounts" className="rounded-2xl border bg-white p-5 shadow-sm">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <h2 className="text-lg font-semibold">Tai khoan website</h2>
+                <p className="text-sm text-muted-foreground">Tong cong {dashboard.accounts.total} tai khoan dang co trong he thong.</p>
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-[24px] border border-slate-200">
-              <div className="max-h-[960px] overflow-auto">
-                <table className="min-w-full text-sm">
-                  <thead className="sticky top-0 bg-slate-50">
-                    <tr className="text-left text-xs uppercase tracking-[0.18em] text-slate-400">
-                      <th className="px-4 py-3">Tai khoan</th>
-                      <th className="px-4 py-3">SDT</th>
-                      <th className="px-4 py-3">Ngay tao</th>
+            <div className="overflow-x-auto rounded-xl border">
+              <table className="min-w-full text-sm">
+                <thead className="bg-slate-50 text-left text-xs uppercase text-muted-foreground">
+                  <tr>
+                    <th className="px-4 py-3">ID</th>
+                    <th className="px-4 py-3">Ten</th>
+                    <th className="px-4 py-3">Phone</th>
+                    <th className="px-4 py-3">Role</th>
+                    <th className="px-4 py-3">Ngay tao</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dashboard.accounts.users.map((user) => (
+                    <tr key={user.id} className="border-t">
+                      <td className="px-4 py-3">{user.id}</td>
+                      <td className="px-4 py-3 font-medium">{user.name || "--"}</td>
+                      <td className="px-4 py-3">{user.phone || "--"}</td>
+                      <td className="px-4 py-3">{user.role}</td>
+                      <td className="px-4 py-3">{fmtDate(user.createdAt)}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {(dashboard?.accounts.users || []).map((user) => (
-                      <tr key={user.id} className="border-t border-slate-100">
-                        <td className="px-4 py-3">
-                          <div className="font-semibold text-slate-800">{user.name}</div>
-                          <div className="text-xs text-slate-400">#{user.id} • role {user.role}</div>
-                        </td>
-                        <td className="px-4 py-3 font-medium text-slate-700">{user.phone}</td>
-                        <td className="px-4 py-3 text-slate-500">{formatDateTime(user.createdAt)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          </section>
-        </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

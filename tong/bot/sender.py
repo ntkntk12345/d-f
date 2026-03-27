@@ -23,6 +23,121 @@ import bot_utils
 
 init(autoreset=True)
 
+BOT_DIR = os.path.dirname(os.path.abspath(__file__))
+BOT_SERVICE_CONTROL_FILE = os.path.join(BOT_DIR, "bot_service_control.json")
+BOT_SERVICE_STATUS_FILE = os.path.join(BOT_DIR, "bot_service_status.json")
+BOT_SERVICE_FILE_LOCK = threading.Lock()
+VN_TZ = timezone(timedelta(hours=7))
+
+
+def _utc_now_iso():
+    return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+
+
+def _default_service_control():
+    return {
+        "listenerEnabled": True,
+        "senderEnabled": True,
+        "updatedAt": _utc_now_iso(),
+    }
+
+
+def _default_service_status():
+    now_iso = _utc_now_iso()
+    return {
+        "listener": {
+            "running": False,
+            "state": "stopped",
+            "lastHeartbeatAt": None,
+            "lastWorkAt": None,
+            "restartCount": 0,
+            "lastError": None,
+            "updatedAt": now_iso,
+        },
+        "sender": {
+            "running": False,
+            "state": "stopped",
+            "lastHeartbeatAt": None,
+            "lastWorkAt": None,
+            "restartCount": 0,
+            "lastError": None,
+            "updatedAt": now_iso,
+        },
+        "updatedAt": now_iso,
+    }
+
+
+def _read_json_file_shared(file_path, default_payload):
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return default_payload
+
+
+def _write_json_file_shared(file_path, payload):
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    temp_file = f"{file_path}.tmp"
+    with open(temp_file, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+    os.replace(temp_file, file_path)
+
+
+def ensure_bot_service_files():
+    with BOT_SERVICE_FILE_LOCK:
+        if not os.path.exists(BOT_SERVICE_CONTROL_FILE):
+            _write_json_file_shared(BOT_SERVICE_CONTROL_FILE, _default_service_control())
+        if not os.path.exists(BOT_SERVICE_STATUS_FILE):
+            _write_json_file_shared(BOT_SERVICE_STATUS_FILE, _default_service_status())
+
+
+def read_bot_service_control():
+    ensure_bot_service_files()
+    with BOT_SERVICE_FILE_LOCK:
+        control = _read_json_file_shared(BOT_SERVICE_CONTROL_FILE, _default_service_control())
+        if not isinstance(control, dict):
+            control = _default_service_control()
+            _write_json_file_shared(BOT_SERVICE_CONTROL_FILE, control)
+        return control
+
+
+def update_bot_service_status(service_name, **fields):
+    ensure_bot_service_files()
+    with BOT_SERVICE_FILE_LOCK:
+        status = _read_json_file_shared(BOT_SERVICE_STATUS_FILE, _default_service_status())
+        if not isinstance(status, dict):
+            status = _default_service_status()
+
+        service_status = status.get(service_name)
+        if not isinstance(service_status, dict):
+            service_status = _default_service_status().get(service_name, {})
+
+        service_status.update(fields)
+        service_status["updatedAt"] = _utc_now_iso()
+        status[service_name] = service_status
+        status["updatedAt"] = service_status["updatedAt"]
+        _write_json_file_shared(BOT_SERVICE_STATUS_FILE, status)
+        return service_status
+
+
+def increment_bot_service_restart(service_name):
+    ensure_bot_service_files()
+    with BOT_SERVICE_FILE_LOCK:
+        status = _read_json_file_shared(BOT_SERVICE_STATUS_FILE, _default_service_status())
+        if not isinstance(status, dict):
+            status = _default_service_status()
+
+        service_status = status.get(service_name)
+        if not isinstance(service_status, dict):
+            service_status = _default_service_status().get(service_name, {})
+
+        service_status["restartCount"] = int(service_status.get("restartCount", 0) or 0) + 1
+        service_status["updatedAt"] = _utc_now_iso()
+        status[service_name] = service_status
+        status["updatedAt"] = service_status["updatedAt"]
+        _write_json_file_shared(BOT_SERVICE_STATUS_FILE, status)
+        return service_status["restartCount"]
+
 class SenderBot:
     """Bot chuyên gửi tin nhắn, đọc từ pending_queue.json"""
     
@@ -31,6 +146,10 @@ class SenderBot:
         self.secret_key = secret_key
         self.sender_configs = sender_configs
         self.is_running = True
+        self.service_name = "sender"
+        self.sender_enabled = True
+        self.control_reload_interval = 5.0
+        self.last_control_refresh = 0.0
         
         self.senders = []
         self.current_sender_index = 0
@@ -38,6 +157,7 @@ class SenderBot:
         self.sent_status_file = os.path.abspath("sent_status.json")
         self.featured_feed_file = os.path.abspath("admin_featured_posts.json")
         self.featured_state_file = os.path.abspath("featured_post_schedule.json")
+        self.keepalive_state_file = os.path.abspath("sender_keepalive_state.json")
         self.pending_queue_lock = threading.Lock()
         
         # Load config/keywords
@@ -67,13 +187,54 @@ class SenderBot:
         # Initialize
         self._init_all_senders()
         self._init_district_files()  # Create district JSON files if not exist
+        self._refresh_service_control(force=True)
+        update_bot_service_status(
+            self.service_name,
+            running=self.sender_enabled,
+            state="running" if self.sender_enabled else "disabled",
+            lastError=None,
+        )
         
         # Start watcher
         threading.Thread(target=self._watch_queue_file, daemon=True).start()
         threading.Thread(target=self._heartbeat_worker, daemon=True).start()
         threading.Thread(target=self._featured_post_scheduler_worker, daemon=True).start()
+        threading.Thread(target=self._keepalive_worker, daemon=True).start()
         
         print(f"{Fore.GREEN}[SENDER] Bot started with {len(self.senders)} accounts.")
+
+    def _refresh_service_control(self, force=False):
+        now_ts = time.time()
+        if not force and (now_ts - self.last_control_refresh) < self.control_reload_interval:
+            return self.sender_enabled
+
+        control = read_bot_service_control()
+        self.sender_enabled = bool(control.get("senderEnabled", True))
+        self.last_control_refresh = now_ts
+        return self.sender_enabled
+
+    def _mark_runtime_work(self):
+        update_bot_service_status(
+            self.service_name,
+            lastWorkAt=_utc_now_iso(),
+        )
+
+    def _load_keepalive_state(self):
+        payload = self._load_json_file(self.keepalive_state_file, {})
+        entries = payload.get("entries", {}) if isinstance(payload, dict) else {}
+        return entries if isinstance(entries, dict) else {}
+
+    def _save_keepalive_state(self, entries):
+        try:
+            self._write_json_file(self.keepalive_state_file, {
+                "updatedAt": _utc_now_iso(),
+                "entries": entries,
+            })
+        except Exception as e:
+            print(f"[KEEPALIVE] Error saving state: {e}")
+
+    def _current_keepalive_hour_key(self):
+        return datetime.now(VN_TZ).strftime("%Y-%m-%dT%H")
     
     def _generate_session_hash(self, item):
         try:
@@ -316,6 +477,10 @@ class SenderBot:
     def _featured_post_scheduler_worker(self):
         while self.is_running:
             try:
+                if not self._refresh_service_control():
+                    time.sleep(30)
+                    continue
+
                 posts, default_interval_days = self._load_featured_feed_posts()
                 state = self._load_featured_post_state()
                 queued_ids = self._load_pending_featured_post_ids()
@@ -353,6 +518,12 @@ class SenderBot:
                 self._save_featured_post_state(state)
             except Exception as e:
                 print(f"[FEATURED] Scheduler error: {e}")
+                update_bot_service_status(
+                    self.service_name,
+                    running=self.sender_enabled,
+                    state="error",
+                    lastError=str(e),
+                )
 
             time.sleep(300)
 
@@ -496,6 +667,11 @@ class SenderBot:
         last_size = 0
         while self.is_running:
             try:
+                if not self._refresh_service_control():
+                    last_size = 0
+                    time.sleep(2)
+                    continue
+
                 # === PAUSE 12:00-13:00 Vietnam time ===
                 if self._is_lunch_break():
                     vn_tz = timezone(timedelta(hours=7))
@@ -541,7 +717,10 @@ class SenderBot:
                                 print(f"{'='*50}{Style.RESET_ALL}")
                                 
                                 try:
-                                    self._process_session_round_robin(item, session_num, total_sessions)
+                                    session_done = self._process_session_round_robin(item, session_num, total_sessions)
+                                    if not session_done:
+                                        print(f"{Fore.YELLOW}[QUEUE] Session {session_num}/{total_sessions} chưa xong, giữ nguyên trong pending để retry sau.{Style.RESET_ALL}")
+                                        break
                                     
                                     # Xóa session đã xong khỏi pending
                                     remaining = []
@@ -564,6 +743,12 @@ class SenderBot:
                 time.sleep(2)
             except Exception as e:
                 print(f"[WATCHER] Error: {e}")
+                update_bot_service_status(
+                    self.service_name,
+                    running=self.sender_enabled,
+                    state="error",
+                    lastError=str(e),
+                )
                 time.sleep(5)
 
     def _enforce_symbol_prefix(self, item):
@@ -595,6 +780,10 @@ class SenderBot:
         return None
 
     def _process_session_round_robin(self, item, session_num=0, total_sessions=0):
+        if not self._refresh_service_control():
+            print(f"{Fore.YELLOW}[ROUND-ROBIN] Sender disabled. Skip current session until re-enabled.{Style.RESET_ALL}")
+            return False
+
         self._enforce_symbol_prefix(item)
 
         if self._all_senders_limited():
@@ -609,7 +798,7 @@ class SenderBot:
             if self._all_senders_limited():
                 self.is_running = False
                 os._exit(0)
-            return
+            return False
         
         symbol = item.get('symbol', '?')
         print(f"{Fore.GREEN}[ROUND-ROBIN] 🔄 Session {session_num}/{total_sessions} ({symbol}) → {sender['name']} phụ trách{Style.RESET_ALL}")
@@ -632,9 +821,9 @@ class SenderBot:
                     break
         
         # Lưu vào districts
-        self._save_to_area_files(item)
-        
         if success:
+            self._save_to_area_files(item)
+            self._mark_runtime_work()
             self._mark_featured_post_sent(item)
             self._clear_sent_status()
             print(f"{Fore.GREEN}[DONE] ✅ Session {session_num} hoàn thành bởi {sender['name']}{Style.RESET_ALL}")
@@ -653,6 +842,7 @@ class SenderBot:
                 self.session_count = 0
         
         time.sleep(random.uniform(*self.delay_between_sessions))
+        return bool(success)
 
 
 
@@ -660,6 +850,9 @@ class SenderBot:
 
     def _send_session(self, sender, item):
         try:
+            if not self._refresh_service_control():
+                return False
+
             if sender["is_limited"]:
                 print(f"{Fore.RED}[LIMIT] ⚠️ {sender['name']} đã bị limit, bỏ qua session này{Style.RESET_ALL}")
                 return False
@@ -877,6 +1070,9 @@ class SenderBot:
             
             groups_sent_count = 0
             for gid in target_groups:
+                if not self._refresh_service_control():
+                    return False
+
                 if gid in completed_gids: continue
                 
                 # Nghỉ giữa các nhóm để không bị spam
@@ -974,6 +1170,9 @@ class SenderBot:
                         photo_batch = []
                         
                         for idx, content in enumerate(timeline):
+                            if not self._refresh_service_control():
+                                return False
+
                             if idx < start_idx: continue # SKIP sent items
                             
                             if sender["is_limited"]: return False
@@ -983,7 +1182,14 @@ class SenderBot:
                             
                             if content["type"] == "text":
                                 if photo_batch:
-                                    success = self._send_photos_logic(api, photo_batch, current_gid, sender, session_hash)
+                                    success = self._send_photos_logic(
+                                        api,
+                                        photo_batch,
+                                        current_gid,
+                                        sender,
+                                        session_hash,
+                                        force_group_layout=item.get("session_type") == "featured_post",
+                                    )
                                     photo_batch = []
                                     if not success: return False
                                     time.sleep(random.uniform(*self.delay_after_photo_batch))
@@ -998,6 +1204,7 @@ class SenderBot:
                                             sender["is_limited"] = True
                                             return False
                                     self._update_group_progress(session_hash, gid, idx) # UPDATE STATUS
+                                    self._mark_runtime_work()
                                     time.sleep(random.uniform(*self.delay_between_texts))
                             
                             elif content["type"] == "sticker":
@@ -1008,7 +1215,14 @@ class SenderBot:
                                 # Save idx to update progress per photo
                                 photo_batch.append({"data": content["data"], "idx": idx})
                                 if not next_is_photo:
-                                    success = self._send_photos_logic(api, photo_batch, current_gid, sender, session_hash)
+                                    success = self._send_photos_logic(
+                                        api,
+                                        photo_batch,
+                                        current_gid,
+                                        sender,
+                                        session_hash,
+                                        force_group_layout=item.get("session_type") == "featured_post",
+                                    )
                                     photo_batch = []
                                     if not success: return False
                                     # Progress updated INSIDE _send_photos_logic per photo
@@ -1016,7 +1230,14 @@ class SenderBot:
                                     
                             elif content["type"] == "video":
                                 if photo_batch:
-                                    success = self._send_photos_logic(api, photo_batch, current_gid, sender, session_hash)
+                                    success = self._send_photos_logic(
+                                        api,
+                                        photo_batch,
+                                        current_gid,
+                                        sender,
+                                        session_hash,
+                                        force_group_layout=item.get("session_type") == "featured_post",
+                                    )
                                     photo_batch = []
                                     if not success: return False
                                 
@@ -1028,6 +1249,7 @@ class SenderBot:
                                         sender["is_limited"] = True
                                         return False
                                 self._update_group_progress(session_hash, gid, idx) # UPDATE STATUS
+                                self._mark_runtime_work()
                                 time.sleep(random.uniform(*self.delay_after_video))
 
                         # Group Done
@@ -1055,40 +1277,87 @@ class SenderBot:
             
         except Exception as e:
             print(f"[SENDER] Critical: {e}")
+            update_bot_service_status(
+                self.service_name,
+                running=self.sender_enabled,
+                state="error",
+                lastError=str(e),
+            )
             return False
 
-    def _send_photos_logic(self, api, photo_items, gid, sender, session_hash):
+    def _send_photos_logic(self, api, photo_items, gid, sender, session_hash, force_group_layout=False):
         """Gửi ảnh trực tiếp từ URL CDN (không cần download/upload). Giống forward_images.py"""
         from zlapi import _util
-        
-        total = len(photo_items)
-        print(f"[PHOTOS] Gửi {total} ảnh → group {gid} (direct URL)")
-        
+
+        valid_photo_items = []
+        for p_item in photo_items:
+            p = p_item["data"]
+            photo_url = p.get("url", "")
+            local_path = str(p.get("local_path", "")).strip()
+
+            if local_path and not os.path.exists(local_path):
+                print(f"[PHOTOS] Missing local image, skip: {local_path}")
+                continue
+
+            if not photo_url and not local_path:
+                continue
+
+            valid_photo_items.append(p_item)
+
+        total = len(valid_photo_items)
+        if total == 0:
+            return True
+
+        print(f"[PHOTOS] Gửi {total} ảnh → group {gid}")
         glid = str(int(time.time() * 1000))
-        
-        for i, p_item in enumerate(photo_items):
+
+        for i, p_item in enumerate(valid_photo_items):
             p = p_item["data"]
             original_idx = p_item["idx"]
             photo_url = p.get("url", "")
             local_path = str(p.get("local_path", "")).strip()
             width = p.get("width", 2560)
             height = p.get("height", 2560)
-            
-            if not photo_url and not local_path:
-                print(f"[PHOTOS] ⚠️ Ảnh {i+1}/{total} không có URL, bỏ qua")
-                continue
-            
+
             try:
                 if i > 0: time.sleep(random.uniform(*self.delay_between_photos))
 
                 if local_path:
-                    if not os.path.exists(local_path):
-                        print(f"[PHOTOS] âš ï¸ Local image missing: {local_path}")
+                    upload = api._uploadImage(local_path, gid, ThreadType.GROUP)
+                    normal_url = upload.get("normalUrl")
+                    if not normal_url:
+                        print(f"[PHOTOS] Upload local image failed for {local_path}: {upload}")
                         continue
 
-                    api.sendLocalImage(local_path, gid, ThreadType.GROUP, width=width, height=height)
-                    print(f"[PHOTOS] âœ“ Local image {i+1}/{total} OK")
+                    params = {
+                        "photoId": upload.get("photoId", int(_util.now() * 2)),
+                        "clientId": upload.get("clientFileId", int(_util.now())),
+                        "desc": "",
+                        "width": width,
+                        "height": height,
+                        "rawUrl": normal_url,
+                        "hdUrl": upload.get("hdUrl", normal_url),
+                        "thumbUrl": upload.get("thumbUrl", normal_url),
+                        "oriUrl": normal_url,
+                        "ttl": 0,
+                        "grid": str(gid),
+                        "groupLayoutId": glid if force_group_layout or total > 1 else str(int(time.time() * 1000)),
+                        "totalItemInGroup": total,
+                        "isGroupLayout": 1,
+                        "idInGroup": i,
+                    }
+
+                    api.sendLocalImage(
+                        local_path,
+                        gid,
+                        ThreadType.GROUP,
+                        width=width,
+                        height=height,
+                        custom_payload={"params": params},
+                    )
+                    print(f"[PHOTOS] ✓ Local image {i+1}/{total} OK")
                     self._update_group_progress(session_hash, gid, original_idx)
+                    self._mark_runtime_work()
                     continue
                 
                 params_query = {
@@ -1131,6 +1400,7 @@ class SenderBot:
                 if data.get("error_code") == 0:
                     print(f"[PHOTOS] ✓ Ảnh {i+1}/{total} OK")
                     self._update_group_progress(session_hash, gid, original_idx)
+                    self._mark_runtime_work()
                 elif data.get("error_code") == 221:
                     print(f"{Fore.RED}[PHOTOS] ⚠️ Error 221: Rate limited! Dừng ngay.{Style.RESET_ALL}")
                     sender["is_limited"] = True
@@ -1301,8 +1571,71 @@ class SenderBot:
 
     def _heartbeat_worker(self):
         while self.is_running:
-            time.sleep(120)
-            print(f"[HEARTBEAT] Sender Bot active. Senders: {len(self.senders)}")
+            time.sleep(60)
+            self._refresh_service_control()
+            state = "running" if self.sender_enabled else "disabled"
+            update_bot_service_status(
+                self.service_name,
+                running=self.sender_enabled,
+                state=state,
+                lastHeartbeatAt=_utc_now_iso(),
+            )
+            print(f"[HEARTBEAT] Sender Bot {state}. Senders: {len(self.senders)}")
+
+    def _keepalive_worker(self):
+        while self.is_running:
+            try:
+                if not self._refresh_service_control():
+                    time.sleep(30)
+                    continue
+
+                hour_key = self._current_keepalive_hour_key()
+                state_entries = self._load_keepalive_state()
+                state_changed = False
+
+                for sender in self.senders:
+                    if sender.get("is_limited"):
+                        continue
+
+                    api = sender["api"]
+                    sender_uid = str(sender.get("uid", ""))
+                    for gid, group_name in sender.get("group_id_to_name", {}).items():
+                        if "ahihu" not in str(group_name).lower():
+                            continue
+
+                        state_key = f"{sender_uid}::{gid}"
+                        if state_entries.get(state_key) == hour_key:
+                            continue
+
+                        try:
+                            api.send(Message(text="."), gid, ThreadType.GROUP)
+                            state_entries[state_key] = hour_key
+                            state_changed = True
+                            self._mark_runtime_work()
+                            print(f"[KEEPALIVE] {sender['name']} -> {group_name} ({gid})")
+                        except Exception as e:
+                            print(f"[KEEPALIVE] Error {sender['name']} -> {gid}: {e}")
+                            if "221" in str(e):
+                                sender["is_limited"] = True
+                            update_bot_service_status(
+                                self.service_name,
+                                running=self.sender_enabled,
+                                state="error",
+                                lastError=str(e),
+                            )
+
+                if state_changed:
+                    self._save_keepalive_state(state_entries)
+            except Exception as e:
+                print(f"[KEEPALIVE] Worker error: {e}")
+                update_bot_service_status(
+                    self.service_name,
+                    running=self.sender_enabled,
+                    state="error",
+                    lastError=str(e),
+                )
+
+            time.sleep(60)
 
     def _test_send_startup(self, test_keyword="khaicute", test_image="ntkdz.jpg"):
         """Gửi test ảnh vào nhóm có keyword chỉ định khi khởi động"""
@@ -1350,6 +1683,15 @@ class SenderBot:
                 print(f"{Fore.RED}[TEST] ❌ Lỗi gửi group {gid}: {e}{Style.RESET_ALL}")
 
 if __name__ == "__main__":
+    ensure_bot_service_files()
+    restart_value = increment_bot_service_restart("sender")
+    update_bot_service_status(
+        "sender",
+        running=True,
+        state="starting",
+        lastError=None,
+        restartCount=restart_value,
+    )
     bot = SenderBot(API_KEY, SECRET_KEY, ACCOUNTS[1:])
     if os.environ.get("SENDER_STARTUP_TEST", "").strip().lower() in {"1", "true", "yes", "on"}:
         bot._test_send_startup(test_keyword="khaicute", test_image="ntkdz.jpg")
@@ -1357,4 +1699,9 @@ if __name__ == "__main__":
         print("[TEST] Startup test send disabled. Set SENDER_STARTUP_TEST=1 to enable.")
     try:
         while True: time.sleep(1)
-    except KeyboardInterrupt: pass
+    except KeyboardInterrupt:
+        update_bot_service_status(
+            "sender",
+            running=False,
+            state="stopped",
+        )

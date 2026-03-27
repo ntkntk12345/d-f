@@ -19,6 +19,120 @@ import bot_utils
 # Constant for special groups that need reply-reordering logic
 SPECIAL_GROUPS = ["11a", "12a", "td le phuong thao", "alophongtro", "3h","tdland"]
 
+BOT_DIR = os.path.dirname(os.path.abspath(__file__))
+BOT_SERVICE_CONTROL_FILE = os.path.join(BOT_DIR, "bot_service_control.json")
+BOT_SERVICE_STATUS_FILE = os.path.join(BOT_DIR, "bot_service_status.json")
+BOT_SERVICE_FILE_LOCK = threading.Lock()
+
+
+def _utc_now_iso():
+    return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+
+
+def _default_service_control():
+    return {
+        "listenerEnabled": True,
+        "senderEnabled": True,
+        "updatedAt": _utc_now_iso(),
+    }
+
+
+def _default_service_status():
+    now_iso = _utc_now_iso()
+    return {
+        "listener": {
+            "running": False,
+            "state": "stopped",
+            "lastHeartbeatAt": None,
+            "lastWorkAt": None,
+            "restartCount": 0,
+            "lastError": None,
+            "updatedAt": now_iso,
+        },
+        "sender": {
+            "running": False,
+            "state": "stopped",
+            "lastHeartbeatAt": None,
+            "lastWorkAt": None,
+            "restartCount": 0,
+            "lastError": None,
+            "updatedAt": now_iso,
+        },
+        "updatedAt": now_iso,
+    }
+
+
+def _read_json_file(file_path, default_payload):
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return default_payload
+
+
+def _write_json_file(file_path, payload):
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    temp_file = f"{file_path}.tmp"
+    with open(temp_file, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+    os.replace(temp_file, file_path)
+
+
+def ensure_bot_service_files():
+    with BOT_SERVICE_FILE_LOCK:
+        if not os.path.exists(BOT_SERVICE_CONTROL_FILE):
+            _write_json_file(BOT_SERVICE_CONTROL_FILE, _default_service_control())
+        if not os.path.exists(BOT_SERVICE_STATUS_FILE):
+            _write_json_file(BOT_SERVICE_STATUS_FILE, _default_service_status())
+
+
+def read_bot_service_control():
+    ensure_bot_service_files()
+    with BOT_SERVICE_FILE_LOCK:
+        control = _read_json_file(BOT_SERVICE_CONTROL_FILE, _default_service_control())
+        if not isinstance(control, dict):
+            control = _default_service_control()
+            _write_json_file(BOT_SERVICE_CONTROL_FILE, control)
+        return control
+
+
+def update_bot_service_status(service_name, **fields):
+    ensure_bot_service_files()
+    with BOT_SERVICE_FILE_LOCK:
+        status = _read_json_file(BOT_SERVICE_STATUS_FILE, _default_service_status())
+        if not isinstance(status, dict):
+            status = _default_service_status()
+
+        service_status = status.get(service_name)
+        if not isinstance(service_status, dict):
+            service_status = _default_service_status().get(service_name, {})
+
+        service_status.update(fields)
+        service_status["updatedAt"] = _utc_now_iso()
+        status[service_name] = service_status
+        status["updatedAt"] = service_status["updatedAt"]
+        _write_json_file(BOT_SERVICE_STATUS_FILE, status)
+        return service_status
+
+
+def increment_bot_service_restart(service_name):
+    ensure_bot_service_files()
+    with BOT_SERVICE_FILE_LOCK:
+        status = _read_json_file(BOT_SERVICE_STATUS_FILE, _default_service_status())
+        if not isinstance(status, dict):
+            status = _default_service_status()
+
+        service_status = status.get(service_name)
+        if not isinstance(service_status, dict):
+            service_status = _default_service_status().get(service_name, {})
+
+        service_status["restartCount"] = int(service_status.get("restartCount", 0) or 0) + 1
+        service_status["updatedAt"] = _utc_now_iso()
+        status[service_name] = service_status
+        status["updatedAt"] = service_status["updatedAt"]
+        _write_json_file(BOT_SERVICE_STATUS_FILE, status)
+        return service_status["restartCount"]
+
 # Fix encoding
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 sys.stderr.reconfigure(encoding='utf-8', errors='replace')
@@ -95,7 +209,11 @@ class ZaloListener(ZaloAPI):
         super().__init__(api_key, secret_key, imei=listener_acc["imei"], session_cookies=listener_acc["session_cookies"])
         
         self.is_running = True
+        self.service_name = "listener"
         self.pending_queue_file = "pending_queue.json"
+        self.listener_enabled = True
+        self.control_reload_interval = 5.0
+        self.last_control_refresh = 0.0
         
         # IO Thread
         self.file_writer = FileWriterThread(self.pending_queue_file)
@@ -136,6 +254,14 @@ class ZaloListener(ZaloAPI):
         
         self.cleanup_thread = threading.Thread(target=self._mid_cleanup_worker, daemon=True)
         self.cleanup_thread.start()
+
+        self._refresh_service_control(force=True)
+        update_bot_service_status(
+            self.service_name,
+            running=self.listener_enabled,
+            state="running" if self.listener_enabled else "disabled",
+            lastError=None,
+        )
         
         print(f"{Fore.GREEN}[LISTENER] Initialized with ACC1. Listening for messages...")
 
@@ -149,6 +275,27 @@ class ZaloListener(ZaloAPI):
             self.is_running = False
             if hasattr(self, 'file_writer'):
                 self.file_writer.stop()
+            update_bot_service_status(
+                self.service_name,
+                running=False,
+                state="stopped",
+            )
+
+    def _refresh_service_control(self, force=False):
+        now_ts = time.time()
+        if not force and (now_ts - self.last_control_refresh) < self.control_reload_interval:
+            return self.listener_enabled
+
+        control = read_bot_service_control()
+        self.listener_enabled = bool(control.get("listenerEnabled", True))
+        self.last_control_refresh = now_ts
+        return self.listener_enabled
+
+    def _mark_runtime_work(self):
+        update_bot_service_status(
+            self.service_name,
+            lastWorkAt=_utc_now_iso(),
+        )
 
     def _generate_content_hash(self, item):
         """Tạo mã hash cho nội dung để deduplication"""
@@ -448,6 +595,9 @@ class ZaloListener(ZaloAPI):
     def onMessage(self, mid, author_id, message, message_object, thread_id, thread_type):
         self.last_alive = time.time() # Update watchdog
         try:
+            if not self._refresh_service_control():
+                return
+
             mid_str = str(mid)
             author_id_str = str(author_id)
             thread_id_str = str(thread_id)
@@ -472,6 +622,7 @@ class ZaloListener(ZaloAPI):
             if thread_type != ThreadType.GROUP: return
             symbol = self.input_groups.get(thread_id_str)
             if not symbol: return
+            self._mark_runtime_work()
             
             print(f"{Fore.CYAN}[MSG] {thread_id_str} ({symbol}): {str(message)[:50]}...")
             
@@ -618,41 +769,28 @@ class ZaloListener(ZaloAPI):
 
         except Exception as e:
             print(f"[LISTENER] Error in onMessage: {e}")
+            update_bot_service_status(
+                self.service_name,
+                running=self.listener_enabled,
+                state="error",
+                lastError=str(e),
+            )
 
     def _heartbeat_worker(self):
         start_time = time.time()
-        # Tìm group_id của "trọ ahihu ahihu" để gửi heartbeat
-        self._heartbeat_group_id = None
-        for gid_str, sym in self.input_groups.items():
-            if sym.lower() == "11a":
-                # Tìm group có tên chứa "ahihu"
-                try:
-                    info = self.fetchGroupInfo({gid_str: 0})
-                    if hasattr(info, "gridInfoMap"):
-                        data = info.gridInfoMap.get(gid_str, {})
-                        name = data.get("name", "") if isinstance(data, dict) else getattr(data, "name", "")
-                        if "ahihu" in name.lower():
-                            self._heartbeat_group_id = gid_str
-                            print(f"{Fore.GREEN}[HEARTBEAT] Found ahihu group: {name} ({gid_str}){Style.RESET_ALL}")
-                            break
-                except:
-                    pass
-        
         while self.is_running:
-            time.sleep(1200)  # 20 phút = 1200 giây
+            time.sleep(60)
+            self._refresh_service_control()
             uptime_mins = int((time.time() - start_time) / 60)
             uptime_hours = uptime_mins / 60
-            
-            print(f"{Fore.BLUE}[HEARTBEAT] Alive. Buffers: {len(self.session_buffers)}. Uptime: {uptime_hours:.1f}h{Style.RESET_ALL}")
-            
-            # Gửi tin nhắn trạng thái vào nhóm "trọ ahihu ahihu" mỗi 20 phút
-            if self._heartbeat_group_id:
-                try:
-                    status_msg = f"🤖 Listener đã run được {uptime_mins} phút ({uptime_hours:.1f}h). Buffers: {len(self.session_buffers)}"
-                    self.send(Message(text=status_msg), self._heartbeat_group_id, ThreadType.GROUP)
-                    print(f"{Fore.GREEN}[HEARTBEAT] ✓ Đã gửi status vào nhóm ahihu{Style.RESET_ALL}")
-                except Exception as e:
-                    print(f"{Fore.RED}[HEARTBEAT] Lỗi gửi status: {e}{Style.RESET_ALL}")
+            state = "running" if self.listener_enabled else "disabled"
+            update_bot_service_status(
+                self.service_name,
+                running=self.listener_enabled,
+                state=state,
+                lastHeartbeatAt=_utc_now_iso(),
+            )
+            print(f"{Fore.BLUE}[HEARTBEAT] Listener {state}. Buffers: {len(self.session_buffers)}. Uptime: {uptime_hours:.1f}h{Style.RESET_ALL}")
 
     def _mid_cleanup_worker(self):
         while self.is_running:
@@ -682,6 +820,7 @@ class ZaloListener(ZaloAPI):
 if __name__ == "__main__":
     listener_acc = ACCOUNTS[0]
     restart_count = 0
+    ensure_bot_service_files()
     
     # Supervise the listener in a thread
     def run_listener_safe():
@@ -691,6 +830,12 @@ if __name__ == "__main__":
             bot.listen(thread=False, delay=0)
         except Exception as e:
             print(f"{Fore.RED}Listener Error: {e}")
+            update_bot_service_status(
+                "listener",
+                running=False,
+                state="error",
+                lastError=str(e),
+            )
             time.sleep(5)
         finally:
             print(f"{Fore.YELLOW}Listener thread exiting...")
@@ -698,6 +843,14 @@ if __name__ == "__main__":
     while True:
         try:
             restart_count += 1
+            restart_value = increment_bot_service_restart("listener")
+            update_bot_service_status(
+                "listener",
+                running=True,
+                state="starting",
+                lastError=None,
+                restartCount=restart_value,
+            )
             print(f"{Fore.GREEN}[SUPERVISOR] Starting listener thread... (Restart #{restart_count})")
             t = threading.Thread(target=run_listener_safe, daemon=True)
             t.start()
@@ -707,11 +860,26 @@ if __name__ == "__main__":
                 t.join(timeout=1.0)
             
             print(f"{Fore.YELLOW}[SUPERVISOR] Listener thread died. Auto-restarting in 5s...")
+            update_bot_service_status(
+                "listener",
+                running=False,
+            )
             time.sleep(5)
         except KeyboardInterrupt:
             print(f"{Fore.RED}[SUPERVISOR] KeyboardInterrupt. Shutting down.")
+            update_bot_service_status(
+                "listener",
+                running=False,
+                state="stopped",
+            )
             break
         except Exception as e:
             print(f"{Fore.RED}[SUPERVISOR] Global Error: {e}. Restarting in 5s...")
+            update_bot_service_status(
+                "listener",
+                running=False,
+                state="error",
+                lastError=str(e),
+            )
             time.sleep(5)
 
