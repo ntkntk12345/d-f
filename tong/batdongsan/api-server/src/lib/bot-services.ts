@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { closeSync, openSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -52,6 +53,7 @@ type ManagedBotChild = ReturnType<typeof spawn>;
 
 type ManagedBotService = {
   child: ManagedBotChild | null;
+  externalPid: number | null;
   restartTimer: NodeJS.Timeout | null;
   stopMode: ManagedStopMode;
   recentStderr: string;
@@ -72,6 +74,7 @@ type GlobalWithBotSupervisor = typeof globalThis & {
 };
 
 const botDirectory = path.resolve(process.cwd(), "..", "bot");
+const botLogDirectory = path.join(botDirectory, "logs");
 const controlFilePath = path.join(botDirectory, "bot_service_control.json");
 const statusFilePath = path.join(botDirectory, "bot_service_status.json");
 const pythonCommand =
@@ -111,6 +114,7 @@ const botSupervisor =
     services: {
       listener: {
         child: null,
+        externalPid: null,
         restartTimer: null,
         stopMode: null,
         recentStderr: "",
@@ -118,6 +122,7 @@ const botSupervisor =
       },
       sender: {
         child: null,
+        externalPid: null,
         restartTimer: null,
         stopMode: null,
         recentStderr: "",
@@ -166,6 +171,7 @@ function buildDefaultStatusFile(): BotServiceStatusFile {
 
 async function ensureBotFiles() {
   await mkdir(botDirectory, { recursive: true });
+  await mkdir(botLogDirectory, { recursive: true });
 }
 
 async function readJsonFile<T>(filePath: string, fallback: T) {
@@ -292,6 +298,91 @@ function clearRestartTimer(serviceName: BotServiceName) {
   }
 }
 
+function toPowerShellLiteral(value: string) {
+  return `'${value.replace(/'/g, "''")}'`;
+}
+
+function toCmdQuoted(value: string) {
+  return `"${value.replace(/"/g, '""')}"`;
+}
+
+function buildWindowsConsoleWrapperArgs(serviceName: BotServiceName) {
+  const windowTitle = `BichHa Bot - ${serviceName}`;
+  const commandLine = `title ${windowTitle} && ${toCmdQuoted(pythonCommand)} ${toCmdQuoted(serviceDefinitions[serviceName].scriptPath)}`;
+
+  return [
+    "-NoLogo",
+    "-NoProfile",
+    "-NonInteractive",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-Command",
+    [
+      `$proc = Start-Process -FilePath 'cmd.exe'`,
+      `-ArgumentList @('/d','/s','/c', ${toPowerShellLiteral(commandLine)})`,
+      `-WorkingDirectory ${toPowerShellLiteral(botDirectory)}`,
+      "-WindowStyle Normal",
+      "-PassThru;",
+      "Write-Output $proc.Id;",
+      "$proc.WaitForExit();",
+      "if ($null -ne $proc.ExitCode) { exit $proc.ExitCode }",
+    ].join(" "),
+  ];
+}
+
+function attachWindowsConsoleSupervisor(
+  serviceName: BotServiceName,
+  child: ManagedBotChild,
+) {
+  const managed = botSupervisor.services[serviceName];
+  let stdoutCarry = "";
+  let stderrCarry = "";
+
+  child.stdout?.setEncoding("utf8");
+  child.stdout?.on("data", (chunk: string) => {
+    stdoutCarry += chunk;
+    const lines = stdoutCarry.split(/\r?\n/);
+    stdoutCarry = lines.pop() ?? "";
+
+    for (const rawLine of lines) {
+      const line = rawLine.trim();
+      if (!line) {
+        continue;
+      }
+
+      if (!managed.externalPid && /^\d+$/.test(line)) {
+        managed.externalPid = Number(line);
+        void updateServiceStatusSnapshot(serviceName, {
+          pid: managed.externalPid,
+          running: true,
+          state: "starting",
+        });
+        console.log(`[bot-supervisor] ${serviceName} console window PID ${managed.externalPid}.`);
+        continue;
+      }
+
+      console.log(`[bot-supervisor:${serviceName}] ${line}`);
+    }
+  });
+
+  child.stderr?.setEncoding("utf8");
+  child.stderr?.on("data", (chunk: string) => {
+    managed.recentStderr = trimRecentError(`${managed.recentStderr}\n${chunk}`) || "";
+    stderrCarry += chunk;
+    const lines = stderrCarry.split(/\r?\n/);
+    stderrCarry = lines.pop() ?? "";
+
+    for (const rawLine of lines) {
+      const line = rawLine.trim();
+      if (!line) {
+        continue;
+      }
+
+      console.error(`[bot-supervisor:${serviceName}] ${line}`);
+    }
+  });
+}
+
 async function terminateProcess(pid?: number | null) {
   if (!pid) {
     return;
@@ -314,52 +405,6 @@ async function terminateProcess(pid?: number | null) {
   } catch {
     return;
   }
-}
-
-function attachChildLogger(
-  serviceName: BotServiceName,
-  streamName: "stdout" | "stderr",
-  stream: NodeJS.ReadableStream,
-) {
-  const managed = botSupervisor.services[serviceName];
-  let carry = "";
-  stream.setEncoding("utf8");
-
-  stream.on("data", (chunk: string) => {
-    if (streamName === "stderr") {
-      managed.recentStderr = trimRecentError(`${managed.recentStderr}\n${chunk}`) || "";
-    }
-
-    carry += chunk;
-    const lines = carry.split(/\r?\n/);
-    carry = lines.pop() ?? "";
-
-    for (const rawLine of lines) {
-      const line = rawLine.trimEnd();
-      if (!line.trim()) {
-        continue;
-      }
-
-      if (streamName === "stderr") {
-        console.error(`[bot:${serviceName}] ${line}`);
-      } else {
-        console.log(`[bot:${serviceName}] ${line}`);
-      }
-    }
-  });
-
-  stream.on("end", () => {
-    const lastLine = carry.trim();
-    if (!lastLine) {
-      return;
-    }
-
-    if (streamName === "stderr") {
-      console.error(`[bot:${serviceName}] ${lastLine}`);
-    } else {
-      console.log(`[bot:${serviceName}] ${lastLine}`);
-    }
-  });
 }
 
 async function scheduleServiceRestart(serviceName: BotServiceName, reason: string) {
@@ -402,6 +447,7 @@ async function handleManagedServiceExit(
   }
 
   managed.child = null;
+  managed.externalPid = null;
   managed.startInFlight = false;
 
   const control = await readControlFile();
@@ -448,21 +494,39 @@ async function spawnManagedService(serviceName: BotServiceName) {
 
   managed.startInFlight = true;
   clearRestartTimer(serviceName);
+  let stdoutFd: number | null = null;
+  let stderrFd: number | null = null;
 
   try {
-    const child = spawn(pythonCommand, [serviceDefinitions[serviceName].scriptPath], {
-      cwd: botDirectory,
-      env: { ...process.env },
-      windowsHide: true,
-      stdio: ["ignore", "pipe", "pipe"],
-    });
+    let child: ManagedBotChild;
+
+    if (process.platform === "win32") {
+      child = spawn("powershell.exe", buildWindowsConsoleWrapperArgs(serviceName), {
+        cwd: botDirectory,
+        env: { ...process.env },
+        windowsHide: true,
+        stdio: ["ignore", "pipe", "pipe"],
+      });
+    } else {
+      stdoutFd = openSync(path.join(botLogDirectory, `${serviceName}.stdout.log`), "a");
+      stderrFd = openSync(path.join(botLogDirectory, `${serviceName}.stderr.log`), "a");
+      child = spawn(pythonCommand, [serviceDefinitions[serviceName].scriptPath], {
+        cwd: botDirectory,
+        env: { ...process.env },
+        detached: false,
+        windowsHide: true,
+        stdio: ["ignore", stdoutFd, stderrFd],
+      });
+    }
 
     managed.child = child;
+    managed.externalPid = null;
     managed.stopMode = null;
     managed.recentStderr = "";
 
-    attachChildLogger(serviceName, "stdout", child.stdout);
-    attachChildLogger(serviceName, "stderr", child.stderr);
+    if (process.platform === "win32") {
+      attachWindowsConsoleSupervisor(serviceName, child);
+    }
 
     child.on("error", (error) => {
       if (managed.child !== child) {
@@ -470,6 +534,7 @@ async function spawnManagedService(serviceName: BotServiceName) {
       }
 
       managed.child = null;
+      managed.externalPid = null;
       managed.startInFlight = false;
       managed.recentStderr = trimRecentError(`${managed.recentStderr}\n${String(error)}`) || "";
 
@@ -493,12 +558,18 @@ async function spawnManagedService(serviceName: BotServiceName) {
       running: true,
       state: "starting",
       lastError: null,
-      pid: child.pid ?? null,
+      pid: process.platform === "win32" ? null : child.pid ?? null,
       lastStartedAt: new Date().toISOString(),
       exitCode: null,
     });
 
-    console.log(`[bot-supervisor] Started ${serviceName} with PID ${child.pid ?? "unknown"}.`);
+    if (process.platform === "win32") {
+      console.log(`[bot-supervisor] Started ${serviceName} in a separate console window.`);
+    } else {
+      console.log(
+        `[bot-supervisor] Started ${serviceName} with PID ${child.pid ?? "unknown"} (logs: ${path.join(botLogDirectory, `${serviceName}.stdout.log`)})`,
+      );
+    }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     await updateServiceStatusSnapshot(serviceName, {
@@ -511,6 +582,12 @@ async function spawnManagedService(serviceName: BotServiceName) {
     });
     await scheduleServiceRestart(serviceName, message);
   } finally {
+    if (stdoutFd !== null) {
+      closeSync(stdoutFd);
+    }
+    if (stderrFd !== null) {
+      closeSync(stderrFd);
+    }
     managed.startInFlight = false;
   }
 }
@@ -532,6 +609,9 @@ async function stopManagedService(serviceName: BotServiceName, stopMode: Exclude
   }
 
   managed.stopMode = stopMode;
+  const pidsToTerminate = Array.from(
+    new Set([managed.externalPid, managed.child.pid].filter((value): value is number => Boolean(value))),
+  );
 
   if (stopMode === "disable" || stopMode === "shutdown") {
     await updateServiceStatusSnapshot(serviceName, {
@@ -542,7 +622,9 @@ async function stopManagedService(serviceName: BotServiceName, stopMode: Exclude
     });
   }
 
-  await terminateProcess(managed.child.pid);
+  for (const pid of pidsToTerminate) {
+    await terminateProcess(pid);
+  }
 }
 
 async function reconcileManagedServices() {
