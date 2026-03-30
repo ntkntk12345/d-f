@@ -40,7 +40,7 @@ import { cn, formatNumber } from "@/lib/utils";
 type AdminTab = "dashboard" | "economy" | "users" | "tasks" | "giftcodes" | "withdrawals" | "lucky_draw";
 type NoticeTone = "success" | "error";
 type TaskActionType = "click" | "join" | "react_heart";
-type TaskType = "community" | "daily" | "one_time" | "ad";
+type TaskType = "community" | "daily" | "one_time" | "ad" | "newbie";
 type RewardType = "gold" | "diamond" | "diamonds";
 
 interface AdminUser {
@@ -102,6 +102,24 @@ interface FlappyConfig {
   rewardDiamonds: number;
 }
 
+interface LixiConfig {
+  minGold: number;
+  maxGold: number;
+  maxClaimsPerRound: number;
+  cooldownMinutes: number;
+}
+
+interface LixiState {
+  roundNumber: number;
+  remainingClaims: number;
+  claimedCount: number;
+  cooldownEndsAt: number | null;
+  maxClaimsPerRound: number;
+  cooldownMinutes: number;
+  isCoolingDown: boolean;
+  isAvailable: boolean;
+}
+
 interface EconomyConfig {
   newUserGold: number;
   newUserDiamonds: number;
@@ -145,6 +163,8 @@ interface AdminSnapshot {
   levels: LevelSetting[];
   tasks: TaskItem[];
   flappyConfig: FlappyConfig;
+  lixiConfig: LixiConfig;
+  lixiState: LixiState;
   economyConfig: EconomyConfig;
   serverTime: number;
 }
@@ -191,6 +211,11 @@ interface GiftCodeFormState {
 interface FlappyFormState {
   rewardGold: string;
   rewardDiamonds: string;
+}
+
+interface LixiFormState {
+  minGold: string;
+  maxGold: string;
 }
 
 interface EconomyFormState {
@@ -302,6 +327,24 @@ const EMPTY_ECONOMY_CONFIG: EconomyConfig = {
   taskMilestoneRewardDiamonds: 0,
 };
 
+const EMPTY_LIXI_CONFIG: LixiConfig = {
+  minGold: 5000,
+  maxGold: 25000,
+  maxClaimsPerRound: 10,
+  cooldownMinutes: 60,
+};
+
+const EMPTY_LIXI_STATE: LixiState = {
+  roundNumber: 1,
+  remainingClaims: EMPTY_LIXI_CONFIG.maxClaimsPerRound,
+  claimedCount: 0,
+  cooldownEndsAt: null,
+  maxClaimsPerRound: EMPTY_LIXI_CONFIG.maxClaimsPerRound,
+  cooldownMinutes: EMPTY_LIXI_CONFIG.cooldownMinutes,
+  isCoolingDown: false,
+  isAvailable: true,
+};
+
 const DEFAULT_ECONOMY_FORM: EconomyFormState = {
   newUserGold: String(EMPTY_ECONOMY_CONFIG.newUserGold),
   newUserDiamonds: String(EMPTY_ECONOMY_CONFIG.newUserDiamonds),
@@ -313,6 +356,11 @@ const DEFAULT_ECONOMY_FORM: EconomyFormState = {
   taskMilestoneCount: String(EMPTY_ECONOMY_CONFIG.taskMilestoneCount),
   taskMilestoneRewardGold: String(EMPTY_ECONOMY_CONFIG.taskMilestoneRewardGold),
   taskMilestoneRewardDiamonds: String(EMPTY_ECONOMY_CONFIG.taskMilestoneRewardDiamonds),
+};
+
+const DEFAULT_LIXI_FORM: LixiFormState = {
+  minGold: String(EMPTY_LIXI_CONFIG.minGold),
+  maxGold: String(EMPTY_LIXI_CONFIG.maxGold),
 };
 
 function getTodayInputValue() {
@@ -377,6 +425,13 @@ function toEconomyForm(config: EconomyConfig): EconomyFormState {
   };
 }
 
+function toLixiForm(config: LixiConfig): LixiFormState {
+  return {
+    minGold: String(config.minGold),
+    maxGold: String(config.maxGold),
+  };
+}
+
 function isAdminUserMiningActive(user: Pick<AdminUser, "isMining" | "miningStartTime" | "miningShiftStart">) {
   return Boolean(user.isMining && user.miningStartTime && (user.miningShiftStart ?? user.miningStartTime));
 }
@@ -405,6 +460,25 @@ function getProjectedAdminUserGold(
 function normalizeAdminSnapshot(payload: unknown): AdminSnapshot {
   const root = isRecord(payload) ? payload : {};
   const economyRoot = isRecord(root.economyConfig) ? root.economyConfig : {};
+  const lixiConfigRoot = isRecord(root.lixiConfig) ? root.lixiConfig : {};
+  const lixiStateRoot = isRecord(root.lixiState) ? root.lixiState : {};
+  const lixiMinGold = Math.max(0, toNumber(lixiConfigRoot.minGold ?? EMPTY_LIXI_CONFIG.minGold));
+  const lixiMaxGold = Math.max(lixiMinGold, toNumber(lixiConfigRoot.maxGold ?? EMPTY_LIXI_CONFIG.maxGold));
+  const lixiMaxClaims = Math.max(
+    1,
+    toNumber(lixiStateRoot.maxClaimsPerRound ?? lixiConfigRoot.maxClaimsPerRound ?? EMPTY_LIXI_CONFIG.maxClaimsPerRound),
+  );
+  const lixiCooldownMinutes = Math.max(
+    1,
+    toNumber(lixiStateRoot.cooldownMinutes ?? lixiConfigRoot.cooldownMinutes ?? EMPTY_LIXI_CONFIG.cooldownMinutes),
+  );
+  const lixiRemainingClaims = Math.max(
+    0,
+    Math.min(lixiMaxClaims, toNumber(lixiStateRoot.remainingClaims ?? lixiMaxClaims)),
+  );
+  const cooldownRaw = lixiStateRoot.cooldownEndsAt;
+  const lixiCooldownEndsAt =
+    cooldownRaw === null || cooldownRaw === undefined || cooldownRaw === "" ? null : toNumber(cooldownRaw);
 
   return {
     users: asRecordArray(root.users).map((item) => ({
@@ -467,6 +541,26 @@ function normalizeAdminSnapshot(payload: unknown): AdminSnapshot {
     flappyConfig: {
       rewardGold: toNumber(isRecord(root.flappyConfig) ? root.flappyConfig.rewardGold : 0),
       rewardDiamonds: toNumber(isRecord(root.flappyConfig) ? root.flappyConfig.rewardDiamonds : 0),
+    },
+    lixiConfig: {
+      minGold: lixiMinGold,
+      maxGold: lixiMaxGold,
+      maxClaimsPerRound: lixiMaxClaims,
+      cooldownMinutes: lixiCooldownMinutes,
+    },
+    lixiState: {
+      roundNumber: Math.max(1, toNumber(lixiStateRoot.roundNumber ?? EMPTY_LIXI_STATE.roundNumber)),
+      remainingClaims: lixiRemainingClaims,
+      claimedCount: Math.max(0, toNumber(lixiStateRoot.claimedCount ?? lixiMaxClaims - lixiRemainingClaims)),
+      cooldownEndsAt: lixiCooldownEndsAt,
+      maxClaimsPerRound: lixiMaxClaims,
+      cooldownMinutes: lixiCooldownMinutes,
+      isCoolingDown:
+        typeof lixiStateRoot.isCoolingDown === "boolean" ? lixiStateRoot.isCoolingDown : Boolean(lixiCooldownEndsAt),
+      isAvailable:
+        typeof lixiStateRoot.isAvailable === "boolean"
+          ? lixiStateRoot.isAvailable
+          : !Boolean(lixiCooldownEndsAt) && lixiRemainingClaims > 0,
     },
     economyConfig: {
       newUserGold: toNumber(economyRoot.newUserGold ?? EMPTY_ECONOMY_CONFIG.newUserGold),
@@ -799,6 +893,8 @@ export function KhaidzAdminWebView() {
   const [isSavingGiftCode, setIsSavingGiftCode] = useState(false);
   const [flappyForm, setFlappyForm] = useState<FlappyFormState>({ rewardGold: "0", rewardDiamonds: "0" });
   const [isSavingFlappy, setIsSavingFlappy] = useState(false);
+  const [lixiForm, setLixiForm] = useState<LixiFormState>(DEFAULT_LIXI_FORM);
+  const [isSavingLixi, setIsSavingLixi] = useState(false);
   const [economyForm, setEconomyForm] = useState<EconomyFormState>(DEFAULT_ECONOMY_FORM);
   const [isSavingEconomy, setIsSavingEconomy] = useState(false);
   const [levelRows, setLevelRows] = useState<LevelRowState[]>([]);
@@ -820,6 +916,8 @@ export function KhaidzAdminWebView() {
   const pendingWithdraws = snapshot?.pendingWithdraws ?? [];
   const levels = snapshot?.levels ?? [];
   const flappyConfig = snapshot?.flappyConfig ?? { rewardGold: 0, rewardDiamonds: 0 };
+  const lixiConfig = snapshot?.lixiConfig ?? EMPTY_LIXI_CONFIG;
+  const lixiState = snapshot?.lixiState ?? EMPTY_LIXI_STATE;
   const economyConfig = snapshot?.economyConfig ?? EMPTY_ECONOMY_CONFIG;
   const liveNowMs = liveTickMs + serverOffsetMs;
   const activeMiningUsersCount = useMemo(() => users.filter((user) => isAdminUserMiningActive(user)).length, [users]);
@@ -1059,6 +1157,10 @@ export function KhaidzAdminWebView() {
       rewardDiamonds: String(flappyConfig.rewardDiamonds),
     });
   }, [flappyConfig.rewardDiamonds, flappyConfig.rewardGold]);
+
+  useEffect(() => {
+    setLixiForm(toLixiForm(lixiConfig));
+  }, [lixiConfig.maxGold, lixiConfig.minGold]);
 
   useEffect(() => {
     setEconomyForm(toEconomyForm(economyConfig));
@@ -1508,6 +1610,33 @@ export function KhaidzAdminWebView() {
     }
   };
 
+  const handleLixiSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSavingLixi(true);
+
+    const minGold = Math.max(0, Math.floor(Number(lixiForm.minGold || 0)));
+    const maxGold = Math.max(minGold, Math.floor(Number(lixiForm.maxGold || 0)));
+
+    try {
+      await adminFetch("/api/admin/lixi/config", {
+        method: "POST",
+        body: JSON.stringify({
+          minGold,
+          maxGold,
+          maxClaimsPerRound: lixiConfig.maxClaimsPerRound,
+          cooldownMinutes: lixiConfig.cooldownMinutes,
+        }),
+      });
+
+      await refreshAll({ silent: true });
+      setSuccessNotice("Đã cập nhật cấu hình lì xì trang chủ.");
+    } catch (error) {
+      setErrorNotice(error instanceof Error ? error.message : "Không thể cập nhật cấu hình lì xì.");
+    } finally {
+      setIsSavingLixi(false);
+    }
+  };
+
   const handleEconomySubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSavingEconomy(true);
@@ -1939,7 +2068,7 @@ export function KhaidzAdminWebView() {
 
           {!isBootstrapping && selectedTab === "dashboard" ? (
             <>
-              <div className="grid gap-4 xl:grid-cols-4">
+              <div className="grid gap-4 xl:grid-cols-5">
                 <MetricCard
                   label="Tổng user"
                   value={formatNumber(users.length)}
@@ -2143,6 +2272,17 @@ export function KhaidzAdminWebView() {
                   }
                   icon={CheckCircle2}
                   accentClassName="text-violet-100"
+                />
+                <MetricCard
+                  label="LÃ¬ xÃ¬"
+                  value={`${formatNumber(lixiConfig.minGold)} - ${formatNumber(lixiConfig.maxGold)}`}
+                  detail={
+                    lixiState.isCoolingDown
+                      ? `Äá»£t #${formatNumber(lixiState.roundNumber)} Ä‘ang reset láº¡i.`
+                      : `CÃ²n ${formatNumber(lixiState.remainingClaims)}/${formatNumber(lixiState.maxClaimsPerRound)} suáº¥t.`
+                  }
+                  icon={Gift}
+                  accentClassName="text-rose-100"
                 />
               </div>
 
@@ -2348,6 +2488,54 @@ export function KhaidzAdminWebView() {
                 </ShellCard>
 
                 <div className="space-y-6">
+                  <ShellCard>
+                    <SectionHeading
+                      icon={Gift}
+                      title="LÃ¬ xÃ¬ trang chá»§"
+                      description="Set min max vÃ ng cho nÃºt giáº­t lÃ¬ xÃ¬. User pháº£i xem Ä‘á»§ 3 video, má»—i Ä‘á»£t cÃ³ 10 suáº¥t vÃ  reset sau 60 phÃºt khi nháº­n háº¿t."
+                    />
+
+                    <form className="grid gap-4 px-5 py-5 sm:px-6" onSubmit={handleLixiSubmit}>
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        <div>
+                          <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Min Gold</label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={lixiForm.minGold}
+                            onChange={(event) => setLixiForm((current) => ({ ...current, minGold: event.target.value }))}
+                            className={INPUT_CLASS}
+                          />
+                        </div>
+
+                        <div>
+                          <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">Max Gold</label>
+                          <input
+                            type="number"
+                            min="0"
+                            value={lixiForm.maxGold}
+                            onChange={(event) => setLixiForm((current) => ({ ...current, maxGold: event.target.value }))}
+                            className={INPUT_CLASS}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="rounded-[22px] border border-white/8 bg-white/4 px-4 py-3 text-sm text-slate-300/75">
+                        Hiá»‡n backend Ä‘ang dÃ¹ng {formatNumber(lixiConfig.minGold)} - {formatNumber(lixiConfig.maxGold)} vÃ ng.
+                        Äá»£t #{formatNumber(lixiState.roundNumber)} cÃ²n {formatNumber(lixiState.remainingClaims)}/
+                        {formatNumber(lixiState.maxClaimsPerRound)} suáº¥t
+                        {lixiState.isCoolingDown && lixiState.cooldownEndsAt
+                          ? `, má»Ÿ láº¡i vÃ o ${formatDateTime(new Date(lixiState.cooldownEndsAt).toISOString())}.`
+                          : "."}
+                      </div>
+
+                      <button type="submit" disabled={isSavingLixi} className={PRIMARY_BUTTON_CLASS}>
+                        {isSavingLixi ? <LoadingSpinner /> : <Save className="h-4 w-4" />}
+                        {isSavingLixi ? "Äang lÆ°u..." : "LÆ°u lÃ¬ xÃ¬"}
+                      </button>
+                    </form>
+                  </ShellCard>
+
                   <ShellCard>
                     <SectionHeading
                       icon={Crown}
@@ -2684,6 +2872,7 @@ export function KhaidzAdminWebView() {
                         className={INPUT_CLASS}
                       >
                         <option value="community">Thường/Cộng đồng</option>
+                        <option value="newbie">Tân thủ</option>
                         <option value="daily">Hàng ngày (Reset 24h)</option>
                         <option value="one_time">Làm 1 lần</option>
                         <option value="ad">Xem quảng cáo</option>

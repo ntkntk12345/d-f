@@ -2,6 +2,9 @@ const ADSGRAM_SCRIPT_SRC = "https://sad.adsgram.ai/js/sad.min.js";
 const ADSGRAM_REWARD_BLOCK_ID = "int-23213";
 const ADSGRAM_SEQUENCE_BLOCK_IDS = ["int-23213", "int-23325", "int-23213"] as const;
 const MONETAG_MAIN_ZONE_ID = 9917411;
+const LIXI_AD_NETWORK_ORDER = ["adsgram", "monetag", "adsgram"] as const;
+
+type RewardedNetwork = (typeof LIXI_AD_NETWORK_ORDER)[number];
 
 type MonetagRewardedFn = {
   (): Promise<unknown>;
@@ -176,6 +179,14 @@ async function showMonetagRewardedSequence(count: number) {
   return true;
 }
 
+async function showRewardedByNetwork(network: RewardedNetwork) {
+  if (network === "monetag") {
+    return showMonetagRewarded();
+  }
+
+  return showAdsgramRewarded();
+}
+
 export async function showMiningRewardedAd() {
   if (await showAdsgramRewarded()) {
     return true;
@@ -198,4 +209,20 @@ export async function showTaskRewardedSequence() {
   }
 
   return showMonetagRewardedSequence(ADSGRAM_SEQUENCE_BLOCK_IDS.length);
+}
+
+export async function showLixiRewardedAdStep(stepIndex: number) {
+  const normalizedIndex = Math.max(0, Math.floor(stepIndex));
+  const primaryNetwork = LIXI_AD_NETWORK_ORDER[normalizedIndex % LIXI_AD_NETWORK_ORDER.length];
+  const fallbackNetwork: RewardedNetwork = primaryNetwork === "adsgram" ? "monetag" : "adsgram";
+
+  if (await showRewardedByNetwork(primaryNetwork)) {
+    return { success: true, network: primaryNetwork as RewardedNetwork };
+  }
+
+  if (await showRewardedByNetwork(fallbackNetwork)) {
+    return { success: true, network: fallbackNetwork };
+  }
+
+  return { success: false, network: primaryNetwork as RewardedNetwork };
 }

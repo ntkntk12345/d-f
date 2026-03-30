@@ -3,7 +3,8 @@ import { Coins, Gamepad2, Gift } from "lucide-react";
 
 import type { GameStore } from "@/hooks/use-game-store";
 import { SHIFT_DURATION_MS } from "@/hooks/use-game-store";
-import { showMiningRewardedAd } from "@/lib/ad-service";
+import { showLixiRewardedAdStep, showMiningRewardedAd } from "@/lib/ad-service";
+import { formatNumber } from "@/lib/utils";
 
 import miningBackground from "../../dao (1).gif";
 import idleBackground from "../../nghingoi (1).gif";
@@ -11,6 +12,9 @@ import idleBackground from "../../nghingoi (1).gif";
 export function HomeView({ store }: { store: GameStore }) {
   const [elapsed, setElapsed] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isClaimingLixi, setIsClaimingLixi] = useState(false);
+  const [isLixiRulesOpen, setIsLixiRulesOpen] = useState(false);
+  const [lixiNow, setLixiNow] = useState(() => Date.now() + store.serverOffset);
   const floatingCoins = useMemo(
     () =>
       Array.from({ length: 6 }, () => ({
@@ -48,6 +52,42 @@ export function HomeView({ store }: { store: GameStore }) {
     return () => window.clearInterval(interval);
   }, [store.isMining, store.syncFromBackend]);
 
+  useEffect(() => {
+    setLixiNow(Date.now() + store.serverOffset);
+
+    if (!store.lixi.state.isCoolingDown) return;
+
+    const interval = window.setInterval(() => {
+      setLixiNow(Date.now() + store.serverOffset);
+    }, 1000);
+
+    return () => window.clearInterval(interval);
+  }, [store.lixi.state.isCoolingDown, store.serverOffset]);
+
+  useEffect(() => {
+    if (!store.isTelegramApp || !store.teleId) return;
+
+    const interval = window.setInterval(() => {
+      void store.fetchLixiInfo();
+    }, 15000);
+
+    return () => window.clearInterval(interval);
+  }, [store.fetchLixiInfo, store.isTelegramApp, store.teleId]);
+
+  useEffect(() => {
+    if (!store.isTelegramApp || !store.teleId || !store.lixi.state.isCoolingDown || !store.lixi.state.cooldownEndsAt) return;
+
+    const timeLeft = store.lixi.state.cooldownEndsAt - (Date.now() + store.serverOffset);
+    const timeout = window.setTimeout(
+      () => {
+        void store.fetchLixiInfo();
+      },
+      Math.max(0, timeLeft) + 800,
+    );
+
+    return () => window.clearTimeout(timeout);
+  }, [store.fetchLixiInfo, store.isTelegramApp, store.lixi.state.cooldownEndsAt, store.lixi.state.isCoolingDown, store.serverOffset, store.teleId]);
+
   const isFinished = store.isMining && elapsed >= SHIFT_DURATION_MS;
   const progressPercent = Math.min((elapsed / SHIFT_DURATION_MS) * 100, 100);
   const backgroundGif = store.isMining ? miningBackground : idleBackground;
@@ -56,6 +96,63 @@ export function HomeView({ store }: { store: GameStore }) {
   const h = Math.floor(remaining / 3600000).toString().padStart(2, "0");
   const m = Math.floor((remaining % 3600000) / 60000).toString().padStart(2, "0");
   const s = Math.floor((remaining % 60000) / 1000).toString().padStart(2, "0");
+  const lixiTimeLeft = Math.max(0, (store.lixi.state.cooldownEndsAt ?? 0) - lixiNow);
+  const lixiMinutes = Math.floor(lixiTimeLeft / 60000)
+    .toString()
+    .padStart(2, "0");
+  const lixiSeconds = Math.floor((lixiTimeLeft % 60000) / 1000)
+    .toString()
+    .padStart(2, "0");
+  const lixiAdsRequired = store.lixi.config.requiredAdViews;
+  const lixiAdsWatched = store.lixi.user.watchedAdViews;
+  const lixiAdsRemaining = store.lixi.user.remainingAdViews;
+  const canClaimLixi = store.lixi.user.canClaim;
+
+  const handleLixiClick = async () => {
+    if (isClaimingLixi) return;
+
+    if (store.lixi.state.isCoolingDown || store.lixi.user.hasClaimed || !store.lixi.state.isAvailable) {
+      setIsLixiRulesOpen(true);
+      return;
+    }
+
+    setIsClaimingLixi(true);
+    try {
+      if (!canClaimLixi) {
+        const adResult = await showLixiRewardedAdStep(lixiAdsWatched);
+        if (!adResult.success) {
+          alert("Ban can xem het video moi duoc tinh tien do li xi.");
+          return;
+        }
+
+        const watchResult = await store.recordLixiAdView();
+        if (!watchResult.success) {
+          alert(watchResult.error || "Khong the ghi nhan video li xi.");
+          return;
+        }
+
+        const nextWatchedCount = Math.min(lixiAdsRequired, (watchResult.watchedAdViews ?? lixiAdsWatched + 1));
+        const nextRemainingCount = Math.max(0, watchResult.remainingAdViews ?? lixiAdsRequired - nextWatchedCount);
+
+        if (nextRemainingCount > 0) {
+          const networkLabel = adResult.network === "monetag" ? "Monetag" : "Adsgram";
+          alert(`Da xem ${formatNumber(nextWatchedCount)}/${formatNumber(lixiAdsRequired)} video qua ${networkLabel}. Xem them ${formatNumber(nextRemainingCount)} video nua de nhan li xi.`);
+          return;
+        }
+      }
+
+      const result = await store.claimLixi();
+      if (!result.success) {
+        alert(result.error || "Khong the nhan li xi luc nay.");
+        setIsLixiRulesOpen(true);
+        return;
+      }
+
+      alert(`Chuc mung! Ban nhan duoc ${formatNumber(result.rewardGold || 0)} vang tu li xi.`);
+    } finally {
+      setIsClaimingLixi(false);
+    }
+  };
 
   const handleMineClick = async () => {
     if (isSubmitting) return;
@@ -159,6 +256,55 @@ export function HomeView({ store }: { store: GameStore }) {
             </button>
           </div>
 
+          <button
+            onClick={() => void handleLixiClick()}
+            disabled={isClaimingLixi}
+            className="relative mb-3 flex w-full items-center gap-3 overflow-hidden rounded-[1.45rem] border border-rose-200/28 bg-[linear-gradient(135deg,rgba(127,29,29,0.92)_0%,rgba(159,18,57,0.88)_48%,rgba(76,5,25,0.98)_100%)] px-3.5 py-3 shadow-[0_18px_40px_rgba(0,0,0,0.34),0_0_28px_rgba(251,113,133,0.2)] transition-transform duration-300 active:scale-[0.99] disabled:opacity-75"
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.2),transparent_34%)]" />
+            <div className="absolute -right-8 -top-10 h-28 w-28 rounded-full bg-rose-200/12 blur-2xl" />
+
+            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[1.2rem] border border-white/15 bg-white/8">
+              <img src="/lixi.gif" alt="Li xi" className="h-full w-full object-cover" />
+            </div>
+
+            <div className="relative min-w-0 flex-1 text-left">
+              <div className="flex items-center gap-2">
+                <span className="rounded-full border border-rose-100/22 bg-white/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-rose-50">
+                  Giat Li Xi
+                </span>
+                <Gift className="h-4 w-4 text-rose-100" />
+              </div>
+
+              <p className="mt-2 text-sm font-black uppercase tracking-[0.08em] text-white">
+                {store.lixi.state.isCoolingDown
+                  ? `Mo lai sau ${lixiMinutes}:${lixiSeconds}`
+                  : store.lixi.user.hasClaimed
+                    ? `Ban da nhan ${formatNumber(store.lixi.user.rewardGold)} vang`
+                    : canClaimLixi
+                      ? `Da du ${formatNumber(lixiAdsRequired)}/${formatNumber(lixiAdsRequired)} video`
+                      : `Xem ${formatNumber(lixiAdsWatched)}/${formatNumber(lixiAdsRequired)} video`}
+              </p>
+              <p className="mt-1 text-xs leading-5 text-rose-50/78">
+                Thuong ngau nhien {formatNumber(store.lixi.config.minGold)} - {formatNumber(store.lixi.config.maxGold)} vang. Video se xen ke Adsgram va Monetag.
+              </p>
+            </div>
+
+            <div className="relative shrink-0 rounded-[1rem] border border-white/16 bg-black/18 px-3 py-2 text-center">
+              <div className="text-[10px] font-black uppercase tracking-[0.16em] text-rose-100/70">
+                {isClaimingLixi
+                  ? "Dang"
+                  : store.lixi.state.isCoolingDown
+                    ? "The le"
+                    : store.lixi.user.hasClaimed
+                      ? "Da nhan"
+                      : canClaimLixi
+                        ? "Nhan ngay"
+                        : `Video ${formatNumber(lixiAdsWatched + 1)}/${formatNumber(lixiAdsRequired)}`}
+              </div>
+            </div>
+          </button>
+
           <div className="mb-2 flex justify-center">
             <span className="rounded-full border border-yellow-300/25 bg-black/24 px-3 py-1 font-display text-[11px] text-gradient-gold backdrop-blur-md">
               {store.currentLevelInfo.name}
@@ -206,6 +352,48 @@ export function HomeView({ store }: { store: GameStore }) {
           </div>
         </div>
       </div>
+
+      {isLixiRulesOpen && (
+        <div className="absolute inset-0 z-30 flex items-end bg-black/55 px-3 pb-24 pt-20 backdrop-blur-[3px]">
+          <div className="w-full rounded-[1.75rem] border border-rose-200/18 bg-[linear-gradient(180deg,rgba(50,11,24,0.96)_0%,rgba(21,8,14,0.98)_100%)] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.42)]">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-sm font-black uppercase tracking-[0.16em] text-rose-100">The Le Li Xi</p>
+                <p className="mt-2 text-sm leading-6 text-rose-50/78">
+                  Moi vong co {formatNumber(store.lixi.state.maxClaimsPerRound)} nguoi duoc nhan mot lan. He thong phat ngau nhien tu {formatNumber(store.lixi.config.minGold)} den {formatNumber(store.lixi.config.maxGold)} vang sau khi xem du {formatNumber(lixiAdsRequired)} video xen ke Adsgram va Monetag.
+                </p>
+              </div>
+
+              <button
+                onClick={() => setIsLixiRulesOpen(false)}
+                className="rounded-full border border-white/10 bg-white/6 px-3 py-1.5 text-xs font-bold text-white"
+              >
+                Dong
+              </button>
+            </div>
+
+            <div className="mt-4 space-y-2 rounded-[1.25rem] border border-white/8 bg-white/4 p-3 text-sm text-rose-50/80">
+              <p>Moi tai khoan chi nhan 1 lan trong 1 dot.</p>
+              <p>Ban can xem du {formatNumber(lixiAdsRequired)} video quang cao truoc khi he thong mo li xi.</p>
+              <p>Thu tu video: 1 Adsgram, 2 Monetag, 3 Adsgram.</p>
+              <p>Tien do cua ban: {formatNumber(lixiAdsWatched)}/{formatNumber(lixiAdsRequired)} video.</p>
+              <p>Khi het {formatNumber(store.lixi.state.maxClaimsPerRound)} suat, he thong se dem nguoc {formatNumber(store.lixi.state.cooldownMinutes)} phut roi mo lai.</p>
+              <p>Trang thai hien tai: dot #{formatNumber(store.lixi.state.roundNumber)} con {formatNumber(store.lixi.state.remainingClaims)} suat.</p>
+              {store.lixi.state.isCoolingDown ? <p>Dang lam moi: {lixiMinutes}:{lixiSeconds}.</p> : null}
+              {store.lixi.user.hasClaimed ? (
+                <p>Ban da nhan {formatNumber(store.lixi.user.rewardGold)} vang o dot nay.</p>
+              ) : null}
+            </div>
+
+            <button
+              onClick={() => setIsLixiRulesOpen(false)}
+              className="mt-4 w-full rounded-2xl border border-rose-200/22 bg-rose-500/14 px-4 py-3 text-sm font-black uppercase tracking-[0.12em] text-rose-50"
+            >
+              Da Hieu
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -3,8 +3,9 @@ import confetti from "canvas-confetti";
 
 export type PageId = "home" | "giftcode" | "shop" | "tasks" | "friends" | "lucky" | "exchange" | "withdraw" | "admin" | "flappy";
 
-export type TaskType = "daily" | "one_time" | "community" | "ad";
+export type TaskType = "daily" | "one_time" | "community" | "ad" | "newbie";
 export type TaskActionType = "click" | "join" | "react_heart";
+export type ReferralStatus = "pending" | "rewarded";
 
 export interface Task {
   id: string;
@@ -31,7 +32,9 @@ export interface ReferralRecord {
   invitedName: string;
   goldReward: number;
   diamondReward: number;
+  status: ReferralStatus;
   createdAt: string;
+  rewardedAt: string | null;
 }
 
 export interface LuckyDrawConfig {
@@ -79,6 +82,38 @@ export interface EconomyConfig {
   taskMilestoneRewardDiamonds: number;
 }
 
+export interface LixiConfig {
+  minGold: number;
+  maxGold: number;
+  maxClaimsPerRound: number;
+  cooldownMinutes: number;
+  requiredAdViews: number;
+}
+
+export interface LixiState {
+  roundNumber: number;
+  remainingClaims: number;
+  claimedCount: number;
+  cooldownEndsAt: number | null;
+  maxClaimsPerRound: number;
+  cooldownMinutes: number;
+  isCoolingDown: boolean;
+  isAvailable: boolean;
+}
+
+export interface LixiInfo {
+  config: LixiConfig;
+  state: LixiState;
+  user: {
+    hasClaimed: boolean;
+    rewardGold: number;
+    claimedAt: string | null;
+    watchedAdViews: number;
+    remainingAdViews: number;
+    canClaim: boolean;
+  };
+}
+
 export interface WithdrawHistoryItem {
   id: number;
   amount: number;
@@ -117,6 +152,8 @@ export interface AdminData {
   totalDiamonds: number;
   pendingWithdraws: AdminWithdrawItem[];
   flappyConfig: FlappyConfig;
+  lixiConfig: LixiConfig;
+  lixiState: LixiState;
 }
 
 export interface WithdrawPayload {
@@ -232,6 +269,64 @@ interface AdminDataResult {
     rewardGold?: number | string;
     rewardDiamonds?: number | string;
   };
+  lixiConfig?: {
+    minGold?: number | string;
+    maxGold?: number | string;
+    maxClaimsPerRound?: number | string;
+    cooldownMinutes?: number | string;
+    requiredAdViews?: number | string;
+  };
+  lixiState?: {
+    roundNumber?: number | string;
+    remainingClaims?: number | string;
+    claimedCount?: number | string;
+    cooldownEndsAt?: number | string | null;
+    maxClaimsPerRound?: number | string;
+    cooldownMinutes?: number | string;
+    isCoolingDown?: boolean;
+    isAvailable?: boolean;
+  };
+}
+
+interface ApiLixiInfoResult {
+  config?: {
+    minGold?: number | string;
+    maxGold?: number | string;
+    maxClaimsPerRound?: number | string;
+    cooldownMinutes?: number | string;
+    requiredAdViews?: number | string;
+  };
+  state?: {
+    roundNumber?: number | string;
+    remainingClaims?: number | string;
+    claimedCount?: number | string;
+    cooldownEndsAt?: number | string | null;
+    maxClaimsPerRound?: number | string;
+    cooldownMinutes?: number | string;
+    isCoolingDown?: boolean;
+    isAvailable?: boolean;
+  };
+  user?: {
+    hasClaimed?: boolean;
+    rewardGold?: number | string;
+    claimedAt?: string | null;
+    watchedAdViews?: number | string;
+    remainingAdViews?: number | string;
+    canClaim?: boolean;
+  };
+  serverTime?: number | string;
+}
+
+interface LixiClaimResult extends ApiResult {
+  rewardGold?: number | string;
+  user?: ApiUser;
+  lixi?: ApiLixiInfoResult;
+}
+
+interface LixiWatchAdResult extends ApiResult {
+  watchedAdViews?: number | string;
+  remainingAdViews?: number | string;
+  lixi?: ApiLixiInfoResult;
 }
 
 interface AdsgramShowResult {
@@ -330,6 +425,36 @@ const EMPTY_ECONOMY_CONFIG: EconomyConfig = {
   taskMilestoneRewardDiamonds: 0,
 };
 
+const EMPTY_LIXI_CONFIG: LixiConfig = {
+  minGold: 5000,
+  maxGold: 25000,
+  maxClaimsPerRound: 10,
+  cooldownMinutes: 60,
+  requiredAdViews: 3,
+};
+
+const EMPTY_LIXI_INFO: LixiInfo = {
+  config: EMPTY_LIXI_CONFIG,
+  state: {
+    roundNumber: 1,
+    remainingClaims: EMPTY_LIXI_CONFIG.maxClaimsPerRound,
+    claimedCount: 0,
+    cooldownEndsAt: null,
+    maxClaimsPerRound: EMPTY_LIXI_CONFIG.maxClaimsPerRound,
+    cooldownMinutes: EMPTY_LIXI_CONFIG.cooldownMinutes,
+    isCoolingDown: false,
+    isAvailable: true,
+  },
+  user: {
+    hasClaimed: false,
+    rewardGold: 0,
+    claimedAt: null,
+    watchedAdViews: 0,
+    remainingAdViews: EMPTY_LIXI_CONFIG.requiredAdViews,
+    canClaim: false,
+  },
+};
+
 export const SHIFT_DURATION_MS = 6 * 60 * 60 * 1000;
 
 function toNumber(value: unknown, fallback = 0): number {
@@ -349,7 +474,7 @@ function toVNDateKey(value: string | number | Date): string {
 }
 
 function mapTask(task: ApiTask): Task {
-  const type: TaskType = ["daily", "one_time", "community", "ad"].includes(task.type)
+  const type: TaskType = ["daily", "one_time", "community", "ad", "newbie"].includes(task.type)
     ? (task.type as TaskType)
     : "one_time";
 
@@ -360,7 +485,7 @@ function mapTask(task: ApiTask): Task {
   let done = false;
   if (type === "daily" && task.lastClaimedAt) {
     done = toVNDateKey(task.lastClaimedAt) === toVNDateKey(new Date());
-  } else if (type === "one_time" || type === "community") {
+  } else if (type === "one_time" || type === "community" || type === "newbie") {
     done = Boolean(task.isClaimed);
   }
 
@@ -375,6 +500,68 @@ function mapTask(task: ApiTask): Task {
     url: task.url || null,
     done,
     lastClaimedAt: task.lastClaimedAt || null,
+  };
+}
+
+function normalizeLixiInfo(data: ApiLixiInfoResult | null | undefined): LixiInfo {
+  const minGold = Math.max(0, toNumber(data?.config?.minGold, EMPTY_LIXI_CONFIG.minGold));
+  const maxGold = Math.max(minGold, toNumber(data?.config?.maxGold, EMPTY_LIXI_CONFIG.maxGold));
+  const maxClaimsPerRound = Math.max(
+    1,
+    toNumber(data?.state?.maxClaimsPerRound ?? data?.config?.maxClaimsPerRound, EMPTY_LIXI_CONFIG.maxClaimsPerRound),
+  );
+  const cooldownMinutes = Math.max(
+    1,
+    toNumber(data?.state?.cooldownMinutes ?? data?.config?.cooldownMinutes, EMPTY_LIXI_CONFIG.cooldownMinutes),
+  );
+  const requiredAdViews = Math.max(1, toNumber(data?.config?.requiredAdViews, EMPTY_LIXI_CONFIG.requiredAdViews));
+  const remainingClaims = Math.max(0, Math.min(maxClaimsPerRound, toNumber(data?.state?.remainingClaims, maxClaimsPerRound)));
+  const claimedCount = Math.max(0, toNumber(data?.state?.claimedCount, maxClaimsPerRound - remainingClaims));
+  const cooldownEndsAtValue = data?.state?.cooldownEndsAt;
+  const cooldownEndsAt =
+    cooldownEndsAtValue === null || cooldownEndsAtValue === undefined || cooldownEndsAtValue === ""
+      ? null
+      : toNumber(cooldownEndsAtValue);
+  const hasClaimed = Boolean(data?.user?.hasClaimed);
+  const watchedAdViews = Math.max(0, Math.min(requiredAdViews, toNumber(data?.user?.watchedAdViews)));
+  const remainingAdViews = Math.max(
+    0,
+    Math.min(requiredAdViews, toNumber(data?.user?.remainingAdViews, requiredAdViews - watchedAdViews)),
+  );
+  const isCoolingDown = typeof data?.state?.isCoolingDown === "boolean" ? data.state.isCoolingDown : Boolean(cooldownEndsAt);
+  const isAvailable =
+    typeof data?.state?.isAvailable === "boolean" ? data.state.isAvailable : !isCoolingDown && remainingClaims > 0;
+  const canClaim =
+    typeof data?.user?.canClaim === "boolean"
+      ? data.user.canClaim
+      : !hasClaimed && isAvailable && !isCoolingDown && remainingAdViews === 0;
+
+  return {
+    config: {
+      minGold,
+      maxGold,
+      maxClaimsPerRound,
+      cooldownMinutes,
+      requiredAdViews,
+    },
+    state: {
+      roundNumber: Math.max(1, toNumber(data?.state?.roundNumber, 1)),
+      remainingClaims,
+      claimedCount,
+      cooldownEndsAt,
+      maxClaimsPerRound,
+      cooldownMinutes,
+      isCoolingDown,
+      isAvailable,
+    },
+    user: {
+      hasClaimed,
+      rewardGold: toNumber(data?.user?.rewardGold),
+      claimedAt: data?.user?.claimedAt || null,
+      watchedAdViews,
+      remainingAdViews,
+      canClaim,
+    },
   };
 }
 
@@ -395,6 +582,7 @@ export function useGameStore() {
   const [luckyDraw, setLuckyDraw] = useState<LuckyDrawInfo>(EMPTY_LUCKY_DRAW);
   const [flappyConfig, setFlappyConfig] = useState<FlappyConfig>(EMPTY_FLAPPY_CONFIG);
   const [economyConfig, setEconomyConfig] = useState<EconomyConfig>(EMPTY_ECONOMY_CONFIG);
+  const [lixi, setLixi] = useState<LixiInfo>(EMPTY_LIXI_INFO);
   const [withdrawHistory, setWithdrawHistory] = useState<WithdrawHistoryItem[]>([]);
   const [referralCount, setReferralCount] = useState(0);
   const [adminData, setAdminData] = useState<AdminData>({
@@ -403,6 +591,8 @@ export function useGameStore() {
     totalDiamonds: 0,
     pendingWithdraws: [],
     flappyConfig: EMPTY_FLAPPY_CONFIG,
+    lixiConfig: EMPTY_LIXI_CONFIG,
+    lixiState: EMPTY_LIXI_INFO.state,
   });
 
   const [username, setUsername] = useState("Thợ Mỏ");
@@ -542,7 +732,9 @@ export function useGameStore() {
       invitedName: string;
       goldReward: number | string;
       diamondReward?: number | string;
+      status?: string;
       createdAt: string;
+      rewardedAt?: string | null;
     }>;
 
     setReferrals(
@@ -551,7 +743,9 @@ export function useGameStore() {
         invitedName: row.invitedName || `Người dùng ${row.invitedId}`,
         goldReward: toNumber(row.goldReward),
         diamondReward: toNumber(row.diamondReward),
+        status: row.status === "pending" ? "pending" : "rewarded",
         createdAt: row.createdAt,
+        rewardedAt: row.rewardedAt || null,
       })),
     );
   }, [apiFetch]);
@@ -615,8 +809,27 @@ export function useGameStore() {
     });
   }, [apiFetch]);
 
+  const fetchLixiInfo = useCallback(async () => {
+    const data = (await apiFetch("/api/lixi/info")) as ApiLixiInfoResult;
+    setLixi(normalizeLixiInfo(data));
+
+    if (data.serverTime !== undefined) {
+      setServerOffset(toNumber(data.serverTime) - Date.now());
+    }
+  }, [apiFetch]);
+
   const fetchAdminData = useCallback(async () => {
     const data = (await apiFetch("/api/admin/data")) as AdminDataResult;
+    const lixiSnapshot = normalizeLixiInfo({
+      config: data.lixiConfig,
+      state: data.lixiState,
+      user: {
+        hasClaimed: false,
+        rewardGold: 0,
+        claimedAt: null,
+      },
+    });
+
     setAdminData({
       users: data.users.map((user) => ({
         teleId: toNumber(user.teleId),
@@ -643,6 +856,8 @@ export function useGameStore() {
         rewardDiamonds: toNumber(data.flappyConfig?.rewardDiamonds),
         bestScore: flappyConfig.bestScore,
       },
+      lixiConfig: lixiSnapshot.config,
+      lixiState: lixiSnapshot.state,
     });
   }, [apiFetch, flappyConfig.bestScore]);
 
@@ -704,7 +919,14 @@ export function useGameStore() {
       try {
         await fetchLevels();
         await syncFromBackend();
-        await Promise.all([fetchTasks(), fetchReferralHistory(), fetchLuckyDrawInfo(), fetchFlappyConfig(), fetchEconomyConfig()]);
+        await Promise.all([
+          fetchTasks(),
+          fetchReferralHistory(),
+          fetchLuckyDrawInfo(),
+          fetchFlappyConfig(),
+          fetchEconomyConfig(),
+          fetchLixiInfo(),
+        ]);
       } catch (err) {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : "Không thể tải dữ liệu từ backend.");
@@ -719,13 +941,27 @@ export function useGameStore() {
     return () => {
       cancelled = true;
     };
-  }, [fetchEconomyConfig, fetchFlappyConfig, fetchLevels, fetchLuckyDrawInfo, fetchReferralHistory, fetchTasks, initData, syncFromBackend, teleId]);
+  }, [
+    fetchEconomyConfig,
+    fetchFlappyConfig,
+    fetchLevels,
+    fetchLixiInfo,
+    fetchLuckyDrawInfo,
+    fetchReferralHistory,
+    fetchTasks,
+    initData,
+    syncFromBackend,
+    teleId,
+  ]);
 
   useEffect(() => {
     if (!isLoaded || !initData) return;
 
     if (currentPage === "tasks") {
       void fetchTasks();
+    }
+    if (currentPage === "home") {
+      void fetchLixiInfo();
     }
     if (currentPage === "friends") {
       void Promise.all([fetchReferralHistory(), fetchEconomyConfig()]);
@@ -753,6 +989,7 @@ export function useGameStore() {
     fetchAdminData,
     fetchEconomyConfig,
     fetchFlappyConfig,
+    fetchLixiInfo,
     fetchLuckyDrawInfo,
     fetchReferralHistory,
     fetchTasks,
@@ -1110,6 +1347,124 @@ export function useGameStore() {
     [apiFetch, fetchAdminData],
   );
 
+  const claimLixi = useCallback(async () => {
+    try {
+      const data = (await apiFetch("/api/lixi/claim", {
+        method: "POST",
+      })) as LixiClaimResult;
+
+      if (!data.success) {
+        return { success: false, error: data.error || data.message || "Khong the nhan li xi luc nay." };
+      }
+
+      if (data.user) {
+        applyUserSnapshot(data.user);
+      }
+
+      if (data.lixi) {
+        setLixi(normalizeLixiInfo(data.lixi));
+
+        if (data.lixi.serverTime !== undefined) {
+          setServerOffset(toNumber(data.lixi.serverTime) - Date.now());
+        }
+      } else {
+        await fetchLixiInfo();
+      }
+
+      triggerConfetti();
+      return { success: true, rewardGold: toNumber(data.rewardGold) };
+    } catch (err) {
+      try {
+        await fetchLixiInfo();
+      } catch {
+        // ignore secondary refresh errors
+      }
+
+      return { success: false, error: err instanceof Error ? err.message : "Khong the nhan li xi luc nay." };
+    }
+  }, [apiFetch, applyUserSnapshot, fetchLixiInfo, triggerConfetti]);
+
+  const recordLixiAdView = useCallback(async () => {
+    try {
+      const data = (await apiFetch("/api/lixi/watch-ad", {
+        method: "POST",
+      })) as LixiWatchAdResult;
+
+      if (!data.success) {
+        return { success: false, error: data.error || data.message || "Khong the ghi nhan video li xi." };
+      }
+
+      if (data.lixi) {
+        setLixi(normalizeLixiInfo(data.lixi));
+
+        if (data.lixi.serverTime !== undefined) {
+          setServerOffset(toNumber(data.lixi.serverTime) - Date.now());
+        }
+      } else {
+        await fetchLixiInfo();
+      }
+
+      return {
+        success: true,
+        watchedAdViews: toNumber(data.watchedAdViews, lixi.user.watchedAdViews),
+        remainingAdViews: toNumber(data.remainingAdViews, lixi.user.remainingAdViews),
+      };
+    } catch (err) {
+      try {
+        await fetchLixiInfo();
+      } catch {
+        // ignore secondary refresh errors
+      }
+
+      return { success: false, error: err instanceof Error ? err.message : "Khong the ghi nhan video li xi." };
+    }
+  }, [apiFetch, fetchLixiInfo, lixi.user.remainingAdViews, lixi.user.watchedAdViews]);
+
+  const updateLixiConfig = useCallback(
+    async (minGold: number, maxGold: number) => {
+      const safeMinGold = Math.max(0, Math.floor(minGold));
+      const safeMaxGold = Math.max(safeMinGold, Math.floor(maxGold));
+
+      try {
+        const data = (await apiFetch("/api/admin/lixi/config", {
+          method: "POST",
+          body: JSON.stringify({
+            minGold: safeMinGold,
+            maxGold: safeMaxGold,
+            maxClaimsPerRound: adminData.lixiConfig.maxClaimsPerRound,
+            cooldownMinutes: adminData.lixiConfig.cooldownMinutes,
+            requiredAdViews: adminData.lixiConfig.requiredAdViews,
+          }),
+        })) as ApiResult;
+
+        if (!data.success) {
+          return { success: false, error: data.error || data.message || "Khong the cap nhat cau hinh li xi." };
+        }
+
+        setLixi((current) => ({
+          ...current,
+          config: {
+            ...current.config,
+            minGold: safeMinGold,
+            maxGold: safeMaxGold,
+          },
+        }));
+        await Promise.all([fetchAdminData(), fetchLixiInfo()]);
+        return { success: true };
+      } catch (err) {
+        return { success: false, error: err instanceof Error ? err.message : "Khong the cap nhat cau hinh li xi." };
+      }
+    },
+    [
+      adminData.lixiConfig.cooldownMinutes,
+      adminData.lixiConfig.maxClaimsPerRound,
+      adminData.lixiConfig.requiredAdViews,
+      apiFetch,
+      fetchAdminData,
+      fetchLixiInfo,
+    ],
+  );
+
   return {
     currentPage,
     setCurrentPage,
@@ -1127,6 +1482,7 @@ export function useGameStore() {
     referrals,
     referralCount,
     luckyDraw,
+    lixi,
     flappyConfig,
     economyConfig,
     withdrawHistory,
@@ -1148,10 +1504,14 @@ export function useGameStore() {
     withdraw,
     redeemGiftCode,
     joinLuckyDraw,
+    recordLixiAdView,
+    claimLixi,
     fetchLuckyDrawInfo,
+    fetchLixiInfo,
     fetchFlappyConfig,
     fetchAdminData,
     updateWithdrawStatus,
+    updateLixiConfig,
     updateFlappyConfig,
     copyInviteLink,
     shareInviteLink,

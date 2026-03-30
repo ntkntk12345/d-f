@@ -184,6 +184,14 @@ const DEFAULT_ECONOMY_CONFIG = Object.freeze({
     taskMilestoneRewardDiamonds: 0,
 });
 
+const DEFAULT_LIXI_CONFIG = Object.freeze({
+    minGold: 5000,
+    maxGold: 25000,
+    maxClaimsPerRound: 10,
+    cooldownMinutes: 60,
+    requiredAdViews: 3,
+});
+
 async function initDB() {
     console.log("🛠️ Initializing Database...");
     try {
@@ -232,6 +240,8 @@ async function initDB() {
                 invitedId BIGINT,
                 goldReward DECIMAL(65, 0) DEFAULT 50000,
                 diamondReward DECIMAL(65, 0) DEFAULT 0,
+                status VARCHAR(32) DEFAULT 'rewarded',
+                rewardedAt TIMESTAMP NULL DEFAULT NULL,
                 createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 UNIQUE KEY (invitedId)
             ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
@@ -240,6 +250,11 @@ async function initDB() {
         await safeAlter("ALTER TABLE referrals MODIFY COLUMN goldReward DECIMAL(65,0) DEFAULT 50000");
         await safeAlter("ALTER TABLE referrals ADD COLUMN diamondReward DECIMAL(65,0) DEFAULT 0 AFTER goldReward");
         await safeAlter("ALTER TABLE referrals MODIFY COLUMN diamondReward DECIMAL(65,0) DEFAULT 0");
+        await safeAlter("ALTER TABLE referrals ADD COLUMN status VARCHAR(32) DEFAULT 'rewarded' AFTER diamondReward");
+        await safeAlter("ALTER TABLE referrals MODIFY COLUMN status VARCHAR(32) DEFAULT 'rewarded'");
+        await safeAlter("ALTER TABLE referrals ADD COLUMN rewardedAt TIMESTAMP NULL DEFAULT NULL AFTER status");
+        await connection.query("UPDATE referrals SET status = 'rewarded' WHERE status IS NULL OR status = ''");
+        await connection.query("UPDATE referrals SET rewardedAt = createdAt WHERE status = 'rewarded' AND rewardedAt IS NULL");
         await safeAlter("ALTER TABLE users CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
         await safeAlter("ALTER TABLE users ADD COLUMN tgHandle VARCHAR(255)");
         await safeAlter("ALTER TABLE users MODIFY COLUMN gold DECIMAL(65,0) DEFAULT 0");
@@ -527,6 +542,83 @@ async function initDB() {
             ]
         );
 
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS lixi_config (
+                id INT PRIMARY KEY DEFAULT 1,
+                minGold DECIMAL(65, 0) DEFAULT 5000,
+                maxGold DECIMAL(65, 0) DEFAULT 25000,
+                maxClaimsPerRound INT DEFAULT 10,
+                cooldownMinutes INT DEFAULT 60,
+                requiredAdViews INT DEFAULT 3
+            ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+        `);
+        await safeAlter("ALTER TABLE lixi_config CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        await safeAlter("ALTER TABLE lixi_config MODIFY COLUMN minGold DECIMAL(65,0) DEFAULT 5000");
+        await safeAlter("ALTER TABLE lixi_config MODIFY COLUMN maxGold DECIMAL(65,0) DEFAULT 25000");
+        await safeAlter("ALTER TABLE lixi_config ADD COLUMN maxClaimsPerRound INT DEFAULT 10 AFTER maxGold");
+        await safeAlter("ALTER TABLE lixi_config MODIFY COLUMN maxClaimsPerRound INT DEFAULT 10");
+        await safeAlter("ALTER TABLE lixi_config ADD COLUMN cooldownMinutes INT DEFAULT 60 AFTER maxClaimsPerRound");
+        await safeAlter("ALTER TABLE lixi_config MODIFY COLUMN cooldownMinutes INT DEFAULT 60");
+        await safeAlter("ALTER TABLE lixi_config ADD COLUMN requiredAdViews INT DEFAULT 3 AFTER cooldownMinutes");
+        await safeAlter("ALTER TABLE lixi_config MODIFY COLUMN requiredAdViews INT DEFAULT 3");
+        await connection.query(
+            `INSERT IGNORE INTO lixi_config (id, minGold, maxGold, maxClaimsPerRound, cooldownMinutes, requiredAdViews)
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [
+                1,
+                DEFAULT_LIXI_CONFIG.minGold,
+                DEFAULT_LIXI_CONFIG.maxGold,
+                DEFAULT_LIXI_CONFIG.maxClaimsPerRound,
+                DEFAULT_LIXI_CONFIG.cooldownMinutes,
+                DEFAULT_LIXI_CONFIG.requiredAdViews,
+            ]
+        );
+
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS lixi_state (
+                id INT PRIMARY KEY DEFAULT 1,
+                roundNumber INT DEFAULT 1,
+                remainingClaims INT DEFAULT 10,
+                cooldownEndsAt BIGINT NULL,
+                updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+        `);
+        await safeAlter("ALTER TABLE lixi_state CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        await safeAlter("ALTER TABLE lixi_state MODIFY COLUMN roundNumber INT DEFAULT 1");
+        await safeAlter("ALTER TABLE lixi_state MODIFY COLUMN remainingClaims INT DEFAULT 10");
+        await safeAlter("ALTER TABLE lixi_state ADD COLUMN cooldownEndsAt BIGINT NULL AFTER remainingClaims");
+        await connection.query(
+            `INSERT IGNORE INTO lixi_state (id, roundNumber, remainingClaims, cooldownEndsAt)
+             VALUES (?, ?, ?, NULL)`,
+            [1, 1, DEFAULT_LIXI_CONFIG.maxClaimsPerRound]
+        );
+
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS lixi_claims (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                teleId BIGINT NOT NULL,
+                roundNumber INT NOT NULL,
+                rewardGold DECIMAL(65, 0) DEFAULT 0,
+                claimedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE KEY unique_lixi_claim (teleId, roundNumber),
+                INDEX idx_lixi_round_claims (roundNumber, claimedAt)
+            ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+        `);
+        await safeAlter("ALTER TABLE lixi_claims CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        await safeAlter("ALTER TABLE lixi_claims MODIFY COLUMN rewardGold DECIMAL(65,0) DEFAULT 0");
+
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS lixi_ad_progress (
+                teleId BIGINT NOT NULL,
+                roundNumber INT NOT NULL,
+                watchedCount INT DEFAULT 0,
+                updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                PRIMARY KEY (teleId, roundNumber)
+            ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+        `);
+        await safeAlter("ALTER TABLE lixi_ad_progress CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        await safeAlter("ALTER TABLE lixi_ad_progress MODIFY COLUMN watchedCount INT DEFAULT 0");
+
         // Populate Default Levels if empty or incomplete
         const [levs] = await connection.query("SELECT COUNT(*) as count FROM level_settings");
         if (levs[0].count < 100) {
@@ -628,6 +720,199 @@ function normalizeEconomyConfig(row = {}) {
 async function getEconomyConfig() {
     const [rows] = await pool.query('SELECT * FROM economy_config WHERE id = 1 LIMIT 1');
     return normalizeEconomyConfig(rows[0] || {});
+}
+
+function normalizeLixiConfig(row = {}) {
+    const toInt = (value, fallback) => {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? Math.max(0, Math.floor(parsed)) : fallback;
+    };
+
+    const minGold = toInt(row.minGold, DEFAULT_LIXI_CONFIG.minGold);
+    const rawMaxGold = toInt(row.maxGold, DEFAULT_LIXI_CONFIG.maxGold);
+
+    return {
+        minGold,
+        maxGold: Math.max(minGold, rawMaxGold),
+        maxClaimsPerRound: Math.max(1, toInt(row.maxClaimsPerRound, DEFAULT_LIXI_CONFIG.maxClaimsPerRound)),
+        cooldownMinutes: Math.max(1, toInt(row.cooldownMinutes, DEFAULT_LIXI_CONFIG.cooldownMinutes)),
+        requiredAdViews: Math.max(1, toInt(row.requiredAdViews, DEFAULT_LIXI_CONFIG.requiredAdViews)),
+    };
+}
+
+async function getLixiConfig(db = pool) {
+    const [rows] = await db.query('SELECT * FROM lixi_config WHERE id = 1 LIMIT 1');
+    return normalizeLixiConfig(rows[0] || {});
+}
+
+async function ensureLixiState(db = pool, configInput = null, options = {}) {
+    const config = configInput || await getLixiConfig(db);
+    const selectSql = options.lock
+        ? 'SELECT * FROM lixi_state WHERE id = 1 LIMIT 1 FOR UPDATE'
+        : 'SELECT * FROM lixi_state WHERE id = 1 LIMIT 1';
+
+    let [rows] = await db.query(selectSql);
+
+    if (rows.length === 0) {
+        await db.query(
+            'INSERT INTO lixi_state (id, roundNumber, remainingClaims, cooldownEndsAt) VALUES (1, 1, ?, NULL)',
+            [config.maxClaimsPerRound]
+        );
+        [rows] = await db.query(selectSql);
+    }
+
+    const rawState = rows[0] || {};
+    let roundNumber = Math.max(1, Number(rawState.roundNumber || 1));
+    let remainingClaims = Math.max(0, Math.floor(Number(rawState.remainingClaims ?? config.maxClaimsPerRound)));
+    let cooldownEndsAt = rawState.cooldownEndsAt ? Number(rawState.cooldownEndsAt) : null;
+    const now = Date.now();
+
+    if (cooldownEndsAt && now >= cooldownEndsAt) {
+        roundNumber += 1;
+        remainingClaims = config.maxClaimsPerRound;
+        cooldownEndsAt = null;
+        await db.query(
+            'UPDATE lixi_state SET roundNumber = ?, remainingClaims = ?, cooldownEndsAt = NULL WHERE id = 1',
+            [roundNumber, remainingClaims]
+        );
+    } else {
+        const normalizedRemaining = Math.min(remainingClaims, config.maxClaimsPerRound);
+
+        if (normalizedRemaining !== remainingClaims) {
+            remainingClaims = normalizedRemaining;
+            await db.query('UPDATE lixi_state SET remainingClaims = ? WHERE id = 1', [remainingClaims]);
+        }
+
+        if (!cooldownEndsAt && remainingClaims <= 0) {
+            cooldownEndsAt = now + config.cooldownMinutes * 60 * 1000;
+            await db.query('UPDATE lixi_state SET remainingClaims = 0, cooldownEndsAt = ? WHERE id = 1', [cooldownEndsAt]);
+        }
+    }
+
+    return {
+        roundNumber,
+        remainingClaims,
+        claimedCount: Math.max(0, config.maxClaimsPerRound - remainingClaims),
+        cooldownEndsAt,
+        maxClaimsPerRound: config.maxClaimsPerRound,
+        cooldownMinutes: config.cooldownMinutes,
+        isCoolingDown: Boolean(cooldownEndsAt && remainingClaims <= 0),
+        isAvailable: !cooldownEndsAt && remainingClaims > 0,
+    };
+}
+
+async function getLixiInfoForUser(teleId, db = pool) {
+    const config = await getLixiConfig(db);
+    const state = await ensureLixiState(db, config);
+    const [claimRows] = await db.query(
+        'SELECT rewardGold, claimedAt FROM lixi_claims WHERE teleId = ? AND roundNumber = ? LIMIT 1',
+        [teleId, state.roundNumber]
+    );
+    const currentClaim = claimRows[0] || null;
+    const [progressRows] = await db.query(
+        'SELECT watchedCount FROM lixi_ad_progress WHERE teleId = ? AND roundNumber = ? LIMIT 1',
+        [teleId, state.roundNumber]
+    );
+    const watchedAdViews = Math.max(0, Number(progressRows[0]?.watchedCount || 0));
+    const remainingAdViews = Math.max(0, config.requiredAdViews - watchedAdViews);
+
+    return {
+        config,
+        state,
+        user: {
+            hasClaimed: Boolean(currentClaim),
+            rewardGold: Number(currentClaim?.rewardGold || 0),
+            claimedAt: currentClaim?.claimedAt || null,
+            watchedAdViews,
+            remainingAdViews,
+            canClaim: !currentClaim && !state.cooldownEndsAt && state.remainingClaims > 0 && remainingAdViews === 0,
+        },
+        serverTime: Date.now(),
+    };
+}
+
+function isSingleClaimTaskType(taskType) {
+    return ['one_time', 'community', 'newbie'].includes(String(taskType || ''));
+}
+
+async function hasCompletedAllNewbieTasks(teleId, db = pool) {
+    const [taskRows] = await db.query("SELECT COUNT(*) AS total FROM tasks WHERE type = 'newbie'");
+    const totalNewbieTasks = Number(taskRows[0]?.total || 0);
+
+    if (totalNewbieTasks === 0) {
+        return true;
+    }
+
+    const [claimRows] = await db.query(
+        `SELECT COUNT(DISTINCT tc.taskId) AS completed
+         FROM task_claims tc
+         INNER JOIN tasks t ON t.id = tc.taskId
+         WHERE tc.teleId = ? AND t.type = 'newbie'`,
+        [teleId]
+    );
+
+    return Number(claimRows[0]?.completed || 0) >= totalNewbieTasks;
+}
+
+async function settleReferralRewardForInvitee(invitedId) {
+    const connection = await pool.getConnection();
+
+    try {
+        await connection.beginTransaction();
+
+        const [referralRows] = await connection.query(
+            'SELECT * FROM referrals WHERE invitedId = ? LIMIT 1 FOR UPDATE',
+            [invitedId]
+        );
+
+        if (referralRows.length === 0) {
+            await connection.commit();
+            return { rewarded: false, reason: 'missing-referral' };
+        }
+
+        const referral = referralRows[0];
+        if (String(referral.status || '').toLowerCase() === 'rewarded') {
+            await connection.commit();
+            return { rewarded: false, reason: 'already-rewarded' };
+        }
+
+        const completedAllNewbieTasks = await hasCompletedAllNewbieTasks(invitedId, connection);
+        if (!completedAllNewbieTasks) {
+            await connection.commit();
+            return { rewarded: false, reason: 'waiting-newbie-tasks' };
+        }
+
+        await connection.query(
+            'UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ?, diamonds = diamonds + ?, referrals = referrals + 1 WHERE teleId = ?',
+            [referral.goldReward, referral.goldReward, referral.diamondReward, referral.inviterId]
+        );
+
+        await connection.query(
+            "UPDATE referrals SET status = 'rewarded', rewardedAt = NOW() WHERE invitedId = ?",
+            [invitedId]
+        );
+
+        await connection.commit();
+        broadcastAdminRefresh('referral-awarded', { inviterId: referral.inviterId, invitedId, source: 'newbie-complete' });
+
+        return {
+            rewarded: true,
+            inviterId: referral.inviterId,
+            invitedId,
+            goldReward: Number(referral.goldReward || 0),
+            diamondReward: Number(referral.diamondReward || 0),
+        };
+    } catch (error) {
+        try {
+            await connection.rollback();
+        } catch (rollbackError) {
+            console.error('[REFERRAL ROLLBACK ERROR]', rollbackError);
+        }
+
+        throw error;
+    } finally {
+        connection.release();
+    }
 }
 
 async function harvestMiningGold(teleId) {
@@ -738,6 +1023,201 @@ app.get('/api/config/economy', authMiddleware, async (req, res) => {
     try {
         res.json(await getEconomyConfig());
     } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.get('/api/lixi/info', authMiddleware, async (req, res) => {
+    try {
+        res.json(await getLixiInfoForUser(req.user.id));
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/api/lixi/watch-ad', authMiddleware, async (req, res) => {
+    const teleId = req.user.id;
+    const connection = await pool.getConnection();
+
+    try {
+        await connection.beginTransaction();
+
+        const config = await getLixiConfig(connection);
+        const state = await ensureLixiState(connection, config, { lock: true });
+        const [claimRows] = await connection.query(
+            'SELECT id FROM lixi_claims WHERE teleId = ? AND roundNumber = ? LIMIT 1 FOR UPDATE',
+            [teleId, state.roundNumber]
+        );
+
+        if (claimRows.length > 0) {
+            await connection.commit();
+            return res.status(400).json({ error: 'Báº¡n Ä‘Ã£ nháº­n lÃ¬ xÃ¬ á»Ÿ lÆ°á»£t nÃ y rá»“i.', lixi: await getLixiInfoForUser(teleId) });
+        }
+
+        if (state.cooldownEndsAt || state.remainingClaims <= 0) {
+            await connection.commit();
+            return res.status(400).json({ error: 'LÆ°á»£t lÃ¬ xÃ¬ Ä‘Ã£ háº¿t, vui lÃ²ng quay láº¡i sau.', lixi: await getLixiInfoForUser(teleId) });
+        }
+
+        const [progressRows] = await connection.query(
+            'SELECT watchedCount FROM lixi_ad_progress WHERE teleId = ? AND roundNumber = ? LIMIT 1 FOR UPDATE',
+            [teleId, state.roundNumber]
+        );
+
+        const currentWatchedCount = Math.max(0, Number(progressRows[0]?.watchedCount || 0));
+        const nextWatchedCount = Math.min(config.requiredAdViews, currentWatchedCount + 1);
+
+        await connection.query(
+            `INSERT INTO lixi_ad_progress (teleId, roundNumber, watchedCount)
+             VALUES (?, ?, ?)
+             ON DUPLICATE KEY UPDATE watchedCount = VALUES(watchedCount)`,
+            [teleId, state.roundNumber, nextWatchedCount]
+        );
+
+        await connection.commit();
+
+        const lixi = await getLixiInfoForUser(teleId);
+        res.json({
+            success: true,
+            watchedAdViews: nextWatchedCount,
+            remainingAdViews: Math.max(0, config.requiredAdViews - nextWatchedCount),
+            lixi,
+        });
+    } catch (err) {
+        try {
+            await connection.rollback();
+        } catch (rollbackError) {
+            console.error('[LIXI WATCH ROLLBACK ERROR]', rollbackError);
+        }
+
+        res.status(500).json({ error: err.message });
+    } finally {
+        connection.release();
+    }
+});
+
+app.post('/api/lixi/claim', authMiddleware, async (req, res) => {
+    const teleId = req.user.id;
+    const connection = await pool.getConnection();
+
+    try {
+        await connection.beginTransaction();
+
+        const config = await getLixiConfig(connection);
+        const state = await ensureLixiState(connection, config, { lock: true });
+        const [userRows] = await connection.query('SELECT * FROM users WHERE teleId = ? LIMIT 1 FOR UPDATE', [teleId]);
+
+        if (userRows.length === 0) {
+            await connection.rollback();
+            return res.status(404).json({ error: 'User not found.' });
+        }
+
+        const [existingClaimRows] = await connection.query(
+            'SELECT rewardGold, claimedAt FROM lixi_claims WHERE teleId = ? AND roundNumber = ? LIMIT 1 FOR UPDATE',
+            [teleId, state.roundNumber]
+        );
+        const [progressRows] = await connection.query(
+            'SELECT watchedCount FROM lixi_ad_progress WHERE teleId = ? AND roundNumber = ? LIMIT 1 FOR UPDATE',
+            [teleId, state.roundNumber]
+        );
+        const watchedAdViews = Math.max(0, Number(progressRows[0]?.watchedCount || 0));
+
+        if (existingClaimRows.length > 0) {
+            await connection.commit();
+            return res.status(400).json({
+                error: 'Báº¡n Ä‘Ã£ nháº­n lÃ¬ xÃ¬ á»Ÿ lÆ°á»£t nÃ y rá»“i.',
+                lixi: {
+                    config,
+                    state,
+                    user: {
+                        hasClaimed: true,
+                        rewardGold: Number(existingClaimRows[0].rewardGold || 0),
+                        claimedAt: existingClaimRows[0].claimedAt || null,
+                    },
+                    serverTime: Date.now(),
+                },
+            });
+        }
+
+        if (watchedAdViews < config.requiredAdViews) {
+            await connection.commit();
+            return res.status(400).json({
+                error: `Báº¡n cáº§n xem Ä‘á»§ ${config.requiredAdViews} video má»›i nháº­n Ä‘Æ°á»£c lÃ¬ xÃ¬.`,
+                lixi: await getLixiInfoForUser(teleId),
+            });
+        }
+
+        if (state.cooldownEndsAt || state.remainingClaims <= 0) {
+            await connection.commit();
+            return res.status(400).json({
+                error: 'LÆ°á»£t lÃ¬ xÃ¬ Ä‘Ã£ háº¿t, vui lÃ²ng quay láº¡i sau.',
+                lixi: {
+                    config,
+                    state,
+                    user: {
+                        hasClaimed: false,
+                        rewardGold: 0,
+                        claimedAt: null,
+                    },
+                    serverTime: Date.now(),
+                },
+            });
+        }
+
+        const rewardRange = Math.max(0, config.maxGold - config.minGold);
+        const rewardGold = config.minGold + Math.floor(Math.random() * (rewardRange + 1));
+        const nextRemainingClaims = Math.max(0, state.remainingClaims - 1);
+        const cooldownEndsAt = nextRemainingClaims === 0
+            ? Date.now() + config.cooldownMinutes * 60 * 1000
+            : null;
+
+        await connection.query(
+            'INSERT INTO lixi_claims (teleId, roundNumber, rewardGold) VALUES (?, ?, ?)',
+            [teleId, state.roundNumber, rewardGold]
+        );
+        await connection.query(
+            'UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ? WHERE teleId = ?',
+            [rewardGold, rewardGold, teleId]
+        );
+        await connection.query(
+            'UPDATE lixi_state SET remainingClaims = ?, cooldownEndsAt = ? WHERE id = 1',
+            [nextRemainingClaims, cooldownEndsAt]
+        );
+
+        await connection.commit();
+
+        const [updatedUsers] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
+        const lixi = await getLixiInfoForUser(teleId);
+
+        broadcastAdminRefresh('lixi-claimed', {
+            teleId,
+            rewardGold,
+            roundNumber: state.roundNumber,
+            remainingClaims: nextRemainingClaims,
+        });
+
+        if (cooldownEndsAt) {
+            broadcastAdminRefresh('lixi-round-exhausted', {
+                roundNumber: state.roundNumber,
+                cooldownEndsAt,
+            });
+        }
+
+        res.json({
+            success: true,
+            rewardGold,
+            user: updatedUsers[0],
+            lixi,
+        });
+    } catch (err) {
+        try {
+            await connection.rollback();
+        } catch (rollbackError) {
+            console.error('[LIXI ROLLBACK ERROR]', rollbackError);
+        }
+
+        res.status(500).json({ error: err.message });
+    } finally {
+        connection.release();
+    }
 });
 
 app.get('/api/flappy/config', authMiddleware, async (req, res) => {
@@ -914,7 +1394,7 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
     if (!/^\d+$/.test(userId)) return res.status(400).json({ error: 'Invalid User ID' });
 
     try {
-        const user = await harvestMiningGold(userId);
+        let user = await harvestMiningGold(userId);
         const economyConfig = await getEconomyConfig();
 
         // Sync name from Telegram data
@@ -948,19 +1428,14 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
                     if (inviters.length > 0) {
                         const rewardGold = economyConfig.referralRewardGold;
                         const rewardDiamonds = economyConfig.referralRewardDiamonds;
-                        // 2. Reward inviter
-                        await pool.query(
-                            'UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ?, diamonds = diamonds + ?, referrals = referrals + 1 WHERE teleId = ?',
-                            [rewardGold, rewardGold, rewardDiamonds, referralId]
-                        );
-                        // 3. Record referral
                         const [refResult] = await pool.query(
-                            'INSERT IGNORE INTO referrals (inviterId, invitedId, goldReward, diamondReward) VALUES (?, ?, ?, ?)',
-                            [referralId, userId, rewardGold, rewardDiamonds]
+                            'INSERT IGNORE INTO referrals (inviterId, invitedId, goldReward, diamondReward, status) VALUES (?, ?, ?, ?, ?)',
+                            [referralId, userId, rewardGold, rewardDiamonds, 'pending']
                         );
                         console.log(`🎁 Referral record result for ${userId}:`, refResult);
-                        console.log(`🎁 Referral reward sent to ${referralId} for inviting ${userId}: ${rewardGold} gold / ${rewardDiamonds} KC`);
-                        broadcastAdminRefresh('referral-awarded', { inviterId: referralId, invitedId: userId });
+                        console.log(`🎁 Referral created for ${referralId} -> ${userId}: waiting for newbie task completion (${rewardGold} gold / ${rewardDiamonds} KC)`);
+                        broadcastAdminRefresh('referral-created', { inviterId: referralId, invitedId: userId });
+                        await settleReferralRewardForInvitee(userId);
                     }
                 } catch (refErr) {
                     console.error('[REFERRAL ERROR]', refErr);
@@ -987,6 +1462,8 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
             await pool.query('UPDATE users SET ip_address = ? WHERE teleId = ?', [clientIp, userId]);
             broadcastAdminRefresh('user-ip-captured', { teleId: userId });
         }
+
+        await settleReferralRewardForInvitee(userId);
 
         const [withdraws] = await pool.query('SELECT * FROM withdrawals WHERE teleId = ? ORDER BY createdAt DESC', [userId]);
 
@@ -1175,6 +1652,8 @@ async function getAdminSnapshot() {
     const [giftCodes] = await pool.query('SELECT * FROM gift_codes ORDER BY createdAt DESC');
     const [flappyConfigRows] = await pool.query('SELECT * FROM flappy_config WHERE id = 1');
     const economyConfig = await getEconomyConfig();
+    const lixiConfig = await getLixiConfig();
+    const lixiState = await ensureLixiState(pool, lixiConfig);
 
     const [pendingWithdraws] = await pool.query(`
         SELECT w.*, u.username, u.tgHandle
@@ -1221,6 +1700,8 @@ async function getAdminSnapshot() {
         tasks,
         flappyConfig: flappyConfigRows[0] || { rewardGold: 0, rewardDiamonds: 0 },
         economyConfig,
+        lixiConfig,
+        lixiState,
         serverTime
     };
 }
@@ -1272,6 +1753,29 @@ app.post('/api/admin/flappy/config', adminMiddleware, async (req, res) => {
         );
         broadcastAdminRefresh('flappy-config-updated');
         res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/api/admin/lixi/config', adminMiddleware, async (req, res) => {
+    const config = normalizeLixiConfig(req.body || {});
+
+    try {
+        await pool.query(
+            `INSERT INTO lixi_config (id, minGold, maxGold, maxClaimsPerRound, cooldownMinutes, requiredAdViews)
+             VALUES (1, ?, ?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE
+                minGold = VALUES(minGold),
+                maxGold = VALUES(maxGold),
+                maxClaimsPerRound = VALUES(maxClaimsPerRound),
+                cooldownMinutes = VALUES(cooldownMinutes),
+                requiredAdViews = VALUES(requiredAdViews)`,
+            [config.minGold, config.maxGold, config.maxClaimsPerRound, config.cooldownMinutes, config.requiredAdViews]
+        );
+        const state = await ensureLixiState(pool, config);
+        broadcastAdminRefresh('lixi-config-updated');
+        res.json({ success: true, config, state });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -1330,7 +1834,7 @@ app.post('/api/admin/economy-config', adminMiddleware, async (req, res) => {
 app.post('/api/admin/config/task', adminMiddleware, async (req, res) => {
     const { id, title, icon, rewardType, rewardAmount, url, type, actionType, telegramChatId } = req.body;
     const normalizedActionType = ['click', 'join', 'react_heart'].includes(actionType) ? actionType : 'click';
-    const normalizedType = ['community', 'daily', 'one_time', 'ad'].includes(type) ? type : 'community';
+    const normalizedType = ['community', 'daily', 'one_time', 'ad', 'newbie'].includes(type) ? type : 'community';
     const normalizedRewardType = rewardType === 'diamond' || rewardType === 'diamonds' ? 'diamond' : 'gold';
     const normalizedChatId = telegramChatId ? String(telegramChatId).trim() : null;
 
@@ -1793,7 +2297,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
         const now = new Date();
         const vnNow = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // Rough VN Time
 
-        if (task.type === 'one_time' || task.type === 'community') {
+        if (isSingleClaimTaskType(task.type)) {
             if (claims.length > 0) return res.status(400).json({ error: 'Bạn đã làm nhiệm vụ này rồi!' });
         } else if (task.type === 'daily') {
             if (claims.length > 0) {
@@ -1846,6 +2350,8 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
         } else if (task.rewardType === 'diamonds' || task.rewardType === 'diamond') {
             await pool.query('UPDATE users SET diamonds = diamonds + ? WHERE teleId = ?', [rewardAmount, teleId]);
         }
+
+        await settleReferralRewardForInvitee(teleId);
 
         let milestoneReward = null;
         const economyConfig = await getEconomyConfig();

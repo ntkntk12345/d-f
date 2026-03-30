@@ -37,6 +37,12 @@ const VISUALS: Record<string, TaskVisual> = {
       "border-fuchsia-300/20 bg-[linear-gradient(180deg,rgba(112,49,124,0.72)_0%,rgba(52,19,60,0.95)_100%)] shadow-[inset_0_1px_0_rgba(255,214,255,0.14),0_10px_24px_rgba(42,10,46,0.3)]",
     iconClassName: "text-fuchsia-100 drop-shadow-[0_0_10px_rgba(232,121,249,0.4)]",
   },
+  newbie: {
+    icon: Sparkles,
+    iconWrapperClassName:
+      "border-cyan-200/25 bg-[linear-gradient(180deg,rgba(35,103,117,0.78)_0%,rgba(9,47,58,0.95)_100%)] shadow-[inset_0_1px_0_rgba(204,251,255,0.16),0_10px_24px_rgba(6,38,45,0.32)]",
+    iconClassName: "text-cyan-100 drop-shadow-[0_0_10px_rgba(103,232,249,0.4)]",
+  },
   join: {
     icon: Send,
     iconWrapperClassName:
@@ -69,6 +75,7 @@ function getTaskVisual(task: Task) {
   if (task.type === "ad") return VISUALS.ad;
   if (task.actionType === "react_heart") return VISUALS.react_heart;
   if (task.actionType === "join") return VISUALS.join;
+  if (task.type === "newbie") return VISUALS.newbie;
   if (task.actionType === "click") return VISUALS.click;
   if (task.type === "community") return VISUALS.community;
   return VISUALS.daily;
@@ -76,10 +83,11 @@ function getTaskVisual(task: Task) {
 
 function getTaskHint(task: Task) {
   if (task.actionType === "react_heart") return "Mo tin nhan trong group, tha tym roi quay lai xac minh.";
+  if (task.actionType === "join") return "Mở nhóm hoặc kênh rồi quay lại xác minh.";
   if (task.type === "ad") return "Xem đủ chuỗi quảng cáo để backend mở thưởng.";
   if (task.type === "daily") return "Làm mới mỗi ngày theo thời gian máy chủ.";
+  if (task.type === "newbie") return "Hoàn tất chuỗi tân thủ để mở thưởng mời bạn và các quyền lợi đầu game.";
   if (task.type === "community") return "Hoàn thành tương tác cộng đồng để nhận thưởng.";
-  if (task.actionType === "join") return "Mở nhóm hoặc kênh rồi quay lại xác minh.";
   return "Nhiệm vụ một lần, nhận thưởng trực tiếp từ backend.";
 }
 
@@ -113,6 +121,11 @@ export function TasksView({ store }: { store: GameStore }) {
   const sections = useMemo(
     () =>
       [
+        {
+          key: "newbie",
+          title: "Nhiệm vụ tân thủ",
+          tasks: store.tasks.filter((task) => task.type === "newbie"),
+        },
         {
           key: "ad",
           title: "Nhiệm vụ quảng cáo",
@@ -215,7 +228,7 @@ export function TasksView({ store }: { store: GameStore }) {
 
     const requiresPreOpen = task.actionType === "join" || task.actionType === "react_heart";
 
-    if (requiresPreOpen && !preparedTasks.has(task.id) && task.url) {
+    if (requiresPreOpen && !preparedTasks.has(task.id)) {
       if (task.url) store.openTaskLink(task.url);
       setPreparedTasks((prev) => new Set(prev).add(task.id));
       if (task.actionType === "react_heart") {
@@ -264,7 +277,14 @@ export function TasksView({ store }: { store: GameStore }) {
     setPendingTaskId(task.id);
 
     try {
-      await claimAndNotify(task);
+      const claimed = await claimAndNotify(task);
+      if (claimed || requiresPreOpen) {
+        setPreparedTasks((prev) => {
+          const next = new Set(prev);
+          next.delete(task.id);
+          return next;
+        });
+      }
     } finally {
       setPendingTaskId(null);
     }
@@ -340,7 +360,7 @@ export function TasksView({ store }: { store: GameStore }) {
                   <span className="relative flex items-center justify-center gap-1.5">
                     {task.done && <CheckCircle2 className="h-4 w-4" />}
                     {task.done
-                      ? "Đã nhận"
+                      ? "Đã hoàn thành"
                       : isBusy
                         ? "Đang xử lý"
                         : task.type === "ad"

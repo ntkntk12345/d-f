@@ -5,9 +5,10 @@ import { Award, Copy, Share2, Sparkles, UserPlus, Users } from "lucide-react";
 
 export function FriendsView({ store }: { store: GameStore }) {
   const [copied, setCopied] = useState(false);
-  const invitedCount = Math.max(store.referrals.length, store.referralCount);
-  const totalGoldBonus = store.referrals.reduce((sum, item) => sum + item.goldReward, 0);
-  const totalDiamondBonus = store.referrals.reduce((sum, item) => sum + item.diamondReward, 0);
+  const rewardedReferrals = store.referrals.filter((item) => item.status === "rewarded");
+  const invitedCount = Math.max(rewardedReferrals.length, store.referralCount);
+  const totalGoldBonus = rewardedReferrals.reduce((sum, item) => sum + item.goldReward, 0);
+  const totalDiamondBonus = rewardedReferrals.reduce((sum, item) => sum + item.diamondReward, 0);
   const perInviteGold = store.economyConfig.referralRewardGold;
   const perInviteDiamonds = store.economyConfig.referralRewardDiamonds;
 
@@ -49,7 +50,7 @@ export function FriendsView({ store }: { store: GameStore }) {
         </h1>
 
         <p className="mt-3 max-w-[18rem] text-sm leading-6 text-yellow-100/80">
-          Mời người chơi mới tham gia để nhận thưởng theo cấu hình referral hiện tại của hệ thống.
+          Mời người chơi mới tham gia. Thưởng referral chỉ mở khi người được mời hoàn tất toàn bộ nhiệm vụ tân thủ.
         </p>
       </div>
 
@@ -170,14 +171,32 @@ export function FriendsView({ store }: { store: GameStore }) {
                           </div>
                         </div>
 
-                        <div className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-yellow-300/15 bg-yellow-100/8 px-3 py-1 text-sm font-black text-yellow-100">
-                          +{formatNumber(friend.goldReward)} vàng
-                          {friend.diamondReward > 0 ? ` · +${formatNumber(friend.diamondReward)} KC` : ""}
+                        <div
+                          className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-black ${
+                            friend.status === "rewarded"
+                              ? "border-yellow-300/15 bg-yellow-100/8 text-yellow-100"
+                              : "border-cyan-200/18 bg-cyan-400/10 text-cyan-100"
+                          }`}
+                        >
+                          {friend.status === "rewarded"
+                            ? `+${formatNumber(friend.goldReward)} vàng${friend.diamondReward > 0 ? ` · +${formatNumber(friend.diamondReward)} KC` : ""}`
+                            : "Chờ hoàn tất tân thủ"}
                         </div>
                       </div>
 
-                      <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/8 bg-white/5 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-white/65">
-                        Bạn mời #{index + 1}
+                      <div className="mt-3 flex flex-wrap items-center gap-2">
+                        <div className="inline-flex items-center gap-2 rounded-full border border-white/8 bg-white/5 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-white/65">
+                          Bạn mời #{index + 1}
+                        </div>
+                        <div
+                          className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] ${
+                            friend.status === "rewarded"
+                              ? "border-emerald-300/18 bg-emerald-400/10 text-emerald-100"
+                              : "border-cyan-200/18 bg-cyan-400/10 text-cyan-100"
+                          }`}
+                        >
+                          {friend.status === "rewarded" ? "Đã mở thưởng" : "Đang làm tân thủ"}
+                        </div>
                       </div>
                     </div>
                   </div>

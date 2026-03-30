@@ -4,6 +4,7 @@ import { cn, formatNumber } from "@/lib/utils";
 import {
   CheckCircle2,
   Coins,
+  Gift,
   Gamepad2,
   RefreshCcw,
   Shield,
@@ -16,12 +17,20 @@ export function AdminView({ store }: { store: GameStore }) {
   const [busyId, setBusyId] = useState<number | null>(null);
   const [flappyGoldReward, setFlappyGoldReward] = useState(0);
   const [flappyDiamondReward, setFlappyDiamondReward] = useState(0);
+  const [lixiMinReward, setLixiMinReward] = useState(0);
+  const [lixiMaxReward, setLixiMaxReward] = useState(0);
   const [isSavingFlappy, setIsSavingFlappy] = useState(false);
+  const [isSavingLixi, setIsSavingLixi] = useState(false);
 
   useEffect(() => {
     setFlappyGoldReward(store.adminData.flappyConfig.rewardGold);
     setFlappyDiamondReward(store.adminData.flappyConfig.rewardDiamonds);
   }, [store.adminData.flappyConfig.rewardDiamonds, store.adminData.flappyConfig.rewardGold]);
+
+  useEffect(() => {
+    setLixiMinReward(store.adminData.lixiConfig.minGold);
+    setLixiMaxReward(store.adminData.lixiConfig.maxGold);
+  }, [store.adminData.lixiConfig.maxGold, store.adminData.lixiConfig.minGold]);
 
   const handleWithdrawAction = async (withdrawId: number, newStatus: string) => {
     setBusyId(withdrawId);
@@ -44,6 +53,19 @@ export function AdminView({ store }: { store: GameStore }) {
     }
 
     alert("Da cap nhat thuong best score cho flappy.");
+  };
+
+  const handleSaveLixiConfig = async () => {
+    setIsSavingLixi(true);
+    const result = await store.updateLixiConfig(lixiMinReward, lixiMaxReward);
+    setIsSavingLixi(false);
+
+    if (!result.success) {
+      alert(result.error || "Khong the cap nhat cau hinh li xi.");
+      return;
+    }
+
+    alert("Da cap nhat min max li xi.");
   };
 
   return (
@@ -239,6 +261,73 @@ export function AdminView({ store }: { store: GameStore }) {
             >
               <Gamepad2 className="h-4 w-4" />
               {isSavingFlappy ? "Dang luu" : "Luu thuong"}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative z-10 mt-7 space-y-4">
+        <div className="flex items-center gap-2 px-1">
+          <Gift className="h-4 w-4 text-rose-300" />
+          <h2 className="bg-[linear-gradient(180deg,#fff1f2_0%,#fda4af_46%,#be123c_100%)] bg-clip-text text-[1.15rem] font-black uppercase tracking-[0.16em] text-transparent">
+            Li Xi Trang Chu
+          </h2>
+          <div className="h-px flex-1 bg-gradient-to-r from-rose-400/45 via-rose-400/15 to-transparent" />
+        </div>
+
+        <div className="rounded-[28px] border border-rose-300/14 bg-[linear-gradient(180deg,rgba(88,28,48,0.82)_0%,rgba(41,10,23,0.96)_100%)] px-4 py-4 shadow-[0_16px_34px_rgba(0,0,0,0.28)]">
+          <p className="text-sm leading-6 text-rose-50/75">
+            User can xem du {formatNumber(store.adminData.lixiConfig.requiredAdViews)} video moi nhan ngau nhien vang trong khoang min max. Moi dot co {formatNumber(store.adminData.lixiConfig.maxClaimsPerRound)} nguoi nhan, het luot thi dem nguoc {formatNumber(store.adminData.lixiConfig.cooldownMinutes)} phut roi mo lai.
+          </p>
+
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <label className="space-y-2">
+              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-rose-100/60">Min vang</span>
+              <input
+                type="number"
+                min="0"
+                value={lixiMinReward}
+                onChange={(event) => setLixiMinReward(Number(event.target.value) || 0)}
+                className={cn(
+                  "w-full rounded-2xl border border-rose-300/18 bg-black/25 px-4 py-3 text-sm font-bold text-rose-50 outline-none",
+                  "focus:border-rose-300/45 focus:ring-2 focus:ring-rose-300/20",
+                )}
+              />
+            </label>
+
+            <label className="space-y-2">
+              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-rose-100/60">Max vang</span>
+              <input
+                type="number"
+                min="0"
+                value={lixiMaxReward}
+                onChange={(event) => setLixiMaxReward(Number(event.target.value) || 0)}
+                className={cn(
+                  "w-full rounded-2xl border border-rose-300/18 bg-black/25 px-4 py-3 text-sm font-bold text-rose-50 outline-none",
+                  "focus:border-rose-300/45 focus:ring-2 focus:ring-rose-300/20",
+                )}
+              />
+            </label>
+          </div>
+
+          <div className="mt-4 rounded-[22px] border border-rose-200/12 bg-rose-500/8 px-4 py-3 text-xs text-rose-50/75">
+            Hien tai: {formatNumber(store.adminData.lixiConfig.minGold)} - {formatNumber(store.adminData.lixiConfig.maxGold)} vang.
+            Con lai {formatNumber(store.adminData.lixiState.remainingClaims)}/{formatNumber(store.adminData.lixiState.maxClaimsPerRound)} suat
+            {store.adminData.lixiState.isCoolingDown ? " va dang trong thoi gian cho reset." : "."}
+          </div>
+
+          <div className="mt-4 flex items-center justify-between gap-3">
+            <div className="text-xs text-rose-50/60">
+              Dot hien tai #{formatNumber(store.adminData.lixiState.roundNumber)}
+            </div>
+
+            <button
+              onClick={() => void handleSaveLixiConfig()}
+              disabled={isSavingLixi}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-rose-300/20 bg-rose-950/40 px-4 py-2 text-xs font-bold text-rose-100 disabled:opacity-60"
+            >
+              <Gift className="h-4 w-4" />
+              {isSavingLixi ? "Dang luu" : "Luu li xi"}
             </button>
           </div>
         </div>
