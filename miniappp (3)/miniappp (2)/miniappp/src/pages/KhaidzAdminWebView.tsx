@@ -91,6 +91,12 @@ interface AdminWithdrawItem {
   bankName: string;
   accountNumber: string;
   vnd: number;
+  method: "bank" | "wallet" | "usdt" | string;
+  network: string;
+  feePercent: number;
+  feeAmount: number;
+  payoutAmount: number;
+  payoutCurrency: string;
   qrUrl: string;
   status: string;
   createdAt: string;
@@ -508,6 +514,12 @@ function normalizeAdminSnapshot(payload: unknown): AdminSnapshot {
       bankName: toText(item.bankName),
       accountNumber: toText(item.accountNumber),
       vnd: toNumber(item.vnd),
+      method: toText(item.method, "bank"),
+      network: toText(item.network),
+      feePercent: toNumber(item.feePercent),
+      feeAmount: toNumber(item.feeAmount),
+      payoutAmount: item.payoutAmount == null ? toNumber(item.vnd) : toNumber(item.payoutAmount),
+      payoutCurrency: toText(item.payoutCurrency, "VND"),
       qrUrl: toText(item.qrUrl),
       status: toText(item.status),
       createdAt: toText(item.createdAt),
@@ -667,7 +679,21 @@ function formatDateOnly(value: string) {
   }).format(date);
 }
 
+function formatWithdrawPayout(withdraw: AdminWithdrawItem) {
+  const currency = (withdraw.payoutCurrency || "VND").toUpperCase();
+  if (currency === "USDT") {
+    return `${formatDecimalNumber(withdraw.payoutAmount || 0, 6)} USDT`;
+  }
+
+  return `${formatNumber(withdraw.payoutAmount || withdraw.vnd)} VND`;
+}
+
 function buildQrPreviewUrl(withdraw: AdminWithdrawItem) {
+  const currency = (withdraw.payoutCurrency || "VND").toUpperCase();
+  if (currency !== "VND") {
+    return null;
+  }
+
   if (withdraw.qrUrl) {
     return withdraw.qrUrl;
   }
@@ -702,7 +728,7 @@ function buildQrPreviewUrl(withdraw: AdminWithdrawItem) {
     withdraw.bankName;
 
   const encodedInfo = encodeURIComponent(`Rut tien ${withdraw.username}`);
-  return `https://img.vietqr.io/image/${bankCode}-${withdraw.accountNumber}-compact2.png?amount=${withdraw.vnd}&addInfo=${encodedInfo}`;
+  return `https://img.vietqr.io/image/${bankCode}-${withdraw.accountNumber}-compact2.png?amount=${withdraw.payoutAmount || withdraw.vnd}&addInfo=${encodedInfo}`;
 }
 
 function getNoticeClassName(tone: NoticeTone) {
@@ -3158,7 +3184,14 @@ export function KhaidzAdminWebView() {
                             <p className="mt-1 text-xs text-cyan-200/70">{withdraw.tgHandle ? `@${withdraw.tgHandle}` : "@none"}</p>
                             <p className="mt-1 text-xs text-slate-500">ID {withdraw.teleId}</p>
                           </td>
-                          <td className="px-5 py-4 font-bold text-amber-100 sm:px-6">{formatNumber(withdraw.vnd)} VND</td>
+                          <td className="px-5 py-4 sm:px-6">
+                            <p className="font-bold text-amber-100">{formatWithdrawPayout(withdraw)}</p>
+                            {withdraw.feePercent > 0 ? (
+                              <p className="mt-1 text-xs text-slate-400">
+                                Phi {formatDecimalNumber(withdraw.feePercent, 2)}% ({formatNumber(withdraw.feeAmount)} VND)
+                              </p>
+                            ) : null}
+                          </td>
                           <td className="px-5 py-4 sm:px-6">
                             <p className="font-bold text-slate-100">{withdraw.bankName}</p>
                             <p className="mt-1 text-xs text-slate-400">{withdraw.accountNumber}</p>
@@ -3199,7 +3232,12 @@ export function KhaidzAdminWebView() {
                           </td>
                           <td className="px-5 py-4 sm:px-6">
                             <div className="flex flex-wrap gap-2">
-                              <button type="button" onClick={() => setQrTarget(withdraw)} className={SECONDARY_BUTTON_CLASS}>
+                              <button
+                                type="button"
+                                onClick={() => setQrTarget(withdraw)}
+                                className={SECONDARY_BUTTON_CLASS}
+                                disabled={!buildQrPreviewUrl(withdraw)}
+                              >
                                 <QrCode className="h-4 w-4" />
                                 QR
                               </button>
@@ -3526,13 +3564,19 @@ export function KhaidzAdminWebView() {
       >
         {qrTarget ? (
           <div className="space-y-5">
-            <div className="overflow-hidden rounded-[28px] border border-white/8 bg-white/4 p-5">
-              <img
-                src={buildQrPreviewUrl(qrTarget)}
-                alt={`QR ${qrTarget.username}`}
-                className="mx-auto aspect-square w-full max-w-[320px] rounded-[22px] bg-white object-contain p-3"
-              />
-            </div>
+            {buildQrPreviewUrl(qrTarget) ? (
+              <div className="overflow-hidden rounded-[28px] border border-white/8 bg-white/4 p-5">
+                <img
+                  src={buildQrPreviewUrl(qrTarget) || undefined}
+                  alt={`QR ${qrTarget.username}`}
+                  className="mx-auto aspect-square w-full max-w-[320px] rounded-[22px] bg-white object-contain p-3"
+                />
+              </div>
+            ) : (
+              <div className="rounded-[22px] border border-white/8 bg-white/4 px-4 py-6 text-sm text-slate-300/80">
+                Lenh rut nay khong co QR tu dong (thuong la USDT).
+              </div>
+            )}
 
             <div className="grid gap-3 text-sm text-slate-300/78">
               <div className="rounded-[22px] border border-white/8 bg-white/4 px-4 py-3">
@@ -3545,7 +3589,7 @@ export function KhaidzAdminWebView() {
                 <span className="text-slate-400">Chủ tài khoản:</span> {qrTarget.accountName}
               </div>
               <div className="rounded-[22px] border border-amber-200/12 bg-amber-500/8 px-4 py-3 font-bold text-amber-100">
-                Số tiền: {formatNumber(qrTarget.vnd)} VND
+                Số tiền: {formatWithdrawPayout(qrTarget)}
               </div>
             </div>
           </div>
@@ -3568,7 +3612,7 @@ export function KhaidzAdminWebView() {
               <div className="flex items-start gap-3">
                 <TriangleAlert className="mt-0.5 h-4 w-4 shrink-0" />
                 <p>
-                  User: <strong>{rejectTarget.username}</strong> · {formatNumber(rejectTarget.vnd)} VND · {rejectTarget.bankName}
+                  User: <strong>{rejectTarget.username}</strong> · {formatWithdrawPayout(rejectTarget)} · {rejectTarget.bankName}
                 </p>
               </div>
             </div>

@@ -312,101 +312,133 @@
                     </div>
                  </div>
             </div>
-
             <!-- Tasks View -->
             <div id="view-tasks" class="view-section hidden">
-                <h2 class="text-3xl font-bold text-white mb-8">Quản Lý Nhiệm Vụ</h2>
+                <h2 class="text-3xl font-bold text-white mb-8">Quan Ly Nhiem Vu</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Create Task Form -->
                     <div class="glass p-6 rounded-xl md:col-span-1 h-fit">
-                        <h3 class="text-xl font-bold text-cyan-400 mb-6">Thêm Nhiệm Vụ Mới</h3>
+                        <h3 id="task-form-title" class="text-xl font-bold text-cyan-400 mb-3">Them Nhiem Vu Moi</h3>
+                        <p class="text-xs text-slate-400 mb-6">Referral chi duoc tinh khi nguoi duoc moi hoan thanh tat ca nhiem vu <span class="font-bold text-cyan-300">newbie</span>.</p>
                         <form id="task-form" class="space-y-4">
                             <div>
-                                <label class="block text-slate-400 mb-1">ID Nhiệm Vụ (Duy nhất, không dấu)</label>
-                                <input type="text" id="task-id" required placeholder="Ví dụ: join_group_v2"
+                                <label class="block text-slate-400 mb-1">ID Nhiem Vu (Duy nhat, khong dau)</label>
+                                <input type="text" id="task-id" required placeholder="Vi du: newbie_join_channel"
                                     class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
                             </div>
                             <div>
-                                <label class="block text-slate-400 mb-1">Tiêu đề</label>
-                                <input type="text" id="task-title" required placeholder="Ví dụ: Tham gia Group"
+                                <label class="block text-slate-400 mb-1">Tieu de</label>
+                                <input type="text" id="task-title" required placeholder="Vi du: Tham gia Group"
                                     class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
                             </div>
                             <div>
                                 <label class="block text-slate-400 mb-1">Icon (URL/Emoji)</label>
-                                <input type="text" id="task-icon" required placeholder="https://... hoặc 📢"
+                                <input type="text" id="task-icon" required placeholder="https://... hoac emoji"
                                     class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-slate-400 mb-1">Loại Thưởng</label>
+                                    <label class="block text-slate-400 mb-1">Loai Thuong</label>
                                     <select id="task-reward-type" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
-                                        <option value="gold">Gold (Vàng)</option>
+                                        <option value="gold">Gold (Vang)</option>
                                         <option value="diamonds">Diamonds (KC)</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-slate-400 mb-1">Số Lượng</label>
+                                    <label class="block text-slate-400 mb-1">So Luong</label>
                                     <input type="number" id="task-reward-amount" value="1000"
                                         class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
                                 </div>
                             </div>
                             <div>
-                                <label class="block text-slate-400 mb-1">Link (Mở khi nhấn)</label>
+                                <label class="block text-slate-400 mb-1">Link (Mo khi nhan)</label>
                                 <input type="text" id="task-link" placeholder="https://t.me/..."
                                     class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
                             </div>
 
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-slate-400 mb-1">Cách Check (Hành Động)</label>
+                                    <label class="block text-slate-400 mb-1">Cach Check (Hanh Dong)</label>
                                     <select id="task-action-type" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white" onchange="toggleGroupInput()">
                                         <option value="react_heart">React tym (Check tha tym)</option>
-                                        <option value="click">Click (Chỉ cần nhấn link)</option>
-                                        <option value="join">Join check (Xác minh tham gia)</option>
+                                        <option value="click">Click (Chi can nhan link)</option>
+                                        <option value="join">Join check (Xac minh tham gia)</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-slate-400 mb-1">Loại NV</label>
+                                    <label class="block text-slate-400 mb-1">Loai NV</label>
                                     <select id="task-type" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
-                                        <option value="community">Thường/Cộng đồng</option>
-                                        <option value="daily">Hàng ngày (Reset 24h)</option>
-                                        <option value="one_time">Làm 1 lần (Biến mất)</option>
-                                        <option value="ad">Xem Quảng Cáo</option>
+                                        <option value="community">Thuong/Cong dong</option>
+                                        <option value="newbie">Tan thu (bat buoc cho referral)</option>
+                                        <option value="daily">Hang ngay (Reset 24h)</option>
+                                        <option value="one_time">Lam 1 lan (Bien mat)</option>
+                                        <option value="ad">Xem Quang Cao</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div id="group-id-container" class="hidden">
-                                <label class="block text-slate-400 mb-1">ID Group/Channel (Bắt đầu bằng -100...)</label>
+                                <label class="block text-slate-400 mb-1">ID Group/Channel (Bat dau bang -100...)</label>
                                 <input type="text" id="task-group-id" placeholder="-100123456789"
                                     class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
-                                <p class="text-[9px] text-yellow-500 mt-1">* Bot phải là Admin của Group này mới check được.</p>
+                                <p class="text-[9px] text-yellow-500 mt-1">* Bot phai la Admin cua Group nay moi check duoc.</p>
                             </div>
 
-                            <button type="submit"
-                                class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 rounded transition">
-                                Lưu Nhiệm Vụ
-                            </button>
+                            <div class="flex gap-2">
+                                <button id="task-submit-btn" type="submit"
+                                    class="flex-1 bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 rounded transition">
+                                    Luu Nhiem Vu
+                                </button>
+                                <button id="task-cancel-edit-btn" type="button" onclick="cancelTaskEdit()"
+                                    class="hidden bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded transition">
+                                    Huy Sua
+                                </button>
+                            </div>
                         </form>
                     </div>
 
-                    <!-- Task List -->
-                    <div class="glass rounded-xl overflow-hidden md:col-span-2">
-                        <table class="w-full text-left">
-                            <thead class="bg-slate-800 text-slate-400 uppercase text-xs">
-                                <tr>
-                                    <th class="p-4">Icon</th>
-                                    <th class="p-4">Task Info</th>
-                                    <th class="p-4">Reward</th>
-                                    <th class="p-4">Type</th>
-                                    <th class="p-4">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tasks-table" class="text-slate-300 divide-y divide-slate-800"></tbody>
-                        </table>
+                    <!-- Task Lists -->
+                    <div class="md:col-span-2 space-y-6">
+                        <div class="glass rounded-xl overflow-hidden">
+                            <div class="px-4 py-3 border-b border-slate-800 bg-cyan-500/10">
+                                <h3 class="font-bold text-cyan-300">Nhiem Vu Tan Thu (CRUD)</h3>
+                                <p class="text-xs text-slate-400 mt-1">Chi khi user moi hoan thanh het cac task o day thi moi ban be moi duoc tinh.</p>
+                            </div>
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-800 text-slate-400 uppercase text-xs">
+                                    <tr>
+                                        <th class="p-4">Icon</th>
+                                        <th class="p-4">Task Info</th>
+                                        <th class="p-4">Reward</th>
+                                        <th class="p-4">Logic</th>
+                                        <th class="p-4">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="newbie-tasks-table" class="text-slate-300 divide-y divide-slate-800"></tbody>
+                            </table>
+                        </div>
+
+                        <div class="glass rounded-xl overflow-hidden">
+                            <div class="px-4 py-3 border-b border-slate-800">
+                                <h3 class="font-bold text-white">Nhiem Vu Khac</h3>
+                            </div>
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-800 text-slate-400 uppercase text-xs">
+                                    <tr>
+                                        <th class="p-4">Icon</th>
+                                        <th class="p-4">Task Info</th>
+                                        <th class="p-4">Reward</th>
+                                        <th class="p-4">Type</th>
+                                        <th class="p-4">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tasks-table" class="text-slate-300 divide-y divide-slate-800"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+
 
     <!-- Generic Modal -->
     <div id="modal" class="fixed inset-0 z-50 bg-black/80 hidden flex items-center justify-center p-4 backdrop-blur-sm">
@@ -462,6 +494,8 @@
         let adminReconnectTimer = null;
         let usersCache = [];
         let giftCodesCache = [];
+        let tasksCache = [];
+        let editingTaskId = null;
 
         function toFiniteNumber(value, fallback = 0) {
             const parsed = Number(value);
@@ -646,18 +680,23 @@
             if (page === 'lucky_draw') loadLuckyDraw();
             if (page === 'tasks') loadTasks();
         }
-
         // --- TASKS MANAGEMENT ---
-        async function loadTasks() {
-            const data = await fetchAdmin('/admin/data');
-            applyAdminSnapshot(data);
-            const tasks = data.tasks || [];
-            
-            const html = tasks.map(t => `
+        function renderTaskRow(t) {
+            const safeId = String(t.id || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+            const iconHtml = (t.icon && String(t.icon).startsWith('http'))
+                ? `<img src="${t.icon}" class="w-8 h-8 rounded mx-auto">`
+                : (t.icon || '?');
+            const actionLabel = t.actionType === 'join'
+                ? `JOIN: ${t.telegramChatId || 'No ID'}`
+                : t.actionType === 'react_heart'
+                    ? `HEART: ${t.telegramChatId || 'No chat'} / Any message`
+                    : 'CLICK';
+
+            return `
                 <tr class="hover:bg-slate-800/50 transition border-b border-slate-800">
                     <td class="p-4">
                         <div class="text-xs text-slate-500 mb-1">ID: #${t.id}</div>
-                        <div class="text-2xl">${(t.icon && t.icon.startsWith('http')) ? `<img src="${t.icon}" class="w-8 h-8 rounded mx-auto">` : (t.icon || '❓')}</div>
+                        <div class="text-2xl">${iconHtml}</div>
                     </td>
                     <td class="p-4">
                         <div class="font-bold text-white">${t.title}</div>
@@ -671,26 +710,94 @@
                     <td class="p-4">
                         <span class="bg-slate-700 text-slate-300 px-2 py-1 rounded text-[10px] uppercase font-bold">${t.type}</span>
                         <div class="mt-1 text-[10px] ${t.actionType === 'join' ? 'text-purple-400' : t.actionType === 'react_heart' ? 'text-rose-400' : 'text-slate-500'}">
-                            ${t.actionType === 'join'
-                                ? `JOIN: ${t.telegramChatId || 'No ID'}`
-                                : t.actionType === 'react_heart'
-                                    ? `HEART: ${t.telegramChatId || 'No chat'} / Any message`
-                                    : 'CLICK'}
+                            ${actionLabel}
                         </div>
                     </td>
                     <td class="p-4 text-center">
-                        <button onclick="deleteTask('${t.id}')" class="text-red-400 hover:text-red-300 transition text-xs font-bold bg-red-400/10 px-2 py-1 rounded border border-red-400/20">🗑 Xóa</button>
+                        <div class="flex items-center justify-center gap-2">
+                            <button onclick="editTask('${safeId}')" class="text-cyan-300 hover:text-cyan-200 transition text-xs font-bold bg-cyan-400/10 px-2 py-1 rounded border border-cyan-400/20">? Sua</button>
+                            <button onclick="deleteTask('${safeId}')" class="text-red-400 hover:text-red-300 transition text-xs font-bold bg-red-400/10 px-2 py-1 rounded border border-red-400/20">?? Xoa</button>
+                        </div>
                     </td>
                 </tr>
-            `).join('');
-            
-            document.getElementById('tasks-table').innerHTML = html || '<tr><td colspan="5" class="p-4 text-center text-slate-500">Chưa có nhiệm vụ nào.</td></tr>';
+            `;
+        }
+
+        function resetTaskForm() {
+            editingTaskId = null;
+            const form = document.getElementById('task-form');
+            form.reset();
+
+            const idInput = document.getElementById('task-id');
+            idInput.readOnly = false;
+            idInput.classList.remove('opacity-60', 'cursor-not-allowed');
+
+            document.getElementById('task-action-type').value = 'click';
+            document.getElementById('task-type').value = 'community';
+            document.getElementById('task-reward-type').value = 'gold';
+            document.getElementById('task-reward-amount').value = '1000';
+
+            document.getElementById('task-form-title').textContent = 'Them Nhiem Vu Moi';
+            document.getElementById('task-submit-btn').textContent = 'Luu Nhiem Vu';
+            document.getElementById('task-cancel-edit-btn').classList.add('hidden');
+            toggleGroupInput();
+        }
+
+        function setTaskFormEdit(task) {
+            editingTaskId = String(task.id);
+
+            const idInput = document.getElementById('task-id');
+            idInput.value = String(task.id || '');
+            idInput.readOnly = true;
+            idInput.classList.add('opacity-60', 'cursor-not-allowed');
+
+            document.getElementById('task-title').value = task.title || '';
+            document.getElementById('task-icon').value = task.icon || '';
+            document.getElementById('task-reward-type').value = task.rewardType === 'gold' ? 'gold' : 'diamonds';
+            document.getElementById('task-reward-amount').value = Number(task.rewardAmount || 0);
+            document.getElementById('task-link').value = task.url || '';
+            document.getElementById('task-type').value = task.type || 'community';
+            document.getElementById('task-action-type').value = task.actionType || 'click';
+            document.getElementById('task-group-id').value = task.telegramChatId || '';
+
+            document.getElementById('task-form-title').textContent = `Sua Nhiem Vu #${task.id}`;
+            document.getElementById('task-submit-btn').textContent = 'Cap Nhat Nhiem Vu';
+            document.getElementById('task-cancel-edit-btn').classList.remove('hidden');
+            toggleGroupInput();
+
+            document.getElementById('task-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        async function loadTasks() {
+            const data = await fetchAdmin('/admin/data');
+            applyAdminSnapshot(data);
+            tasksCache = data.tasks || [];
+
+            const newbieTasks = tasksCache.filter((t) => String(t.type) === 'newbie');
+            const otherTasks = tasksCache.filter((t) => String(t.type) !== 'newbie');
+
+            const newbieHtml = newbieTasks.map(renderTaskRow).join('');
+            const otherHtml = otherTasks.map(renderTaskRow).join('');
+
+            document.getElementById('newbie-tasks-table').innerHTML = newbieHtml || '<tr><td colspan="5" class="p-4 text-center text-slate-500">Chua co nhiem vu tan thu nao.</td></tr>';
+            document.getElementById('tasks-table').innerHTML = otherHtml || '<tr><td colspan="5" class="p-4 text-center text-slate-500">Chua co nhiem vu nao.</td></tr>';
+
+            if (editingTaskId && !tasksCache.some((t) => String(t.id) === String(editingTaskId))) {
+                resetTaskForm();
+            }
         }
 
         document.getElementById('task-form').addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            const id = (editingTaskId || document.getElementById('task-id').value.trim());
+            if (!id) {
+                alert('Thieu ID nhiem vu');
+                return;
+            }
+
             const body = {
-                id: document.getElementById('task-id').value.trim(),
+                id,
                 title: document.getElementById('task-title').value,
                 icon: document.getElementById('task-icon').value,
                 rewardType: document.getElementById('task-reward-type').value,
@@ -701,29 +808,43 @@
                 telegramChatId: document.getElementById('task-group-id').value.trim(),
                 telegramMessageId: ''
             };
-            
+
             const res = await fetchAdmin('/admin/config/task', 'POST', body);
             if (res.success) {
-                alert('Đã thêm nhiệm vụ!');
-                document.getElementById('task-form').reset();
-                document.getElementById('task-action-type').value = 'click';
-                toggleGroupInput();
-                document.getElementById('group-id-container').classList.add('hidden');
+                alert(editingTaskId ? 'Da cap nhat nhiem vu!' : 'Da them nhiem vu!');
+                resetTaskForm();
                 loadTasks();
             } else {
-                alert('Lỗi: ' + (res.message || res.error));
+                alert('Loi: ' + (res.message || res.error));
             }
         });
 
+        function editTask(id) {
+            const task = tasksCache.find((t) => String(t.id) === String(id));
+            if (!task) {
+                alert('Khong tim thay nhiem vu de sua.');
+                return;
+            }
+            setTaskFormEdit(task);
+        }
+
+        function cancelTaskEdit() {
+            resetTaskForm();
+        }
+
         async function deleteTask(id) {
-            if (!confirm('Bạn có chắc muốn xóa nhiệm vụ này?')) return;
+            if (!confirm('Ban co chac muon xoa nhiem vu nay?')) return;
             const res = await fetchAdmin(`/admin/config/task/${id}`, 'DELETE');
             if (res.success) {
+                if (String(editingTaskId) === String(id)) {
+                    resetTaskForm();
+                }
                 loadTasks();
             } else {
-                alert('Lỗi: ' + (res.message || res.error));
+                alert('Loi: ' + (res.message || res.error));
             }
         }
+
 
         async function fetchAdmin(endpoint, method = 'GET', body = null) {
             const opts = {
@@ -1131,11 +1252,12 @@
         }
 
         // Init
-        document.getElementById('task-action-type').value = 'click';
-        toggleGroupInput();
+        resetTaskForm();
         checkAuth();
 
     </script>
 </body>
 
 </html>
+
+

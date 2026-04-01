@@ -21,6 +21,10 @@ const ADMIN_ID = "7711226652";
 const BOT_TOKEN = process.env.BOT_TOKEN || '8258255510:AAFjHCjP9C1VtGC06bvUx0eATQLJpMEPb6c';
 const ADMIN_PASSWORD = "Vjyy1234@"; // Updated per user request
 const adminEventClients = new Set();
+const WITHDRAW_BANK_WALLET_FEE_PERCENT = 10;
+const DEFAULT_USDT_VND_RATE = 26000;
+const rawUsdtVndRate = Number(process.env.USDT_VND_RATE || process.env.WITHDRAW_USDT_VND_RATE || DEFAULT_USDT_VND_RATE);
+const USDT_VND_RATE = Number.isFinite(rawUsdtVndRate) && rawUsdtVndRate > 0 ? rawUsdtVndRate : DEFAULT_USDT_VND_RATE;
 const HEART_REACTIONS = new Set(['❤', '❤️', '♥', '♥️']);
 
 
@@ -297,7 +301,13 @@ async function initDB() {
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 teleId BIGINT,
                 amount DECIMAL(65, 0),
+                withdrawMethod VARCHAR(20) DEFAULT 'bank',
+                withdrawNetwork VARCHAR(32) DEFAULT NULL,
                 vndAmount DECIMAL(65, 0),
+                feePercent DECIMAL(5, 2) DEFAULT 0,
+                feeAmount DECIMAL(65, 0) DEFAULT 0,
+                payoutAmount DECIMAL(65, 8) DEFAULT 0,
+                payoutCurrency VARCHAR(16) DEFAULT 'VND',
                 bankBin VARCHAR(50),
                 bankName VARCHAR(255),
                 accountNumber VARCHAR(255),
@@ -309,7 +319,19 @@ async function initDB() {
         `);
         await safeAlter("ALTER TABLE withdrawals CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
         await safeAlter("ALTER TABLE withdrawals MODIFY COLUMN amount DECIMAL(65,0)");
+        await safeAlter("ALTER TABLE withdrawals ADD COLUMN withdrawMethod VARCHAR(20) DEFAULT 'bank' AFTER amount");
+        await safeAlter("ALTER TABLE withdrawals MODIFY COLUMN withdrawMethod VARCHAR(20) DEFAULT 'bank'");
+        await safeAlter("ALTER TABLE withdrawals ADD COLUMN withdrawNetwork VARCHAR(32) DEFAULT NULL AFTER withdrawMethod");
+        await safeAlter("ALTER TABLE withdrawals MODIFY COLUMN withdrawNetwork VARCHAR(32) DEFAULT NULL");
         await safeAlter("ALTER TABLE withdrawals MODIFY COLUMN vndAmount DECIMAL(65,0)");
+        await safeAlter("ALTER TABLE withdrawals ADD COLUMN feePercent DECIMAL(5,2) DEFAULT 0 AFTER vndAmount");
+        await safeAlter("ALTER TABLE withdrawals MODIFY COLUMN feePercent DECIMAL(5,2) DEFAULT 0");
+        await safeAlter("ALTER TABLE withdrawals ADD COLUMN feeAmount DECIMAL(65,0) DEFAULT 0 AFTER feePercent");
+        await safeAlter("ALTER TABLE withdrawals MODIFY COLUMN feeAmount DECIMAL(65,0) DEFAULT 0");
+        await safeAlter("ALTER TABLE withdrawals ADD COLUMN payoutAmount DECIMAL(65,8) DEFAULT 0 AFTER feeAmount");
+        await safeAlter("ALTER TABLE withdrawals MODIFY COLUMN payoutAmount DECIMAL(65,8) DEFAULT 0");
+        await safeAlter("ALTER TABLE withdrawals ADD COLUMN payoutCurrency VARCHAR(16) DEFAULT 'VND' AFTER payoutAmount");
+        await safeAlter("ALTER TABLE withdrawals MODIFY COLUMN payoutCurrency VARCHAR(16) DEFAULT 'VND'");
         await safeAlter("ALTER TABLE withdrawals ADD COLUMN message TEXT");
 
         // 5. Level Settings Table
@@ -840,7 +862,7 @@ async function hasCompletedAllNewbieTasks(teleId, db = pool) {
     const totalNewbieTasks = Number(taskRows[0]?.total || 0);
 
     if (totalNewbieTasks === 0) {
-        return true;
+        return false;
     }
 
     const [claimRows] = await db.query(
@@ -1320,34 +1342,117 @@ app.post('/api/user/redeem', authMiddleware, async (req, res) => {
 
 // Create Withdrawal Request
 app.post('/api/withdraw/create', authMiddleware, async (req, res) => {
-    const { amount, bankBin, bankName, accountNumber, accountName } = req.body;
+    const { amount, bankBin, bankName, accountNumber, accountName, method, network } = req.body || {};
     const teleId = req.user.id;
+
+    const normalizeMethod = (rawMethod, rawBankName) => {
+        const normalized = String(rawMethod || '').trim().toLowerCase();
+        if (normalized === 'bank' || normalized === 'wallet' || normalized === 'usdt') {
+            return normalized;
+        }
+
+        const lowerBankName = String(rawBankName || '').toLowerCase();
+        if (lowerBankName.includes('usdt')) return 'usdt';
+        if (
+            lowerBankName.includes('momo') ||
+            lowerBankName.includes('zalopay') ||
+            lowerBankName.includes('viettel money') ||
+            lowerBankName.includes('viettelmoney') ||
+            lowerBankName.includes('vnpt money') ||
+            lowerBankName.includes('vnptmoney') ||
+            lowerBankName.includes('wallet') ||
+            lowerBankName.includes('ví')
+        ) {
+            return 'wallet';
+        }
+
+        return 'bank';
+    };
 
     try {
         const user = await harvestMiningGold(teleId);
         const economyConfig = await getEconomyConfig();
         if (!user) return res.status(404).json({ error: 'User not found' });
 
-        if (Number(amount) < economyConfig.withdrawMinGold) {
+        const withdrawGold = Number.parseInt(String(amount || 0), 10);
+        if (!Number.isFinite(withdrawGold) || withdrawGold <= 0) {
+            return res.json({ success: false, message: 'Số lượng rút không hợp lệ!' });
+        }
+
+        if (withdrawGold < economyConfig.withdrawMinGold) {
             return res.json({ success: false, message: `Rút tối thiểu ${economyConfig.withdrawMinGold.toLocaleString('vi-VN')} Gold!` });
         }
-        if (Number(user.gold) < Number(amount)) return res.json({ success: false, message: 'Số dư không đủ!' });
+        if (Number(user.gold) < withdrawGold) return res.json({ success: false, message: 'Số dư không đủ!' });
 
-        const vndAmount = Math.floor(parseInt(amount) * economyConfig.withdrawVndPerGold);
-        const qrUrl = bankBin ? `https://img.vietqr.io/image/${bankBin}-${accountNumber}-compact2.png?amount=${vndAmount}&addInfo=Bot%20Kiem%20Tien%20Done%20${teleId}&accountName=${encodeURIComponent(accountName)}` : null;
+        const withdrawMethod = normalizeMethod(method, bankName);
+        const withdrawNetwork = withdrawMethod === 'usdt'
+            ? String(network || 'TRC20').trim().toUpperCase()
+            : '';
+        const sanitizedBankBin = String(bankBin || '').trim();
+        const sanitizedBankName = String(bankName || '').trim();
+        const sanitizedAccountNumber = String(accountNumber || '').trim();
+        const sanitizedAccountName = String(accountName || '').trim();
 
-        await pool.query('UPDATE users SET gold = gold - ?, goldBeforeShift = goldBeforeShift - ? WHERE teleId = ?', [amount, amount, teleId]);
+        if (!sanitizedAccountNumber) {
+            return res.json({ success: false, message: 'Thiếu số tài khoản / địa chỉ nhận!' });
+        }
+        if (withdrawMethod !== 'usdt' && !sanitizedAccountName) {
+            return res.json({ success: false, message: 'Thiếu tên chủ tài khoản / chủ ví!' });
+        }
+        if (!sanitizedBankName && withdrawMethod !== 'usdt') {
+            return res.json({ success: false, message: 'Thiếu thông tin ngân hàng / ví điện tử!' });
+        }
+
+        const grossVndAmount = Math.floor(withdrawGold * economyConfig.withdrawVndPerGold);
+        const feePercent = withdrawMethod === 'bank' || withdrawMethod === 'wallet' ? WITHDRAW_BANK_WALLET_FEE_PERCENT : 0;
+        const feeAmount = feePercent > 0 ? Math.floor((grossVndAmount * feePercent) / 100) : 0;
+        const netVndAmount = Math.max(0, grossVndAmount - feeAmount);
+        const payoutCurrency = withdrawMethod === 'usdt' ? 'USDT' : 'VND';
+        const payoutAmount = withdrawMethod === 'usdt'
+            ? Number((grossVndAmount / USDT_VND_RATE).toFixed(6))
+            : netVndAmount;
+        const storedVndAmount = withdrawMethod === 'usdt' ? grossVndAmount : netVndAmount;
+        const savedBankName = withdrawMethod === 'usdt'
+            ? `USDT (${withdrawNetwork || 'TRC20'})`
+            : sanitizedBankName;
+
+        const qrUrl =
+            withdrawMethod !== 'usdt' && sanitizedBankBin
+                ? `https://img.vietqr.io/image/${sanitizedBankBin}-${sanitizedAccountNumber}-compact2.png?amount=${netVndAmount}&addInfo=Bot%20Kiem%20Tien%20Done%20${teleId}&accountName=${encodeURIComponent(sanitizedAccountName)}`
+                : null;
+
+        await pool.query('UPDATE users SET gold = gold - ?, goldBeforeShift = goldBeforeShift - ? WHERE teleId = ?', [withdrawGold, withdrawGold, teleId]);
 
         await pool.query(
-            `INSERT INTO withdrawals (teleId, amount, vndAmount, bankBin, bankName, accountNumber, accountName, qrUrl) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [teleId, amount, vndAmount, bankBin, bankName, accountNumber, accountName, qrUrl]
+            `INSERT INTO withdrawals (
+                teleId, amount, withdrawMethod, withdrawNetwork, vndAmount, feePercent, feeAmount, payoutAmount, payoutCurrency,
+                bankBin, bankName, accountNumber, accountName, qrUrl
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+                teleId,
+                withdrawGold,
+                withdrawMethod,
+                withdrawNetwork || null,
+                storedVndAmount,
+                feePercent,
+                feeAmount,
+                payoutAmount,
+                payoutCurrency,
+                withdrawMethod === 'usdt' ? '' : sanitizedBankBin,
+                savedBankName,
+                sanitizedAccountNumber,
+                sanitizedAccountName || 'USDT WALLET',
+                qrUrl
+            ]
         );
 
-        console.log(`[WITHDRAW] New request from ${teleId}: ${amount} Gold -> ${vndAmount} VND`);
+        console.log(
+            `[WITHDRAW] New request from ${teleId}: ${withdrawGold} Gold -> ${payoutAmount} ${payoutCurrency}` +
+            ` (method=${withdrawMethod}, fee=${feePercent}%)`
+        );
 
         const [users] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
-        broadcastAdminRefresh('withdraw-created', { teleId });
+        broadcastAdminRefresh('withdraw-created', { teleId, method: withdrawMethod, payoutCurrency });
         res.json({ success: true, user: users[0] });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -1472,6 +1577,12 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
             teleId: w.teleId,
             amount: w.amount,
             vnd: w.vndAmount,
+            method: w.withdrawMethod || 'bank',
+            network: w.withdrawNetwork || '',
+            feePercent: Number(w.feePercent || 0),
+            feeAmount: Number(w.feeAmount || 0),
+            payoutAmount: Number(w.payoutAmount || w.vndAmount || 0),
+            payoutCurrency: w.payoutCurrency || 'VND',
             bankName: w.bankName,
             accountNumber: w.accountNumber,
             status: w.status,
@@ -1673,6 +1784,12 @@ async function getAdminSnapshot() {
         bankName: w.bankName,
         accountNumber: w.accountNumber,
         vnd: w.vndAmount,
+        method: w.withdrawMethod || 'bank',
+        network: w.withdrawNetwork || '',
+        feePercent: Number(w.feePercent || 0),
+        feeAmount: Number(w.feeAmount || 0),
+        payoutAmount: Number(w.payoutAmount || w.vndAmount || 0),
+        payoutCurrency: w.payoutCurrency || 'VND',
         qrUrl: w.qrUrl,
         status: w.status,
         createdAt: w.createdAt,

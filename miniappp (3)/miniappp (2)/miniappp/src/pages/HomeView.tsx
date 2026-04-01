@@ -107,6 +107,43 @@ export function HomeView({ store }: { store: GameStore }) {
   const lixiAdsWatched = store.lixi.user.watchedAdViews;
   const lixiAdsRemaining = store.lixi.user.remainingAdViews;
   const canClaimLixi = store.lixi.user.canClaim;
+  const safeLixiAdsRequired = Math.max(1, lixiAdsRequired);
+  const lixiProgressPercent = Math.min(
+    100,
+    Math.max(0, (Math.min(lixiAdsWatched, safeLixiAdsRequired) / safeLixiAdsRequired) * 100),
+  );
+  const lixiRewardRangeText = `${formatNumber(store.lixi.config.minGold)} - ${formatNumber(store.lixi.config.maxGold)} vang`;
+  const lixiRemainingClaimsText = `${formatNumber(store.lixi.state.remainingClaims)}/${formatNumber(store.lixi.state.maxClaimsPerRound)} suat`;
+
+  let lixiStatusText = `Xem tron goi ${formatNumber(safeLixiAdsRequired)} video de mo li xi`;
+  let lixiGuideText = `Tien do ${formatNumber(lixiAdsWatched)}/${formatNumber(safeLixiAdsRequired)} video`;
+  let lixiActionText = `${formatNumber(safeLixiAdsRequired)} video 1 lan`;
+
+  if (isClaimingLixi) {
+    lixiStatusText = "Dang chay goi video li xi...";
+    lixiGuideText = "Vui long doi den khi hoan tat";
+    lixiActionText = "Dang chay";
+  } else if (store.lixi.state.isCoolingDown) {
+    lixiStatusText = `Mo lai sau ${lixiMinutes}:${lixiSeconds}`;
+    lixiGuideText = "Dot hien tai da het suat";
+    lixiActionText = "The le";
+  } else if (store.lixi.user.hasClaimed) {
+    lixiStatusText = `Ban da nhan ${formatNumber(store.lixi.user.rewardGold)} vang`;
+    lixiGuideText = "Cho dot tiep theo de nhan lai";
+    lixiActionText = "Da nhan";
+  } else if (canClaimLixi) {
+    lixiStatusText = "Da du video, bam de nhan ngay";
+    lixiGuideText = "San sang quay thuong";
+    lixiActionText = "Nhan ngay";
+  }
+
+  const lixiModalStatusText = store.lixi.state.isCoolingDown
+    ? `Dang reset, mo lai sau ${lixiMinutes}:${lixiSeconds}.`
+    : store.lixi.user.hasClaimed
+      ? `Ban da nhan ${formatNumber(store.lixi.user.rewardGold)} vang o dot nay.`
+      : canClaimLixi
+        ? "Ban da du video, co the nhan ngay."
+        : `Bam 1 lan de chay lien tiep ${formatNumber(safeLixiAdsRequired)} video. Con ${formatNumber(lixiAdsRemaining)} video.`;
 
   const handleLixiClick = async () => {
     if (isClaimingLixi) return;
@@ -119,25 +156,28 @@ export function HomeView({ store }: { store: GameStore }) {
     setIsClaimingLixi(true);
     try {
       if (!canClaimLixi) {
-        const adResult = await showLixiRewardedAdStep(lixiAdsWatched);
-        if (!adResult.success) {
-          alert("Ban can xem het video moi duoc tinh tien do li xi.");
-          return;
-        }
+        let watchedCount = lixiAdsWatched;
 
-        const watchResult = await store.recordLixiAdView();
-        if (!watchResult.success) {
-          alert(watchResult.error || "Khong the ghi nhan video li xi.");
-          return;
-        }
+        while (watchedCount < safeLixiAdsRequired) {
+          const adResult = await showLixiRewardedAdStep(watchedCount);
+          if (!adResult.success) {
+            alert("Ban can xem het goi video de du dieu kien nhan li xi.");
+            return;
+          }
 
-        const nextWatchedCount = Math.min(lixiAdsRequired, (watchResult.watchedAdViews ?? lixiAdsWatched + 1));
-        const nextRemainingCount = Math.max(0, watchResult.remainingAdViews ?? lixiAdsRequired - nextWatchedCount);
+          const watchResult = await store.recordLixiAdView();
+          if (!watchResult.success) {
+            alert(watchResult.error || "Khong the ghi nhan video li xi.");
+            return;
+          }
 
-        if (nextRemainingCount > 0) {
-          const networkLabel = adResult.network === "monetag" ? "Monetag" : "Adsgram";
-          alert(`Da xem ${formatNumber(nextWatchedCount)}/${formatNumber(lixiAdsRequired)} video qua ${networkLabel}. Xem them ${formatNumber(nextRemainingCount)} video nua de nhan li xi.`);
-          return;
+          const nextWatchedCount = Math.min(safeLixiAdsRequired, watchResult.watchedAdViews ?? watchedCount + 1);
+          if (nextWatchedCount <= watchedCount) {
+            alert("Khong cap nhat duoc tien do video li xi. Thu lai sau.");
+            return;
+          }
+
+          watchedCount = nextWatchedCount;
         }
       }
 
@@ -259,49 +299,53 @@ export function HomeView({ store }: { store: GameStore }) {
           <button
             onClick={() => void handleLixiClick()}
             disabled={isClaimingLixi}
-            className="relative mb-3 flex w-full items-center gap-3 overflow-hidden rounded-[1.45rem] border border-rose-200/28 bg-[linear-gradient(135deg,rgba(127,29,29,0.92)_0%,rgba(159,18,57,0.88)_48%,rgba(76,5,25,0.98)_100%)] px-3.5 py-3 shadow-[0_18px_40px_rgba(0,0,0,0.34),0_0_28px_rgba(251,113,133,0.2)] transition-transform duration-300 active:scale-[0.99] disabled:opacity-75"
+            className="relative mb-3 flex w-full flex-col gap-2 overflow-hidden rounded-[1.2rem] border border-rose-200/24 bg-[linear-gradient(160deg,rgba(136,19,55,0.9)_0%,rgba(111,13,43,0.94)_52%,rgba(56,8,25,0.98)_100%)] px-3 py-3 text-left shadow-[0_16px_34px_rgba(0,0,0,0.34),0_0_20px_rgba(251,113,133,0.16)] transition-all duration-300 active:scale-[0.99] disabled:opacity-75"
           >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.2),transparent_34%)]" />
-            <div className="absolute -right-8 -top-10 h-28 w-28 rounded-full bg-rose-200/12 blur-2xl" />
+            <div className="absolute -right-8 -top-10 h-24 w-24 rounded-full bg-rose-200/10 blur-2xl" />
 
-            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[1.2rem] border border-white/15 bg-white/8">
-              <img src="/lixi.gif" alt="Li xi" className="h-full w-full object-cover" />
+            <div className="relative flex items-center gap-3">
+              <div className="h-12 w-12 shrink-0 overflow-hidden rounded-[0.9rem] border border-white/15 bg-white/8">
+                <img src="/lixi.gif" alt="Li xi" className="h-full w-full object-cover" />
+              </div>
+
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="rounded-full border border-rose-100/20 bg-white/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.13em] text-rose-50">
+                      Li Xi
+                    </span>
+                    <Gift className="h-4 w-4 text-rose-100" />
+                  </div>
+                  <span className="rounded-full border border-white/14 bg-black/24 px-2.5 py-1 text-[10px] font-bold text-rose-100/85">
+                    Dot #{formatNumber(store.lixi.state.roundNumber)}
+                  </span>
+                </div>
+
+                <p className="mt-1 text-sm font-bold leading-5 text-rose-50">{lixiStatusText}</p>
+              </div>
             </div>
 
-            <div className="relative min-w-0 flex-1 text-left">
-              <div className="flex items-center gap-2">
-                <span className="rounded-full border border-rose-100/22 bg-white/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-rose-50">
-                  Giat Li Xi
+            <div className="relative">
+              <div className="h-1.5 overflow-hidden rounded-full bg-black/30">
+                <div
+                  className="h-full rounded-full bg-[linear-gradient(90deg,#ffd7df_0%,#fb7185_55%,#f43f5e_100%)] transition-all duration-500"
+                  style={{ width: `${lixiProgressPercent}%` }}
+                />
+              </div>
+              <div className="mt-1 flex items-center justify-between gap-2 text-[11px] text-rose-100/76">
+                <span>
+                  Video {formatNumber(lixiAdsWatched)}/{formatNumber(safeLixiAdsRequired)}
                 </span>
-                <Gift className="h-4 w-4 text-rose-100" />
+                <span>{lixiGuideText}</span>
               </div>
-
-              <p className="mt-2 text-sm font-black uppercase tracking-[0.08em] text-white">
-                {store.lixi.state.isCoolingDown
-                  ? `Mo lai sau ${lixiMinutes}:${lixiSeconds}`
-                  : store.lixi.user.hasClaimed
-                    ? `Ban da nhan ${formatNumber(store.lixi.user.rewardGold)} vang`
-                    : canClaimLixi
-                      ? `Da du ${formatNumber(lixiAdsRequired)}/${formatNumber(lixiAdsRequired)} video`
-                      : `Xem ${formatNumber(lixiAdsWatched)}/${formatNumber(lixiAdsRequired)} video`}
-              </p>
-              <p className="mt-1 text-xs leading-5 text-rose-50/78">
-                Thuong ngau nhien {formatNumber(store.lixi.config.minGold)} - {formatNumber(store.lixi.config.maxGold)} vang. Video se xen ke Adsgram va Monetag.
-              </p>
             </div>
 
-            <div className="relative shrink-0 rounded-[1rem] border border-white/16 bg-black/18 px-3 py-2 text-center">
-              <div className="text-[10px] font-black uppercase tracking-[0.16em] text-rose-100/70">
-                {isClaimingLixi
-                  ? "Dang"
-                  : store.lixi.state.isCoolingDown
-                    ? "The le"
-                    : store.lixi.user.hasClaimed
-                      ? "Da nhan"
-                      : canClaimLixi
-                        ? "Nhan ngay"
-                        : `Video ${formatNumber(lixiAdsWatched + 1)}/${formatNumber(lixiAdsRequired)}`}
-              </div>
+            <div className="relative flex items-center justify-between gap-2">
+              <p className="text-[11px] text-rose-50/80">Thuong {lixiRewardRangeText}</p>
+              <span className="shrink-0 rounded-full border border-white/16 bg-black/24 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.13em] text-rose-100">
+                {lixiActionText}
+              </span>
             </div>
           </button>
 
@@ -360,7 +404,7 @@ export function HomeView({ store }: { store: GameStore }) {
               <div>
                 <p className="text-sm font-black uppercase tracking-[0.16em] text-rose-100">The Le Li Xi</p>
                 <p className="mt-2 text-sm leading-6 text-rose-50/78">
-                  Moi vong co {formatNumber(store.lixi.state.maxClaimsPerRound)} nguoi duoc nhan mot lan. He thong phat ngau nhien tu {formatNumber(store.lixi.config.minGold)} den {formatNumber(store.lixi.config.maxGold)} vang sau khi xem du {formatNumber(lixiAdsRequired)} video xen ke Adsgram va Monetag.
+                  Nhan ngau nhien {lixiRewardRangeText} vang sau khi xem du {formatNumber(safeLixiAdsRequired)} video.
                 </p>
               </div>
 
@@ -372,17 +416,42 @@ export function HomeView({ store }: { store: GameStore }) {
               </button>
             </div>
 
-            <div className="mt-4 space-y-2 rounded-[1.25rem] border border-white/8 bg-white/4 p-3 text-sm text-rose-50/80">
+            <div className="mt-4 grid grid-cols-3 gap-2 text-[11px] text-rose-100/80">
+              <div className="rounded-[0.95rem] border border-white/10 bg-white/6 px-3 py-2">
+                <p className="text-[10px] uppercase tracking-[0.12em] text-rose-100/55">Dot</p>
+                <p className="mt-1 text-sm font-bold text-rose-50">#{formatNumber(store.lixi.state.roundNumber)}</p>
+              </div>
+              <div className="rounded-[0.95rem] border border-white/10 bg-white/6 px-3 py-2">
+                <p className="text-[10px] uppercase tracking-[0.12em] text-rose-100/55">Con suat</p>
+                <p className="mt-1 text-sm font-bold text-rose-50">{lixiRemainingClaimsText}</p>
+              </div>
+              <div className="rounded-[0.95rem] border border-white/10 bg-white/6 px-3 py-2">
+                <p className="text-[10px] uppercase tracking-[0.12em] text-rose-100/55">Yeu cau</p>
+                <p className="mt-1 text-sm font-bold text-rose-50">{formatNumber(safeLixiAdsRequired)} video</p>
+              </div>
+            </div>
+
+            <div className="mt-3 rounded-[1.2rem] border border-white/10 bg-white/5 p-3">
+              <div className="flex items-center justify-between gap-2 text-[11px] text-rose-100/80">
+                <span className="font-bold uppercase tracking-[0.1em]">Tien do video</span>
+                <span>
+                  {formatNumber(lixiAdsWatched)}/{formatNumber(safeLixiAdsRequired)}
+                </span>
+              </div>
+              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-black/28">
+                <div
+                  className="h-full rounded-full bg-[linear-gradient(90deg,#ffd7df_0%,#fb7185_55%,#f43f5e_100%)] transition-all duration-500"
+                  style={{ width: `${lixiProgressPercent}%` }}
+                />
+              </div>
+              <p className="mt-2 text-xs leading-5 text-rose-50/78">{lixiModalStatusText}</p>
+            </div>
+
+            <div className="mt-3 space-y-1.5 rounded-[1.2rem] border border-white/8 bg-white/4 px-3 py-3 text-xs leading-5 text-rose-50/78">
               <p>Moi tai khoan chi nhan 1 lan trong 1 dot.</p>
-              <p>Ban can xem du {formatNumber(lixiAdsRequired)} video quang cao truoc khi he thong mo li xi.</p>
-              <p>Thu tu video: 1 Adsgram, 2 Monetag, 3 Adsgram.</p>
-              <p>Tien do cua ban: {formatNumber(lixiAdsWatched)}/{formatNumber(lixiAdsRequired)} video.</p>
-              <p>Khi het {formatNumber(store.lixi.state.maxClaimsPerRound)} suat, he thong se dem nguoc {formatNumber(store.lixi.state.cooldownMinutes)} phut roi mo lai.</p>
-              <p>Trang thai hien tai: dot #{formatNumber(store.lixi.state.roundNumber)} con {formatNumber(store.lixi.state.remainingClaims)} suat.</p>
-              {store.lixi.state.isCoolingDown ? <p>Dang lam moi: {lixiMinutes}:{lixiSeconds}.</p> : null}
-              {store.lixi.user.hasClaimed ? (
-                <p>Ban da nhan {formatNumber(store.lixi.user.rewardGold)} vang o dot nay.</p>
-              ) : null}
+              <p>Thu tu video: Adsgram {"->"} Monetag {"->"} Adsgram.</p>
+              <p>Het suat se reset sau {formatNumber(store.lixi.state.cooldownMinutes)} phut.</p>
+              <p>Trang thai hien tai: Dot #{formatNumber(store.lixi.state.roundNumber)} con {lixiRemainingClaimsText}.</p>
             </div>
 
             <button

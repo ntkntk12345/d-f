@@ -176,8 +176,16 @@ export function AdminView({ store }: { store: GameStore }) {
                     </p>
                     <p className="text-sm text-cyan-50/80">{item.accountName}</p>
                     <p className="mt-2 text-sm font-black text-yellow-100">
-                      {formatNumber(item.vnd)} VNĐ
+                      {(item.payoutCurrency || "VND").toUpperCase() === "USDT"
+                        ? `${Number(item.payoutAmount || 0).toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 6,
+                          })} USDT`
+                        : `${formatNumber(item.payoutAmount || item.vnd)} VNĐ`}
                     </p>
+                    {item.feePercent > 0 ? (
+                      <p className="mt-1 text-xs text-cyan-100/55">Phí {formatNumber(item.feePercent)}% ({formatNumber(item.feeAmount)} VNĐ)</p>
+                    ) : null}
                   </div>
 
                   <div className="flex min-w-[112px] flex-col gap-2">

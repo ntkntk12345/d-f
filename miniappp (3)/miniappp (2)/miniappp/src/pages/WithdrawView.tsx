@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import type { GameStore } from "@/hooks/use-game-store";
 import { cn, formatNumber } from "@/lib/utils";
 import {
@@ -16,7 +16,7 @@ type WithdrawTarget = {
   bin: string;
   name: string;
   shortName: string;
-  type: "bank" | "wallet";
+  type: "bank" | "wallet" | "usdt";
   qrSupported: boolean;
 };
 
@@ -41,7 +41,25 @@ const FALLBACK_TARGETS: WithdrawTarget[] = [
     type: "wallet",
     qrSupported: false,
   },
+  {
+    id: "usdt_trc20",
+    bin: "",
+    name: "USDT (TRC20)",
+    shortName: "USDT TRC20",
+    type: "usdt",
+    qrSupported: false,
+  },
 ];
+
+const WITHDRAW_FEE_PERCENT = 10;
+const DEFAULT_USDT_VND_RATE = 26000;
+
+function formatUsdt(value: number) {
+  return new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 6,
+  }).format(value);
+}
 
 function normalizeWithdrawTargets(rows: Array<Record<string, unknown>>) {
   const mapped = rows
@@ -70,10 +88,10 @@ function normalizeWithdrawTargets(rows: Array<Record<string, unknown>>) {
     })
     .filter((item) => item.type === "wallet" || item.qrSupported);
 
-  const withSyntheticWallets = [...mapped];
+  const withSyntheticTargets = [...mapped];
 
-  if (!withSyntheticWallets.some((item) => item.shortName.toLowerCase() === "zalopay")) {
-    withSyntheticWallets.push({
+  if (!withSyntheticTargets.some((item) => item.shortName.toLowerCase() === "zalopay")) {
+    withSyntheticTargets.push({
       id: "zalopay",
       bin: "",
       name: "ZaloPay",
@@ -83,8 +101,20 @@ function normalizeWithdrawTargets(rows: Array<Record<string, unknown>>) {
     });
   }
 
-  return withSyntheticWallets.sort((a, b) => {
-    if (a.type !== b.type) return a.type === "bank" ? -1 : 1;
+  if (!withSyntheticTargets.some((item) => item.type === "usdt")) {
+    withSyntheticTargets.push({
+      id: "usdt_trc20",
+      bin: "",
+      name: "USDT (TRC20)",
+      shortName: "USDT TRC20",
+      type: "usdt",
+      qrSupported: false,
+    });
+  }
+
+  return withSyntheticTargets.sort((a, b) => {
+    const typeOrder: Record<WithdrawTarget["type"], number> = { bank: 0, wallet: 1, usdt: 2 };
+    if (a.type !== b.type) return typeOrder[a.type] - typeOrder[b.type];
     return a.shortName.localeCompare(b.shortName, "vi");
   });
 }
@@ -103,6 +133,12 @@ function getStatusTone(status: string) {
   return "border-yellow-300/20 bg-yellow-950/30 text-yellow-100";
 }
 
+function getHistoryMethodLabel(method: string) {
+  if (method === "usdt") return "USDT";
+  if (method === "wallet") return "Vi dien tu";
+  return "Ngan hang";
+}
+
 export function WithdrawView({ store }: { store: GameStore }) {
   const [selectedTargetId, setSelectedTargetId] = useState("");
   const [customBankName, setCustomBankName] = useState("");
@@ -114,18 +150,30 @@ export function WithdrawView({ store }: { store: GameStore }) {
 
   const MIN_WITHDRAW = Math.max(0, store.economyConfig.withdrawMinGold);
   const WITHDRAW_RATE = store.economyConfig.withdrawVndPerGold > 0 ? store.economyConfig.withdrawVndPerGold : 0.0005;
+  const usdtVndRateRaw = Number(import.meta.env.VITE_USDT_VND_RATE);
+  const usdtVndRate = Number.isFinite(usdtVndRateRaw) && usdtVndRateRaw > 0 ? usdtVndRateRaw : DEFAULT_USDT_VND_RATE;
   const withdrawAmount = parseInt(amount.replace(/\D/g, ""), 10) || 0;
-  const estimatedVnd = Math.floor(withdrawAmount * WITHDRAW_RATE);
   const selectedTarget = useMemo(
     () => withdrawTargets.find((target) => target.id === selectedTargetId),
     [selectedTargetId, withdrawTargets],
   );
+  const isUsdtWithdraw = selectedTarget?.type === "usdt";
+  const feePercent = isUsdtWithdraw ? 0 : WITHDRAW_FEE_PERCENT;
+  const estimatedGrossVnd = Math.floor(withdrawAmount * WITHDRAW_RATE);
+  const estimatedFeeVnd = Math.floor((estimatedGrossVnd * feePercent) / 100);
+  const estimatedVnd = Math.max(0, estimatedGrossVnd - estimatedFeeVnd);
+  const estimatedUsdt = estimatedGrossVnd / usdtVndRate;
+
   const bankTargets = useMemo(
     () => withdrawTargets.filter((target) => target.type === "bank"),
     [withdrawTargets],
   );
   const walletTargets = useMemo(
     () => withdrawTargets.filter((target) => target.type === "wallet"),
+    [withdrawTargets],
+  );
+  const usdtTargets = useMemo(
+    () => withdrawTargets.filter((target) => target.type === "usdt"),
     [withdrawTargets],
   );
 
@@ -160,17 +208,30 @@ export function WithdrawView({ store }: { store: GameStore }) {
     event.preventDefault();
 
     if (withdrawAmount < MIN_WITHDRAW) {
-      alert(`Tối thiểu ${formatNumber(MIN_WITHDRAW)} vàng!`);
+      alert(`Toi thieu ${formatNumber(MIN_WITHDRAW)} vang!`);
       return;
     }
 
     if (store.gold < withdrawAmount) {
-      alert("Số dư không đủ!");
+      alert("So du khong du!");
       return;
     }
 
     if (!selectedTarget && customBankName.trim().length === 0) {
-      alert("Vui lòng chọn ngân hàng, ví điện tử hoặc nhập tên đơn vị nhận tiền.");
+      alert("Vui long chon kenh nhan tien hoac nhap tay ten don vi nhan.");
+      return;
+    }
+
+    if (!accNum.trim()) {
+      alert("Vui long nhap so tai khoan hoac dia chi nhan.");
+      return;
+    }
+
+    const normalizedMethod: "bank" | "wallet" | "usdt" =
+      selectedTarget?.type === "usdt" ? "usdt" : selectedTarget?.type === "wallet" ? "wallet" : "bank";
+
+    if (normalizedMethod !== "usdt" && !accName.trim()) {
+      alert("Vui long nhap ten chu tai khoan/chu vi.");
       return;
     }
 
@@ -178,18 +239,20 @@ export function WithdrawView({ store }: { store: GameStore }) {
     const result = await store.withdraw({
       amount: withdrawAmount,
       bankBin: selectedTarget?.qrSupported ? selectedTarget.bin : "",
-      bankName: selectedTarget?.name || customBankName.trim(),
+      bankName: selectedTarget?.name || customBankName.trim() || (normalizedMethod === "usdt" ? "USDT (TRC20)" : ""),
       accountNumber: accNum.trim(),
-      accountName: accName.trim().toUpperCase(),
+      accountName: normalizedMethod === "usdt" ? accName.trim() : accName.trim().toUpperCase(),
+      method: normalizedMethod,
+      network: normalizedMethod === "usdt" ? "TRC20" : "",
     });
     setIsSubmitting(false);
 
     if (!result.success) {
-      alert(result.error || "Không thể gửi yêu cầu rút tiền.");
+      alert(result.error || "Khong the gui yeu cau rut tien.");
       return;
     }
 
-    alert("Đã gửi yêu cầu rút tiền thành công! Sẽ được xử lý trong 24h.");
+    alert("Da gui yeu cau rut tien thanh cong! Se duoc xu ly trong 24h.");
     setAmount("");
     setAccNum("");
     setAccName("");
@@ -208,15 +271,15 @@ export function WithdrawView({ store }: { store: GameStore }) {
       <div className="relative z-10 mb-8 px-1">
         <div className="inline-flex items-center gap-2 rounded-full border border-yellow-500/20 bg-[#2e1b08]/55 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.32em] text-yellow-100/75 shadow-[inset_0_1px_0_rgba(255,231,173,0.1)]">
           <Wallet className="h-3.5 w-3.5 text-yellow-400" />
-          Trung tâm rút
+          Trung tam rut
         </div>
 
         <h1 className="mt-4 bg-[linear-gradient(180deg,#fff7d0_0%,#ffd970_42%,#ae6309_100%)] bg-clip-text text-[2.1rem] font-black uppercase leading-none text-transparent">
-          Rút tiền
+          Rut tien
         </h1>
 
         <p className="mt-3 max-w-[18rem] text-sm leading-6 text-yellow-100/80">
-          Tạo lệnh rút trực tiếp từ số dư vàng hiện tại, giữ nguyên luồng backend xử lý.
+          Ho tro rut qua ngan hang, vi dien tu va USDT. Ngan hang/vi dien tu mat phi 10%.
         </p>
       </div>
 
@@ -229,14 +292,12 @@ export function WithdrawView({ store }: { store: GameStore }) {
             <Wallet className="h-7 w-7 text-[#5b2a00]" />
           </div>
 
-          <div className="mt-4 text-[10px] font-bold uppercase tracking-[0.3em] text-yellow-100/55">
-            Số dư khả dụng
-          </div>
+          <div className="mt-4 text-[10px] font-bold uppercase tracking-[0.3em] text-yellow-100/55">So du kha dung</div>
           <div className="mt-2 bg-[linear-gradient(180deg,#fff5c9_0%,#ffd55b_48%,#c07008_100%)] bg-clip-text text-5xl font-black text-transparent">
             {formatNumber(store.gold)}
           </div>
           <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-yellow-300/18 bg-black/18 px-4 py-2 text-sm font-bold text-yellow-100">
-            Tối thiểu rút: {formatNumber(MIN_WITHDRAW)} vàng
+            Toi thieu rut: {formatNumber(MIN_WITHDRAW)} vang
           </div>
         </div>
       </div>
@@ -249,26 +310,33 @@ export function WithdrawView({ store }: { store: GameStore }) {
           <div>
             <label className="mb-2 flex items-center gap-2 text-sm font-bold text-yellow-100/70">
               <Landmark className="h-4 w-4 text-cyan-300" />
-              Ngân hàng / Ví điện tử
+              Kenh nhan tien
             </label>
             <select
               value={selectedTargetId}
               onChange={(event) => setSelectedTargetId(event.target.value)}
               className="w-full rounded-[18px] border border-white/10 bg-black/30 px-4 py-4 text-white outline-none transition-colors focus:border-cyan-400/35"
             >
-              <option value="">Chọn ngân hàng hoặc ví điện tử...</option>
-              <optgroup label="Ngân hàng">
+              <option value="">Chon ngan hang, vi dien tu hoac USDT...</option>
+              <optgroup label="Ngan hang">
                 {bankTargets.map((target) => (
                   <option key={target.id} value={target.id}>
                     {target.shortName} {target.bin ? `(${target.bin})` : ""}
                   </option>
                 ))}
               </optgroup>
-              <optgroup label="Ví điện tử">
+              <optgroup label="Vi dien tu">
                 {walletTargets.map((target) => (
                   <option key={target.id} value={target.id}>
                     {target.shortName} {target.bin ? `(${target.bin})` : ""}
-                    {target.qrSupported ? " - QR tự động" : " - thủ công"}
+                    {target.qrSupported ? " - QR auto" : " - thu cong"}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="Crypto">
+                {usdtTargets.map((target) => (
+                  <option key={target.id} value={target.id}>
+                    {target.shortName}
                   </option>
                 ))}
               </optgroup>
@@ -277,34 +345,42 @@ export function WithdrawView({ store }: { store: GameStore }) {
               <p
                 className={cn(
                   "mt-2 text-xs font-bold",
-                  selectedTarget.qrSupported ? "text-emerald-200" : "text-yellow-100/70",
+                  selectedTarget.type === "usdt"
+                    ? "text-cyan-200"
+                    : selectedTarget.qrSupported
+                      ? "text-emerald-200"
+                      : "text-yellow-100/70",
                 )}
               >
-                {selectedTarget.qrSupported
-                  ? `${selectedTarget.shortName}${selectedTarget.bin ? ` (${selectedTarget.bin})` : ""} hỗ trợ sinh QR VietQR tự động từ backend.`
-                  : `${selectedTarget.shortName}${selectedTarget.bin ? ` (${selectedTarget.bin})` : ""} hiện được lưu theo dạng thủ công, backend sẽ không sinh QR VietQR tự động.`}
+                {selectedTarget.type === "usdt"
+                  ? "USDT se xu ly thu cong theo dia chi vi, khong tao QR VietQR."
+                  : selectedTarget.qrSupported
+                    ? `${selectedTarget.shortName}${selectedTarget.bin ? ` (${selectedTarget.bin})` : ""} ho tro tao QR VietQR tu dong.`
+                    : `${selectedTarget.shortName}${selectedTarget.bin ? ` (${selectedTarget.bin})` : ""} dang xu ly thu cong, khong tao QR.`}
               </p>
             )}
           </div>
 
-          <div>
-            <label className="mb-2 flex items-center gap-2 text-sm font-bold text-yellow-100/70">
-              <Building className="h-4 w-4 text-cyan-300" />
-              Đơn vị khác
-            </label>
-            <input
-              type="text"
-              value={customBankName}
-              onChange={(event) => setCustomBankName(event.target.value)}
-              placeholder="Nhập tay nếu không có trong danh sách"
-              className="w-full rounded-[18px] border border-white/10 bg-black/30 px-4 py-4 text-white outline-none transition-colors placeholder:text-white/25 focus:border-cyan-400/35"
-            />
-          </div>
+          {!isUsdtWithdraw && (
+            <div>
+              <label className="mb-2 flex items-center gap-2 text-sm font-bold text-yellow-100/70">
+                <Building className="h-4 w-4 text-cyan-300" />
+                Don vi khac
+              </label>
+              <input
+                type="text"
+                value={customBankName}
+                onChange={(event) => setCustomBankName(event.target.value)}
+                placeholder="Nhap tay neu khong co trong danh sach"
+                className="w-full rounded-[18px] border border-white/10 bg-black/30 px-4 py-4 text-white outline-none transition-colors placeholder:text-white/25 focus:border-cyan-400/35"
+              />
+            </div>
+          )}
 
           <div>
             <label className="mb-2 flex items-center gap-2 text-sm font-bold text-yellow-100/70">
               <CreditCard className="h-4 w-4 text-cyan-300" />
-              {selectedTarget?.type === "wallet" ? "Số điện thoại / ID ví" : "Số tài khoản"}
+              {isUsdtWithdraw ? "Dia chi vi USDT" : selectedTarget?.type === "wallet" ? "So dien thoai / ID vi" : "So tai khoan"}
             </label>
             <input
               type="text"
@@ -312,9 +388,11 @@ export function WithdrawView({ store }: { store: GameStore }) {
               value={accNum}
               onChange={(event) => setAccNum(event.target.value)}
               placeholder={
-                selectedTarget?.type === "wallet"
-                  ? "Nhập số điện thoại hoặc ID ví..."
-                  : "Nhập số tài khoản..."
+                isUsdtWithdraw
+                  ? "Nhap dia chi vi USDT TRC20..."
+                  : selectedTarget?.type === "wallet"
+                    ? "Nhap so dien thoai hoac ID vi..."
+                    : "Nhap so tai khoan..."
               }
               className="w-full rounded-[18px] border border-white/10 bg-black/30 px-4 py-4 font-mono tracking-wide text-white outline-none transition-colors placeholder:text-white/25 focus:border-cyan-400/35"
             />
@@ -323,35 +401,48 @@ export function WithdrawView({ store }: { store: GameStore }) {
           <div>
             <label className="mb-2 flex items-center gap-2 text-sm font-bold text-yellow-100/70">
               <UserCircle className="h-4 w-4 text-cyan-300" />
-              {selectedTarget?.type === "wallet" ? "Tên chủ ví" : "Tên chủ tài khoản"}
+              {isUsdtWithdraw ? "Ten chu vi (tuy chon)" : selectedTarget?.type === "wallet" ? "Ten chu vi" : "Ten chu tai khoan"}
             </label>
             <input
               type="text"
-              required
+              required={!isUsdtWithdraw}
               value={accName}
-              onChange={(event) => setAccName(event.target.value.toUpperCase())}
-              placeholder="NGUYEN VAN A"
-              className="w-full rounded-[18px] border border-white/10 bg-black/30 px-4 py-4 uppercase text-white outline-none transition-colors placeholder:text-white/25 focus:border-cyan-400/35"
+              onChange={(event) => setAccName(isUsdtWithdraw ? event.target.value : event.target.value.toUpperCase())}
+              placeholder={isUsdtWithdraw ? "Co the bo trong" : "NGUYEN VAN A"}
+              className={cn(
+                "w-full rounded-[18px] border border-white/10 bg-black/30 px-4 py-4 text-white outline-none transition-colors placeholder:text-white/25 focus:border-cyan-400/35",
+                isUsdtWithdraw ? "" : "uppercase",
+              )}
             />
           </div>
 
           <div>
             <label className="mb-2 flex items-center gap-2 text-sm font-bold text-yellow-100/70">
               <Wallet className="h-4 w-4 text-yellow-400" />
-              Số vàng cần rút
+              So vang can rut
             </label>
             <input
               type="number"
               required
               value={amount}
               onChange={(event) => setAmount(event.target.value)}
-              placeholder={`Ví dụ: ${MIN_WITHDRAW}`}
+              placeholder={`Vi du: ${MIN_WITHDRAW}`}
               className="w-full rounded-[18px] border border-yellow-400/25 bg-yellow-950/20 px-4 py-4 text-2xl font-black text-yellow-300 outline-none transition-colors placeholder:text-yellow-300/20 focus:border-yellow-300/45"
             />
             {withdrawAmount >= MIN_WITHDRAW && (
-              <p className="mt-2 inline-flex items-center gap-2 rounded-full border border-emerald-300/18 bg-emerald-950/25 px-3 py-1 text-sm font-bold text-emerald-200">
-                Ước tính nhận khoảng {formatNumber(estimatedVnd)} VNĐ
-              </p>
+              <div className="mt-2 space-y-1 rounded-2xl border border-emerald-300/18 bg-emerald-950/25 px-3 py-2 text-sm text-emerald-100">
+                <p className="font-bold">Quy doi goc: {formatNumber(estimatedGrossVnd)} VND</p>
+                {!isUsdtWithdraw ? (
+                  <>
+                    <p>Phi dich vu {feePercent}%: -{formatNumber(estimatedFeeVnd)} VND</p>
+                    <p className="font-bold">Uoc tinh thuc nhan: {formatNumber(estimatedVnd)} VND</p>
+                  </>
+                ) : (
+                  <p className="font-bold">
+                    Uoc tinh thuc nhan: ~{formatUsdt(estimatedUsdt)} USDT (1 USDT = {formatNumber(usdtVndRate)} VND)
+                  </p>
+                )}
+              </div>
             )}
           </div>
         </div>
@@ -361,7 +452,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
           disabled={isSubmitting}
           className="btn-gold mt-5 w-full rounded-full px-4 py-4 text-sm font-black uppercase tracking-[0.18em] disabled:opacity-60"
         >
-          {isSubmitting ? "Đang gửi lệnh" : "Tạo lệnh rút tiền"}
+          {isSubmitting ? "Dang gui lenh" : "Tao lenh rut tien"}
         </button>
       </form>
 
@@ -369,7 +460,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
         <div className="flex items-center gap-2 px-1">
           <Sparkles className="h-4 w-4 text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.45)]" />
           <h2 className="bg-[linear-gradient(180deg,#fff4c7_0%,#f7c23e_46%,#a25908_100%)] bg-clip-text text-[1.15rem] font-black uppercase tracking-[0.16em] text-transparent">
-            Lịch sử rút
+            Lich su rut
           </h2>
           <div className="h-px flex-1 bg-gradient-to-r from-yellow-400/45 via-yellow-500/15 to-transparent" />
         </div>
@@ -377,63 +468,63 @@ export function WithdrawView({ store }: { store: GameStore }) {
         {store.withdrawHistory.length === 0 ? (
           <div className="rounded-[28px] border border-yellow-500/20 bg-[linear-gradient(180deg,rgba(70,41,10,0.78)_0%,rgba(35,20,7,0.94)_100%)] px-4 py-8 text-center shadow-[0_16px_34px_rgba(0,0,0,0.26)]">
             <Wallet className="mx-auto h-10 w-10 text-yellow-100/25" />
-            <p className="mt-3 text-sm leading-6 text-yellow-100/55">
-              Chưa có lệnh rút nào được tạo.
-            </p>
+            <p className="mt-3 text-sm leading-6 text-yellow-100/55">Chua co lenh rut nao duoc tao.</p>
           </div>
         ) : (
           <div className="space-y-3">
-            {store.withdrawHistory.map((item) => (
-              <div
-                key={item.id}
-                className="rounded-[28px] border border-yellow-500/22 bg-[radial-gradient(circle_at_top,rgba(255,214,120,0.14),transparent_44%),linear-gradient(180deg,rgba(78,45,10,0.86)_0%,rgba(37,21,7,0.95)_100%)] px-4 py-4 shadow-[0_16px_34px_rgba(0,0,0,0.28)]"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-base font-extrabold text-[#fff3d4]">{item.bankName}</p>
-                    <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-yellow-100/45">
-                      {item.accountNumber}
-                    </p>
-                    <p className="mt-3 text-sm font-black text-yellow-100">
-                      {formatNumber(item.amount)} vàng
-                    </p>
-                    <p className="mt-1 text-xs text-yellow-100/55">{item.date}</p>
-                  </div>
+            {store.withdrawHistory.map((item) => {
+              const payoutCurrency = (item.payoutCurrency || "VND").toUpperCase();
+              const payoutAmount = Number(item.payoutAmount || (payoutCurrency === "VND" ? item.vnd : 0));
+              const payoutLabel = payoutCurrency === "USDT" ? `${formatUsdt(payoutAmount)} USDT` : `${formatNumber(payoutAmount)} VND`;
 
-                  <div className="text-right">
-                    <p className="text-base font-black text-emerald-200">
-                      {formatNumber(item.vnd)} VNĐ
-                    </p>
-                    <div
-                      className={cn(
-                        "mt-2 rounded-full border px-3 py-1 text-xs font-bold",
-                        getStatusTone(item.status),
-                      )}
-                    >
-                      {item.status}
+              return (
+                <div
+                  key={item.id}
+                  className="rounded-[28px] border border-yellow-500/22 bg-[radial-gradient(circle_at_top,rgba(255,214,120,0.14),transparent_44%),linear-gradient(180deg,rgba(78,45,10,0.86)_0%,rgba(37,21,7,0.95)_100%)] px-4 py-4 shadow-[0_16px_34px_rgba(0,0,0,0.28)]"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-base font-extrabold text-[#fff3d4]">{item.bankName}</p>
+                      <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-yellow-100/45">{item.accountNumber}</p>
+                      <p className="mt-2 text-xs text-cyan-100/75">Kenh: {getHistoryMethodLabel(item.method)}</p>
+                      <p className="mt-3 text-sm font-black text-yellow-100">{formatNumber(item.amount)} vang</p>
+                      {item.feePercent > 0 ? (
+                        <p className="mt-1 text-xs text-yellow-100/60">Phi: {item.feePercent}% ({formatNumber(item.feeAmount)} VND)</p>
+                      ) : null}
+                      <p className="mt-1 text-xs text-yellow-100/55">{item.date}</p>
+                    </div>
+
+                    <div className="text-right">
+                      <p className="text-base font-black text-emerald-200">{payoutLabel}</p>
+                      <div
+                        className={cn(
+                          "mt-2 rounded-full border px-3 py-1 text-xs font-bold",
+                          getStatusTone(item.status),
+                        )}
+                      >
+                        {item.status}
+                      </div>
                     </div>
                   </div>
+
+                  {(item.message || item.qrUrl) && (
+                    <div className="mt-4 flex flex-wrap items-center gap-3">
+                      {item.message && <p className="text-sm text-yellow-100/76">{item.message}</p>}
+
+                      {item.qrUrl && payoutCurrency === "VND" && (
+                        <button
+                          onClick={() => window.open(item.qrUrl || "", "_blank", "noopener,noreferrer")}
+                          className="inline-flex items-center gap-2 rounded-full border border-cyan-300/18 bg-cyan-950/30 px-3 py-1.5 text-xs font-bold text-cyan-100"
+                        >
+                          <QrCode className="h-3.5 w-3.5" />
+                          Xem QR
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </div>
-
-                {(item.message || item.qrUrl) && (
-                  <div className="mt-4 flex flex-wrap items-center gap-3">
-                    {item.message && (
-                      <p className="text-sm text-yellow-100/76">{item.message}</p>
-                    )}
-
-                    {item.qrUrl && (
-                      <button
-                        onClick={() => window.open(item.qrUrl || "", "_blank", "noopener,noreferrer")}
-                        className="inline-flex items-center gap-2 rounded-full border border-cyan-300/18 bg-cyan-950/30 px-3 py-1.5 text-xs font-bold text-cyan-100"
-                      >
-                        <QrCode className="h-3.5 w-3.5" />
-                        Xem QR
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

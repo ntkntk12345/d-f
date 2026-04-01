@@ -118,6 +118,12 @@ export interface WithdrawHistoryItem {
   id: number;
   amount: number;
   vnd: number;
+  method: "bank" | "wallet" | "usdt" | string;
+  network?: string;
+  feePercent: number;
+  feeAmount: number;
+  payoutAmount: number;
+  payoutCurrency: string;
   bankName: string;
   accountNumber: string;
   status: string;
@@ -142,6 +148,12 @@ export interface AdminWithdrawItem {
   bankName: string;
   accountNumber: string;
   vnd: number;
+  method: "bank" | "wallet" | "usdt" | string;
+  network?: string;
+  feePercent: number;
+  feeAmount: number;
+  payoutAmount: number;
+  payoutCurrency: string;
   qrUrl?: string | null;
   status: string;
 }
@@ -162,6 +174,8 @@ export interface WithdrawPayload {
   bankName: string;
   accountNumber: string;
   accountName: string;
+  method?: "bank" | "wallet" | "usdt";
+  network?: string;
 }
 
 interface ApiLevelSetting {
@@ -199,6 +213,12 @@ interface ApiUser {
     id: number;
     amount: number | string;
     vnd: number | string;
+    method?: "bank" | "wallet" | "usdt" | string;
+    network?: string;
+    feePercent?: number | string;
+    feeAmount?: number | string;
+    payoutAmount?: number | string;
+    payoutCurrency?: string;
     bankName: string;
     accountNumber: string;
     status: string;
@@ -262,6 +282,12 @@ interface AdminDataResult {
     bankName: string;
     accountNumber: string;
     vnd: number | string;
+    method?: "bank" | "wallet" | "usdt" | string;
+    network?: string;
+    feePercent?: number | string;
+    feeAmount?: number | string;
+    payoutAmount?: number | string;
+    payoutCurrency?: string;
     qrUrl?: string | null;
     status: string;
   }>;
@@ -695,6 +721,12 @@ export function useGameStore() {
           id: toNumber(item.id),
           amount: toNumber(item.amount),
           vnd: toNumber(item.vnd),
+          method: item.method || "bank",
+          network: item.network || "",
+          feePercent: toNumber(item.feePercent),
+          feeAmount: toNumber(item.feeAmount),
+          payoutAmount: toNumber(item.payoutAmount, toNumber(item.vnd)),
+          payoutCurrency: item.payoutCurrency || "VND",
           bankName: item.bankName || "",
           accountNumber: item.accountNumber || "",
           status: item.status || "",
@@ -848,6 +880,12 @@ export function useGameStore() {
         bankName: item.bankName || "",
         accountNumber: item.accountNumber || "",
         vnd: toNumber(item.vnd),
+        method: item.method || "bank",
+        network: item.network || "",
+        feePercent: toNumber(item.feePercent),
+        feeAmount: toNumber(item.feeAmount),
+        payoutAmount: toNumber(item.payoutAmount, toNumber(item.vnd)),
+        payoutCurrency: item.payoutCurrency || "VND",
         qrUrl: item.qrUrl || null,
         status: item.status || "",
       })),
