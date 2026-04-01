@@ -124,7 +124,7 @@ export function TasksView({ store }: { store: GameStore }) {
         {
           key: "newbie",
           title: "Nhiệm vụ tân thủ",
-          tasks: store.tasks.filter((task) => task.type === "newbie"),
+          tasks: store.tasks.filter((task) => task.type === "newbie" && !task.done),
         },
         {
           key: "ad",

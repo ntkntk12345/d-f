@@ -340,7 +340,7 @@ const isTaskDone = (t) => {
     try {
         if (!t || !t.isClaimed) return false;
         const type = t.type || 'community';
-        if (type === 'one_time' || type === 'community') return true;
+        if (type === 'one_time' || type === 'community' || type === 'newbie') return true;
         
         if (type === 'daily') {
             if (!t.lastClaimedAt) return false;
@@ -363,7 +363,7 @@ const visibleTasks = computed(() => {
         if (!state.backendTasks || !Array.isArray(state.backendTasks)) return [];
         return state.backendTasks.filter(t => {
             if (!t || typeof t !== 'object') return false;
-            if (t.type === 'one_time' && isTaskDone(t)) return false;
+            if ((t.type === 'one_time' || t.type === 'newbie') && isTaskDone(t)) return false;
             return true;
         });
     } catch (e) {
