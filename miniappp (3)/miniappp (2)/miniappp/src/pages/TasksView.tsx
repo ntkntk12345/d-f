@@ -13,6 +13,7 @@ import {
   MousePointerClick,
   PlayCircle,
   Send,
+  ShieldAlert,
   Sparkles,
   Users,
   type LucideIcon,
@@ -115,6 +116,10 @@ export function TasksView({ store }: { store: GameStore }) {
   const taskMilestoneCount = Math.max(0, store.economyConfig.taskMilestoneCount || 0);
   const taskMilestoneRewardGold = Math.max(0, store.economyConfig.taskMilestoneRewardGold || 0);
   const taskMilestoneRewardDiamonds = Math.max(0, store.economyConfig.taskMilestoneRewardDiamonds || 0);
+  const newbieLockRequired = store.newbieLock.required;
+  const newbieTotalTasks = Math.max(0, store.newbieLock.totalNewbieTasks || 0);
+  const newbieCompletedTasks = Math.max(0, store.newbieLock.completedNewbieTasks || 0);
+  const newbieRemainingTasks = Math.max(0, store.newbieLock.remainingNewbieTasks || 0);
   const hasTaskMilestone =
     taskMilestoneCount > 0 && (taskMilestoneRewardGold > 0 || taskMilestoneRewardDiamonds > 0);
 
@@ -408,6 +413,27 @@ export function TasksView({ store }: { store: GameStore }) {
       </div>
 
       <div className="relative z-10 space-y-8">
+        {newbieLockRequired ? (
+          <div className="rounded-[28px] border border-rose-300/26 bg-[linear-gradient(180deg,rgba(113,30,42,0.82)_0%,rgba(53,14,20,0.95)_100%)] px-4 py-4 shadow-[0_18px_36px_rgba(0,0,0,0.3)]">
+            <div className="flex items-start gap-3">
+              <div className="rounded-[18px] border border-rose-200/25 bg-rose-500/16 p-3 text-rose-100">
+                <ShieldAlert className="h-5 w-5" />
+              </div>
+
+              <div className="min-w-0">
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-rose-100/75">Mo khoa tan thu</p>
+                <p className="mt-2 text-sm leading-6 text-rose-50/90">
+                  Ban dang o che do tan thu do duoc moi. Hoan thanh nhiem vu tan thu de mo cac tab va tinh nang khac.
+                </p>
+                <p className="mt-2 text-xs font-bold uppercase tracking-[0.16em] text-rose-100/70">
+                  Tien do: {formatNumber(newbieCompletedTasks)}/{formatNumber(newbieTotalTasks)} • Con{" "}
+                  {formatNumber(newbieRemainingTasks)} nhiem vu
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
         {hasTaskMilestone ? (
           <div className="rounded-[28px] border border-cyan-300/18 bg-[linear-gradient(180deg,rgba(17,62,75,0.72)_0%,rgba(7,25,31,0.94)_100%)] px-4 py-4 shadow-[0_16px_34px_rgba(0,0,0,0.28)]">
             <div className="flex items-start gap-3">

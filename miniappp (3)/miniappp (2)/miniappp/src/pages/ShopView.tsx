@@ -80,6 +80,7 @@ export function ShopView({ store }: { store: GameStore }) {
     setUpgradingLevel(null);
 
     if (!success) {
+      if (store.newbieLock.required) return;
       alert("Không thể nâng cấp. Hãy kiểm tra lại số kim cương.");
     }
   };

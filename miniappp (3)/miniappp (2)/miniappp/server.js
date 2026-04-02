@@ -22,10 +22,11 @@ const BOT_TOKEN = process.env.BOT_TOKEN || '8258255510:AAFjHCjP9C1VtGC06bvUx0eAT
 const ADMIN_PASSWORD = "Vjyy1234@"; // Updated per user request
 const adminEventClients = new Set();
 const WITHDRAW_BANK_WALLET_FEE_PERCENT = 10;
-const DEFAULT_USDT_VND_RATE = 26000;
-const rawUsdtVndRate = Number(process.env.USDT_VND_RATE || process.env.WITHDRAW_USDT_VND_RATE || DEFAULT_USDT_VND_RATE);
-const USDT_VND_RATE = Number.isFinite(rawUsdtVndRate) && rawUsdtVndRate > 0 ? rawUsdtVndRate : DEFAULT_USDT_VND_RATE;
-const HEART_REACTIONS = new Set(['❤', '❤️', '♥', '♥️']);
+const DEFAULT_USD_TO_VND_RATE_K = (() => {
+    const raw = Number(process.env.USD_TO_VND_RATE_K || process.env.USDT_VND_RATE_K || 26);
+    return Number.isFinite(raw) && raw > 0 ? raw : 26;
+})();
+const HEART_REACTIONS = new Set(['â¤', 'â¤ï¸', 'â™¥', 'â™¥ï¸']);
 
 
 function verifyTelegramInitData(initData) {
@@ -53,19 +54,19 @@ function verifyTelegramInitData(initData) {
 const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ error: 'Thiếu thông tin xác thực' });
+        return res.status(401).json({ error: 'Thiáº¿u thÃ´ng tin xÃ¡c thá»±c' });
     }
 
     const initData = authHeader.split(' ')[1];
 
     if (!verifyTelegramInitData(initData)) {
-        return res.status(403).json({ error: 'Thông tin xác thực không hợp lệ' });
+        return res.status(403).json({ error: 'ThÃ´ng tin xÃ¡c thá»±c khÃ´ng há»£p lá»‡' });
     }
 
     try {
         const urlParams = new URLSearchParams(initData);
         const userStr = urlParams.get('user');
-        if (!userStr) return res.status(400).json({ error: 'Dữ liệu người dùng không hợp lệ' });
+        if (!userStr) return res.status(400).json({ error: 'Dá»¯ liá»‡u ngÆ°á»i dÃ¹ng khÃ´ng há»£p lá»‡' });
         req.user = JSON.parse(userStr);
 
         // Extract referral from start_param if exists
@@ -74,7 +75,7 @@ const authMiddleware = (req, res, next) => {
 
         next();
     } catch (e) {
-        res.status(400).json({ error: 'Lỗi định dạng dữ liệu người dùng' });
+        res.status(400).json({ error: 'Lá»—i Ä‘á»‹nh dáº¡ng dá»¯ liá»‡u ngÆ°á»i dÃ¹ng' });
     }
 };
 
@@ -158,7 +159,7 @@ const adminMiddleware = (req, res, next) => {
 
     authMiddleware(req, res, () => {
         if (String(req.user.id) !== ADMIN_ID) {
-            return res.status(403).json({ error: 'Truy cập bị từ chối: Không phải admin' });
+            return res.status(403).json({ error: 'Truy cáº­p bá»‹ tá»« chá»‘i: KhÃ´ng pháº£i admin' });
         }
         next();
     });
@@ -178,11 +179,13 @@ let pool;
 const DEFAULT_ECONOMY_CONFIG = Object.freeze({
     newUserGold: 1000,
     newUserDiamonds: 1000,
-    referralRewardGold: 50000,
+    referralRewardGold: 0,
     referralRewardDiamonds: 0,
+    referralRewardUsdt: 0.02,
     exchangeGoldPerDiamond: 125,
     withdrawMinGold: 6000000,
     withdrawVndPerGold: 0.0005,
+    usdToVndRateK: DEFAULT_USD_TO_VND_RATE_K,
     taskMilestoneCount: 0,
     taskMilestoneRewardGold: 0,
     taskMilestoneRewardDiamonds: 0,
@@ -197,13 +200,13 @@ const DEFAULT_LIXI_CONFIG = Object.freeze({
 });
 
 async function initDB() {
-    console.log("🛠️ Initializing Database...");
+    console.log("ðŸ› ï¸ Initializing Database...");
     try {
         pool = mysql.createPool(dbConfig);
-        console.log("📡 Connection pool created.");
+        console.log("ðŸ“¡ Connection pool created.");
 
         const connection = await pool.getConnection();
-        console.log("🔌 Database connected successfully.");
+        console.log("ðŸ”Œ Database connected successfully.");
 
         // Helper to run ALTER commands silently (ignore errors if already applied)
         const safeAlter = async (sql) => {
@@ -223,6 +226,7 @@ async function initDB() {
                 gold DECIMAL(65, 0) DEFAULT 0,
                 goldBeforeShift DECIMAL(65, 0) DEFAULT 0,
                 diamonds DECIMAL(65, 0) DEFAULT 1000,
+                usdtBalance DECIMAL(24, 8) DEFAULT 0,
                 level INT DEFAULT 1,
                 miningRate FLOAT DEFAULT 7,
                 upgradeCost DECIMAL(65, 0) DEFAULT 5000,
@@ -242,28 +246,34 @@ async function initDB() {
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 inviterId BIGINT,
                 invitedId BIGINT,
-                goldReward DECIMAL(65, 0) DEFAULT 50000,
+                goldReward DECIMAL(65, 0) DEFAULT 0,
                 diamondReward DECIMAL(65, 0) DEFAULT 0,
-                status VARCHAR(32) DEFAULT 'rewarded',
+                usdtReward DECIMAL(24, 8) DEFAULT 0.02,
+                status VARCHAR(32) DEFAULT 'pending',
                 rewardedAt TIMESTAMP NULL DEFAULT NULL,
                 createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 UNIQUE KEY (invitedId)
             ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
         `);
         await safeAlter("ALTER TABLE referrals CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-        await safeAlter("ALTER TABLE referrals MODIFY COLUMN goldReward DECIMAL(65,0) DEFAULT 50000");
+        await safeAlter("ALTER TABLE referrals MODIFY COLUMN goldReward DECIMAL(65,0) DEFAULT 0");
         await safeAlter("ALTER TABLE referrals ADD COLUMN diamondReward DECIMAL(65,0) DEFAULT 0 AFTER goldReward");
         await safeAlter("ALTER TABLE referrals MODIFY COLUMN diamondReward DECIMAL(65,0) DEFAULT 0");
-        await safeAlter("ALTER TABLE referrals ADD COLUMN status VARCHAR(32) DEFAULT 'rewarded' AFTER diamondReward");
-        await safeAlter("ALTER TABLE referrals MODIFY COLUMN status VARCHAR(32) DEFAULT 'rewarded'");
+        await safeAlter("ALTER TABLE referrals ADD COLUMN usdtReward DECIMAL(24,8) DEFAULT 0.02 AFTER diamondReward");
+        await safeAlter("ALTER TABLE referrals MODIFY COLUMN usdtReward DECIMAL(24,8) DEFAULT 0.02");
+        await safeAlter("ALTER TABLE referrals ADD COLUMN status VARCHAR(32) DEFAULT 'pending' AFTER usdtReward");
+        await safeAlter("ALTER TABLE referrals MODIFY COLUMN status VARCHAR(32) DEFAULT 'pending'");
         await safeAlter("ALTER TABLE referrals ADD COLUMN rewardedAt TIMESTAMP NULL DEFAULT NULL AFTER status");
-        await connection.query("UPDATE referrals SET status = 'rewarded' WHERE status IS NULL OR status = ''");
+        await connection.query("UPDATE referrals SET status = 'pending' WHERE status IS NULL OR status = ''");
+        await connection.query("UPDATE referrals SET usdtReward = 0 WHERE usdtReward IS NULL");
         await connection.query("UPDATE referrals SET rewardedAt = createdAt WHERE status = 'rewarded' AND rewardedAt IS NULL");
         await safeAlter("ALTER TABLE users CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
         await safeAlter("ALTER TABLE users ADD COLUMN tgHandle VARCHAR(255)");
         await safeAlter("ALTER TABLE users MODIFY COLUMN gold DECIMAL(65,0) DEFAULT 0");
         await safeAlter("ALTER TABLE users MODIFY COLUMN goldBeforeShift DECIMAL(65,0) DEFAULT 0");
         await safeAlter("ALTER TABLE users MODIFY COLUMN diamonds DECIMAL(65,0) DEFAULT 1000");
+        await safeAlter("ALTER TABLE users ADD COLUMN usdtBalance DECIMAL(24,8) DEFAULT 0 AFTER diamonds");
+        await safeAlter("ALTER TABLE users MODIFY COLUMN usdtBalance DECIMAL(24,8) DEFAULT 0");
         await safeAlter("ALTER TABLE users MODIFY COLUMN upgradeCost DECIMAL(65,0) DEFAULT 5000");
         await safeAlter("ALTER TABLE users ADD COLUMN miningShiftStart BIGINT DEFAULT NULL AFTER miningStartTime");
         await safeAlter("ALTER TABLE users ADD COLUMN ip_address VARCHAR(45) AFTER username");
@@ -300,7 +310,10 @@ async function initDB() {
             CREATE TABLE IF NOT EXISTS withdrawals (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 teleId BIGINT,
-                amount DECIMAL(65, 0),
+                amount DECIMAL(65, 8),
+                sourceWallet VARCHAR(16) DEFAULT 'gold',
+                sourceCurrency VARCHAR(16) DEFAULT 'GOLD',
+                sourceAmount DECIMAL(65, 8) DEFAULT 0,
                 withdrawMethod VARCHAR(20) DEFAULT 'bank',
                 withdrawNetwork VARCHAR(32) DEFAULT NULL,
                 vndAmount DECIMAL(65, 0),
@@ -312,13 +325,19 @@ async function initDB() {
                 bankName VARCHAR(255),
                 accountNumber VARCHAR(255),
                 accountName VARCHAR(255),
-                status VARCHAR(50) DEFAULT 'Đang xử lý',
+                status VARCHAR(50) DEFAULT 'Äang xá»­ lÃ½',
                 qrUrl TEXT,
                 createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
         `);
         await safeAlter("ALTER TABLE withdrawals CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-        await safeAlter("ALTER TABLE withdrawals MODIFY COLUMN amount DECIMAL(65,0)");
+        await safeAlter("ALTER TABLE withdrawals MODIFY COLUMN amount DECIMAL(65,8)");
+        await safeAlter("ALTER TABLE withdrawals ADD COLUMN sourceWallet VARCHAR(16) DEFAULT 'gold' AFTER amount");
+        await safeAlter("ALTER TABLE withdrawals MODIFY COLUMN sourceWallet VARCHAR(16) DEFAULT 'gold'");
+        await safeAlter("ALTER TABLE withdrawals ADD COLUMN sourceCurrency VARCHAR(16) DEFAULT 'GOLD' AFTER sourceWallet");
+        await safeAlter("ALTER TABLE withdrawals MODIFY COLUMN sourceCurrency VARCHAR(16) DEFAULT 'GOLD'");
+        await safeAlter("ALTER TABLE withdrawals ADD COLUMN sourceAmount DECIMAL(65,8) DEFAULT 0 AFTER sourceCurrency");
+        await safeAlter("ALTER TABLE withdrawals MODIFY COLUMN sourceAmount DECIMAL(65,8) DEFAULT 0");
         await safeAlter("ALTER TABLE withdrawals ADD COLUMN withdrawMethod VARCHAR(20) DEFAULT 'bank' AFTER amount");
         await safeAlter("ALTER TABLE withdrawals MODIFY COLUMN withdrawMethod VARCHAR(20) DEFAULT 'bank'");
         await safeAlter("ALTER TABLE withdrawals ADD COLUMN withdrawNetwork VARCHAR(32) DEFAULT NULL AFTER withdrawMethod");
@@ -506,11 +525,13 @@ async function initDB() {
                 id INT PRIMARY KEY DEFAULT 1,
                 newUserGold DECIMAL(65, 0) DEFAULT 1000,
                 newUserDiamonds DECIMAL(65, 0) DEFAULT 1000,
-                referralRewardGold DECIMAL(65, 0) DEFAULT 50000,
+                referralRewardGold DECIMAL(65, 0) DEFAULT 0,
                 referralRewardDiamonds DECIMAL(65, 0) DEFAULT 0,
+                referralRewardUsdt DECIMAL(24, 8) DEFAULT 0.02,
                 exchangeGoldPerDiamond DECIMAL(65, 0) DEFAULT 125,
                 withdrawMinGold DECIMAL(65, 0) DEFAULT 6000000,
                 withdrawVndPerGold DECIMAL(18, 8) DEFAULT 0.0005,
+                usdToVndRateK DECIMAL(12, 4) DEFAULT 26,
                 taskMilestoneCount INT DEFAULT 0,
                 taskMilestoneRewardGold DECIMAL(65, 0) DEFAULT 0,
                 taskMilestoneRewardDiamonds DECIMAL(65, 0) DEFAULT 0
@@ -519,17 +540,21 @@ async function initDB() {
         await safeAlter("ALTER TABLE economy_config CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
         await safeAlter("ALTER TABLE economy_config MODIFY COLUMN newUserGold DECIMAL(65,0) DEFAULT 1000");
         await safeAlter("ALTER TABLE economy_config MODIFY COLUMN newUserDiamonds DECIMAL(65,0) DEFAULT 1000");
-        await safeAlter("ALTER TABLE economy_config ADD COLUMN referralRewardGold DECIMAL(65,0) DEFAULT 50000 AFTER newUserDiamonds");
-        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN referralRewardGold DECIMAL(65,0) DEFAULT 50000");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN referralRewardGold DECIMAL(65,0) DEFAULT 0 AFTER newUserDiamonds");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN referralRewardGold DECIMAL(65,0) DEFAULT 0");
         await safeAlter("ALTER TABLE economy_config ADD COLUMN referralRewardDiamonds DECIMAL(65,0) DEFAULT 0 AFTER referralRewardGold");
         await safeAlter("ALTER TABLE economy_config MODIFY COLUMN referralRewardDiamonds DECIMAL(65,0) DEFAULT 0");
-        await safeAlter("ALTER TABLE economy_config ADD COLUMN exchangeGoldPerDiamond DECIMAL(65,0) DEFAULT 125 AFTER referralRewardDiamonds");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN referralRewardUsdt DECIMAL(24,8) DEFAULT 0.02 AFTER referralRewardDiamonds");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN referralRewardUsdt DECIMAL(24,8) DEFAULT 0.02");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN exchangeGoldPerDiamond DECIMAL(65,0) DEFAULT 125 AFTER referralRewardUsdt");
         await safeAlter("ALTER TABLE economy_config MODIFY COLUMN exchangeGoldPerDiamond DECIMAL(65,0) DEFAULT 125");
         await safeAlter("ALTER TABLE economy_config ADD COLUMN withdrawMinGold DECIMAL(65,0) DEFAULT 6000000 AFTER exchangeGoldPerDiamond");
         await safeAlter("ALTER TABLE economy_config MODIFY COLUMN withdrawMinGold DECIMAL(65,0) DEFAULT 6000000");
         await safeAlter("ALTER TABLE economy_config ADD COLUMN withdrawVndPerGold DECIMAL(18,8) DEFAULT 0.0005 AFTER withdrawMinGold");
         await safeAlter("ALTER TABLE economy_config MODIFY COLUMN withdrawVndPerGold DECIMAL(18,8) DEFAULT 0.0005");
-        await safeAlter("ALTER TABLE economy_config ADD COLUMN taskMilestoneCount INT DEFAULT 0 AFTER withdrawVndPerGold");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN usdToVndRateK DECIMAL(12,4) DEFAULT 26 AFTER withdrawVndPerGold");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN usdToVndRateK DECIMAL(12,4) DEFAULT 26");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN taskMilestoneCount INT DEFAULT 0 AFTER usdToVndRateK");
         await safeAlter("ALTER TABLE economy_config MODIFY COLUMN taskMilestoneCount INT DEFAULT 0");
         await safeAlter("ALTER TABLE economy_config ADD COLUMN taskMilestoneRewardGold DECIMAL(65,0) DEFAULT 0 AFTER taskMilestoneCount");
         await safeAlter("ALTER TABLE economy_config MODIFY COLUMN taskMilestoneRewardGold DECIMAL(65,0) DEFAULT 0");
@@ -542,22 +567,26 @@ async function initDB() {
                 newUserDiamonds,
                 referralRewardGold,
                 referralRewardDiamonds,
+                referralRewardUsdt,
                 exchangeGoldPerDiamond,
                 withdrawMinGold,
                 withdrawVndPerGold,
+                usdToVndRateK,
                 taskMilestoneCount,
                 taskMilestoneRewardGold,
                 taskMilestoneRewardDiamonds
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 1,
                 DEFAULT_ECONOMY_CONFIG.newUserGold,
                 DEFAULT_ECONOMY_CONFIG.newUserDiamonds,
                 DEFAULT_ECONOMY_CONFIG.referralRewardGold,
                 DEFAULT_ECONOMY_CONFIG.referralRewardDiamonds,
+                DEFAULT_ECONOMY_CONFIG.referralRewardUsdt,
                 DEFAULT_ECONOMY_CONFIG.exchangeGoldPerDiamond,
                 DEFAULT_ECONOMY_CONFIG.withdrawMinGold,
                 DEFAULT_ECONOMY_CONFIG.withdrawVndPerGold,
+                DEFAULT_ECONOMY_CONFIG.usdToVndRateK,
                 DEFAULT_ECONOMY_CONFIG.taskMilestoneCount,
                 DEFAULT_ECONOMY_CONFIG.taskMilestoneRewardGold,
                 DEFAULT_ECONOMY_CONFIG.taskMilestoneRewardDiamonds,
@@ -644,7 +673,7 @@ async function initDB() {
         // Populate Default Levels if empty or incomplete
         const [levs] = await connection.query("SELECT COUNT(*) as count FROM level_settings");
         if (levs[0].count < 100) {
-            console.log(`📦 Populating default level settings (Current count: ${levs[0].count})...`);
+            console.log(`ðŸ“¦ Populating default level settings (Current count: ${levs[0].count})...`);
             for (let i = 1; i <= 100; i++) {
                 const rate = 7 + (i - 1) * 2;
                 // Use BigInt or format to avoid scientific notation
@@ -656,23 +685,23 @@ async function initDB() {
                     [i, rate, costStr, rate, costStr]
                 );
             }
-            console.log("✅ Level settings updated.");
+            console.log("âœ… Level settings updated.");
         }
 
         // Populate Default Tasks if empty
         const [task_count] = await connection.query("SELECT COUNT(*) as count FROM tasks");
         if (task_count[0].count === 0) {
-            console.log("📦 Populating default tasks...");
+            console.log("ðŸ“¦ Populating default tasks...");
             // JOIN TASK Example (Uses verification)
-            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type, actionType, telegramChatId) VALUES ('tg_join', 'Tham Gia Channel', '📢', 'gold', 10000, 'https://t.me/GomXuDaoVang', 'community', 'join', '-1002360813959')");
+            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type, actionType, telegramChatId) VALUES ('tg_join', 'Tham Gia Channel', 'ðŸ“¢', 'gold', 10000, 'https://t.me/GomXuDaoVang', 'community', 'join', '-1002360813959')");
 
             // CLICK TASK Example (Just click to reward)
-            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type, actionType) VALUES ('tg_group', 'Nhóm Thảo Luận', '💬', 'gold', 10000, 'https://t.me/GomXuDaoVangGroup', 'community', 'click')");
+            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type, actionType) VALUES ('tg_group', 'NhÃ³m Tháº£o Luáº­n', 'ðŸ’¬', 'gold', 10000, 'https://t.me/GomXuDaoVangGroup', 'community', 'click')");
 
             // AD TASKS
-            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type) VALUES ('daily_ad_gold', 'Xem Quảng Cáo Vàng', '🎬', 'gold', 20000, null, 'ad')");
-            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type) VALUES ('daily_ad_diamond', 'Xem Quảng Cáo KC', '💎', 'diamond', 50, null, 'ad')");
-            console.log("✅ Default tasks added.");
+            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type) VALUES ('daily_ad_gold', 'Xem Quáº£ng CÃ¡o VÃ ng', 'ðŸŽ¬', 'gold', 20000, null, 'ad')");
+            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type) VALUES ('daily_ad_diamond', 'Xem Quáº£ng CÃ¡o KC', 'ðŸ’Ž', 'diamond', 50, null, 'ad')");
+            console.log("âœ… Default tasks added.");
         }
 
         // 11. Referrals Table (Moved earlier)
@@ -681,7 +710,7 @@ async function initDB() {
         // --- MIGRATION LOGIC ---
         const [cols] = await connection.query("SHOW COLUMNS FROM users LIKE 'withdrawHistory'");
         if (cols.length > 0) {
-            console.log("🔄 Migrating old withdrawal history...");
+            console.log("ðŸ”„ Migrating old withdrawal history...");
             const [oldUsers] = await connection.query("SELECT teleId, withdrawHistory FROM users WHERE withdrawHistory IS NOT NULL");
             for (const user of oldUsers) {
                 let history = [];
@@ -694,19 +723,19 @@ async function initDB() {
                         await connection.query(
                             `INSERT IGNORE INTO withdrawals (teleId, amount, vndAmount, bankBin, bankName, accountNumber, accountName, status, qrUrl, createdAt) 
                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-                            [user.teleId, w.gold || w.amount || 0, w.vnd || 0, w.bankBin || '', w.bankName || '', w.accountNumber || '', w.accountName || '', w.status || 'Đang xử lý', w.qrUrl || null, new Date(w.date || Date.now())]
+                            [user.teleId, w.gold || w.amount || 0, w.vnd || 0, w.bankBin || '', w.bankName || '', w.accountNumber || '', w.accountName || '', w.status || 'Äang xá»­ lÃ½', w.qrUrl || null, new Date(w.date || Date.now())]
                         );
                     }
                 }
             }
             await connection.query("ALTER TABLE users DROP COLUMN withdrawHistory");
-            console.log("✅ Migration complete.");
+            console.log("âœ… Migration complete.");
         }
 
         connection.release();
-        console.log("✅ Database Setup Complete");
+        console.log("âœ… Database Setup Complete");
     } catch (err) {
-        console.error("❌ MySQL Setup Failed:", err);
+        console.error("âŒ MySQL Setup Failed:", err);
     }
 }
 
@@ -724,15 +753,24 @@ function normalizeEconomyConfig(row = {}) {
         const parsed = Number(value);
         return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
     };
+    const toDecimal = (value, fallback) => {
+        const parsed = Number(value);
+        if (!Number.isFinite(parsed) || parsed < 0) {
+            return fallback;
+        }
+        return Number(parsed.toFixed(8));
+    };
 
     return {
         newUserGold: toInt(row.newUserGold, DEFAULT_ECONOMY_CONFIG.newUserGold),
         newUserDiamonds: toInt(row.newUserDiamonds, DEFAULT_ECONOMY_CONFIG.newUserDiamonds),
         referralRewardGold: toInt(row.referralRewardGold, DEFAULT_ECONOMY_CONFIG.referralRewardGold),
         referralRewardDiamonds: toInt(row.referralRewardDiamonds, DEFAULT_ECONOMY_CONFIG.referralRewardDiamonds),
+        referralRewardUsdt: toDecimal(row.referralRewardUsdt, DEFAULT_ECONOMY_CONFIG.referralRewardUsdt),
         exchangeGoldPerDiamond: Math.max(1, toInt(row.exchangeGoldPerDiamond, DEFAULT_ECONOMY_CONFIG.exchangeGoldPerDiamond)),
         withdrawMinGold: toInt(row.withdrawMinGold, DEFAULT_ECONOMY_CONFIG.withdrawMinGold),
         withdrawVndPerGold: toRate(row.withdrawVndPerGold, DEFAULT_ECONOMY_CONFIG.withdrawVndPerGold),
+        usdToVndRateK: Math.max(1, toRate(row.usdToVndRateK, DEFAULT_ECONOMY_CONFIG.usdToVndRateK)),
         taskMilestoneCount: toInt(row.taskMilestoneCount, DEFAULT_ECONOMY_CONFIG.taskMilestoneCount),
         taskMilestoneRewardGold: toInt(row.taskMilestoneRewardGold, DEFAULT_ECONOMY_CONFIG.taskMilestoneRewardGold),
         taskMilestoneRewardDiamonds: toInt(row.taskMilestoneRewardDiamonds, DEFAULT_ECONOMY_CONFIG.taskMilestoneRewardDiamonds),
@@ -857,23 +895,93 @@ function isSingleClaimTaskType(taskType) {
     return ['one_time', 'community', 'newbie'].includes(String(taskType || ''));
 }
 
-async function hasCompletedAllNewbieTasks(teleId, db = pool) {
+async function getNewbieTaskProgress(teleId, db = pool, options = {}) {
     const [taskRows] = await db.query("SELECT COUNT(*) AS total FROM tasks WHERE type = 'newbie'");
     const totalNewbieTasks = Number(taskRows[0]?.total || 0);
 
     if (totalNewbieTasks === 0) {
+        return {
+            totalNewbieTasks: 0,
+            completedNewbieTasks: 0,
+        };
+    }
+
+    const minClaimedAt = options.minClaimedAt ? new Date(options.minClaimedAt) : null;
+    const hasMinClaimedAt = Boolean(minClaimedAt && !Number.isNaN(minClaimedAt.getTime()));
+    const claimSql = hasMinClaimedAt
+        ? `SELECT COUNT(DISTINCT tc.taskId) AS completed
+           FROM task_claims tc
+           INNER JOIN tasks t ON t.id = tc.taskId
+           WHERE tc.teleId = ? AND t.type = 'newbie' AND tc.claimedAt >= ?`
+        : `SELECT COUNT(DISTINCT tc.taskId) AS completed
+           FROM task_claims tc
+           INNER JOIN tasks t ON t.id = tc.taskId
+           WHERE tc.teleId = ? AND t.type = 'newbie'`;
+    const claimParams = hasMinClaimedAt ? [teleId, minClaimedAt] : [teleId];
+    const [claimRows] = await db.query(
+        claimSql,
+        claimParams
+    );
+
+    return {
+        totalNewbieTasks,
+        completedNewbieTasks: Number(claimRows[0]?.completed || 0),
+    };
+}
+
+async function hasCompletedAllNewbieTasks(teleId, db = pool, options = {}) {
+    const progress = await getNewbieTaskProgress(teleId, db, options);
+    if (progress.totalNewbieTasks === 0) {
         return false;
     }
 
-    const [claimRows] = await db.query(
-        `SELECT COUNT(DISTINCT tc.taskId) AS completed
-         FROM task_claims tc
-         INNER JOIN tasks t ON t.id = tc.taskId
-         WHERE tc.teleId = ? AND t.type = 'newbie'`,
+    return progress.completedNewbieTasks >= progress.totalNewbieTasks;
+}
+
+async function getNewbieLockStateForInvitee(teleId, db = pool) {
+    const defaultState = {
+        required: false,
+        inviterId: 0,
+        totalNewbieTasks: 0,
+        completedNewbieTasks: 0,
+        remainingNewbieTasks: 0,
+        referralStatus: 'none',
+        message: '',
+    };
+
+    if (!teleId) {
+        return defaultState;
+    }
+
+    const [referralRows] = await db.query(
+        'SELECT inviterId, status, createdAt FROM referrals WHERE invitedId = ? ORDER BY createdAt DESC LIMIT 1',
         [teleId]
     );
 
-    return Number(claimRows[0]?.completed || 0) >= totalNewbieTasks;
+    if (referralRows.length === 0) {
+        return defaultState;
+    }
+
+    const referral = referralRows[0];
+    const referralStatus = String(referral.status || '').toLowerCase();
+    const progress = await getNewbieTaskProgress(teleId, db, {
+        minClaimedAt: referral.createdAt,
+    });
+    const remainingNewbieTasks = Math.max(0, progress.totalNewbieTasks - progress.completedNewbieTasks);
+    const required = referralStatus === 'pending' && progress.totalNewbieTasks > 0 && remainingNewbieTasks > 0;
+    const inviterId = Number(referral.inviterId || 0);
+
+    return {
+        required,
+        inviterId,
+        totalNewbieTasks: progress.totalNewbieTasks,
+        completedNewbieTasks: progress.completedNewbieTasks,
+        remainingNewbieTasks,
+        referralStatus,
+        message: required
+            ? `Ban duoc moi boi ${inviterId > 0 ? `ID ${inviterId}` : 'mot nguoi choi'}. Hay hoan thanh ${remainingNewbieTasks} nhiem vu tan thu con lai de mo khoa cac chuc nang khac.`
+            : '',
+    };
 }
 
 async function settleReferralRewardForInvitee(invitedId) {
@@ -898,15 +1006,17 @@ async function settleReferralRewardForInvitee(invitedId) {
             return { rewarded: false, reason: 'already-rewarded' };
         }
 
-        const completedAllNewbieTasks = await hasCompletedAllNewbieTasks(invitedId, connection);
+        const completedAllNewbieTasks = await hasCompletedAllNewbieTasks(invitedId, connection, {
+            minClaimedAt: referral.createdAt,
+        });
         if (!completedAllNewbieTasks) {
             await connection.commit();
             return { rewarded: false, reason: 'waiting-newbie-tasks' };
         }
 
         await connection.query(
-            'UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ?, diamonds = diamonds + ?, referrals = referrals + 1 WHERE teleId = ?',
-            [referral.goldReward, referral.goldReward, referral.diamondReward, referral.inviterId]
+            'UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ?, diamonds = diamonds + ?, usdtBalance = usdtBalance + ?, referrals = referrals + 1 WHERE teleId = ?',
+            [referral.goldReward, referral.goldReward, referral.diamondReward, referral.usdtReward || 0, referral.inviterId]
         );
 
         await connection.query(
@@ -923,6 +1033,7 @@ async function settleReferralRewardForInvitee(invitedId) {
             invitedId,
             goldReward: Number(referral.goldReward || 0),
             diamondReward: Number(referral.diamondReward || 0),
+            usdtReward: Number(referral.usdtReward || 0),
         };
     } catch (error) {
         try {
@@ -937,6 +1048,30 @@ async function settleReferralRewardForInvitee(invitedId) {
     }
 }
 
+async function newbieTaskLockMiddleware(req, res, next) {
+    const teleId = req.user?.id;
+    if (!teleId) {
+        return res.status(401).json({ error: 'Missing user context' });
+    }
+
+    try {
+        const newbieLock = await getNewbieLockStateForInvitee(teleId);
+        req.newbieLock = newbieLock;
+
+        if (newbieLock.required) {
+            return res.status(403).json({
+                success: false,
+                error: newbieLock.message || 'Ban can hoan thanh nhiem vu tan thu de su dung tinh nang nay.',
+                newbieLock,
+            });
+        }
+
+        next();
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
 async function harvestMiningGold(teleId) {
     const [users] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
     if (users.length === 0) return null;
@@ -947,7 +1082,7 @@ async function harvestMiningGold(teleId) {
     const now = Date.now();
     const elapsedSinceStart = now - user.miningShiftStart;
     const elapsedSinceLastHarvest = now - user.miningStartTime;
-    const SHIFT_DURATION = 6 * 60 * 60 * 1000; // 6 Hours (Phát Lộc Khai Xuân)
+    const SHIFT_DURATION = 6 * 60 * 60 * 1000; // 6 Hours (PhÃ¡t Lá»™c Khai XuÃ¢n)
 
     // Check if shift is already over
     if (elapsedSinceStart >= SHIFT_DURATION) {
@@ -1055,7 +1190,7 @@ app.get('/api/lixi/info', authMiddleware, async (req, res) => {
     }
 });
 
-app.post('/api/lixi/watch-ad', authMiddleware, async (req, res) => {
+app.post('/api/lixi/watch-ad', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
     const teleId = req.user.id;
     const connection = await pool.getConnection();
 
@@ -1071,12 +1206,12 @@ app.post('/api/lixi/watch-ad', authMiddleware, async (req, res) => {
 
         if (claimRows.length > 0) {
             await connection.commit();
-            return res.status(400).json({ error: 'Báº¡n Ä‘Ã£ nháº­n lÃ¬ xÃ¬ á»Ÿ lÆ°á»£t nÃ y rá»“i.', lixi: await getLixiInfoForUser(teleId) });
+            return res.status(400).json({ error: 'BÃ¡ÂºÂ¡n Ã„â€˜ÃƒÂ£ nhÃ¡ÂºÂ­n lÃƒÂ¬ xÃƒÂ¬ Ã¡Â»Å¸ lÃ†Â°Ã¡Â»Â£t nÃƒÂ y rÃ¡Â»â€œi.', lixi: await getLixiInfoForUser(teleId) });
         }
 
         if (state.cooldownEndsAt || state.remainingClaims <= 0) {
             await connection.commit();
-            return res.status(400).json({ error: 'LÆ°á»£t lÃ¬ xÃ¬ Ä‘Ã£ háº¿t, vui lÃ²ng quay láº¡i sau.', lixi: await getLixiInfoForUser(teleId) });
+            return res.status(400).json({ error: 'LÃ†Â°Ã¡Â»Â£t lÃƒÂ¬ xÃƒÂ¬ Ã„â€˜ÃƒÂ£ hÃ¡ÂºÂ¿t, vui lÃƒÂ²ng quay lÃ¡ÂºÂ¡i sau.', lixi: await getLixiInfoForUser(teleId) });
         }
 
         const [progressRows] = await connection.query(
@@ -1116,7 +1251,7 @@ app.post('/api/lixi/watch-ad', authMiddleware, async (req, res) => {
     }
 });
 
-app.post('/api/lixi/claim', authMiddleware, async (req, res) => {
+app.post('/api/lixi/claim', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
     const teleId = req.user.id;
     const connection = await pool.getConnection();
 
@@ -1145,7 +1280,7 @@ app.post('/api/lixi/claim', authMiddleware, async (req, res) => {
         if (existingClaimRows.length > 0) {
             await connection.commit();
             return res.status(400).json({
-                error: 'Báº¡n Ä‘Ã£ nháº­n lÃ¬ xÃ¬ á»Ÿ lÆ°á»£t nÃ y rá»“i.',
+                error: 'BÃ¡ÂºÂ¡n Ã„â€˜ÃƒÂ£ nhÃ¡ÂºÂ­n lÃƒÂ¬ xÃƒÂ¬ Ã¡Â»Å¸ lÃ†Â°Ã¡Â»Â£t nÃƒÂ y rÃ¡Â»â€œi.',
                 lixi: {
                     config,
                     state,
@@ -1162,7 +1297,7 @@ app.post('/api/lixi/claim', authMiddleware, async (req, res) => {
         if (watchedAdViews < config.requiredAdViews) {
             await connection.commit();
             return res.status(400).json({
-                error: `Báº¡n cáº§n xem Ä‘á»§ ${config.requiredAdViews} video má»›i nháº­n Ä‘Æ°á»£c lÃ¬ xÃ¬.`,
+                error: `BÃ¡ÂºÂ¡n cÃ¡ÂºÂ§n xem Ã„â€˜Ã¡Â»Â§ ${config.requiredAdViews} video mÃ¡Â»â€ºi nhÃ¡ÂºÂ­n Ã„â€˜Ã†Â°Ã¡Â»Â£c lÃƒÂ¬ xÃƒÂ¬.`,
                 lixi: await getLixiInfoForUser(teleId),
             });
         }
@@ -1170,7 +1305,7 @@ app.post('/api/lixi/claim', authMiddleware, async (req, res) => {
         if (state.cooldownEndsAt || state.remainingClaims <= 0) {
             await connection.commit();
             return res.status(400).json({
-                error: 'LÆ°á»£t lÃ¬ xÃ¬ Ä‘Ã£ háº¿t, vui lÃ²ng quay láº¡i sau.',
+                error: 'LÃ†Â°Ã¡Â»Â£t lÃƒÂ¬ xÃƒÂ¬ Ã„â€˜ÃƒÂ£ hÃ¡ÂºÂ¿t, vui lÃƒÂ²ng quay lÃ¡ÂºÂ¡i sau.',
                 lixi: {
                     config,
                     state,
@@ -1257,7 +1392,7 @@ app.get('/api/flappy/config', authMiddleware, async (req, res) => {
     }
 });
 
-app.post('/api/flappy/submit-score', authMiddleware, async (req, res) => {
+app.post('/api/flappy/submit-score', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
     const teleId = req.user.id;
     const rawScore = Number(req.body?.score);
     const score = Math.max(0, Math.floor(Number.isFinite(rawScore) ? rawScore : 0));
@@ -1299,10 +1434,10 @@ app.post('/api/flappy/submit-score', authMiddleware, async (req, res) => {
 // --- ROUTES ---
 
 // Redeem Gift Code
-app.post('/api/user/redeem', authMiddleware, async (req, res) => {
+app.post('/api/user/redeem', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
     const { code } = req.body;
     const teleId = req.user.id;
-    if (!code) return res.json({ success: false, message: 'Vui lòng nhập mã!' });
+    if (!code) return res.json({ success: false, message: 'Vui lÃ²ng nháº­p mÃ£!' });
 
     const cleanCode = code.toString().trim().toUpperCase();
 
@@ -1311,13 +1446,13 @@ app.post('/api/user/redeem', authMiddleware, async (req, res) => {
         if (!user) return res.json({ success: false, message: 'User not found' });
 
         const [codes] = await pool.query('SELECT * FROM gift_codes WHERE code = ?', [cleanCode]);
-        if (codes.length === 0) return res.json({ success: false, message: 'Mã không tồn tại!' });
+        if (codes.length === 0) return res.json({ success: false, message: 'MÃ£ khÃ´ng tá»“n táº¡i!' });
 
         const gift = codes[0];
-        if (gift.usedCount >= gift.maxUses) return res.json({ success: false, message: 'Mã đã hết lượt!' });
+        if (gift.usedCount >= gift.maxUses) return res.json({ success: false, message: 'MÃ£ Ä‘Ã£ háº¿t lÆ°á»£t!' });
 
         const [usage] = await pool.query('SELECT * FROM gift_code_usage WHERE code = ? AND teleId = ?', [cleanCode, teleId]);
-        if (usage.length > 0) return res.json({ success: false, message: 'Bạn đã dùng mã này rồi!' });
+        if (usage.length > 0) return res.json({ success: false, message: 'Báº¡n Ä‘Ã£ dÃ¹ng mÃ£ nÃ y rá»“i!' });
 
         if (gift.rewardDiamonds > 0) await pool.query('UPDATE users SET diamonds = diamonds + ? WHERE teleId = ?', [gift.rewardDiamonds, teleId]);
         if (gift.rewardGold > 0) await pool.query('UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ? WHERE teleId = ?', [gift.rewardGold, gift.rewardGold, teleId]);
@@ -1341,8 +1476,8 @@ app.post('/api/user/redeem', authMiddleware, async (req, res) => {
 });
 
 // Create Withdrawal Request
-app.post('/api/withdraw/create', authMiddleware, async (req, res) => {
-    const { amount, bankBin, bankName, accountNumber, accountName, method, network } = req.body || {};
+app.post('/api/withdraw/create', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
+    const { amount, amountUnit, bankBin, bankName, accountNumber, accountName, method, network } = req.body || {};
     const teleId = req.user.id;
 
     const normalizeMethod = (rawMethod, rawBankName) => {
@@ -1369,20 +1504,61 @@ app.post('/api/withdraw/create', authMiddleware, async (req, res) => {
         return 'bank';
     };
 
+    const normalizeAmountUnit = (rawUnit) => {
+        const normalized = String(rawUnit || '').trim().toLowerCase();
+        if (normalized === 'usdt' || normalized === 'usd') {
+            return 'usdt';
+        }
+
+        return 'gold';
+    };
+
     try {
         const user = await harvestMiningGold(teleId);
         const economyConfig = await getEconomyConfig();
         if (!user) return res.status(404).json({ error: 'User not found' });
 
-        const withdrawGold = Number.parseInt(String(amount || 0), 10);
-        if (!Number.isFinite(withdrawGold) || withdrawGold <= 0) {
+        const sourceWallet = normalizeAmountUnit(amountUnit);
+        const rawAmount = Number(String(amount ?? 0).replace(',', '.'));
+        const sourceAmount = sourceWallet === 'usdt'
+            ? Number(rawAmount.toFixed(6))
+            : Math.floor(rawAmount);
+
+        if (!Number.isFinite(sourceAmount) || sourceAmount <= 0) {
             return res.json({ success: false, message: 'Số lượng rút không hợp lệ!' });
         }
 
-        if (withdrawGold < economyConfig.withdrawMinGold) {
+        const userGold = Number(user.gold || 0);
+        const userUsdt = Number(user.usdtBalance || 0);
+        if (sourceWallet === 'gold' && userGold < sourceAmount) {
+            return res.json({ success: false, message: 'Số dư vàng không đủ!' });
+        }
+        if (sourceWallet === 'usdt' && userUsdt < sourceAmount) {
+            return res.json({ success: false, message: 'Số dư USDT không đủ!' });
+        }
+
+        const usdToVndRate = Math.max(
+            1,
+            Number(economyConfig.usdToVndRateK || DEFAULT_USD_TO_VND_RATE_K) * 1000
+        );
+
+        const grossVndAmount = sourceWallet === 'gold'
+            ? Math.floor(sourceAmount * economyConfig.withdrawVndPerGold)
+            : Math.floor(sourceAmount * usdToVndRate);
+        const minWithdrawVnd = Math.floor(economyConfig.withdrawMinGold * economyConfig.withdrawVndPerGold);
+        const minWithdrawUsdt = minWithdrawVnd > 0 ? Number((minWithdrawVnd / usdToVndRate).toFixed(6)) : 0;
+
+        if (sourceWallet === 'gold' && sourceAmount < economyConfig.withdrawMinGold) {
             return res.json({ success: false, message: `Rút tối thiểu ${economyConfig.withdrawMinGold.toLocaleString('vi-VN')} Gold!` });
         }
-        if (Number(user.gold) < withdrawGold) return res.json({ success: false, message: 'Số dư không đủ!' });
+
+        if (sourceWallet === 'usdt' && minWithdrawUsdt > 0 && sourceAmount < minWithdrawUsdt) {
+            return res.json({ success: false, message: `Rút tối thiểu ${minWithdrawUsdt.toLocaleString('en-US')} USDT!` });
+        }
+
+        if (grossVndAmount <= 0) {
+            return res.json({ success: false, message: 'Giá trị quy đổi quá thấp, không thể tạo lệnh rút.' });
+        }
 
         const withdrawMethod = normalizeMethod(method, bankName);
         const withdrawNetwork = withdrawMethod === 'usdt'
@@ -1403,13 +1579,12 @@ app.post('/api/withdraw/create', authMiddleware, async (req, res) => {
             return res.json({ success: false, message: 'Thiếu thông tin ngân hàng / ví điện tử!' });
         }
 
-        const grossVndAmount = Math.floor(withdrawGold * economyConfig.withdrawVndPerGold);
         const feePercent = withdrawMethod === 'bank' || withdrawMethod === 'wallet' ? WITHDRAW_BANK_WALLET_FEE_PERCENT : 0;
         const feeAmount = feePercent > 0 ? Math.floor((grossVndAmount * feePercent) / 100) : 0;
         const netVndAmount = Math.max(0, grossVndAmount - feeAmount);
         const payoutCurrency = withdrawMethod === 'usdt' ? 'USDT' : 'VND';
         const payoutAmount = withdrawMethod === 'usdt'
-            ? Number((grossVndAmount / USDT_VND_RATE).toFixed(6))
+            ? Number((grossVndAmount / usdToVndRate).toFixed(6))
             : netVndAmount;
         const storedVndAmount = withdrawMethod === 'usdt' ? grossVndAmount : netVndAmount;
         const savedBankName = withdrawMethod === 'usdt'
@@ -1421,16 +1596,27 @@ app.post('/api/withdraw/create', authMiddleware, async (req, res) => {
                 ? `https://img.vietqr.io/image/${sanitizedBankBin}-${sanitizedAccountNumber}-compact2.png?amount=${netVndAmount}&addInfo=Bot%20Kiem%20Tien%20Done%20${teleId}&accountName=${encodeURIComponent(sanitizedAccountName)}`
                 : null;
 
-        await pool.query('UPDATE users SET gold = gold - ?, goldBeforeShift = goldBeforeShift - ? WHERE teleId = ?', [withdrawGold, withdrawGold, teleId]);
+        if (sourceWallet === 'gold') {
+            await pool.query(
+                'UPDATE users SET gold = gold - ?, goldBeforeShift = goldBeforeShift - ? WHERE teleId = ?',
+                [sourceAmount, sourceAmount, teleId]
+            );
+        } else {
+            await pool.query('UPDATE users SET usdtBalance = usdtBalance - ? WHERE teleId = ?', [sourceAmount, teleId]);
+        }
 
         await pool.query(
             `INSERT INTO withdrawals (
-                teleId, amount, withdrawMethod, withdrawNetwork, vndAmount, feePercent, feeAmount, payoutAmount, payoutCurrency,
+                teleId, amount, sourceWallet, sourceCurrency, sourceAmount, withdrawMethod, withdrawNetwork,
+                vndAmount, feePercent, feeAmount, payoutAmount, payoutCurrency,
                 bankBin, bankName, accountNumber, accountName, qrUrl
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 teleId,
-                withdrawGold,
+                sourceAmount,
+                sourceWallet,
+                sourceWallet === 'usdt' ? 'USDT' : 'GOLD',
+                sourceAmount,
                 withdrawMethod,
                 withdrawNetwork || null,
                 storedVndAmount,
@@ -1447,12 +1633,12 @@ app.post('/api/withdraw/create', authMiddleware, async (req, res) => {
         );
 
         console.log(
-            `[WITHDRAW] New request from ${teleId}: ${withdrawGold} Gold -> ${payoutAmount} ${payoutCurrency}` +
+            `[WITHDRAW] New request from ${teleId}: ${sourceAmount} ${sourceWallet.toUpperCase()} -> ${payoutAmount} ${payoutCurrency}` +
             ` (method=${withdrawMethod}, fee=${feePercent}%)`
         );
 
         const [users] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
-        broadcastAdminRefresh('withdraw-created', { teleId, method: withdrawMethod, payoutCurrency });
+        broadcastAdminRefresh('withdraw-created', { teleId, method: withdrawMethod, payoutCurrency, sourceWallet });
         res.json({ success: true, user: users[0] });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -1460,21 +1646,21 @@ app.post('/api/withdraw/create', authMiddleware, async (req, res) => {
 });
 
 // Exchange Gold to Diamonds
-app.post('/api/game/exchange', authMiddleware, async (req, res) => {
+app.post('/api/game/exchange', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
     const { amount } = req.body; // Amount of gold to exchange
     const teleId = req.user.id;
 
-    if (!amount || amount <= 0) return res.status(400).json({ error: 'Số lượng không hợp lệ' });
+    if (!amount || amount <= 0) return res.status(400).json({ error: 'Sá»‘ lÆ°á»£ng khÃ´ng há»£p lá»‡' });
 
     try {
         const user = await harvestMiningGold(teleId);
         const economyConfig = await getEconomyConfig();
         if (!user) return res.status(404).json({ error: 'User not found' });
 
-        if (Number(user.gold) < Number(amount)) return res.status(400).json({ error: 'Số dư không đủ!' });
+        if (Number(user.gold) < Number(amount)) return res.status(400).json({ error: 'Sá»‘ dÆ° khÃ´ng Ä‘á»§!' });
 
         const diamonds = Math.floor(amount / economyConfig.exchangeGoldPerDiamond);
-        if (diamonds <= 0) return res.status(400).json({ error: 'Số lượng quá nhỏ!' });
+        if (diamonds <= 0) return res.status(400).json({ error: 'Sá»‘ lÆ°á»£ng quÃ¡ nhá»!' });
 
         await pool.query(
             'UPDATE users SET gold = gold - ?, goldBeforeShift = goldBeforeShift - ?, diamonds = diamonds + ? WHERE teleId = ?',
@@ -1493,7 +1679,7 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
 
     // Ensure user can only fetch their own data, unless they are admin
     if (String(userId) !== String(req.user.id) && String(req.user.id) !== ADMIN_ID) {
-        return res.status(403).json({ error: 'Không có quyền truy cập dữ liệu người dùng khác' });
+        return res.status(403).json({ error: 'KhÃ´ng cÃ³ quyá»n truy cáº­p dá»¯ liá»‡u ngÆ°á»i dÃ¹ng khÃ¡c' });
     }
 
     if (!/^\d+$/.test(userId)) return res.status(400).json({ error: 'Invalid User ID' });
@@ -1506,17 +1692,17 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
         const tgUser = req.user;
         const realName = tgUser?.first_name
             ? (tgUser.last_name ? `${tgUser.first_name} ${tgUser.last_name}` : tgUser.first_name)
-            : (tgUser?.username || 'Khách');
+            : (tgUser?.username || 'KhÃ¡ch');
 
         const tgHandle = tgUser?.username || 'none';
 
         if (!user) {
             const startingGold = economyConfig.newUserGold;
             const startingDiamonds = economyConfig.newUserDiamonds;
-            const newUser = [userId, realName, tgHandle, startingGold, startingGold, startingDiamonds, 1, 7, 5000, false, null, null, 0, null, 0];
+            const newUser = [userId, realName, tgHandle, startingGold, startingGold, startingDiamonds, 0, 1, 7, 5000, false, null, null, 0, null, 0];
             await pool.query(
-                `INSERT INTO users (teleId, username, tgHandle, gold, goldBeforeShift, diamonds, level, miningRate, upgradeCost, isMining, miningStartTime, miningShiftStart, referrals, lastTaskClaim, flappyBestScore)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                `INSERT INTO users (teleId, username, tgHandle, gold, goldBeforeShift, diamonds, usdtBalance, level, miningRate, upgradeCost, isMining, miningStartTime, miningShiftStart, referrals, lastTaskClaim, flappyBestScore)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 newUser
             );
 
@@ -1533,12 +1719,13 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
                     if (inviters.length > 0) {
                         const rewardGold = economyConfig.referralRewardGold;
                         const rewardDiamonds = economyConfig.referralRewardDiamonds;
+                        const rewardUsdt = economyConfig.referralRewardUsdt;
                         const [refResult] = await pool.query(
-                            'INSERT IGNORE INTO referrals (inviterId, invitedId, goldReward, diamondReward, status) VALUES (?, ?, ?, ?, ?)',
-                            [referralId, userId, rewardGold, rewardDiamonds, 'pending']
+                            'INSERT IGNORE INTO referrals (inviterId, invitedId, goldReward, diamondReward, usdtReward, status) VALUES (?, ?, ?, ?, ?, ?)',
+                            [referralId, userId, rewardGold, rewardDiamonds, rewardUsdt, 'pending']
                         );
-                        console.log(`🎁 Referral record result for ${userId}:`, refResult);
-                        console.log(`🎁 Referral created for ${referralId} -> ${userId}: waiting for newbie task completion (${rewardGold} gold / ${rewardDiamonds} KC)`);
+                        console.log(`ðŸŽ Referral record result for ${userId}:`, refResult);
+                        console.log(`ðŸŽ Referral created for ${referralId} -> ${userId}: waiting for newbie task completion (${rewardUsdt} USD)`);
                         broadcastAdminRefresh('referral-created', { inviterId: referralId, invitedId: userId });
                         await settleReferralRewardForInvitee(userId);
                     }
@@ -1548,8 +1735,9 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
             }
 
             const [newRows] = await pool.query('SELECT * FROM users WHERE teleId = ?', [userId]);
+            const newbieLock = await getNewbieLockStateForInvitee(userId);
             broadcastAdminRefresh('user-created', { teleId: userId });
-            return res.json(newRows[0]);
+            return res.json({ ...newRows[0], newbieLock, serverTime: Date.now() });
         }
 
         // Auto-sync name/handle if it doesn't match
@@ -1561,7 +1749,7 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
         }
 
         // Save IP if not exists or update it (User requirement: "first time save first ip", but usually we track latest or first. 
-        // Request: "khi lần đầu sài vào đầu tiên sẽ lưu ip truy cập đầu tiên". So only if null.)
+        // Request: "khi láº§n Ä‘áº§u sÃ i vÃ o Ä‘áº§u tiÃªn sáº½ lÆ°u ip truy cáº­p Ä‘áº§u tiÃªn". So only if null.)
         const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
         if (!user.ip_address && clientIp) {
             await pool.query('UPDATE users SET ip_address = ? WHERE teleId = ?', [clientIp, userId]);
@@ -1576,6 +1764,9 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
             id: w.id,
             teleId: w.teleId,
             amount: w.amount,
+            sourceWallet: w.sourceWallet || 'gold',
+            sourceCurrency: w.sourceCurrency || 'GOLD',
+            sourceAmount: Number(w.sourceAmount || w.amount || 0),
             vnd: w.vndAmount,
             method: w.withdrawMethod || 'bank',
             network: w.withdrawNetwork || '',
@@ -1591,7 +1782,8 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
             message: w.message || ''
         }));
 
-        res.json({ ...user, serverTime: Date.now() });
+        const newbieLock = await getNewbieLockStateForInvitee(userId);
+        res.json({ ...user, newbieLock, serverTime: Date.now() });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -1602,7 +1794,7 @@ app.get('/api/user/referrals', authMiddleware, async (req, res) => {
     const teleId = req.user.id;
     try {
         const [rows] = await pool.query(`
-            SELECT r.*, COALESCE(NULLIF(u.username, ''), CONCAT('Người dùng ', r.invitedId)) as invitedName 
+            SELECT r.*, COALESCE(NULLIF(u.username, ''), CONCAT('NgÆ°á»i dÃ¹ng ', r.invitedId)) as invitedName 
             FROM referrals r
             LEFT JOIN users u ON r.invitedId = u.teleId
             WHERE r.inviterId = ?
@@ -1633,14 +1825,14 @@ app.get('/api/admin/referrals/:teleId', adminMiddleware, async (req, res) => {
 // --- GAME LOGIC API (Server-Authoritative) ---
 
 // Start Mining
-app.post('/api/game/start-mining', authMiddleware, async (req, res) => {
+app.post('/api/game/start-mining', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
     const teleId = req.user.id;
     try {
         const [users] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
         if (users.length === 0) return res.status(404).json({ error: 'User not found' });
         const user = users[0];
 
-        if (user.isMining) return res.status(400).json({ error: 'Đang đào rồi!' });
+        if (user.isMining) return res.status(400).json({ error: 'Äang Ä‘Ã o rá»“i!' });
 
         const now = Date.now();
         await pool.query('UPDATE users SET isMining = TRUE, miningStartTime = ?, miningShiftStart = ? WHERE teleId = ?', [now, now, teleId]);
@@ -1651,7 +1843,7 @@ app.post('/api/game/start-mining', authMiddleware, async (req, res) => {
 });
 
 // Claim Mining Reward (Manually harvest and stop mining)
-app.post('/api/game/claim-mining', authMiddleware, async (req, res) => {
+app.post('/api/game/claim-mining', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
     const teleId = req.user.id;
     try {
         // Harvest any pending gold first
@@ -1679,7 +1871,7 @@ app.post('/api/game/claim-mining', authMiddleware, async (req, res) => {
 });
 
 // Upgrade Miner
-app.post('/api/game/upgrade', authMiddleware, async (req, res) => {
+app.post('/api/game/upgrade', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
     const teleId = req.user.id;
     try {
         const [users] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
@@ -1688,10 +1880,10 @@ app.post('/api/game/upgrade', authMiddleware, async (req, res) => {
         const nextLevel = user.level + 1;
         const [settings] = await pool.query('SELECT * FROM level_settings WHERE level = ?', [nextLevel]);
 
-        if (settings.length === 0) return res.status(400).json({ error: 'Đã đạt cấp tối đa!' });
+        if (settings.length === 0) return res.status(400).json({ error: 'ÄÃ£ Ä‘áº¡t cáº¥p tá»‘i Ä‘a!' });
         const nextSetting = settings[0];
 
-        if (Number(user.diamonds) < Number(nextSetting.upgradeCost)) return res.status(400).json({ error: 'Không đủ Kim Cương!' });
+        if (Number(user.diamonds) < Number(nextSetting.upgradeCost)) return res.status(400).json({ error: 'KhÃ´ng Ä‘á»§ Kim CÆ°Æ¡ng!' });
 
 
         await pool.query(
@@ -1717,7 +1909,7 @@ app.post('/api/user/:id', authMiddleware, async (req, res) => {
     const userId = req.params.id;
 
     if (String(userId) !== String(req.user.id)) {
-        return res.status(403).json({ error: 'Không có quyền cập nhật dữ liệu người dùng khác' });
+        return res.status(403).json({ error: 'KhÃ´ng cÃ³ quyá»n cáº­p nháº­t dá»¯ liá»‡u ngÆ°á»i dÃ¹ng khÃ¡c' });
     }
 
     // ONLY update safe fields. Ignore resources.
@@ -1743,7 +1935,7 @@ app.post('/api/admin/login', (req, res) => {
     if (username === 'khaidzs1tg' && password === ADMIN_PASSWORD) {
         return res.json({ success: true, token: ADMIN_PASSWORD });
     }
-    res.status(401).json({ success: false, message: 'Sai thông tin đăng nhập' });
+    res.status(401).json({ success: false, message: 'Sai thÃ´ng tin Ä‘Äƒng nháº­p' });
 });
 
 
@@ -1770,7 +1962,7 @@ async function getAdminSnapshot() {
         SELECT w.*, u.username, u.tgHandle
         FROM withdrawals w
         JOIN users u ON w.teleId = u.teleId
-        WHERE w.status = 'Đang xử lý'
+        WHERE w.status = 'Äang xá»­ lÃ½'
         ORDER BY w.createdAt ASC
     `);
 
@@ -1780,6 +1972,9 @@ async function getAdminSnapshot() {
         teleId: w.teleId,
         username: w.username,
         tgHandle: w.tgHandle || 'none',
+        sourceWallet: w.sourceWallet || 'gold',
+        sourceCurrency: w.sourceCurrency || 'GOLD',
+        sourceAmount: Number(w.sourceAmount || w.amount || 0),
         accountName: w.accountName,
         bankName: w.bankName,
         accountNumber: w.accountNumber,
@@ -1909,21 +2104,25 @@ app.post('/api/admin/economy-config', adminMiddleware, async (req, res) => {
                 newUserDiamonds,
                 referralRewardGold,
                 referralRewardDiamonds,
+                referralRewardUsdt,
                 exchangeGoldPerDiamond,
                 withdrawMinGold,
                 withdrawVndPerGold,
+                usdToVndRateK,
                 taskMilestoneCount,
                 taskMilestoneRewardGold,
                 taskMilestoneRewardDiamonds
-            ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE
                 newUserGold = VALUES(newUserGold),
                 newUserDiamonds = VALUES(newUserDiamonds),
                 referralRewardGold = VALUES(referralRewardGold),
                 referralRewardDiamonds = VALUES(referralRewardDiamonds),
+                referralRewardUsdt = VALUES(referralRewardUsdt),
                 exchangeGoldPerDiamond = VALUES(exchangeGoldPerDiamond),
                 withdrawMinGold = VALUES(withdrawMinGold),
                 withdrawVndPerGold = VALUES(withdrawVndPerGold),
+                usdToVndRateK = VALUES(usdToVndRateK),
                 taskMilestoneCount = VALUES(taskMilestoneCount),
                 taskMilestoneRewardGold = VALUES(taskMilestoneRewardGold),
                 taskMilestoneRewardDiamonds = VALUES(taskMilestoneRewardDiamonds)`,
@@ -1932,9 +2131,11 @@ app.post('/api/admin/economy-config', adminMiddleware, async (req, res) => {
                 config.newUserDiamonds,
                 config.referralRewardGold,
                 config.referralRewardDiamonds,
+                config.referralRewardUsdt,
                 config.exchangeGoldPerDiamond,
                 config.withdrawMinGold,
                 config.withdrawVndPerGold,
+                config.usdToVndRateK,
                 config.taskMilestoneCount,
                 config.taskMilestoneRewardGold,
                 config.taskMilestoneRewardDiamonds,
@@ -2019,10 +2220,10 @@ app.post('/api/admin/user/create', adminMiddleware, async (req, res) => {
             return res.json({ success: false, message: 'User already exists' });
         }
 
-        const newUser = [teleId, username || `Staff_${teleId}`, 1000, 1000, 1000, 1, 7, 5000, false, null, null, 0, null, 0];
+        const newUser = [teleId, username || `Staff_${teleId}`, 1000, 1000, 1000, 0, 1, 7, 5000, false, null, null, 0, null, 0];
         await pool.query(
-            `INSERT INTO users (teleId, username, gold, goldBeforeShift, diamonds, level, miningRate, upgradeCost, isMining, miningStartTime, miningShiftStart, referrals, lastTaskClaim, flappyBestScore)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            `INSERT INTO users (teleId, username, gold, goldBeforeShift, diamonds, usdtBalance, level, miningRate, upgradeCost, isMining, miningStartTime, miningShiftStart, referrals, lastTaskClaim, flappyBestScore)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             newUser
         );
         broadcastAdminRefresh('admin-user-created', { teleId });
@@ -2128,7 +2329,7 @@ app.get('/api/lucky-draw/info', authMiddleware, async (req, res) => {
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.post('/api/lucky-draw/participate', authMiddleware, async (req, res) => {
+app.post('/api/lucky-draw/participate', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
     try {
         const teleId = req.user.id;
         const [configRows] = await pool.query('SELECT * FROM lucky_draw_config WHERE id = 1');
@@ -2137,11 +2338,11 @@ app.post('/api/lucky-draw/participate', authMiddleware, async (req, res) => {
 
         // Check if already joined
         const [existing] = await pool.query('SELECT * FROM lucky_draw_participants WHERE teleId = ?', [teleId]);
-        if (existing.length > 0) return res.status(400).json({ error: 'Bạn đã tham gia rồi!' });
+        if (existing.length > 0) return res.status(400).json({ error: 'Báº¡n Ä‘Ã£ tham gia rá»“i!' });
 
         // Check user balance
         const [userRows] = await pool.query('SELECT gold FROM users WHERE teleId = ?', [teleId]);
-        if (userRows[0].gold < entryFee) return res.status(400).json({ error: 'Không đủ vàng để tham gia!' });
+        if (userRows[0].gold < entryFee) return res.status(400).json({ error: 'KhÃ´ng Ä‘á»§ vÃ ng Ä‘á»ƒ tham gia!' });
 
         // Deduct fee and join
         await pool.query('UPDATE users SET gold = gold - ? WHERE teleId = ?', [entryFee, teleId]);
@@ -2211,7 +2412,7 @@ app.delete('/api/admin/lucky-draw/schedule/:id', adminMiddleware, async (req, re
 
 // Drawing Logic
 async function performLuckyDraw() {
-    console.log("🎲 [LUCKY DRAW] Starting automated draw...");
+    console.log("ðŸŽ² [LUCKY DRAW] Starting automated draw...");
     const connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
@@ -2221,14 +2422,14 @@ async function performLuckyDraw() {
         const totalPrize = Number(config.totalPrize);
 
         if (totalPrize <= 0) {
-            console.log("🎲 [LUCKY DRAW] Skip: Total prize is 0.");
+            console.log("ðŸŽ² [LUCKY DRAW] Skip: Total prize is 0.");
             await connection.rollback();
             return;
         }
 
         const [participants] = await connection.query('SELECT p.teleId, u.username FROM lucky_draw_participants p JOIN users u ON p.teleId = u.teleId');
         if (participants.length === 0) {
-            console.log("🎲 [LUCKY DRAW] Skip: No participants.");
+            console.log("ðŸŽ² [LUCKY DRAW] Skip: No participants.");
             await connection.rollback();
             return;
         }
@@ -2269,7 +2470,7 @@ async function performLuckyDraw() {
                     } else {
                         // Designated user didn't join - we fetch their real name but still reward them (admin choice)
                         const [userRow] = await connection.query('SELECT username FROM users WHERE teleId = ?', [override.teleId]);
-                        const name = userRow[0]?.username || 'Người dùng ẩn';
+                        const name = userRow[0]?.username || 'NgÆ°á»i dÃ¹ng áº©n';
                         winner = { teleId: override.teleId, username: override.fakeName || name, isFake: false, reward };
                     }
                 } else if (override.fakeName) {
@@ -2323,10 +2524,10 @@ async function performLuckyDraw() {
 
         await connection.commit();
         broadcastAdminRefresh('lucky-draw-finished');
-        console.log("🎲 [LUCKY DRAW] Completed successfully.");
+        console.log("ðŸŽ² [LUCKY DRAW] Completed successfully.");
     } catch (err) {
         await connection.rollback();
-        console.error("🎲 [LUCKY DRAW] Error:", err);
+        console.error("ðŸŽ² [LUCKY DRAW] Error:", err);
     } finally {
         connection.release();
     }
@@ -2353,7 +2554,7 @@ setInterval(async () => {
             }
         }
     } catch (err) {
-        console.error("🎲 [LUCKY DRAW SCHEDULER ERROR]", err);
+        console.error("ðŸŽ² [LUCKY DRAW SCHEDULER ERROR]", err);
     }
 }, 60000);
 
@@ -2382,13 +2583,13 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                 const tgData = await tgRes.json();
 
                 if (!tgData.ok || ['left', 'kicked'].includes(tgData.result?.status)) {
-                    return res.status(400).json({ error: 'Bạn chưa tham gia nhóm/kênh này!' });
+                    return res.status(400).json({ error: 'Báº¡n chÆ°a tham gia nhÃ³m/kÃªnh nÃ y!' });
                 }
             } catch (err) {
                 console.error('[TG VERIFY ERROR]', err);
                 // If bot check fails, we might want to skip or fail? 
                 // Let's fail for security unless it's a temp network issue.
-                return res.status(500).json({ error: 'Không thể xác minh thành viên lúc này.' });
+                return res.status(500).json({ error: 'KhÃ´ng thá»ƒ xÃ¡c minh thÃ nh viÃªn lÃºc nÃ y.' });
             }
         }
 
@@ -2415,7 +2616,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
         const vnNow = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // Rough VN Time
 
         if (isSingleClaimTaskType(task.type)) {
-            if (claims.length > 0) return res.status(400).json({ error: 'Bạn đã làm nhiệm vụ này rồi!' });
+            if (claims.length > 0) return res.status(400).json({ error: 'Báº¡n Ä‘Ã£ lÃ m nhiá»‡m vá»¥ nÃ y rá»“i!' });
         } else if (task.type === 'daily') {
             if (claims.length > 0) {
                 const lastClaim = new Date(claims[0].claimedAt);
@@ -2425,7 +2626,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                 if (vnNow.getUTCDate() === vnLast.getUTCDate() &&
                     vnNow.getUTCMonth() === vnLast.getUTCMonth() &&
                     vnNow.getUTCFullYear() === vnLast.getUTCFullYear()) {
-                    return res.status(400).json({ error: 'Nhiệm vụ này sẽ reset vào ngày mai!' });
+                    return res.status(400).json({ error: 'Nhiá»‡m vá»¥ nÃ y sáº½ reset vÃ o ngÃ y mai!' });
                 }
             }
         } else if (task.type === 'ad') {
@@ -2434,7 +2635,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                 const lastClaimTime = new Date(claims[0].claimedAt);
                 const minutesSince = (now - lastClaimTime) / (1000 * 60);
                 if (minutesSince < 15) {
-                    return res.status(400).json({ error: `Vui lòng chờ ${Math.ceil(15 - minutesSince)} phút nữa!` });
+                    return res.status(400).json({ error: `Vui lÃ²ng chá» ${Math.ceil(15 - minutesSince)} phÃºt ná»¯a!` });
                 }
 
                 const dateStr = vnNow.toISOString().split('T')[0];
@@ -2442,7 +2643,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                 const currentCount = logs.length > 0 ? logs[0].count : 0;
 
                 if (currentCount >= 4) {
-                    return res.status(400).json({ error: 'Hôm nay bạn đã xem đủ 4 lần rồi!' });
+                    return res.status(400).json({ error: 'HÃ´m nay báº¡n Ä‘Ã£ xem Ä‘á»§ 4 láº§n rá»“i!' });
                 }
 
                 await pool.query('UPDATE ad_daily_log SET count = count + 1 WHERE teleId = ? AND taskId = ? AND logDate = ?', [teleId, taskId, dateStr]);
@@ -2526,12 +2727,16 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
 
         // 6. Return updated data
         const [users] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
+        const newbieLock = await getNewbieLockStateForInvitee(teleId);
         broadcastAdminRefresh('task-claimed', { teleId, taskId });
         res.json({
             success: true,
             reward: { type: task.rewardType, amount: rewardAmount },
             milestoneReward,
-            user: users[0]
+            user: {
+                ...users[0],
+                newbieLock,
+            }
         });
     } catch (err) {
         console.error('[TASK CLAIM ERROR]', err);
@@ -2544,7 +2749,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
 // Reset All Database
 app.post('/api/admin/reset-db', adminMiddleware, async (req, res) => {
     try {
-        console.log("⚠️ [ADMIN] Resetting entire database...");
+        console.log("âš ï¸ [ADMIN] Resetting entire database...");
         await pool.query('DELETE FROM task_claims'); // Also clear task history
         await pool.query('DELETE FROM task_claim_events');
         await pool.query('DELETE FROM task_milestone_rewards');
@@ -2554,8 +2759,8 @@ app.post('/api/admin/reset-db', adminMiddleware, async (req, res) => {
         await pool.query('DELETE FROM referrals');
         await pool.query('DELETE FROM users');
         broadcastAdminRefresh('database-reset');
-        console.log("✅ [ADMIN] Database reset successfully.");
-        res.json({ success: true, message: 'Đã xóa toàn bộ dữ liệu người dùng!' });
+        console.log("âœ… [ADMIN] Database reset successfully.");
+        res.json({ success: true, message: 'ÄÃ£ xÃ³a toÃ n bá»™ dá»¯ liá»‡u ngÆ°á»i dÃ¹ng!' });
     } catch (err) {
         console.error('[RESET ERROR]', err);
         res.status(500).json({ error: err.message });
@@ -2584,7 +2789,7 @@ app.post(`/api/bot/webhook/${BOT_TOKEN}`, async (req, res) => {
     const text = message.text;
 
     if (text.startsWith('/start')) {
-        const welcomeMessage = `🧧 CHÀO MỪNG BẠN ĐẾN VỚI ĐÀO VÀNG KHAI XUÂN! 🧧\n\nChúc bạn một năm mới an khang thịnh vượng, vạn sự như ý!\n\nHãy nhấn nút bên dưới để bắt đầu khai xuân và nhận những phần quà hấp dẫn nhé! 🧨💰`;
+        const welcomeMessage = `ðŸ§§ CHÃ€O Má»ªNG Báº N Äáº¾N Vá»šI ÄÃ€O VÃ€NG KHAI XUÃ‚N! ðŸ§§\n\nChÃºc báº¡n má»™t nÄƒm má»›i an khang thá»‹nh vÆ°á»£ng, váº¡n sá»± nhÆ° Ã½!\n\nHÃ£y nháº¥n nÃºt bÃªn dÆ°á»›i Ä‘á»ƒ báº¯t Ä‘áº§u khai xuÃ¢n vÃ  nháº­n nhá»¯ng pháº§n quÃ  háº¥p dáº«n nhÃ©! ðŸ§¨ðŸ’°`;
 
         const payload = {
             chat_id: chatId,
@@ -2593,19 +2798,19 @@ app.post(`/api/bot/webhook/${BOT_TOKEN}`, async (req, res) => {
                 inline_keyboard: [
                     [
                         {
-                            text: "🧧 MỞ MINI APP 🧧",
+                            text: "ðŸ§§ Má»ž MINI APP ðŸ§§",
                             url: "https://t.me/Daoxu100_bot/Daoxu100"
                         }
                     ],
                     [
                         {
-                            text: "📢 Tham Gia Kênh",
+                            text: "ðŸ“¢ Tham Gia KÃªnh",
                             url: "https://t.me/daoxungaytet"
                         }
                     ],
                     [
                         {
-                            text: "👨‍💻 Liên Hệ Admin",
+                            text: "ðŸ‘¨â€ðŸ’» LiÃªn Há»‡ Admin",
                             url: "https://t.me/addaoxu"
                         }
                     ]
@@ -2635,12 +2840,12 @@ async function setupBotWebhook() {
         const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/setWebhook?url=${PUBLIC_URL}/api/bot/webhook/${BOT_TOKEN}&allowed_updates=${allowedUpdates}`);
         const data = await res.json();
         if (data.ok) {
-            console.log("✅ [BOT] Webhook set successfully.");
+            console.log("âœ… [BOT] Webhook set successfully.");
         } else {
-            console.error("❌ [BOT] Webhook setup failed:", data.description);
+            console.error("âŒ [BOT] Webhook setup failed:", data.description);
         }
     } catch (err) {
-        console.error("❌ [BOT] Could not reach Telegram API:", err.message);
+        console.error("âŒ [BOT] Could not reach Telegram API:", err.message);
     }
 }
 
@@ -2651,7 +2856,8 @@ app.use((req, res) => {
 
 initDB().then(() => {
     app.listen(PORT, () => {
-        console.log(`🚀 Server running on port ${PORT}`);
+        console.log(`ðŸš€ Server running on port ${PORT}`);
         setupBotWebhook(); // Try to setup webhook
     });
 });
+

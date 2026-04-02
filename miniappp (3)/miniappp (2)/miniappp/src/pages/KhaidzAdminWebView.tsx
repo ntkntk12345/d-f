@@ -87,6 +87,9 @@ interface AdminWithdrawItem {
   teleId: number;
   username: string;
   tgHandle: string;
+  sourceWallet: "gold" | "usdt" | string;
+  sourceCurrency: "GOLD" | "USDT" | string;
+  sourceAmount: number;
   accountName: string;
   bankName: string;
   accountNumber: string;
@@ -131,9 +134,11 @@ interface EconomyConfig {
   newUserDiamonds: number;
   referralRewardGold: number;
   referralRewardDiamonds: number;
+  referralRewardUsdt: number;
   exchangeGoldPerDiamond: number;
   withdrawMinGold: number;
   withdrawVndPerGold: number;
+  usdToVndRateK: number;
   taskMilestoneCount: number;
   taskMilestoneRewardGold: number;
   taskMilestoneRewardDiamonds: number;
@@ -229,9 +234,11 @@ interface EconomyFormState {
   newUserDiamonds: string;
   referralRewardGold: string;
   referralRewardDiamonds: string;
+  referralRewardUsdt: string;
   exchangeGoldPerDiamond: string;
   withdrawMinGold: string;
   withdrawVndPerGold: string;
+  usdToVndRateK: string;
   taskMilestoneCount: string;
   taskMilestoneRewardGold: string;
   taskMilestoneRewardDiamonds: string;
@@ -323,11 +330,13 @@ const DEFAULT_GIFTCODE_FORM: GiftCodeFormState = {
 const EMPTY_ECONOMY_CONFIG: EconomyConfig = {
   newUserGold: 1000,
   newUserDiamonds: 1000,
-  referralRewardGold: 50000,
+  referralRewardGold: 0,
   referralRewardDiamonds: 0,
+  referralRewardUsdt: 0.02,
   exchangeGoldPerDiamond: 125,
   withdrawMinGold: 6000000,
   withdrawVndPerGold: 0.0005,
+  usdToVndRateK: 26,
   taskMilestoneCount: 0,
   taskMilestoneRewardGold: 0,
   taskMilestoneRewardDiamonds: 0,
@@ -356,9 +365,11 @@ const DEFAULT_ECONOMY_FORM: EconomyFormState = {
   newUserDiamonds: String(EMPTY_ECONOMY_CONFIG.newUserDiamonds),
   referralRewardGold: String(EMPTY_ECONOMY_CONFIG.referralRewardGold),
   referralRewardDiamonds: String(EMPTY_ECONOMY_CONFIG.referralRewardDiamonds),
+  referralRewardUsdt: String(EMPTY_ECONOMY_CONFIG.referralRewardUsdt),
   exchangeGoldPerDiamond: String(EMPTY_ECONOMY_CONFIG.exchangeGoldPerDiamond),
   withdrawMinGold: String(EMPTY_ECONOMY_CONFIG.withdrawMinGold),
   withdrawVndPerGold: String(EMPTY_ECONOMY_CONFIG.withdrawVndPerGold),
+  usdToVndRateK: String(EMPTY_ECONOMY_CONFIG.usdToVndRateK),
   taskMilestoneCount: String(EMPTY_ECONOMY_CONFIG.taskMilestoneCount),
   taskMilestoneRewardGold: String(EMPTY_ECONOMY_CONFIG.taskMilestoneRewardGold),
   taskMilestoneRewardDiamonds: String(EMPTY_ECONOMY_CONFIG.taskMilestoneRewardDiamonds),
@@ -422,9 +433,11 @@ function toEconomyForm(config: EconomyConfig): EconomyFormState {
     newUserDiamonds: String(config.newUserDiamonds),
     referralRewardGold: String(config.referralRewardGold),
     referralRewardDiamonds: String(config.referralRewardDiamonds),
+    referralRewardUsdt: String(config.referralRewardUsdt),
     exchangeGoldPerDiamond: String(config.exchangeGoldPerDiamond),
     withdrawMinGold: String(config.withdrawMinGold),
     withdrawVndPerGold: String(config.withdrawVndPerGold),
+    usdToVndRateK: String(config.usdToVndRateK),
     taskMilestoneCount: String(config.taskMilestoneCount),
     taskMilestoneRewardGold: String(config.taskMilestoneRewardGold),
     taskMilestoneRewardDiamonds: String(config.taskMilestoneRewardDiamonds),
@@ -510,6 +523,9 @@ function normalizeAdminSnapshot(payload: unknown): AdminSnapshot {
       teleId: toNumber(item.teleId || item.userTeleId),
       username: toText(item.username, "Unknown"),
       tgHandle: toText(item.tgHandle, ""),
+      sourceWallet: toText(item.sourceWallet, "gold"),
+      sourceCurrency: toText(item.sourceCurrency, "GOLD"),
+      sourceAmount: toNumber(item.sourceAmount == null ? item.amount : item.sourceAmount),
       accountName: toText(item.accountName),
       bankName: toText(item.bankName),
       accountNumber: toText(item.accountNumber),
@@ -581,6 +597,7 @@ function normalizeAdminSnapshot(payload: unknown): AdminSnapshot {
       referralRewardDiamonds: toNumber(
         economyRoot.referralRewardDiamonds ?? EMPTY_ECONOMY_CONFIG.referralRewardDiamonds,
       ),
+      referralRewardUsdt: Math.max(0, toNumber(economyRoot.referralRewardUsdt ?? EMPTY_ECONOMY_CONFIG.referralRewardUsdt)),
       exchangeGoldPerDiamond: Math.max(
         1,
         toNumber(economyRoot.exchangeGoldPerDiamond ?? EMPTY_ECONOMY_CONFIG.exchangeGoldPerDiamond),
@@ -590,6 +607,7 @@ function normalizeAdminSnapshot(payload: unknown): AdminSnapshot {
         0,
         toNumber(economyRoot.withdrawVndPerGold ?? EMPTY_ECONOMY_CONFIG.withdrawVndPerGold),
       ),
+      usdToVndRateK: Math.max(1, toNumber(economyRoot.usdToVndRateK ?? EMPTY_ECONOMY_CONFIG.usdToVndRateK)),
       taskMilestoneCount: Math.max(
         0,
         toNumber(economyRoot.taskMilestoneCount ?? EMPTY_ECONOMY_CONFIG.taskMilestoneCount),
@@ -1196,11 +1214,13 @@ export function KhaidzAdminWebView() {
     economyConfig.newUserGold,
     economyConfig.referralRewardDiamonds,
     economyConfig.referralRewardGold,
+    economyConfig.referralRewardUsdt,
     economyConfig.taskMilestoneCount,
     economyConfig.taskMilestoneRewardDiamonds,
     economyConfig.taskMilestoneRewardGold,
     economyConfig.withdrawMinGold,
     economyConfig.withdrawVndPerGold,
+    economyConfig.usdToVndRateK,
   ]);
 
   useEffect(() => {
@@ -1675,9 +1695,11 @@ export function KhaidzAdminWebView() {
           newUserDiamonds: Math.max(0, Math.floor(Number(economyForm.newUserDiamonds || 0))),
           referralRewardGold: Math.max(0, Math.floor(Number(economyForm.referralRewardGold || 0))),
           referralRewardDiamonds: Math.max(0, Math.floor(Number(economyForm.referralRewardDiamonds || 0))),
+          referralRewardUsdt: Math.max(0, Number(economyForm.referralRewardUsdt || 0)),
           exchangeGoldPerDiamond: Math.max(1, Math.floor(Number(economyForm.exchangeGoldPerDiamond || 1))),
           withdrawMinGold: Math.max(0, Math.floor(Number(economyForm.withdrawMinGold || 0))),
           withdrawVndPerGold: Math.max(0, Number(economyForm.withdrawVndPerGold || 0)),
+          usdToVndRateK: Math.max(1, Number(economyForm.usdToVndRateK || 0)),
           taskMilestoneCount: Math.max(0, Math.floor(Number(economyForm.taskMilestoneCount || 0))),
           taskMilestoneRewardGold: Math.max(0, Math.floor(Number(economyForm.taskMilestoneRewardGold || 0))),
           taskMilestoneRewardDiamonds: Math.max(
@@ -2259,12 +2281,8 @@ export function KhaidzAdminWebView() {
               <div className="grid gap-4 xl:grid-cols-4">
                 <MetricCard
                   label="Mời bạn"
-                  value={`+${formatNumber(economyConfig.referralRewardGold)}`}
-                  detail={
-                    economyConfig.referralRewardDiamonds > 0
-                      ? `Them ${formatNumber(economyConfig.referralRewardDiamonds)} KC cho moi ref.`
-                      : "Thuong vang moi khi tao ref thanh cong."
-                  }
+                  value={`$${formatDecimalNumber(economyConfig.referralRewardUsdt, 6)}`}
+                  detail="Mỗi ref chỉ cộng thưởng khi user mới hoàn thành đủ nhiệm vụ tân thủ."
                   icon={Users}
                   accentClassName="text-amber-100"
                 />
@@ -2278,7 +2296,10 @@ export function KhaidzAdminWebView() {
                 <MetricCard
                   label="Rút tối thiểu"
                   value={formatNumber(economyConfig.withdrawMinGold)}
-                  detail={`${formatDecimalNumber(economyConfig.withdrawVndPerGold, 6)} VND / 1 vang`}
+                  detail={`${formatDecimalNumber(economyConfig.withdrawVndPerGold, 6)} VND / 1 vàng • 1$ = ${formatDecimalNumber(
+                    economyConfig.usdToVndRateK,
+                    4,
+                  )}k`}
                   icon={Wallet}
                   accentClassName="text-emerald-100"
                 />
@@ -2383,6 +2404,25 @@ export function KhaidzAdminWebView() {
                             className={INPUT_CLASS}
                           />
                         </div>
+
+                        <div className="sm:col-span-2">
+                          <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                            Thuong ref USDT ($)
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            step="0.000001"
+                            value={economyForm.referralRewardUsdt}
+                            onChange={(event) =>
+                              setEconomyForm((current) => ({ ...current, referralRewardUsdt: event.target.value }))
+                            }
+                            className={INPUT_CLASS}
+                          />
+                          <p className="mt-2 text-sm text-slate-400/80">
+                            Moi ban be dat dieu kien se duoc cong dung muc USDT nay.
+                          </p>
+                        </div>
                       </div>
                     </div>
 
@@ -2435,6 +2475,25 @@ export function KhaidzAdminWebView() {
                           />
                           <p className="mt-2 text-sm text-slate-400/80">
                             Muc hien tai: {formatDecimalNumber(economyConfig.withdrawVndPerGold, 6)} VND cho moi 1 vang.
+                          </p>
+                        </div>
+
+                        <div className="sm:col-span-2">
+                          <label className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+                            Gia 1$ (nghin VND)
+                          </label>
+                          <input
+                            type="number"
+                            min="1"
+                            step="0.0001"
+                            value={economyForm.usdToVndRateK}
+                            onChange={(event) =>
+                              setEconomyForm((current) => ({ ...current, usdToVndRateK: event.target.value }))
+                            }
+                            className={INPUT_CLASS}
+                          />
+                          <p className="mt-2 text-sm text-slate-400/80">
+                            Vi du: 25 nghia la 1$ = 25,000 VND.
                           </p>
                         </div>
                       </div>
@@ -3186,6 +3245,12 @@ export function KhaidzAdminWebView() {
                           </td>
                           <td className="px-5 py-4 sm:px-6">
                             <p className="font-bold text-amber-100">{formatWithdrawPayout(withdraw)}</p>
+                            <p className="mt-1 text-xs text-slate-400">
+                              Nguon:{" "}
+                              {withdraw.sourceCurrency === "USDT"
+                                ? `${formatDecimalNumber(withdraw.sourceAmount || 0, 6)} USDT`
+                                : `${formatNumber(withdraw.sourceAmount || 0)} vang`}
+                            </p>
                             {withdraw.feePercent > 0 ? (
                               <p className="mt-1 text-xs text-slate-400">
                                 Phi {formatDecimalNumber(withdraw.feePercent, 2)}% ({formatNumber(withdraw.feeAmount)} VND)

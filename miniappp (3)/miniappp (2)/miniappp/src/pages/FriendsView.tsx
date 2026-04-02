@@ -3,14 +3,19 @@ import type { GameStore } from "@/hooks/use-game-store";
 import { formatNumber } from "@/lib/utils";
 import { Award, Copy, Share2, Sparkles, UserPlus, Users } from "lucide-react";
 
+function formatUsdt(value: number) {
+  return new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 6,
+  }).format(value);
+}
+
 export function FriendsView({ store }: { store: GameStore }) {
   const [copied, setCopied] = useState(false);
   const rewardedReferrals = store.referrals.filter((item) => item.status === "rewarded");
   const invitedCount = Math.max(rewardedReferrals.length, store.referralCount);
-  const totalGoldBonus = rewardedReferrals.reduce((sum, item) => sum + item.goldReward, 0);
-  const totalDiamondBonus = rewardedReferrals.reduce((sum, item) => sum + item.diamondReward, 0);
-  const perInviteGold = store.economyConfig.referralRewardGold;
-  const perInviteDiamonds = store.economyConfig.referralRewardDiamonds;
+  const totalUsdtBonus = rewardedReferrals.reduce((sum, item) => sum + item.usdtReward, 0);
+  const perInviteUsdt = store.economyConfig.referralRewardUsdt;
 
   const handleCopy = async () => {
     const success = await store.copyInviteLink();
@@ -52,6 +57,12 @@ export function FriendsView({ store }: { store: GameStore }) {
         <p className="mt-3 max-w-[18rem] text-sm leading-6 text-yellow-100/80">
           Mời người chơi mới tham gia. Thưởng referral chỉ mở khi người được mời hoàn tất toàn bộ nhiệm vụ tân thủ.
         </p>
+        <div className="mt-3 rounded-2xl border border-cyan-200/20 bg-cyan-950/28 px-3 py-3 text-xs leading-5 text-cyan-100/90">
+          Điều kiện tính 1 lượt mời:
+          <br />1. Người được mời vào app bằng link của bạn.
+          <br />2. Hoàn thành đủ 100% nhiệm vụ loại <span className="font-black">newbie/tân thủ</span>.
+          <br />3. Sau khi hoàn thành, hệ thống mới cộng thưởng vào ví USDT của người mời.
+        </div>
       </div>
 
       <div className="relative z-10 rounded-[30px] border border-yellow-500/30 bg-[linear-gradient(180deg,rgba(255,223,136,0.14)_0%,rgba(98,58,8,0.18)_100%)] p-[1px] shadow-[0_18px_34px_rgba(0,0,0,0.34)]">
@@ -68,7 +79,7 @@ export function FriendsView({ store }: { store: GameStore }) {
               <div className="text-base font-extrabold text-[#fff3d4]">Mỗi lượt mời thành công</div>
               <div className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-yellow-300/15 bg-yellow-100/8 px-3 py-1 text-sm font-black text-yellow-100">
                 <Sparkles className="h-3.5 w-3.5 text-yellow-400" />
-                +{formatNumber(perInviteGold)} vàng{perInviteDiamonds > 0 ? ` · +${formatNumber(perInviteDiamonds)} KC` : ""}
+                +${formatUsdt(perInviteUsdt)}
               </div>
             </div>
           </div>
@@ -88,11 +99,8 @@ export function FriendsView({ store }: { store: GameStore }) {
                 Tổng thưởng
               </div>
               <div className="mt-1 text-xl font-black text-emerald-200">
-                +{formatNumber(totalGoldBonus)} vàng
+                +${formatUsdt(totalUsdtBonus)}
               </div>
-              {totalDiamondBonus > 0 ? (
-                <div className="mt-1 text-sm font-black text-cyan-100">+{formatNumber(totalDiamondBonus)} KC</div>
-              ) : null}
             </div>
           </div>
 
@@ -179,7 +187,7 @@ export function FriendsView({ store }: { store: GameStore }) {
                           }`}
                         >
                           {friend.status === "rewarded"
-                            ? `+${formatNumber(friend.goldReward)} vàng${friend.diamondReward > 0 ? ` · +${formatNumber(friend.diamondReward)} KC` : ""}`
+                            ? `+$${formatUsdt(friend.usdtReward)}`
                             : "Chờ hoàn tất tân thủ"}
                         </div>
                       </div>

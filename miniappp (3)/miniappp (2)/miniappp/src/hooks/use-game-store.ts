@@ -1,4 +1,4 @@
-﻿import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import confetti from "canvas-confetti";
 
 export type PageId = "home" | "giftcode" | "shop" | "tasks" | "friends" | "lucky" | "exchange" | "withdraw" | "admin" | "flappy";
@@ -32,9 +32,20 @@ export interface ReferralRecord {
   invitedName: string;
   goldReward: number;
   diamondReward: number;
+  usdtReward: number;
   status: ReferralStatus;
   createdAt: string;
   rewardedAt: string | null;
+}
+
+export interface NewbieLockState {
+  required: boolean;
+  inviterId: number;
+  totalNewbieTasks: number;
+  completedNewbieTasks: number;
+  remainingNewbieTasks: number;
+  referralStatus: string;
+  message: string;
 }
 
 export interface LuckyDrawConfig {
@@ -74,9 +85,11 @@ export interface EconomyConfig {
   newUserDiamonds: number;
   referralRewardGold: number;
   referralRewardDiamonds: number;
+  referralRewardUsdt: number;
   exchangeGoldPerDiamond: number;
   withdrawMinGold: number;
   withdrawVndPerGold: number;
+  usdToVndRateK: number;
   taskMilestoneCount: number;
   taskMilestoneRewardGold: number;
   taskMilestoneRewardDiamonds: number;
@@ -117,6 +130,9 @@ export interface LixiInfo {
 export interface WithdrawHistoryItem {
   id: number;
   amount: number;
+  sourceWallet: "gold" | "usdt" | string;
+  sourceCurrency: "GOLD" | "USDT" | string;
+  sourceAmount: number;
   vnd: number;
   method: "bank" | "wallet" | "usdt" | string;
   network?: string;
@@ -136,6 +152,7 @@ export interface AdminUser {
   teleId: number;
   username: string;
   gold: number;
+  usdtBalance: number;
   diamonds: number;
   level: number;
 }
@@ -144,6 +161,9 @@ export interface AdminWithdrawItem {
   id: number;
   teleId: number;
   username: string;
+  sourceWallet: "gold" | "usdt" | string;
+  sourceCurrency: "GOLD" | "USDT" | string;
+  sourceAmount: number;
   accountName: string;
   bankName: string;
   accountNumber: string;
@@ -170,6 +190,7 @@ export interface AdminData {
 
 export interface WithdrawPayload {
   amount: number;
+  amountUnit?: "gold" | "usdt";
   bankBin: string;
   bankName: string;
   accountNumber: string;
@@ -201,6 +222,7 @@ interface ApiUser {
   teleId: number;
   username: string;
   gold: number | string;
+  usdtBalance?: number | string;
   diamonds: number | string;
   level: number | string;
   miningRate: number | string;
@@ -212,6 +234,9 @@ interface ApiUser {
   withdrawHistory?: Array<{
     id: number;
     amount: number | string;
+    sourceWallet?: "gold" | "usdt" | string;
+    sourceCurrency?: "GOLD" | "USDT" | string;
+    sourceAmount?: number | string;
     vnd: number | string;
     method?: "bank" | "wallet" | "usdt" | string;
     network?: string;
@@ -227,6 +252,15 @@ interface ApiUser {
     message?: string;
   }>;
   serverTime?: number;
+  newbieLock?: {
+    required?: boolean;
+    inviterId?: number | string;
+    totalNewbieTasks?: number | string;
+    completedNewbieTasks?: number | string;
+    remainingNewbieTasks?: number | string;
+    referralStatus?: string;
+    message?: string;
+  };
 }
 
 interface ApiResult {
@@ -269,6 +303,7 @@ interface AdminDataResult {
     teleId: number | string;
     username: string;
     gold: number | string;
+    usdtBalance?: number | string;
     diamonds: number | string;
     level: number | string;
   }>;
@@ -278,6 +313,10 @@ interface AdminDataResult {
     id: number | string;
     teleId: number | string;
     username: string;
+    amount?: number | string;
+    sourceWallet?: "gold" | "usdt" | string;
+    sourceCurrency?: "GOLD" | "USDT" | string;
+    sourceAmount?: number | string;
     accountName: string;
     bankName: string;
     accountNumber: string;
@@ -396,6 +435,8 @@ declare global {
 
 const API_BASE_URL = ((import.meta.env.VITE_API_BASE_URL as string | undefined) ?? "").replace(/\/$/, "");
 const ADMIN_ID = "7711226652";
+const NEWBIE_LOCK_FALLBACK_MESSAGE =
+  "Ban duoc moi vao he thong. Hay hoan thanh nhiem vu tan thu trong tab Nhiem vu de mo khoa cac chuc nang khac.";
 
 const LEVEL_NAME_MAP: Record<number, string> = {
   1: "Mỏ Đá",
@@ -441,11 +482,13 @@ const EMPTY_FLAPPY_CONFIG: FlappyConfig = {
 const EMPTY_ECONOMY_CONFIG: EconomyConfig = {
   newUserGold: 1000,
   newUserDiamonds: 1000,
-  referralRewardGold: 50000,
+  referralRewardGold: 0,
   referralRewardDiamonds: 0,
+  referralRewardUsdt: 0.02,
   exchangeGoldPerDiamond: 125,
   withdrawMinGold: 6000000,
   withdrawVndPerGold: 0.0005,
+  usdToVndRateK: 26,
   taskMilestoneCount: 0,
   taskMilestoneRewardGold: 0,
   taskMilestoneRewardDiamonds: 0,
@@ -479,6 +522,16 @@ const EMPTY_LIXI_INFO: LixiInfo = {
     remainingAdViews: EMPTY_LIXI_CONFIG.requiredAdViews,
     canClaim: false,
   },
+};
+
+const EMPTY_NEWBIE_LOCK: NewbieLockState = {
+  required: false,
+  inviterId: 0,
+  totalNewbieTasks: 0,
+  completedNewbieTasks: 0,
+  remainingNewbieTasks: 0,
+  referralStatus: "none",
+  message: "",
 };
 
 export const SHIFT_DURATION_MS = 6 * 60 * 60 * 1000;
@@ -591,9 +644,31 @@ function normalizeLixiInfo(data: ApiLixiInfoResult | null | undefined): LixiInfo
   };
 }
 
+function normalizeNewbieLockState(raw: ApiUser["newbieLock"] | null | undefined): NewbieLockState {
+  if (!raw) {
+    return EMPTY_NEWBIE_LOCK;
+  }
+
+  const totalNewbieTasks = Math.max(0, toNumber(raw.totalNewbieTasks));
+  const completedNewbieTasks = Math.max(0, Math.min(totalNewbieTasks, toNumber(raw.completedNewbieTasks)));
+  const fallbackRemaining = Math.max(0, totalNewbieTasks - completedNewbieTasks);
+  const remainingNewbieTasks = Math.max(0, toNumber(raw.remainingNewbieTasks, fallbackRemaining));
+
+  return {
+    required: Boolean(raw.required) && totalNewbieTasks > 0,
+    inviterId: Math.max(0, toNumber(raw.inviterId)),
+    totalNewbieTasks,
+    completedNewbieTasks,
+    remainingNewbieTasks,
+    referralStatus: String(raw.referralStatus || "none"),
+    message: typeof raw.message === "string" ? raw.message : "",
+  };
+}
+
 export function useGameStore() {
-  const [currentPage, setCurrentPage] = useState<PageId>("home");
+  const [currentPage, setCurrentPageState] = useState<PageId>("home");
   const [gold, setGold] = useState(0);
+  const [usdtBalance, setUsdtBalance] = useState(0);
   const [diamonds, setDiamonds] = useState(1000);
   const [level, setLevel] = useState(1);
   const [isMining, setIsMining] = useState(false);
@@ -609,6 +684,7 @@ export function useGameStore() {
   const [flappyConfig, setFlappyConfig] = useState<FlappyConfig>(EMPTY_FLAPPY_CONFIG);
   const [economyConfig, setEconomyConfig] = useState<EconomyConfig>(EMPTY_ECONOMY_CONFIG);
   const [lixi, setLixi] = useState<LixiInfo>(EMPTY_LIXI_INFO);
+  const [newbieLock, setNewbieLock] = useState<NewbieLockState>(EMPTY_NEWBIE_LOCK);
   const [withdrawHistory, setWithdrawHistory] = useState<WithdrawHistoryItem[]>([]);
   const [referralCount, setReferralCount] = useState(0);
   const [adminData, setAdminData] = useState<AdminData>({
@@ -628,6 +704,7 @@ export function useGameStore() {
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [didShowNewbieLockNotice, setDidShowNewbieLockNotice] = useState(false);
 
   const triggerConfetti = useCallback(() => {
     const duration = 2000;
@@ -655,6 +732,36 @@ export function useGameStore() {
     frame();
   }, []);
 
+  const enforceNewbieTaskLock = useCallback(
+    (showAlert = false) => {
+      if (!newbieLock.required) {
+        return null;
+      }
+
+      const message = newbieLock.message || NEWBIE_LOCK_FALLBACK_MESSAGE;
+      setCurrentPageState("tasks");
+
+      if (showAlert && typeof window !== "undefined") {
+        window.alert(message);
+      }
+
+      return message;
+    },
+    [newbieLock.message, newbieLock.required],
+  );
+
+  const setCurrentPage = useCallback(
+    (nextPage: PageId) => {
+      if (newbieLock.required && nextPage !== "tasks") {
+        enforceNewbieTaskLock(true);
+        return;
+      }
+
+      setCurrentPageState(nextPage);
+    },
+    [enforceNewbieTaskLock, newbieLock.required],
+  );
+
   const apiFetch = useCallback(
     async (path: string, options: RequestInit = {}) => {
       if (!initData) {
@@ -676,6 +783,11 @@ export function useGameStore() {
       const payload = contentType.includes("application/json") ? await response.json() : null;
 
       if (!response.ok) {
+        if (payload?.newbieLock) {
+          setNewbieLock(normalizeNewbieLockState(payload.newbieLock));
+          setCurrentPageState("tasks");
+        }
+
         const message = payload?.error || payload?.message || `Request thất bại (${response.status})`;
         throw new Error(message);
       }
@@ -690,6 +802,7 @@ export function useGameStore() {
 
     setServerGoldBase(nextGold);
     setGold(nextGold);
+    setUsdtBalance(toNumber(user.usdtBalance, 0));
     setDiamonds(toNumber(user.diamonds, 0));
     setLevel(toNumber(user.level, 1));
     setMiningRate(toNumber(user.miningRate, 7));
@@ -715,11 +828,18 @@ export function useGameStore() {
       }));
     }
 
+    if (user.newbieLock !== undefined) {
+      setNewbieLock(normalizeNewbieLockState(user.newbieLock));
+    }
+
     if (Array.isArray(user.withdrawHistory)) {
       setWithdrawHistory(
         user.withdrawHistory.map((item) => ({
           id: toNumber(item.id),
           amount: toNumber(item.amount),
+          sourceWallet: item.sourceWallet || "gold",
+          sourceCurrency: item.sourceCurrency || "GOLD",
+          sourceAmount: toNumber(item.sourceAmount, toNumber(item.amount)),
           vnd: toNumber(item.vnd),
           method: item.method || "bank",
           network: item.network || "",
@@ -764,6 +884,7 @@ export function useGameStore() {
       invitedName: string;
       goldReward: number | string;
       diamondReward?: number | string;
+      usdtReward?: number | string;
       status?: string;
       createdAt: string;
       rewardedAt?: string | null;
@@ -775,6 +896,7 @@ export function useGameStore() {
         invitedName: row.invitedName || `Người dùng ${row.invitedId}`,
         goldReward: toNumber(row.goldReward),
         diamondReward: toNumber(row.diamondReward),
+        usdtReward: toNumber(row.usdtReward),
         status: row.status === "pending" ? "pending" : "rewarded",
         createdAt: row.createdAt,
         rewardedAt: row.rewardedAt || null,
@@ -829,9 +951,11 @@ export function useGameStore() {
       newUserDiamonds: toNumber(data.newUserDiamonds, EMPTY_ECONOMY_CONFIG.newUserDiamonds),
       referralRewardGold: toNumber(data.referralRewardGold, EMPTY_ECONOMY_CONFIG.referralRewardGold),
       referralRewardDiamonds: toNumber(data.referralRewardDiamonds, EMPTY_ECONOMY_CONFIG.referralRewardDiamonds),
+      referralRewardUsdt: toNumber(data.referralRewardUsdt, EMPTY_ECONOMY_CONFIG.referralRewardUsdt),
       exchangeGoldPerDiamond: Math.max(1, toNumber(data.exchangeGoldPerDiamond, EMPTY_ECONOMY_CONFIG.exchangeGoldPerDiamond)),
       withdrawMinGold: toNumber(data.withdrawMinGold, EMPTY_ECONOMY_CONFIG.withdrawMinGold),
       withdrawVndPerGold: toNumber(data.withdrawVndPerGold, EMPTY_ECONOMY_CONFIG.withdrawVndPerGold),
+      usdToVndRateK: Math.max(1, toNumber(data.usdToVndRateK, EMPTY_ECONOMY_CONFIG.usdToVndRateK)),
       taskMilestoneCount: toNumber(data.taskMilestoneCount, EMPTY_ECONOMY_CONFIG.taskMilestoneCount),
       taskMilestoneRewardGold: toNumber(data.taskMilestoneRewardGold, EMPTY_ECONOMY_CONFIG.taskMilestoneRewardGold),
       taskMilestoneRewardDiamonds: toNumber(
@@ -867,6 +991,7 @@ export function useGameStore() {
         teleId: toNumber(user.teleId),
         username: user.username || `User ${user.teleId}`,
         gold: toNumber(user.gold),
+        usdtBalance: toNumber(user.usdtBalance),
         diamonds: toNumber(user.diamonds),
         level: toNumber(user.level, 1),
       })),
@@ -876,6 +1001,9 @@ export function useGameStore() {
         id: toNumber(item.id),
         teleId: toNumber(item.teleId),
         username: item.username || `User ${item.teleId}`,
+        sourceWallet: item.sourceWallet || "gold",
+        sourceCurrency: item.sourceCurrency || "GOLD",
+        sourceAmount: toNumber(item.sourceAmount, toNumber(item.amount)),
         accountName: item.accountName || "",
         bankName: item.bankName || "",
         accountNumber: item.accountNumber || "",
@@ -993,6 +1121,24 @@ export function useGameStore() {
   ]);
 
   useEffect(() => {
+    if (!newbieLock.required) {
+      if (didShowNewbieLockNotice) {
+        setDidShowNewbieLockNotice(false);
+      }
+      return;
+    }
+
+    if (currentPage !== "tasks") {
+      setCurrentPageState("tasks");
+    }
+
+    if (!didShowNewbieLockNotice && typeof window !== "undefined") {
+      window.alert(newbieLock.message || NEWBIE_LOCK_FALLBACK_MESSAGE);
+      setDidShowNewbieLockNotice(true);
+    }
+  }, [currentPage, didShowNewbieLockNotice, newbieLock.message, newbieLock.required]);
+
+  useEffect(() => {
     if (!isLoaded || !initData) return;
 
     if (currentPage === "tasks") {
@@ -1061,6 +1207,11 @@ export function useGameStore() {
   }, [isMining, miningRate, miningShiftStart, miningStartTime, serverGoldBase, serverOffset]);
 
   const startMining = useCallback(async () => {
+    const lockMessage = enforceNewbieTaskLock();
+    if (lockMessage) {
+      return { success: false, error: lockMessage };
+    }
+
     try {
       const data = (await apiFetch("/api/game/start-mining", { method: "POST" })) as {
         success?: boolean;
@@ -1080,9 +1231,14 @@ export function useGameStore() {
     } catch (err) {
       return { success: false, error: err instanceof Error ? err.message : "Không thể bắt đầu đào." };
     }
-  }, [apiFetch]);
+  }, [apiFetch, enforceNewbieTaskLock]);
 
   const claimMining = useCallback(async () => {
+    const lockMessage = enforceNewbieTaskLock();
+    if (lockMessage) {
+      return { success: false, error: lockMessage };
+    }
+
     try {
       const data = (await apiFetch("/api/game/claim-mining", { method: "POST" })) as {
         success?: boolean;
@@ -1106,10 +1262,14 @@ export function useGameStore() {
     } catch (err) {
       return { success: false, error: err instanceof Error ? err.message : "Không thể thu hoạch." };
     }
-  }, [apiFetch, triggerConfetti]);
+  }, [apiFetch, enforceNewbieTaskLock, triggerConfetti]);
 
   const upgradeLevel = useCallback(
     async (_targetLevel: number, _cost: number) => {
+      if (enforceNewbieTaskLock(true)) {
+        return false;
+      }
+
       try {
         const data = (await apiFetch("/api/game/upgrade", { method: "POST" })) as {
           success?: boolean;
@@ -1131,7 +1291,7 @@ export function useGameStore() {
         return false;
       }
     },
-    [apiFetch, fetchLevels, triggerConfetti],
+    [apiFetch, enforceNewbieTaskLock, fetchLevels, triggerConfetti],
   );
 
   const claimTask = useCallback(
@@ -1160,6 +1320,11 @@ export function useGameStore() {
 
   const submitFlappyScore = useCallback(
     async (score: number) => {
+      const lockMessage = enforceNewbieTaskLock();
+      if (lockMessage) {
+        return { success: false, error: lockMessage };
+      }
+
       try {
         const data = (await apiFetch("/api/flappy/submit-score", {
           method: "POST",
@@ -1195,11 +1360,16 @@ export function useGameStore() {
         return { success: false, error: err instanceof Error ? err.message : "Khong the luu diem." };
       }
     },
-    [apiFetch, applyUserSnapshot],
+    [apiFetch, applyUserSnapshot, enforceNewbieTaskLock],
   );
 
   const exchangeGoldForDiamonds = useCallback(
     async (goldAmount: number) => {
+      const lockMessage = enforceNewbieTaskLock();
+      if (lockMessage) {
+        return { success: false, error: lockMessage };
+      }
+
       try {
         const data = (await apiFetch("/api/game/exchange", {
           method: "POST",
@@ -1217,11 +1387,16 @@ export function useGameStore() {
         return { success: false, error: err instanceof Error ? err.message : "Không thể đổi KC." };
       }
     },
-    [apiFetch, applyUserSnapshot, triggerConfetti],
+    [apiFetch, applyUserSnapshot, enforceNewbieTaskLock, triggerConfetti],
   );
 
   const withdraw = useCallback(
     async (payload: WithdrawPayload) => {
+      const lockMessage = enforceNewbieTaskLock();
+      if (lockMessage) {
+        return { success: false, error: lockMessage };
+      }
+
       try {
         const data = (await apiFetch("/api/withdraw/create", {
           method: "POST",
@@ -1238,11 +1413,16 @@ export function useGameStore() {
         return { success: false, error: err instanceof Error ? err.message : "Không thể gửi lệnh rút." };
       }
     },
-    [apiFetch, applyUserSnapshot],
+    [apiFetch, applyUserSnapshot, enforceNewbieTaskLock],
   );
 
   const redeemGiftCode = useCallback(
     async (code: string): Promise<GiftCodeRedeemResult> => {
+      const lockMessage = enforceNewbieTaskLock();
+      if (lockMessage) {
+        return { success: false, error: lockMessage };
+      }
+
       try {
         const data = (await apiFetch("/api/user/redeem", {
           method: "POST",
@@ -1265,10 +1445,15 @@ export function useGameStore() {
         return { success: false, error: err instanceof Error ? err.message : "Giftcode không hợp lệ." };
       }
     },
-    [apiFetch, applyUserSnapshot, triggerConfetti],
+    [apiFetch, applyUserSnapshot, enforceNewbieTaskLock, triggerConfetti],
   );
 
   const joinLuckyDraw = useCallback(async () => {
+    const lockMessage = enforceNewbieTaskLock();
+    if (lockMessage) {
+      return { success: false, error: lockMessage };
+    }
+
     try {
       const data = (await apiFetch("/api/lucky-draw/participate", {
         method: "POST",
@@ -1284,7 +1469,7 @@ export function useGameStore() {
     } catch (err) {
       return { success: false, error: err instanceof Error ? err.message : "Không thể tham gia vòng quay." };
     }
-  }, [apiFetch, fetchLuckyDrawInfo, syncFromBackend, triggerConfetti]);
+  }, [apiFetch, enforceNewbieTaskLock, fetchLuckyDrawInfo, syncFromBackend, triggerConfetti]);
 
   const inviteLink = useMemo(() => {
     if (!teleId) return "";
@@ -1386,6 +1571,11 @@ export function useGameStore() {
   );
 
   const claimLixi = useCallback(async () => {
+    const lockMessage = enforceNewbieTaskLock();
+    if (lockMessage) {
+      return { success: false, error: lockMessage };
+    }
+
     try {
       const data = (await apiFetch("/api/lixi/claim", {
         method: "POST",
@@ -1420,9 +1610,14 @@ export function useGameStore() {
 
       return { success: false, error: err instanceof Error ? err.message : "Khong the nhan li xi luc nay." };
     }
-  }, [apiFetch, applyUserSnapshot, fetchLixiInfo, triggerConfetti]);
+  }, [apiFetch, applyUserSnapshot, enforceNewbieTaskLock, fetchLixiInfo, triggerConfetti]);
 
   const recordLixiAdView = useCallback(async () => {
+    const lockMessage = enforceNewbieTaskLock();
+    if (lockMessage) {
+      return { success: false, error: lockMessage };
+    }
+
     try {
       const data = (await apiFetch("/api/lixi/watch-ad", {
         method: "POST",
@@ -1456,7 +1651,7 @@ export function useGameStore() {
 
       return { success: false, error: err instanceof Error ? err.message : "Khong the ghi nhan video li xi." };
     }
-  }, [apiFetch, fetchLixiInfo, lixi.user.remainingAdViews, lixi.user.watchedAdViews]);
+  }, [apiFetch, enforceNewbieTaskLock, fetchLixiInfo, lixi.user.remainingAdViews, lixi.user.watchedAdViews]);
 
   const updateLixiConfig = useCallback(
     async (minGold: number, maxGold: number) => {
@@ -1507,6 +1702,7 @@ export function useGameStore() {
     currentPage,
     setCurrentPage,
     gold,
+    usdtBalance,
     setGold,
     diamonds,
     setDiamonds,
@@ -1521,6 +1717,7 @@ export function useGameStore() {
     referralCount,
     luckyDraw,
     lixi,
+    newbieLock,
     flappyConfig,
     economyConfig,
     withdrawHistory,
