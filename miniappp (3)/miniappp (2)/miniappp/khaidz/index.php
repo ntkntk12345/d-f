@@ -151,7 +151,7 @@
                                     <th class="p-4">TeleID</th>
                                     <th class="p-4">Name</th>
                                     <th class="p-4">Gold</th>
-                                    <th class="p-4">Diamonds</th>
+                                    <th class="p-4">$</th>
                                     <th class="p-4">Level</th>
                                     <th class="p-4">IP</th>
                                     <th class="p-4">Actions</th>
@@ -189,11 +189,6 @@
                                 <div>
                                     <label class="block text-slate-400 mb-1">Gold</label>
                                     <input type="number" id="gc-gold" value="0"
-                                        class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
-                                </div>
-                                <div>
-                                    <label class="block text-slate-400 mb-1">Diamonds</label>
-                                    <input type="number" id="gc-diamonds" value="0"
                                         class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
                                 </div>
                             </div>
@@ -341,7 +336,7 @@
                                     <label class="block text-slate-400 mb-1">Loai Thuong</label>
                                     <select id="task-reward-type" class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
                                         <option value="gold">Gold (Vang)</option>
-                                        <option value="diamonds">Diamonds (KC)</option>
+                                        <option value="usdt">$</option>
                                     </select>
                                 </div>
                                 <div>
@@ -470,8 +465,8 @@
                             class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white">
                     </div>
                     <div>
-                        <label class="block text-slate-400 text-xs mb-1">Diamonds</label>
-                        <input type="number" id="edit-diamonds"
+                        <label class="block text-slate-400 text-xs mb-1">$</label>
+                        <input type="number" id="edit-usdt" step="0.000001"
                             class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white">
                     </div>
                     <button type="submit"
@@ -704,7 +699,7 @@
                     </td>
                     <td class="p-4">
                         <span class="${t.rewardType === 'gold' ? 'text-yellow-400' : 'text-cyan-400'} font-bold">
-                            ${Number(t.rewardAmount).toLocaleString()} ${t.rewardType === 'gold' ? 'Gold' : 'Diamonds'}
+                            ${Number(t.rewardAmount).toLocaleString()} ${t.rewardType === 'gold' ? 'Gold' : '$'}
                         </span>
                     </td>
                     <td class="p-4">
@@ -753,7 +748,7 @@
 
             document.getElementById('task-title').value = task.title || '';
             document.getElementById('task-icon').value = task.icon || '';
-            document.getElementById('task-reward-type').value = task.rewardType === 'gold' ? 'gold' : 'diamonds';
+            document.getElementById('task-reward-type').value = task.rewardType === 'usdt' ? 'usdt' : 'gold';
             document.getElementById('task-reward-amount').value = Number(task.rewardAmount || 0);
             document.getElementById('task-link').value = task.url || '';
             document.getElementById('task-type').value = task.type || 'community';
@@ -919,7 +914,7 @@
                         <div class="text-yellow-400 font-mono">${getProjectedGold(u).toLocaleString()}</div>
                         ${isMiningUserActive(u) ? `<div class="mt-1 text-[10px] text-emerald-300">Dang dao realtime +${Math.max(0, getProjectedGold(u) - toFiniteNumber(u.gold)).toLocaleString()}</div>` : ''}
                     </td>
-                    <td class="p-4 text-cyan-400 font-mono">${Number(u.diamonds).toLocaleString()}</td>
+                    <td class="p-4 text-cyan-400 font-mono">${Number(u.usdtBalance || 0).toLocaleString()}</td>
                     <td class="p-4 text-white font-bold">Lvl ${u.level}</td>
                     <td class="p-4 text-xs text-slate-500">${u.ip_address || 'N/A'}</td>
                     <td class="p-4">
@@ -942,7 +937,7 @@
             if (!user) return;
             document.getElementById('edit-teleId').value = user.teleId;
             document.getElementById('edit-gold').value = user.gold;
-            document.getElementById('edit-diamonds').value = user.diamonds;
+            document.getElementById('edit-usdt').value = user.usdtBalance || 0;
             document.getElementById('edit-user-modal').classList.remove('hidden');
         }
 
@@ -950,9 +945,9 @@
             e.preventDefault();
             const teleId = document.getElementById('edit-teleId').value;
             const gold = document.getElementById('edit-gold').value;
-            const diamonds = document.getElementById('edit-diamonds').value;
+            const usdtBalance = document.getElementById('edit-usdt').value;
 
-            const res = await fetchAdmin('/admin/user/update', 'POST', { teleId, gold, diamonds });
+            const res = await fetchAdmin('/admin/user/update', 'POST', { teleId, gold, usdtBalance });
             if (res.success) {
                 alert('User updated!');
                 document.getElementById('edit-user-modal').classList.add('hidden');
@@ -973,7 +968,6 @@
                     <td class="p-4 font-mono font-bold text-yellow-400">${g.code}</td>
                     <td class="p-4 text-xs">
                         ${g.rewardGold ? `<span class="text-yellow-500">${g.rewardGold.toLocaleString()} Gold</span>` : ''}
-                        ${g.rewardDiamonds ? `<span class="text-cyan-500">${g.rewardDiamonds} Dia</span>` : ''}
                     </td>
                     <td class="p-4 text-xs text-slate-400">Max: ${g.maxUses}</td>
                     <td class="p-4">
@@ -989,7 +983,6 @@
             const body = {
                 code: document.getElementById('gc-code').value,
                 rewardGold: document.getElementById('gc-gold').value,
-                rewardDiamonds: document.getElementById('gc-diamonds').value,
                 maxUses: document.getElementById('gc-max').value
             };
             const res = await fetchAdmin('/admin/giftcode/add', 'POST', body);

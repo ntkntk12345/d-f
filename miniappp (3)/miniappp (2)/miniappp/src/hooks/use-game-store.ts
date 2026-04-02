@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import confetti from "canvas-confetti";
 
-export type PageId = "home" | "giftcode" | "shop" | "tasks" | "friends" | "lucky" | "exchange" | "withdraw" | "admin" | "flappy";
+export type PageId = "home" | "giftcode" | "shop" | "tasks" | "friends" | "lucky" | "withdraw" | "admin" | "flappy";
 
 export type TaskType = "daily" | "one_time" | "community" | "ad" | "newbie";
 export type TaskActionType = "click" | "join" | "react_heart";
@@ -12,7 +12,7 @@ export interface Task {
   title: string;
   icon: string;
   reward: number;
-  rewardType: "gold" | "diamond";
+  rewardType: "gold" | "usdt";
   type: TaskType;
   actionType: TaskActionType;
   url: string | null;
@@ -24,6 +24,7 @@ export interface LevelInfo {
   level: number;
   name: string;
   rate: number;
+  dailyGoldCap: number;
   cost: number;
 }
 
@@ -31,7 +32,6 @@ export interface ReferralRecord {
   invitedId: number;
   invitedName: string;
   goldReward: number;
-  diamondReward: number;
   usdtReward: number;
   status: ReferralStatus;
   createdAt: string;
@@ -76,23 +76,18 @@ export interface LuckyDrawInfo {
 
 export interface FlappyConfig {
   rewardGold: number;
-  rewardDiamonds: number;
   bestScore: number;
 }
 
 export interface EconomyConfig {
   newUserGold: number;
-  newUserDiamonds: number;
   referralRewardGold: number;
-  referralRewardDiamonds: number;
   referralRewardUsdt: number;
-  exchangeGoldPerDiamond: number;
   withdrawMinGold: number;
   withdrawVndPerGold: number;
   usdToVndRateK: number;
   taskMilestoneCount: number;
   taskMilestoneRewardGold: number;
-  taskMilestoneRewardDiamonds: number;
 }
 
 export interface LixiConfig {
@@ -131,7 +126,7 @@ export interface WithdrawHistoryItem {
   id: number;
   amount: number;
   sourceWallet: "gold" | "usdt" | string;
-  sourceCurrency: "GOLD" | "USDT" | string;
+  sourceCurrency: "GOLD" | "USDT" | "$" | string;
   sourceAmount: number;
   vnd: number;
   method: "bank" | "wallet" | "usdt" | string;
@@ -153,8 +148,8 @@ export interface AdminUser {
   username: string;
   gold: number;
   usdtBalance: number;
-  diamonds: number;
   level: number;
+  dailyGoldCap?: number;
 }
 
 export interface AdminWithdrawItem {
@@ -162,7 +157,7 @@ export interface AdminWithdrawItem {
   teleId: number;
   username: string;
   sourceWallet: "gold" | "usdt" | string;
-  sourceCurrency: "GOLD" | "USDT" | string;
+  sourceCurrency: "GOLD" | "USDT" | "$" | string;
   sourceAmount: number;
   accountName: string;
   bankName: string;
@@ -181,7 +176,7 @@ export interface AdminWithdrawItem {
 export interface AdminData {
   users: AdminUser[];
   totalGold: number;
-  totalDiamonds: number;
+  totalUsdt: number;
   pendingWithdraws: AdminWithdrawItem[];
   flappyConfig: FlappyConfig;
   lixiConfig: LixiConfig;
@@ -202,6 +197,7 @@ export interface WithdrawPayload {
 interface ApiLevelSetting {
   level: number;
   miningRate: number | string;
+  dailyGoldCap?: number | string;
   upgradeCost: number | string;
 }
 
@@ -209,7 +205,7 @@ interface ApiTask {
   id: string;
   title: string;
   icon: string;
-  rewardType: "gold" | "diamond" | "diamonds";
+  rewardType: "gold" | "usdt" | "usd";
   rewardAmount: number | string;
   url: string | null;
   type: TaskType | string;
@@ -223,9 +219,10 @@ interface ApiUser {
   username: string;
   gold: number | string;
   usdtBalance?: number | string;
-  diamonds: number | string;
   level: number | string;
+  dailyGoldCap?: number | string;
   miningRate: number | string;
+  miningShiftProgress?: number | string;
   isMining: number | boolean;
   miningStartTime: number | null;
   miningShiftStart: number | null;
@@ -235,7 +232,7 @@ interface ApiUser {
     id: number;
     amount: number | string;
     sourceWallet?: "gold" | "usdt" | string;
-    sourceCurrency?: "GOLD" | "USDT" | string;
+    sourceCurrency?: "GOLD" | "USDT" | "$" | string;
     sourceAmount?: number | string;
     vnd: number | string;
     method?: "bank" | "wallet" | "usdt" | string;
@@ -271,14 +268,13 @@ interface ApiResult {
 
 interface TaskClaimResult extends ApiResult {
   reward?: {
-    type: "gold" | "diamond";
+    type: "gold" | "usdt";
     amount: number;
   };
   milestoneReward?: {
     count?: number;
     completedCount?: number;
     gold?: number;
-    diamonds?: number;
   };
   user?: ApiUser;
 }
@@ -291,7 +287,7 @@ type GiftCodeRedeemResult =
   | {
       success: true;
       rewardGold: number;
-      rewardDiamonds: number;
+      rewardUsd: number;
     }
   | {
       success: false;
@@ -304,18 +300,18 @@ interface AdminDataResult {
     username: string;
     gold: number | string;
     usdtBalance?: number | string;
-    diamonds: number | string;
+    dailyGoldCap?: number | string;
     level: number | string;
   }>;
   totalGold: number | string;
-  totalDiamonds: number | string;
+  totalUsdt?: number | string;
   pendingWithdraws: Array<{
     id: number | string;
     teleId: number | string;
     username: string;
     amount?: number | string;
     sourceWallet?: "gold" | "usdt" | string;
-    sourceCurrency?: "GOLD" | "USDT" | string;
+    sourceCurrency?: "GOLD" | "USDT" | "$" | string;
     sourceAmount?: number | string;
     accountName: string;
     bankName: string;
@@ -332,7 +328,6 @@ interface AdminDataResult {
   }>;
   flappyConfig?: {
     rewardGold?: number | string;
-    rewardDiamonds?: number | string;
   };
   lixiConfig?: {
     minGold?: number | string;
@@ -444,16 +439,16 @@ const LEVEL_NAME_MAP: Record<number, string> = {
   3: "Mỏ Bạc",
   4: "Mỏ Vàng",
   5: "Mỏ Bạch Kim",
-  6: "Mỏ Kim Cương",
+  6: "Mỏ Huyền Kim",
 };
 
 export const LEVELS: LevelInfo[] = [
-  { level: 1, name: "Mỏ Đá", rate: 7, cost: 5000 },
-  { level: 2, name: "Mỏ Đồng", rate: 15, cost: 7500 },
-  { level: 3, name: "Mỏ Bạc", rate: 35, cost: 11250 },
-  { level: 4, name: "Mỏ Vàng", rate: 80, cost: 16875 },
-  { level: 5, name: "Mỏ Bạch Kim", rate: 200, cost: 25312 },
-  { level: 6, name: "Mỏ Kim Cương", rate: 500, cost: 37968 },
+  { level: 1, name: "Mo Da", rate: 1000 / 86400, dailyGoldCap: 1000, cost: 0.02 },
+  { level: 2, name: "Mo Dong", rate: 1000 / 86400, dailyGoldCap: 1000, cost: 0.027 },
+  { level: 3, name: "Mo Bac", rate: 1000 / 86400, dailyGoldCap: 1000, cost: 0.03645 },
+  { level: 4, name: "Mo Vang", rate: 1000 / 86400, dailyGoldCap: 1000, cost: 0.049208 },
+  { level: 5, name: "Mo Bach Kim", rate: 1000 / 86400, dailyGoldCap: 1000, cost: 0.066431 },
+  { level: 6, name: "Mo Huyen Kim", rate: 1000 / 86400, dailyGoldCap: 1000, cost: 0.089682 },
 ];
 
 const EMPTY_LUCKY_DRAW: LuckyDrawInfo = {
@@ -475,23 +470,18 @@ const EMPTY_LUCKY_DRAW: LuckyDrawInfo = {
 
 const EMPTY_FLAPPY_CONFIG: FlappyConfig = {
   rewardGold: 0,
-  rewardDiamonds: 0,
   bestScore: 0,
 };
 
 const EMPTY_ECONOMY_CONFIG: EconomyConfig = {
   newUserGold: 1000,
-  newUserDiamonds: 1000,
   referralRewardGold: 0,
-  referralRewardDiamonds: 0,
   referralRewardUsdt: 0.02,
-  exchangeGoldPerDiamond: 125,
   withdrawMinGold: 6000000,
-  withdrawVndPerGold: 0.0005,
-  usdToVndRateK: 26,
+  withdrawVndPerGold: 1,
+  usdToVndRateK: 28,
   taskMilestoneCount: 0,
   taskMilestoneRewardGold: 0,
-  taskMilestoneRewardDiamonds: 0,
 };
 
 const EMPTY_LIXI_CONFIG: LixiConfig = {
@@ -557,7 +547,7 @@ function mapTask(task: ApiTask): Task {
     ? (task.type as TaskType)
     : "one_time";
 
-  const rewardType: "gold" | "diamond" = task.rewardType === "diamond" || task.rewardType === "diamonds" ? "diamond" : "gold";
+  const rewardType: "gold" | "usdt" = task.rewardType === "usdt" || task.rewardType === "usd" ? "usdt" : "gold";
   const actionType: TaskActionType =
     task.actionType === "join" || task.actionType === "react_heart" ? task.actionType : "click";
 
@@ -669,14 +659,15 @@ export function useGameStore() {
   const [currentPage, setCurrentPageState] = useState<PageId>("home");
   const [gold, setGold] = useState(0);
   const [usdtBalance, setUsdtBalance] = useState(0);
-  const [diamonds, setDiamonds] = useState(1000);
   const [level, setLevel] = useState(1);
+  const [dailyGoldCap, setDailyGoldCap] = useState(1000);
   const [isMining, setIsMining] = useState(false);
   const [miningStartTime, setMiningStartTime] = useState<number | null>(null);
   const [miningShiftStart, setMiningShiftStart] = useState<number | null>(null);
+  const [miningShiftProgress, setMiningShiftProgress] = useState(0);
   const [serverGoldBase, setServerGoldBase] = useState(0);
   const [serverOffset, setServerOffset] = useState(0);
-  const [miningRate, setMiningRate] = useState(7);
+  const [miningRate, setMiningRate] = useState(1000 / 86400);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [levels, setLevels] = useState<LevelInfo[]>([]);
   const [referrals, setReferrals] = useState<ReferralRecord[]>([]);
@@ -690,7 +681,7 @@ export function useGameStore() {
   const [adminData, setAdminData] = useState<AdminData>({
     users: [],
     totalGold: 0,
-    totalDiamonds: 0,
+    totalUsdt: 0,
     pendingWithdraws: [],
     flappyConfig: EMPTY_FLAPPY_CONFIG,
     lixiConfig: EMPTY_LIXI_CONFIG,
@@ -803,9 +794,10 @@ export function useGameStore() {
     setServerGoldBase(nextGold);
     setGold(nextGold);
     setUsdtBalance(toNumber(user.usdtBalance, 0));
-    setDiamonds(toNumber(user.diamonds, 0));
     setLevel(toNumber(user.level, 1));
-    setMiningRate(toNumber(user.miningRate, 7));
+    setDailyGoldCap(toNumber(user.dailyGoldCap, 1000));
+    setMiningRate(toNumber(user.miningRate, 1000 / 86400));
+    setMiningShiftProgress(toNumber(user.miningShiftProgress, 0));
     setReferralCount(toNumber(user.referrals, 0));
 
     const activeMining = Boolean(user.isMining);
@@ -865,7 +857,8 @@ export function useGameStore() {
       .map((row) => ({
         level: toNumber(row.level, 1),
         name: getLevelName(toNumber(row.level, 1)),
-        rate: toNumber(row.miningRate, 7),
+        dailyGoldCap: toNumber(row.dailyGoldCap, 1000),
+        rate: toNumber(row.miningRate, toNumber(row.dailyGoldCap, 1000) / 86400),
         cost: toNumber(row.upgradeCost, 0),
       }))
       .sort((a, b) => a.level - b.level);
@@ -883,7 +876,6 @@ export function useGameStore() {
       invitedId: number;
       invitedName: string;
       goldReward: number | string;
-      diamondReward?: number | string;
       usdtReward?: number | string;
       status?: string;
       createdAt: string;
@@ -895,7 +887,6 @@ export function useGameStore() {
         invitedId: toNumber(row.invitedId),
         invitedName: row.invitedName || `Người dùng ${row.invitedId}`,
         goldReward: toNumber(row.goldReward),
-        diamondReward: toNumber(row.diamondReward),
         usdtReward: toNumber(row.usdtReward),
         status: row.status === "pending" ? "pending" : "rewarded",
         createdAt: row.createdAt,
@@ -933,13 +924,11 @@ export function useGameStore() {
   const fetchFlappyConfig = useCallback(async () => {
     const data = (await apiFetch("/api/flappy/config")) as {
       rewardGold?: number | string;
-      rewardDiamonds?: number | string;
       bestScore?: number | string;
     };
 
     setFlappyConfig({
       rewardGold: toNumber(data.rewardGold),
-      rewardDiamonds: toNumber(data.rewardDiamonds),
       bestScore: toNumber(data.bestScore),
     });
   }, [apiFetch]);
@@ -948,20 +937,13 @@ export function useGameStore() {
     const data = (await apiFetch("/api/config/economy")) as Partial<EconomyConfig>;
     setEconomyConfig({
       newUserGold: toNumber(data.newUserGold, EMPTY_ECONOMY_CONFIG.newUserGold),
-      newUserDiamonds: toNumber(data.newUserDiamonds, EMPTY_ECONOMY_CONFIG.newUserDiamonds),
       referralRewardGold: toNumber(data.referralRewardGold, EMPTY_ECONOMY_CONFIG.referralRewardGold),
-      referralRewardDiamonds: toNumber(data.referralRewardDiamonds, EMPTY_ECONOMY_CONFIG.referralRewardDiamonds),
       referralRewardUsdt: toNumber(data.referralRewardUsdt, EMPTY_ECONOMY_CONFIG.referralRewardUsdt),
-      exchangeGoldPerDiamond: Math.max(1, toNumber(data.exchangeGoldPerDiamond, EMPTY_ECONOMY_CONFIG.exchangeGoldPerDiamond)),
       withdrawMinGold: toNumber(data.withdrawMinGold, EMPTY_ECONOMY_CONFIG.withdrawMinGold),
       withdrawVndPerGold: toNumber(data.withdrawVndPerGold, EMPTY_ECONOMY_CONFIG.withdrawVndPerGold),
       usdToVndRateK: Math.max(1, toNumber(data.usdToVndRateK, EMPTY_ECONOMY_CONFIG.usdToVndRateK)),
       taskMilestoneCount: toNumber(data.taskMilestoneCount, EMPTY_ECONOMY_CONFIG.taskMilestoneCount),
       taskMilestoneRewardGold: toNumber(data.taskMilestoneRewardGold, EMPTY_ECONOMY_CONFIG.taskMilestoneRewardGold),
-      taskMilestoneRewardDiamonds: toNumber(
-        data.taskMilestoneRewardDiamonds,
-        EMPTY_ECONOMY_CONFIG.taskMilestoneRewardDiamonds,
-      ),
     });
   }, [apiFetch]);
 
@@ -992,11 +974,11 @@ export function useGameStore() {
         username: user.username || `User ${user.teleId}`,
         gold: toNumber(user.gold),
         usdtBalance: toNumber(user.usdtBalance),
-        diamonds: toNumber(user.diamonds),
         level: toNumber(user.level, 1),
+        dailyGoldCap: toNumber(user.dailyGoldCap, 1000),
       })),
       totalGold: toNumber(data.totalGold),
-      totalDiamonds: toNumber(data.totalDiamonds),
+      totalUsdt: toNumber(data.totalUsdt),
       pendingWithdraws: data.pendingWithdraws.map((item) => ({
         id: toNumber(item.id),
         teleId: toNumber(item.teleId),
@@ -1019,7 +1001,6 @@ export function useGameStore() {
       })),
       flappyConfig: {
         rewardGold: toNumber(data.flappyConfig?.rewardGold),
-        rewardDiamonds: toNumber(data.flappyConfig?.rewardDiamonds),
         bestScore: flappyConfig.bestScore,
       },
       lixiConfig: lixiSnapshot.config,
@@ -1156,9 +1137,6 @@ export function useGameStore() {
     if (currentPage === "flappy") {
       void fetchFlappyConfig();
     }
-    if (currentPage === "exchange") {
-      void fetchEconomyConfig();
-    }
     if (currentPage === "withdraw") {
       void Promise.all([syncFromBackend(), fetchEconomyConfig()]);
     }
@@ -1191,20 +1169,25 @@ export function useGameStore() {
 
     const updateVisualGold = () => {
       const now = Date.now() + serverOffset;
-      const shiftStart = miningShiftStart ?? miningStartTime;
-      const elapsedSinceShiftStart = Math.max(0, now - shiftStart);
-      const cappedShiftElapsed = Math.min(elapsedSinceShiftStart, SHIFT_DURATION_MS);
-      const elapsedBeforeCheckpoint = Math.max(0, miningStartTime - shiftStart);
-      const localElapsed = Math.max(0, cappedShiftElapsed - elapsedBeforeCheckpoint);
-
-      const visualEarned = Math.floor((localElapsed / 1000) * miningRate);
+      const elapsedSinceCheckpoint = Math.max(0, now - miningStartTime);
+      const shiftCap = Math.max(0, dailyGoldCap / 4);
+      const projectedProgress = Math.min(shiftCap, miningShiftProgress + (elapsedSinceCheckpoint / 1000) * miningRate);
+      const visualEarned = Math.max(0, Math.floor(projectedProgress) - Math.floor(miningShiftProgress));
       setGold(serverGoldBase + visualEarned);
     };
 
     updateVisualGold();
     const interval = window.setInterval(updateVisualGold, 1000);
     return () => window.clearInterval(interval);
-  }, [isMining, miningRate, miningShiftStart, miningStartTime, serverGoldBase, serverOffset]);
+  }, [
+    dailyGoldCap,
+    isMining,
+    miningRate,
+    miningShiftProgress,
+    miningStartTime,
+    serverGoldBase,
+    serverOffset,
+  ]);
 
   const startMining = useCallback(async () => {
     const lockMessage = enforceNewbieTaskLock();
@@ -1275,14 +1258,16 @@ export function useGameStore() {
           success?: boolean;
           level?: number;
           miningRate?: number;
-          diamonds?: number;
+          dailyGoldCap?: number;
+          usdtBalance?: number;
         };
 
         if (!data.success) return false;
 
         if (typeof data.level === "number") setLevel(data.level);
         if (typeof data.miningRate === "number") setMiningRate(data.miningRate);
-        if (typeof data.diamonds === "number") setDiamonds(data.diamonds);
+        if (typeof data.dailyGoldCap === "number") setDailyGoldCap(data.dailyGoldCap);
+        if (typeof data.usdtBalance === "number") setUsdtBalance(data.usdtBalance);
 
         triggerConfetti();
         void fetchLevels();
@@ -1334,7 +1319,6 @@ export function useGameStore() {
           bestScore?: number | string;
           isNewBest?: boolean;
           rewardGold?: number | string;
-          rewardDiamonds?: number | string;
         };
 
         if (!data.success) {
@@ -1354,40 +1338,12 @@ export function useGameStore() {
           isNewBest: Boolean(data.isNewBest),
           bestScore: toNumber(data.bestScore),
           rewardGold: toNumber(data.rewardGold),
-          rewardDiamonds: toNumber(data.rewardDiamonds),
         };
       } catch (err) {
         return { success: false, error: err instanceof Error ? err.message : "Khong the luu diem." };
       }
     },
     [apiFetch, applyUserSnapshot, enforceNewbieTaskLock],
-  );
-
-  const exchangeGoldForDiamonds = useCallback(
-    async (goldAmount: number) => {
-      const lockMessage = enforceNewbieTaskLock();
-      if (lockMessage) {
-        return { success: false, error: lockMessage };
-      }
-
-      try {
-        const data = (await apiFetch("/api/game/exchange", {
-          method: "POST",
-          body: JSON.stringify({ amount: goldAmount }),
-        })) as ResourceResult;
-
-        if (!data.success || !data.user) {
-          return { success: false, error: data.error || data.message || "Không thể đổi KC." };
-        }
-
-        applyUserSnapshot(data.user);
-        triggerConfetti();
-        return { success: true };
-      } catch (err) {
-        return { success: false, error: err instanceof Error ? err.message : "Không thể đổi KC." };
-      }
-    },
-    [apiFetch, applyUserSnapshot, enforceNewbieTaskLock, triggerConfetti],
   );
 
   const withdraw = useCallback(
@@ -1427,7 +1383,7 @@ export function useGameStore() {
         const data = (await apiFetch("/api/user/redeem", {
           method: "POST",
           body: JSON.stringify({ code: code.toUpperCase() }),
-        })) as ResourceResult & { rewardGold?: number; rewardDiamonds?: number };
+        })) as ResourceResult & { rewardGold?: number; rewardUsd?: number };
 
         if (!data.success || !data.user) {
           return { success: false, error: data.error || data.message || "Giftcode không hợp lệ." };
@@ -1439,7 +1395,7 @@ export function useGameStore() {
         return {
           success: true,
           rewardGold: toNumber(data.rewardGold),
-          rewardDiamonds: toNumber(data.rewardDiamonds),
+          rewardUsd: toNumber(data.rewardUsd),
         };
       } catch (err) {
         return { success: false, error: err instanceof Error ? err.message : "Giftcode không hợp lệ." };
@@ -1518,10 +1474,11 @@ export function useGameStore() {
         level,
         name: getLevelName(level),
         rate: miningRate,
+        dailyGoldCap,
         cost: 0,
       }
     );
-  }, [level, levels, miningRate]);
+  }, [dailyGoldCap, level, levels, miningRate]);
 
   const updateWithdrawStatus = useCallback(
     async (withdrawId: number, newStatus: string, reason = "") => {
@@ -1545,11 +1502,11 @@ export function useGameStore() {
   );
 
   const updateFlappyConfig = useCallback(
-    async (rewardGold: number, rewardDiamonds: number) => {
+    async (rewardGold: number) => {
       try {
         const data = (await apiFetch("/api/admin/flappy/config", {
           method: "POST",
-          body: JSON.stringify({ rewardGold, rewardDiamonds }),
+          body: JSON.stringify({ rewardGold }),
         })) as ApiResult;
 
         if (!data.success) {
@@ -1559,7 +1516,6 @@ export function useGameStore() {
         setFlappyConfig((prev) => ({
           ...prev,
           rewardGold,
-          rewardDiamonds,
         }));
         await fetchAdminData();
         return { success: true };
@@ -1704,11 +1660,11 @@ export function useGameStore() {
     gold,
     usdtBalance,
     setGold,
-    diamonds,
-    setDiamonds,
     level,
+    dailyGoldCap,
     isMining,
     miningShiftStart,
+    miningShiftProgress,
     miningRate,
     username,
     tasks,
@@ -1735,7 +1691,6 @@ export function useGameStore() {
     upgradeLevel,
     claimTask,
     submitFlappyScore,
-    exchangeGoldForDiamonds,
     withdraw,
     redeemGiftCode,
     joinLuckyDraw,
@@ -1756,3 +1711,5 @@ export function useGameStore() {
 }
 
 export type GameStore = ReturnType<typeof useGameStore>;
+
+

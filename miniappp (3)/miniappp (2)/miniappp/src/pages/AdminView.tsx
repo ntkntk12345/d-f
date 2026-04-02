@@ -16,7 +16,6 @@ import {
 export function AdminView({ store }: { store: GameStore }) {
   const [busyId, setBusyId] = useState<number | null>(null);
   const [flappyGoldReward, setFlappyGoldReward] = useState(0);
-  const [flappyDiamondReward, setFlappyDiamondReward] = useState(0);
   const [lixiMinReward, setLixiMinReward] = useState(0);
   const [lixiMaxReward, setLixiMaxReward] = useState(0);
   const [isSavingFlappy, setIsSavingFlappy] = useState(false);
@@ -24,8 +23,7 @@ export function AdminView({ store }: { store: GameStore }) {
 
   useEffect(() => {
     setFlappyGoldReward(store.adminData.flappyConfig.rewardGold);
-    setFlappyDiamondReward(store.adminData.flappyConfig.rewardDiamonds);
-  }, [store.adminData.flappyConfig.rewardDiamonds, store.adminData.flappyConfig.rewardGold]);
+  }, [store.adminData.flappyConfig.rewardGold]);
 
   useEffect(() => {
     setLixiMinReward(store.adminData.lixiConfig.minGold);
@@ -44,7 +42,7 @@ export function AdminView({ store }: { store: GameStore }) {
 
   const handleSaveFlappyConfig = async () => {
     setIsSavingFlappy(true);
-    const result = await store.updateFlappyConfig(flappyGoldReward, flappyDiamondReward);
+    const result = await store.updateFlappyConfig(flappyGoldReward);
     setIsSavingFlappy(false);
 
     if (!result.success) {
@@ -125,10 +123,10 @@ export function AdminView({ store }: { store: GameStore }) {
         <div className="rounded-[24px] border border-cyan-300/18 bg-[linear-gradient(180deg,rgba(35,92,116,0.54)_0%,rgba(10,39,50,0.94)_100%)] px-4 py-4 shadow-[0_16px_34px_rgba(0,0,0,0.26)]">
           <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-100/55">
             <Shield className="h-4 w-4 text-cyan-300" />
-            Tổng KC
+            Tổng $
           </div>
           <div className="mt-2 text-xl font-black text-cyan-100">
-            {formatNumber(store.adminData.totalDiamonds)}
+            {store.adminData.totalUsdt.toFixed(6)}
           </div>
         </div>
       </div>
@@ -176,11 +174,11 @@ export function AdminView({ store }: { store: GameStore }) {
                     </p>
                     <p className="text-sm text-cyan-50/80">{item.accountName}</p>
                     <p className="mt-2 text-sm font-black text-yellow-100">
-                      {(item.payoutCurrency || "VND").toUpperCase() === "USDT"
+                      {["USDT", "$"].includes((item.payoutCurrency || "VND").toUpperCase())
                         ? `${Number(item.payoutAmount || 0).toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 6,
-                          })} USDT`
+                          })} $`
                         : `${formatNumber(item.payoutAmount || item.vnd)} VNĐ`}
                     </p>
                     {item.feePercent > 0 ? (
@@ -227,7 +225,7 @@ export function AdminView({ store }: { store: GameStore }) {
             Dat muc thuong khi nguoi choi pha ky luc best score trong Flappy Bird.
           </p>
 
-          <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="mt-4 grid grid-cols-1 gap-3">
             <label className="space-y-2">
               <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-100/55">Thuong vang</span>
               <input
@@ -241,25 +239,11 @@ export function AdminView({ store }: { store: GameStore }) {
                 )}
               />
             </label>
-
-            <label className="space-y-2">
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-100/55">Thuong KC</span>
-              <input
-                type="number"
-                min="0"
-                value={flappyDiamondReward}
-                onChange={(event) => setFlappyDiamondReward(Number(event.target.value) || 0)}
-                className={cn(
-                  "w-full rounded-2xl border border-cyan-300/18 bg-black/25 px-4 py-3 text-sm font-bold text-cyan-50 outline-none",
-                  "focus:border-cyan-300/45 focus:ring-2 focus:ring-cyan-300/20",
-                )}
-              />
-            </label>
           </div>
 
           <div className="mt-4 flex items-center justify-between gap-3">
             <div className="text-xs text-cyan-50/60">
-              Hien tai: {formatNumber(store.adminData.flappyConfig.rewardGold)} vang / {formatNumber(store.adminData.flappyConfig.rewardDiamonds)} KC
+              Hien tai: {formatNumber(store.adminData.flappyConfig.rewardGold)} vang
             </div>
 
             <button
@@ -369,7 +353,7 @@ export function AdminView({ store }: { store: GameStore }) {
                     {formatNumber(user.gold)} G
                   </p>
                   <p className="mt-1 text-sm font-black text-cyan-100">
-                    {formatNumber(user.diamonds)} KC
+                    ${user.usdtBalance.toFixed(6)}
                   </p>
                   <p className="mt-1 text-xs text-yellow-100/50">Lv.{user.level}</p>
                 </div>
@@ -381,3 +365,5 @@ export function AdminView({ store }: { store: GameStore }) {
     </div>
   );
 }
+
+

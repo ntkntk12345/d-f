@@ -47,15 +47,15 @@ const FALLBACK_TARGETS: WithdrawTarget[] = [
   {
     id: "usdt_trc20",
     bin: "",
-    name: "USDT (TRC20)",
-    shortName: "USDT TRC20",
+    name: "$ Wallet (TRC20)",
+    shortName: "$ TRC20",
     type: "usdt",
     qrSupported: false,
   },
 ];
 
 const WITHDRAW_FEE_PERCENT = 10;
-const DEFAULT_USDT_VND_RATE = 26000;
+const DEFAULT_USDT_VND_RATE = 28000;
 
 function formatUsdt(value: number) {
   return new Intl.NumberFormat("en-US", {
@@ -108,8 +108,8 @@ function normalizeWithdrawTargets(rows: Array<Record<string, unknown>>) {
     withSyntheticTargets.push({
       id: "usdt_trc20",
       bin: "",
-      name: "USDT (TRC20)",
-      shortName: "USDT TRC20",
+      name: "$ Wallet (TRC20)",
+      shortName: "$ TRC20",
       type: "usdt",
       qrSupported: false,
     });
@@ -137,14 +137,15 @@ function getStatusTone(status: string) {
 }
 
 function getHistoryMethodLabel(method: string) {
-  if (method === "usdt") return "USDT";
+  if (method === "usdt") return "$ Wallet";
   if (method === "wallet") return "Vi dien tu";
   return "Ngan hang";
 }
 
 function formatWithdrawSource(sourceAmount: number, sourceCurrency: string) {
-  if (String(sourceCurrency || "").toUpperCase() === "USDT") {
-    return `${formatUsdt(sourceAmount)} USDT`;
+  const currency = String(sourceCurrency || "").toUpperCase();
+  if (currency === "USDT" || currency === "$") {
+    return `${formatUsdt(sourceAmount)} $`;
   }
   return `${formatNumber(sourceAmount)} vang`;
 }
@@ -160,7 +161,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
   const [withdrawTargets, setWithdrawTargets] = useState<WithdrawTarget[]>(FALLBACK_TARGETS);
 
   const MIN_WITHDRAW = Math.max(0, store.economyConfig.withdrawMinGold);
-  const WITHDRAW_RATE = store.economyConfig.withdrawVndPerGold > 0 ? store.economyConfig.withdrawVndPerGold : 0.0005;
+  const WITHDRAW_RATE = store.economyConfig.withdrawVndPerGold > 0 ? store.economyConfig.withdrawVndPerGold : 1;
   const usdtVndRate = Math.max(
     1,
     (store.economyConfig.usdToVndRateK > 0 ? store.economyConfig.usdToVndRateK : DEFAULT_USDT_VND_RATE / 1000) * 1000,
@@ -238,17 +239,17 @@ export function WithdrawView({ store }: { store: GameStore }) {
       }
     } else {
       if (withdrawAmount <= 0) {
-        alert("So USDT khong hop le!");
+        alert("So $ khong hop le!");
         return;
       }
 
       if (withdrawAmount < minWithdrawUsdt) {
-        alert(`Toi thieu ${formatUsdt(minWithdrawUsdt)} USDT!`);
+        alert(`Toi thieu ${formatUsdt(minWithdrawUsdt)} $!`);
         return;
       }
 
       if (store.usdtBalance < withdrawAmount) {
-        alert("So du USDT khong du!");
+        alert("So du $ khong du!");
         return;
       }
     }
@@ -276,7 +277,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
       amount: withdrawAmount,
       amountUnit: sourceWallet,
       bankBin: selectedTarget?.qrSupported ? selectedTarget.bin : "",
-      bankName: selectedTarget?.name || customBankName.trim() || (normalizedMethod === "usdt" ? "USDT (TRC20)" : ""),
+      bankName: selectedTarget?.name || customBankName.trim() || (normalizedMethod === "usdt" ? "$ Wallet (TRC20)" : ""),
       accountNumber: accNum.trim(),
       accountName: normalizedMethod === "usdt" ? accName.trim() : accName.trim().toUpperCase(),
       method: normalizedMethod,
@@ -316,13 +317,13 @@ export function WithdrawView({ store }: { store: GameStore }) {
         </h1>
 
         <p className="mt-3 max-w-[18rem] text-sm leading-6 text-yellow-100/80">
-          Ho tro rut qua ngan hang, vi dien tu va USDT. Ngan hang/vi dien tu phi 10%, rut ve USDT phi 0%.
+          Ho tro rut qua ngan hang, vi dien tu va $ wallet. Ngan hang/vi dien tu phi 10%, rut ve $ phi 0%.
         </p>
         <div className="mt-3 rounded-2xl border border-cyan-200/20 bg-cyan-950/28 px-3 py-3 text-xs leading-5 text-cyan-100/90">
           Quy tac rut:
-          <br />1. Chon nguon rut: Vi vang hoac Vi USDT.
+          <br />1. Chon nguon rut: Vi vang hoac Vi $.
           <br />2. Ngan hang/vi dien tu: phi 10% tren gia tri quy doi.
-          <br />3. USDT wallet: khong thu phi.
+          <br />3. $ wallet: khong thu phi.
           <br />4. Gia 1$ duoc admin cap nhat theo muc x nghin VND (vi du 25 = 25,000 VND).
         </div>
       </div>
@@ -343,12 +344,12 @@ export function WithdrawView({ store }: { store: GameStore }) {
               <p className="mt-1 text-xl font-black text-yellow-100">{formatNumber(store.gold)}</p>
             </div>
             <div className="rounded-2xl border border-emerald-300/20 bg-black/20 px-3 py-3 text-left">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-100/70">Vi USDT</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-100/70">Vi $</p>
               <p className="mt-1 text-xl font-black text-emerald-200">${formatUsdt(store.usdtBalance)}</p>
             </div>
           </div>
           <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-yellow-300/18 bg-black/18 px-4 py-2 text-sm font-bold text-yellow-100">
-            Toi thieu: {formatNumber(MIN_WITHDRAW)} vang (~{formatUsdt(minWithdrawUsdt)} USDT)
+            Toi thieu: {formatNumber(MIN_WITHDRAW)} vang (~{formatUsdt(minWithdrawUsdt)} $)
           </div>
         </div>
       </div>
@@ -386,7 +387,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
                     : "border-white/10 bg-black/30 text-white/75",
                 )}
               >
-                Vi USDT ($)
+                Vi $
               </button>
             </div>
           </div>
@@ -401,7 +402,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
               onChange={(event) => setSelectedTargetId(event.target.value)}
               className="w-full rounded-[18px] border border-white/10 bg-black/30 px-4 py-4 text-white outline-none transition-colors focus:border-cyan-400/35"
             >
-              <option value="">Chon ngan hang, vi dien tu hoac USDT...</option>
+              <option value="">Chon ngan hang, vi dien tu hoac $ wallet...</option>
               <optgroup label="Ngan hang">
                 {bankTargets.map((target) => (
                   <option key={target.id} value={target.id}>
@@ -437,7 +438,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
                 )}
               >
                 {selectedTarget.type === "usdt"
-                  ? "USDT se xu ly thu cong theo dia chi vi, khong tao QR VietQR."
+                  ? "$ wallet se xu ly thu cong theo dia chi vi, khong tao QR VietQR."
                   : selectedTarget.qrSupported
                     ? `${selectedTarget.shortName}${selectedTarget.bin ? ` (${selectedTarget.bin})` : ""} ho tro tao QR VietQR tu dong.`
                     : `${selectedTarget.shortName}${selectedTarget.bin ? ` (${selectedTarget.bin})` : ""} dang xu ly thu cong, khong tao QR.`}
@@ -464,7 +465,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
           <div>
             <label className="mb-2 flex items-center gap-2 text-sm font-bold text-yellow-100/70">
               <CreditCard className="h-4 w-4 text-cyan-300" />
-              {isUsdtWithdraw ? "Dia chi vi USDT" : selectedTarget?.type === "wallet" ? "So dien thoai / ID vi" : "So tai khoan"}
+              {isUsdtWithdraw ? "Dia chi vi $" : selectedTarget?.type === "wallet" ? "So dien thoai / ID vi" : "So tai khoan"}
             </label>
             <input
               type="text"
@@ -473,7 +474,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
               onChange={(event) => setAccNum(event.target.value)}
               placeholder={
                 isUsdtWithdraw
-                  ? "Nhap dia chi vi USDT TRC20..."
+                  ? "Nhap dia chi vi $ (TRC20)..."
                   : selectedTarget?.type === "wallet"
                     ? "Nhap so dien thoai hoac ID vi..."
                     : "Nhap so tai khoan..."
@@ -503,7 +504,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
           <div>
             <label className="mb-2 flex items-center gap-2 text-sm font-bold text-yellow-100/70">
               <Wallet className="h-4 w-4 text-yellow-400" />
-              {sourceWallet === "usdt" ? "So USDT can rut" : "So vang can rut"}
+              {sourceWallet === "usdt" ? "So $ can rut" : "So vang can rut"}
             </label>
             <input
               type="number"
@@ -518,7 +519,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
             {meetsMinimum && (
               <div className="mt-2 space-y-1 rounded-2xl border border-emerald-300/18 bg-emerald-950/25 px-3 py-2 text-sm text-emerald-100">
                 <p className="font-bold">
-                  Nguon rut: {sourceWallet === "usdt" ? `${formatUsdt(withdrawAmount)} USDT` : `${formatNumber(withdrawAmount)} vang`}
+                  Nguon rut: {sourceWallet === "usdt" ? `${formatUsdt(withdrawAmount)} $` : `${formatNumber(withdrawAmount)} vang`}
                 </p>
                 <p className="font-bold">Quy doi goc: {formatNumber(estimatedGrossVnd)} VND</p>
                 {!isUsdtWithdraw ? (
@@ -528,7 +529,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
                   </>
                 ) : (
                   <p className="font-bold">
-                    Uoc tinh thuc nhan: ~{formatUsdt(estimatedUsdt)} USDT (1 USDT = {formatNumber(usdtVndRate)} VND)
+                    Uoc tinh thuc nhan: ~{formatUsdt(estimatedUsdt)} $ (1$ = {formatNumber(usdtVndRate)} VND)
                   </p>
                 )}
               </div>
@@ -567,7 +568,10 @@ export function WithdrawView({ store }: { store: GameStore }) {
               const sourceLabel = formatWithdrawSource(sourceAmount, sourceCurrency);
               const payoutCurrency = (item.payoutCurrency || "VND").toUpperCase();
               const payoutAmount = Number(item.payoutAmount || (payoutCurrency === "VND" ? item.vnd : 0));
-              const payoutLabel = payoutCurrency === "USDT" ? `${formatUsdt(payoutAmount)} USDT` : `${formatNumber(payoutAmount)} VND`;
+              const payoutLabel =
+                payoutCurrency === "USDT" || payoutCurrency === "$"
+                  ? `${formatUsdt(payoutAmount)} $`
+                  : `${formatNumber(payoutAmount)} VND`;
 
               return (
                 <div

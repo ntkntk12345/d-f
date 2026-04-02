@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowLeft, CircleAlert, Coins, Gem, Sparkles, Trophy } from "lucide-react";
+import { ArrowLeft, CircleAlert, Coins, Sparkles, Trophy } from "lucide-react";
 
 import type { GameStore } from "@/hooks/use-game-store";
 import { formatNumber } from "@/lib/utils";
@@ -28,7 +28,6 @@ interface GameNotice {
   title: string;
   description?: string;
   gold?: number;
-  diamonds?: number;
   duration: number;
 }
 
@@ -551,7 +550,7 @@ export function FlappyGameView({ store }: { store: GameStore }) {
   const [flashDead, setFlashDead] = useState(false);
   const [canRevive, setCanRevive] = useState(true);
   const [isReviving, setIsReviving] = useState(false);
-  const [bestRewardSummary, setBestRewardSummary] = useState<{ gold: number; diamonds: number } | null>(null);
+  const [bestRewardSummary, setBestRewardSummary] = useState<{ gold: number } | null>(null);
   const [gameNotice, setGameNotice] = useState<GameNotice | null>(null);
 
   const clearGameNotice = useCallback(() => {
@@ -660,15 +659,13 @@ export function FlappyGameView({ store }: { store: GameStore }) {
 
     if (result.isNewBest) {
       const rewardGold = result.rewardGold || 0;
-      const rewardDiamonds = result.rewardDiamonds || 0;
-      const hasReward = rewardGold > 0 || rewardDiamonds > 0;
-      setBestRewardSummary(hasReward ? { gold: rewardGold, diamonds: rewardDiamonds } : null);
+      const hasReward = rewardGold > 0;
+      setBestRewardSummary(hasReward ? { gold: rewardGold } : null);
       showGameNotice({
         tone: "record",
         title: "Pha ky luc moi!",
         description: hasReward ? "Thuong ky luc da duoc cong vao tai khoan." : "Best cua ban vua duoc cap nhat.",
         gold: hasReward ? rewardGold : 0,
-        diamonds: hasReward ? rewardDiamonds : 0,
       });
     }
   }, [showGameNotice, store.submitFlappyScore]);
@@ -1058,7 +1055,7 @@ export function FlappyGameView({ store }: { store: GameStore }) {
                     </p>
                   )}
 
-                  {(gameNotice.gold || gameNotice.diamonds) && (
+                  {Boolean(gameNotice.gold) && (
                     <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 7 }}>
                       {Boolean(gameNotice.gold) && (
                         <div
@@ -1077,26 +1074,6 @@ export function FlappyGameView({ store }: { store: GameStore }) {
                         >
                           <Coins size={11} />
                           +{formatNumber(gameNotice.gold || 0)}
-                        </div>
-                      )}
-
-                      {Boolean(gameNotice.diamonds) && (
-                        <div
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: 4,
-                            borderRadius: 999,
-                            padding: "4px 8px",
-                            background: "rgba(34,211,238,0.14)",
-                            border: "1px solid rgba(34,211,238,0.16)",
-                            color: "#A5F3FC",
-                            fontSize: 10,
-                            fontWeight: 800,
-                          }}
-                        >
-                          <Gem size={11} />
-                          +{formatNumber(gameNotice.diamonds || 0)}
                         </div>
                       )}
                     </div>
@@ -1196,24 +1173,6 @@ export function FlappyGameView({ store }: { store: GameStore }) {
                 >
                   <Coins size={14} />
                   +{formatNumber(store.flappyConfig.rewardGold)}
-                </div>
-
-                <div
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    background: "rgba(34,211,238,0.12)",
-                    border: "1px solid rgba(34,211,238,0.18)",
-                    borderRadius: 999,
-                    padding: "8px 14px",
-                    color: "#A5F3FC",
-                    fontSize: 12,
-                    fontWeight: 800,
-                  }}
-                >
-                  <Gem size={14} />
-                  +{formatNumber(store.flappyConfig.rewardDiamonds)}
                 </div>
               </div>
 
@@ -1333,7 +1292,7 @@ export function FlappyGameView({ store }: { store: GameStore }) {
                     fontWeight: 700,
                   }}
                 >
-                  Thuong ky luc moi: +{formatNumber(bestRewardSummary.gold)} vang, +{formatNumber(bestRewardSummary.diamonds)} KC
+                  Thuong ky luc moi: +{formatNumber(bestRewardSummary.gold)} vang
                 </div>
               )}
 

@@ -58,9 +58,6 @@
     @apply bg-clip-text text-transparent bg-gradient-to-b from-yellow-200 via-yellow-400 to-yellow-600;
   }
 
-  .text-gradient-diamond {
-    @apply bg-clip-text text-transparent bg-gradient-to-b from-cyan-100 via-cyan-300 to-cyan-600;
-  }
 
   .glass-panel {
     @apply bg-black/50 backdrop-blur-md border border-yellow-500/20 shadow-[0_4px_30px_rgba(0,0,0,0.5)];
@@ -81,20 +78,6 @@
 
   .btn-gold:active {
     box-shadow: 0 0 0 #713f12, 0 2px 5px rgba(0,0,0,0.5);
-    transform: translateY(4px);
-  }
-
-  .btn-diamond {
-    @apply relative overflow-hidden font-display font-bold tracking-wider rounded-xl transition-all duration-200 active:scale-95;
-    background: linear-gradient(to bottom, #a5f3fc, #06b6d4, #0891b2);
-    color: #082f49;
-    box-shadow: 0 4px 0 #164e63, 0 8px 15px rgba(0,0,0,0.5);
-    border: 1px solid #cffafe;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.4);
-  }
-
-  .btn-diamond:active {
-    box-shadow: 0 0 0 #164e63, 0 2px 5px rgba(0,0,0,0.5);
     transform: translateY(4px);
   }
 

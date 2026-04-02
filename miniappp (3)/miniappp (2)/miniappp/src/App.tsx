@@ -11,7 +11,6 @@ import { ShopView } from "@/pages/ShopView";
 import { TasksView } from "@/pages/TasksView";
 import { FriendsView } from "@/pages/FriendsView";
 import { LuckyView } from "@/pages/LuckyView";
-import { ExchangeView } from "@/pages/ExchangeView";
 import { GiftcodeView } from "@/pages/GiftcodeView";
 import { WithdrawView } from "@/pages/WithdrawView";
 import { AdminView } from "@/pages/AdminView";
@@ -39,8 +38,6 @@ function GameApp() {
         return <FriendsView store={store} />;
       case "lucky":
         return <LuckyView store={store} />;
-      case "exchange":
-        return <ExchangeView store={store} />;
       case "giftcode":
         return <GiftcodeView store={store} />;
       case "withdraw":

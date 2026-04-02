@@ -1,4 +1,4 @@
-import express from 'express';
+﻿import express from 'express';
 import cors from 'cors';
 import mysql from 'mysql2/promise';
 import path from 'path';
@@ -22,11 +22,15 @@ const BOT_TOKEN = process.env.BOT_TOKEN || '8258255510:AAFjHCjP9C1VtGC06bvUx0eAT
 const ADMIN_PASSWORD = "Vjyy1234@"; // Updated per user request
 const adminEventClients = new Set();
 const WITHDRAW_BANK_WALLET_FEE_PERCENT = 10;
+const SHIFT_DURATION_MS = 6 * 60 * 60 * 1000;
+const SHIFT_COUNT_PER_DAY = 4;
+const DEFAULT_DAILY_GOLD_CAP = 1000;
+const GOLD_TO_VND_RATE = 1;
 const DEFAULT_USD_TO_VND_RATE_K = (() => {
-    const raw = Number(process.env.USD_TO_VND_RATE_K || process.env.USDT_VND_RATE_K || 26);
-    return Number.isFinite(raw) && raw > 0 ? raw : 26;
+    const raw = Number(process.env.USD_TO_VND_RATE_K || process.env.USDT_VND_RATE_K || 28);
+    return Number.isFinite(raw) && raw > 0 ? raw : 28;
 })();
-const HEART_REACTIONS = new Set(['â¤', 'â¤ï¸', 'â™¥', 'â™¥ï¸']);
+const HEART_REACTIONS = new Set(['Ã¢ÂÂ¤', 'Ã¢ÂÂ¤Ã¯Â¸Â', 'Ã¢â„¢Â¥', 'Ã¢â„¢Â¥Ã¯Â¸Â']);
 
 
 function verifyTelegramInitData(initData) {
@@ -54,19 +58,19 @@ function verifyTelegramInitData(initData) {
 const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ error: 'Thiáº¿u thÃ´ng tin xÃ¡c thá»±c' });
+        return res.status(401).json({ error: 'ThiÃ¡ÂºÂ¿u thÃƒÂ´ng tin xÃƒÂ¡c thÃ¡Â»Â±c' });
     }
 
     const initData = authHeader.split(' ')[1];
 
     if (!verifyTelegramInitData(initData)) {
-        return res.status(403).json({ error: 'ThÃ´ng tin xÃ¡c thá»±c khÃ´ng há»£p lá»‡' });
+        return res.status(403).json({ error: 'ThÃƒÂ´ng tin xÃƒÂ¡c thÃ¡Â»Â±c khÃƒÂ´ng hÃ¡Â»Â£p lÃ¡Â»â€¡' });
     }
 
     try {
         const urlParams = new URLSearchParams(initData);
         const userStr = urlParams.get('user');
-        if (!userStr) return res.status(400).json({ error: 'Dá»¯ liá»‡u ngÆ°á»i dÃ¹ng khÃ´ng há»£p lá»‡' });
+        if (!userStr) return res.status(400).json({ error: 'DÃ¡Â»Â¯ liÃ¡Â»â€¡u ngÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng khÃƒÂ´ng hÃ¡Â»Â£p lÃ¡Â»â€¡' });
         req.user = JSON.parse(userStr);
 
         // Extract referral from start_param if exists
@@ -75,7 +79,7 @@ const authMiddleware = (req, res, next) => {
 
         next();
     } catch (e) {
-        res.status(400).json({ error: 'Lá»—i Ä‘á»‹nh dáº¡ng dá»¯ liá»‡u ngÆ°á»i dÃ¹ng' });
+        res.status(400).json({ error: 'LÃ¡Â»â€”i Ã„â€˜Ã¡Â»â€¹nh dÃ¡ÂºÂ¡ng dÃ¡Â»Â¯ liÃ¡Â»â€¡u ngÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng' });
     }
 };
 
@@ -159,7 +163,7 @@ const adminMiddleware = (req, res, next) => {
 
     authMiddleware(req, res, () => {
         if (String(req.user.id) !== ADMIN_ID) {
-            return res.status(403).json({ error: 'Truy cáº­p bá»‹ tá»« chá»‘i: KhÃ´ng pháº£i admin' });
+            return res.status(403).json({ error: 'Truy cÃ¡ÂºÂ­p bÃ¡Â»â€¹ tÃ¡Â»Â« chÃ¡Â»â€˜i: KhÃƒÂ´ng phÃ¡ÂºÂ£i admin' });
         }
         next();
     });
@@ -178,13 +182,13 @@ let pool;
 
 const DEFAULT_ECONOMY_CONFIG = Object.freeze({
     newUserGold: 1000,
-    newUserDiamonds: 1000,
+    newUserDiamonds: 0,
     referralRewardGold: 0,
     referralRewardDiamonds: 0,
     referralRewardUsdt: 0.02,
-    exchangeGoldPerDiamond: 125,
+    exchangeGoldPerDiamond: 0,
     withdrawMinGold: 6000000,
-    withdrawVndPerGold: 0.0005,
+    withdrawVndPerGold: GOLD_TO_VND_RATE,
     usdToVndRateK: DEFAULT_USD_TO_VND_RATE_K,
     taskMilestoneCount: 0,
     taskMilestoneRewardGold: 0,
@@ -200,13 +204,13 @@ const DEFAULT_LIXI_CONFIG = Object.freeze({
 });
 
 async function initDB() {
-    console.log("ðŸ› ï¸ Initializing Database...");
+    console.log("Ã°Å¸â€ºÂ Ã¯Â¸Â Initializing Database...");
     try {
         pool = mysql.createPool(dbConfig);
-        console.log("ðŸ“¡ Connection pool created.");
+        console.log("Ã°Å¸â€œÂ¡ Connection pool created.");
 
         const connection = await pool.getConnection();
-        console.log("ðŸ”Œ Database connected successfully.");
+        console.log("Ã°Å¸â€Å’ Database connected successfully.");
 
         // Helper to run ALTER commands silently (ignore errors if already applied)
         const safeAlter = async (sql) => {
@@ -225,11 +229,13 @@ async function initDB() {
                 tgHandle VARCHAR(255),
                 gold DECIMAL(65, 0) DEFAULT 0,
                 goldBeforeShift DECIMAL(65, 0) DEFAULT 0,
-                diamonds DECIMAL(65, 0) DEFAULT 1000,
+                diamonds DECIMAL(65, 0) DEFAULT 0,
                 usdtBalance DECIMAL(24, 8) DEFAULT 0,
                 level INT DEFAULT 1,
-                miningRate FLOAT DEFAULT 7,
-                upgradeCost DECIMAL(65, 0) DEFAULT 5000,
+                dailyGoldCap DECIMAL(65, 0) DEFAULT 1000,
+                miningRate FLOAT DEFAULT 0,
+                miningShiftProgress DECIMAL(24, 8) DEFAULT 0,
+                upgradeCost DECIMAL(24, 8) DEFAULT 0,
                 isMining BOOLEAN DEFAULT FALSE,
                 miningStartTime BIGINT DEFAULT NULL,
                 miningShiftStart BIGINT DEFAULT NULL,
@@ -271,10 +277,15 @@ async function initDB() {
         await safeAlter("ALTER TABLE users ADD COLUMN tgHandle VARCHAR(255)");
         await safeAlter("ALTER TABLE users MODIFY COLUMN gold DECIMAL(65,0) DEFAULT 0");
         await safeAlter("ALTER TABLE users MODIFY COLUMN goldBeforeShift DECIMAL(65,0) DEFAULT 0");
-        await safeAlter("ALTER TABLE users MODIFY COLUMN diamonds DECIMAL(65,0) DEFAULT 1000");
+        await safeAlter("ALTER TABLE users MODIFY COLUMN diamonds DECIMAL(65,0) DEFAULT 0");
         await safeAlter("ALTER TABLE users ADD COLUMN usdtBalance DECIMAL(24,8) DEFAULT 0 AFTER diamonds");
         await safeAlter("ALTER TABLE users MODIFY COLUMN usdtBalance DECIMAL(24,8) DEFAULT 0");
-        await safeAlter("ALTER TABLE users MODIFY COLUMN upgradeCost DECIMAL(65,0) DEFAULT 5000");
+        await safeAlter("ALTER TABLE users ADD COLUMN dailyGoldCap DECIMAL(65,0) DEFAULT 1000 AFTER level");
+        await safeAlter("ALTER TABLE users MODIFY COLUMN dailyGoldCap DECIMAL(65,0) DEFAULT 1000");
+        await safeAlter("ALTER TABLE users MODIFY COLUMN miningRate FLOAT DEFAULT 0");
+        await safeAlter("ALTER TABLE users ADD COLUMN miningShiftProgress DECIMAL(24,8) DEFAULT 0 AFTER miningRate");
+        await safeAlter("ALTER TABLE users MODIFY COLUMN miningShiftProgress DECIMAL(24,8) DEFAULT 0");
+        await safeAlter("ALTER TABLE users MODIFY COLUMN upgradeCost DECIMAL(24,8) DEFAULT 0");
         await safeAlter("ALTER TABLE users ADD COLUMN miningShiftStart BIGINT DEFAULT NULL AFTER miningStartTime");
         await safeAlter("ALTER TABLE users ADD COLUMN ip_address VARCHAR(45) AFTER username");
         await safeAlter("ALTER TABLE users ADD COLUMN flappyBestScore INT DEFAULT 0 AFTER lastTaskClaim");
@@ -325,7 +336,7 @@ async function initDB() {
                 bankName VARCHAR(255),
                 accountNumber VARCHAR(255),
                 accountName VARCHAR(255),
-                status VARCHAR(50) DEFAULT 'Äang xá»­ lÃ½',
+                status VARCHAR(50) DEFAULT 'Ã„Âang xÃ¡Â»Â­ lÃƒÂ½',
                 qrUrl TEXT,
                 createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
@@ -357,12 +368,16 @@ async function initDB() {
         await connection.query(`
             CREATE TABLE IF NOT EXISTS level_settings (
                 level INT PRIMARY KEY,
-                miningRate FLOAT,
-                upgradeCost DECIMAL(65, 0)
+                miningRate FLOAT DEFAULT 0,
+                dailyGoldCap DECIMAL(65, 0) DEFAULT 1000,
+                upgradeCost DECIMAL(24, 8) DEFAULT 0
             ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
         `);
         await safeAlter("ALTER TABLE level_settings CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-        await safeAlter("ALTER TABLE level_settings MODIFY COLUMN upgradeCost DECIMAL(65,0)");
+        await safeAlter("ALTER TABLE level_settings ADD COLUMN dailyGoldCap DECIMAL(65,0) DEFAULT 1000 AFTER miningRate");
+        await safeAlter("ALTER TABLE level_settings MODIFY COLUMN dailyGoldCap DECIMAL(65,0) DEFAULT 1000");
+        await safeAlter("ALTER TABLE level_settings MODIFY COLUMN miningRate FLOAT DEFAULT 0");
+        await safeAlter("ALTER TABLE level_settings MODIFY COLUMN upgradeCost DECIMAL(24,8) DEFAULT 0");
 
         // 6. Tasks Table (NEW)
         await connection.query(`
@@ -512,26 +527,26 @@ async function initDB() {
             CREATE TABLE IF NOT EXISTS flappy_config (
                 id INT PRIMARY KEY DEFAULT 1,
                 rewardGold DECIMAL(65, 0) DEFAULT 15000,
-                rewardDiamonds DECIMAL(65, 0) DEFAULT 25
+                rewardDiamonds DECIMAL(65, 0) DEFAULT 0
             ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
         `);
         await safeAlter("ALTER TABLE flappy_config CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
         await safeAlter("ALTER TABLE flappy_config MODIFY COLUMN rewardGold DECIMAL(65,0) DEFAULT 15000");
-        await safeAlter("ALTER TABLE flappy_config MODIFY COLUMN rewardDiamonds DECIMAL(65,0) DEFAULT 25");
-        await connection.query("INSERT IGNORE INTO flappy_config (id, rewardGold, rewardDiamonds) VALUES (1, 15000, 25)");
+        await safeAlter("ALTER TABLE flappy_config MODIFY COLUMN rewardDiamonds DECIMAL(65,0) DEFAULT 0");
+        await connection.query("INSERT IGNORE INTO flappy_config (id, rewardGold, rewardDiamonds) VALUES (1, 15000, 0)");
 
         await connection.query(`
             CREATE TABLE IF NOT EXISTS economy_config (
                 id INT PRIMARY KEY DEFAULT 1,
                 newUserGold DECIMAL(65, 0) DEFAULT 1000,
-                newUserDiamonds DECIMAL(65, 0) DEFAULT 1000,
+                newUserDiamonds DECIMAL(65, 0) DEFAULT 0,
                 referralRewardGold DECIMAL(65, 0) DEFAULT 0,
                 referralRewardDiamonds DECIMAL(65, 0) DEFAULT 0,
                 referralRewardUsdt DECIMAL(24, 8) DEFAULT 0.02,
-                exchangeGoldPerDiamond DECIMAL(65, 0) DEFAULT 125,
+                exchangeGoldPerDiamond DECIMAL(65, 0) DEFAULT 0,
                 withdrawMinGold DECIMAL(65, 0) DEFAULT 6000000,
-                withdrawVndPerGold DECIMAL(18, 8) DEFAULT 0.0005,
-                usdToVndRateK DECIMAL(12, 4) DEFAULT 26,
+                withdrawVndPerGold DECIMAL(18, 8) DEFAULT 1,
+                usdToVndRateK DECIMAL(12, 4) DEFAULT 28,
                 taskMilestoneCount INT DEFAULT 0,
                 taskMilestoneRewardGold DECIMAL(65, 0) DEFAULT 0,
                 taskMilestoneRewardDiamonds DECIMAL(65, 0) DEFAULT 0
@@ -539,21 +554,21 @@ async function initDB() {
         `);
         await safeAlter("ALTER TABLE economy_config CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
         await safeAlter("ALTER TABLE economy_config MODIFY COLUMN newUserGold DECIMAL(65,0) DEFAULT 1000");
-        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN newUserDiamonds DECIMAL(65,0) DEFAULT 1000");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN newUserDiamonds DECIMAL(65,0) DEFAULT 0");
         await safeAlter("ALTER TABLE economy_config ADD COLUMN referralRewardGold DECIMAL(65,0) DEFAULT 0 AFTER newUserDiamonds");
         await safeAlter("ALTER TABLE economy_config MODIFY COLUMN referralRewardGold DECIMAL(65,0) DEFAULT 0");
         await safeAlter("ALTER TABLE economy_config ADD COLUMN referralRewardDiamonds DECIMAL(65,0) DEFAULT 0 AFTER referralRewardGold");
         await safeAlter("ALTER TABLE economy_config MODIFY COLUMN referralRewardDiamonds DECIMAL(65,0) DEFAULT 0");
         await safeAlter("ALTER TABLE economy_config ADD COLUMN referralRewardUsdt DECIMAL(24,8) DEFAULT 0.02 AFTER referralRewardDiamonds");
         await safeAlter("ALTER TABLE economy_config MODIFY COLUMN referralRewardUsdt DECIMAL(24,8) DEFAULT 0.02");
-        await safeAlter("ALTER TABLE economy_config ADD COLUMN exchangeGoldPerDiamond DECIMAL(65,0) DEFAULT 125 AFTER referralRewardUsdt");
-        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN exchangeGoldPerDiamond DECIMAL(65,0) DEFAULT 125");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN exchangeGoldPerDiamond DECIMAL(65,0) DEFAULT 0 AFTER referralRewardUsdt");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN exchangeGoldPerDiamond DECIMAL(65,0) DEFAULT 0");
         await safeAlter("ALTER TABLE economy_config ADD COLUMN withdrawMinGold DECIMAL(65,0) DEFAULT 6000000 AFTER exchangeGoldPerDiamond");
         await safeAlter("ALTER TABLE economy_config MODIFY COLUMN withdrawMinGold DECIMAL(65,0) DEFAULT 6000000");
-        await safeAlter("ALTER TABLE economy_config ADD COLUMN withdrawVndPerGold DECIMAL(18,8) DEFAULT 0.0005 AFTER withdrawMinGold");
-        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN withdrawVndPerGold DECIMAL(18,8) DEFAULT 0.0005");
-        await safeAlter("ALTER TABLE economy_config ADD COLUMN usdToVndRateK DECIMAL(12,4) DEFAULT 26 AFTER withdrawVndPerGold");
-        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN usdToVndRateK DECIMAL(12,4) DEFAULT 26");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN withdrawVndPerGold DECIMAL(18,8) DEFAULT 1 AFTER withdrawMinGold");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN withdrawVndPerGold DECIMAL(18,8) DEFAULT 1");
+        await safeAlter("ALTER TABLE economy_config ADD COLUMN usdToVndRateK DECIMAL(12,4) DEFAULT 28 AFTER withdrawVndPerGold");
+        await safeAlter("ALTER TABLE economy_config MODIFY COLUMN usdToVndRateK DECIMAL(12,4) DEFAULT 28");
         await safeAlter("ALTER TABLE economy_config ADD COLUMN taskMilestoneCount INT DEFAULT 0 AFTER usdToVndRateK");
         await safeAlter("ALTER TABLE economy_config MODIFY COLUMN taskMilestoneCount INT DEFAULT 0");
         await safeAlter("ALTER TABLE economy_config ADD COLUMN taskMilestoneRewardGold DECIMAL(65,0) DEFAULT 0 AFTER taskMilestoneCount");
@@ -673,35 +688,34 @@ async function initDB() {
         // Populate Default Levels if empty or incomplete
         const [levs] = await connection.query("SELECT COUNT(*) as count FROM level_settings");
         if (levs[0].count < 100) {
-            console.log(`ðŸ“¦ Populating default level settings (Current count: ${levs[0].count})...`);
+            console.log(`Ã°Å¸â€œÂ¦ Populating default level settings (Current count: ${levs[0].count})...`);
             for (let i = 1; i <= 100; i++) {
-                const rate = 7 + (i - 1) * 2;
-                // Use BigInt or format to avoid scientific notation
-                const cost = Math.floor(5000 * Math.pow(1.5, i - 1));
-                const costStr = cost.toLocaleString('fullwide', { useGrouping: false });
+                const dailyGoldCap = DEFAULT_DAILY_GOLD_CAP;
+                const rate = dailyGoldCap / 86400;
+                const cost = Number((0.02 * Math.pow(1.35, i - 1)).toFixed(6));
 
                 await connection.query(
-                    "INSERT INTO level_settings (level, miningRate, upgradeCost) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE miningRate = ?, upgradeCost = ?",
-                    [i, rate, costStr, rate, costStr]
+                    "INSERT INTO level_settings (level, miningRate, dailyGoldCap, upgradeCost) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE miningRate = ?, dailyGoldCap = ?, upgradeCost = ?",
+                    [i, rate, dailyGoldCap, cost, rate, dailyGoldCap, cost]
                 );
             }
-            console.log("âœ… Level settings updated.");
+            console.log("Ã¢Å“â€¦ Level settings updated.");
         }
 
         // Populate Default Tasks if empty
         const [task_count] = await connection.query("SELECT COUNT(*) as count FROM tasks");
         if (task_count[0].count === 0) {
-            console.log("ðŸ“¦ Populating default tasks...");
+            console.log("Ã°Å¸â€œÂ¦ Populating default tasks...");
             // JOIN TASK Example (Uses verification)
-            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type, actionType, telegramChatId) VALUES ('tg_join', 'Tham Gia Channel', 'ðŸ“¢', 'gold', 10000, 'https://t.me/GomXuDaoVang', 'community', 'join', '-1002360813959')");
+            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type, actionType, telegramChatId) VALUES ('tg_join', 'Tham Gia Channel', 'Ã°Å¸â€œÂ¢', 'gold', 10000, 'https://t.me/GomXuDaoVang', 'community', 'join', '-1002360813959')");
 
             // CLICK TASK Example (Just click to reward)
-            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type, actionType) VALUES ('tg_group', 'NhÃ³m Tháº£o Luáº­n', 'ðŸ’¬', 'gold', 10000, 'https://t.me/GomXuDaoVangGroup', 'community', 'click')");
+            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type, actionType) VALUES ('tg_group', 'NhÃƒÂ³m ThÃ¡ÂºÂ£o LuÃ¡ÂºÂ­n', 'Ã°Å¸â€™Â¬', 'gold', 10000, 'https://t.me/GomXuDaoVangGroup', 'community', 'click')");
 
             // AD TASKS
-            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type) VALUES ('daily_ad_gold', 'Xem Quáº£ng CÃ¡o VÃ ng', 'ðŸŽ¬', 'gold', 20000, null, 'ad')");
-            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type) VALUES ('daily_ad_diamond', 'Xem Quáº£ng CÃ¡o KC', 'ðŸ’Ž', 'diamond', 50, null, 'ad')");
-            console.log("âœ… Default tasks added.");
+            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type) VALUES ('daily_ad_gold', 'Xem QuÃ¡ÂºÂ£ng CÃƒÂ¡o VÃƒÂ ng', 'Ã°Å¸Å½Â¬', 'gold', 20000, null, 'ad')");
+            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type) VALUES ('daily_ad_bonus', 'Xem QuÃ¡ÂºÂ£ng CÃƒÂ¡o Bonus', 'Ã°Å¸â€™Å½', 'gold', 50, null, 'ad')");
+            console.log("Ã¢Å“â€¦ Default tasks added.");
         }
 
         // 11. Referrals Table (Moved earlier)
@@ -710,7 +724,7 @@ async function initDB() {
         // --- MIGRATION LOGIC ---
         const [cols] = await connection.query("SHOW COLUMNS FROM users LIKE 'withdrawHistory'");
         if (cols.length > 0) {
-            console.log("ðŸ”„ Migrating old withdrawal history...");
+            console.log("Ã°Å¸â€â€ž Migrating old withdrawal history...");
             const [oldUsers] = await connection.query("SELECT teleId, withdrawHistory FROM users WHERE withdrawHistory IS NOT NULL");
             for (const user of oldUsers) {
                 let history = [];
@@ -723,19 +737,64 @@ async function initDB() {
                         await connection.query(
                             `INSERT IGNORE INTO withdrawals (teleId, amount, vndAmount, bankBin, bankName, accountNumber, accountName, status, qrUrl, createdAt) 
                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-                            [user.teleId, w.gold || w.amount || 0, w.vnd || 0, w.bankBin || '', w.bankName || '', w.accountNumber || '', w.accountName || '', w.status || 'Äang xá»­ lÃ½', w.qrUrl || null, new Date(w.date || Date.now())]
+                            [user.teleId, w.gold || w.amount || 0, w.vnd || 0, w.bankBin || '', w.bankName || '', w.accountNumber || '', w.accountName || '', w.status || 'Ã„Âang xÃ¡Â»Â­ lÃƒÂ½', w.qrUrl || null, new Date(w.date || Date.now())]
                         );
                     }
                 }
             }
             await connection.query("ALTER TABLE users DROP COLUMN withdrawHistory");
-            console.log("âœ… Migration complete.");
+            console.log("Ã¢Å“â€¦ Migration complete.");
         }
 
+        await connection.query('UPDATE users SET diamonds = 0');
+        await connection.query('UPDATE referrals SET diamondReward = 0');
+        await connection.query('UPDATE gift_codes SET rewardDiamonds = 0');
+        await connection.query('UPDATE flappy_config SET rewardDiamonds = 0');
+        await connection.query("UPDATE tasks SET rewardType = 'gold' WHERE LOWER(COALESCE(rewardType, '')) IN ('diamond', 'diamonds')");
+        await connection.query(`
+            UPDATE tasks
+            SET id = 'daily_ad_bonus'
+            WHERE id = 'daily_ad_diamond'
+              AND NOT EXISTS (
+                  SELECT 1
+                  FROM (SELECT id FROM tasks WHERE id = 'daily_ad_bonus') AS t
+              )
+        `);
+        await connection.query(`
+            DELETE FROM tasks
+            WHERE id = 'daily_ad_diamond'
+              AND EXISTS (
+                  SELECT 1
+                  FROM (SELECT id FROM tasks WHERE id = 'daily_ad_bonus') AS t
+              )
+        `);
+        await connection.query('UPDATE task_milestone_rewards SET rewardDiamonds = 0');
+        await connection.query(`
+            UPDATE economy_config
+            SET newUserDiamonds = 0,
+                referralRewardDiamonds = 0,
+                exchangeGoldPerDiamond = 0,
+                withdrawVndPerGold = ?,
+                usdToVndRateK = GREATEST(1, COALESCE(usdToVndRateK, ?)),
+                taskMilestoneRewardDiamonds = 0
+            WHERE id = 1
+        `, [GOLD_TO_VND_RATE, DEFAULT_USD_TO_VND_RATE_K]);
+        await connection.query('UPDATE level_settings SET dailyGoldCap = ? WHERE dailyGoldCap IS NULL OR dailyGoldCap <= 0', [DEFAULT_DAILY_GOLD_CAP]);
+        await connection.query('UPDATE level_settings SET miningRate = dailyGoldCap / 86400');
+        await connection.query('UPDATE level_settings SET upgradeCost = ROUND(upgradeCost / 28000, 6) WHERE upgradeCost > 100');
+        await connection.query('UPDATE users SET upgradeCost = ROUND(upgradeCost / 28000, 6) WHERE upgradeCost > 100');
+        await connection.query(`
+            UPDATE users u
+            LEFT JOIN level_settings ls ON ls.level = u.level
+            SET u.dailyGoldCap = COALESCE(ls.dailyGoldCap, ?, u.dailyGoldCap),
+                u.miningRate = COALESCE(ls.dailyGoldCap, ?, u.dailyGoldCap) / 86400,
+                u.miningShiftProgress = 0
+        `, [DEFAULT_DAILY_GOLD_CAP, DEFAULT_DAILY_GOLD_CAP]);
+
         connection.release();
-        console.log("âœ… Database Setup Complete");
+        console.log("Ã¢Å“â€¦ Database Setup Complete");
     } catch (err) {
-        console.error("âŒ MySQL Setup Failed:", err);
+        console.error("Ã¢ÂÅ’ MySQL Setup Failed:", err);
     }
 }
 
@@ -763,23 +822,74 @@ function normalizeEconomyConfig(row = {}) {
 
     return {
         newUserGold: toInt(row.newUserGold, DEFAULT_ECONOMY_CONFIG.newUserGold),
-        newUserDiamonds: toInt(row.newUserDiamonds, DEFAULT_ECONOMY_CONFIG.newUserDiamonds),
+        newUserDiamonds: 0,
         referralRewardGold: toInt(row.referralRewardGold, DEFAULT_ECONOMY_CONFIG.referralRewardGold),
-        referralRewardDiamonds: toInt(row.referralRewardDiamonds, DEFAULT_ECONOMY_CONFIG.referralRewardDiamonds),
+        referralRewardDiamonds: 0,
         referralRewardUsdt: toDecimal(row.referralRewardUsdt, DEFAULT_ECONOMY_CONFIG.referralRewardUsdt),
-        exchangeGoldPerDiamond: Math.max(1, toInt(row.exchangeGoldPerDiamond, DEFAULT_ECONOMY_CONFIG.exchangeGoldPerDiamond)),
+        exchangeGoldPerDiamond: 0,
         withdrawMinGold: toInt(row.withdrawMinGold, DEFAULT_ECONOMY_CONFIG.withdrawMinGold),
-        withdrawVndPerGold: toRate(row.withdrawVndPerGold, DEFAULT_ECONOMY_CONFIG.withdrawVndPerGold),
+        withdrawVndPerGold: GOLD_TO_VND_RATE,
         usdToVndRateK: Math.max(1, toRate(row.usdToVndRateK, DEFAULT_ECONOMY_CONFIG.usdToVndRateK)),
         taskMilestoneCount: toInt(row.taskMilestoneCount, DEFAULT_ECONOMY_CONFIG.taskMilestoneCount),
         taskMilestoneRewardGold: toInt(row.taskMilestoneRewardGold, DEFAULT_ECONOMY_CONFIG.taskMilestoneRewardGold),
-        taskMilestoneRewardDiamonds: toInt(row.taskMilestoneRewardDiamonds, DEFAULT_ECONOMY_CONFIG.taskMilestoneRewardDiamonds),
+        taskMilestoneRewardDiamonds: 0,
     };
 }
 
 async function getEconomyConfig() {
     const [rows] = await pool.query('SELECT * FROM economy_config WHERE id = 1 LIMIT 1');
     return normalizeEconomyConfig(rows[0] || {});
+}
+
+function normalizeDailyGoldCap(value, fallback = DEFAULT_DAILY_GOLD_CAP) {
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed) || parsed <= 0) {
+        return fallback;
+    }
+    return Math.max(1, Math.floor(parsed));
+}
+
+function toUpgradeUsd(value, fallback = 0) {
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed) || parsed < 0) {
+        return fallback;
+    }
+    return Number(parsed.toFixed(6));
+}
+
+function getMiningRatePerSecond(dailyGoldCap) {
+    return normalizeDailyGoldCap(dailyGoldCap) / 86400;
+}
+
+function getShiftGoldCap(dailyGoldCap) {
+    return normalizeDailyGoldCap(dailyGoldCap) / SHIFT_COUNT_PER_DAY;
+}
+
+async function getLevelStats(level, db = pool) {
+    const numericLevel = Math.max(1, Math.floor(Number(level || 1)));
+    const [rows] = await db.query(
+        'SELECT level, dailyGoldCap, upgradeCost FROM level_settings WHERE level = ? LIMIT 1',
+        [numericLevel]
+    );
+    if (rows.length === 0) {
+        return {
+            exists: false,
+            level: numericLevel,
+            dailyGoldCap: DEFAULT_DAILY_GOLD_CAP,
+            miningRate: getMiningRatePerSecond(DEFAULT_DAILY_GOLD_CAP),
+            upgradeCost: 0,
+        };
+    }
+
+    const row = rows[0];
+    const dailyGoldCap = normalizeDailyGoldCap(row.dailyGoldCap, DEFAULT_DAILY_GOLD_CAP);
+    return {
+        exists: true,
+        level: numericLevel,
+        dailyGoldCap,
+        miningRate: getMiningRatePerSecond(dailyGoldCap),
+        upgradeCost: toUpgradeUsd(row.upgradeCost, 0),
+    };
 }
 
 function normalizeLixiConfig(row = {}) {
@@ -1015,8 +1125,8 @@ async function settleReferralRewardForInvitee(invitedId) {
         }
 
         await connection.query(
-            'UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ?, diamonds = diamonds + ?, usdtBalance = usdtBalance + ?, referrals = referrals + 1 WHERE teleId = ?',
-            [referral.goldReward, referral.goldReward, referral.diamondReward, referral.usdtReward || 0, referral.inviterId]
+            'UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ?, usdtBalance = usdtBalance + ?, referrals = referrals + 1 WHERE teleId = ?',
+            [referral.goldReward, referral.goldReward, referral.usdtReward || 0, referral.inviterId]
         );
 
         await connection.query(
@@ -1032,7 +1142,6 @@ async function settleReferralRewardForInvitee(invitedId) {
             inviterId: referral.inviterId,
             invitedId,
             goldReward: Number(referral.goldReward || 0),
-            diamondReward: Number(referral.diamondReward || 0),
             usdtReward: Number(referral.usdtReward || 0),
         };
     } catch (error) {
@@ -1076,50 +1185,66 @@ async function harvestMiningGold(teleId) {
     const [users] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
     if (users.length === 0) return null;
     const user = users[0];
+    const levelStats = await getLevelStats(user.level);
+    const persistedCap = normalizeDailyGoldCap(user.dailyGoldCap, levelStats.dailyGoldCap);
+    const persistedRate = Number(user.miningRate || 0);
+
+    if (
+        persistedCap !== levelStats.dailyGoldCap ||
+        !Number.isFinite(persistedRate) ||
+        Math.abs(persistedRate - levelStats.miningRate) > 1e-9
+    ) {
+        await pool.query('UPDATE users SET dailyGoldCap = ?, miningRate = ? WHERE teleId = ?', [
+            levelStats.dailyGoldCap,
+            levelStats.miningRate,
+            teleId,
+        ]);
+        user.dailyGoldCap = levelStats.dailyGoldCap;
+        user.miningRate = levelStats.miningRate;
+    }
 
     if (!user.isMining || !user.miningStartTime || !user.miningShiftStart) return user;
 
     const now = Date.now();
-    const elapsedSinceStart = now - user.miningShiftStart;
-    const elapsedSinceLastHarvest = now - user.miningStartTime;
-    const SHIFT_DURATION = 6 * 60 * 60 * 1000; // 6 Hours (PhÃ¡t Lá»™c Khai XuÃ¢n)
+    const shiftStart = Number(user.miningShiftStart || 0);
+    const lastHarvest = Number(user.miningStartTime || 0);
+    const shiftProgress = Math.max(0, Number(user.miningShiftProgress || 0));
+    const shiftCap = getShiftGoldCap(levelStats.dailyGoldCap);
+    const shiftEnd = shiftStart + SHIFT_DURATION_MS;
+    const checkpointTime = Math.min(now, shiftEnd);
+    const rawElapsedMs = Math.max(0, checkpointTime - lastHarvest);
+    const producedGold = (rawElapsedMs / 1000) * levelStats.miningRate;
+    const nextShiftProgress = Math.min(shiftCap, shiftProgress + producedGold);
+    const earnedWholeGold = Math.max(0, Math.floor(nextShiftProgress) - Math.floor(shiftProgress));
+    const reachedShiftCap = nextShiftProgress >= shiftCap - 1e-9;
+    const reachedShiftEnd = checkpointTime >= shiftEnd;
+    const shouldStop = reachedShiftCap || reachedShiftEnd;
 
-    // Check if shift is already over
-    if (elapsedSinceStart >= SHIFT_DURATION) {
-        // Harvest remaining bit up to the 6h limit
-        const remainingToHarvest = Math.max(0, SHIFT_DURATION - (user.miningStartTime - user.miningShiftStart));
-        const earned = Math.floor((remainingToHarvest / 1000) * (user.miningRate || 7));
-
-        if (earned > 0) {
-            await pool.query(
-                'UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ? WHERE teleId = ?',
-                [earned, earned, teleId]
-            );
-        }
-
-        await pool.query('UPDATE users SET isMining = FALSE, miningStartTime = NULL, miningShiftStart = NULL WHERE teleId = ?', [teleId]);
-        broadcastAdminRefresh('mining-shift-complete', { teleId });
-        const [updatedUsers] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
-        return updatedUsers[0];
-    }
-
-    // Normal checkpoint harvest
-    const earned = Math.floor((elapsedSinceLastHarvest / 1000) * (user.miningRate || 7));
-
-    if (earned > 0) {
+    if (earnedWholeGold > 0) {
         await pool.query(
             'UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ? WHERE teleId = ?',
-            [earned, earned, teleId]
+            [earnedWholeGold, earnedWholeGold, teleId]
         );
-
-        await pool.query('UPDATE users SET miningStartTime = ? WHERE teleId = ?', [now, teleId]);
-        broadcastAdminRefresh('mining-checkpoint', { teleId });
-
-        const [updatedUsers] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
-        return updatedUsers[0];
     }
 
-    return user;
+    if (shouldStop) {
+        await pool.query(
+            'UPDATE users SET isMining = FALSE, miningStartTime = NULL, miningShiftStart = NULL, miningShiftProgress = 0, dailyGoldCap = ?, miningRate = ? WHERE teleId = ?',
+            [levelStats.dailyGoldCap, levelStats.miningRate, teleId]
+        );
+        broadcastAdminRefresh('mining-shift-complete', { teleId });
+    } else {
+        await pool.query(
+            'UPDATE users SET miningStartTime = ?, miningShiftProgress = ?, dailyGoldCap = ?, miningRate = ? WHERE teleId = ?',
+            [checkpointTime, nextShiftProgress, levelStats.dailyGoldCap, levelStats.miningRate, teleId]
+        );
+        if (earnedWholeGold > 0) {
+            broadcastAdminRefresh('mining-checkpoint', { teleId });
+        }
+    }
+
+    const [updatedUsers] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
+    return updatedUsers[0];
 }
 
 function hasHeartReaction(reactions = []) {
@@ -1206,12 +1331,12 @@ app.post('/api/lixi/watch-ad', authMiddleware, newbieTaskLockMiddleware, async (
 
         if (claimRows.length > 0) {
             await connection.commit();
-            return res.status(400).json({ error: 'BÃ¡ÂºÂ¡n Ã„â€˜ÃƒÂ£ nhÃ¡ÂºÂ­n lÃƒÂ¬ xÃƒÂ¬ Ã¡Â»Å¸ lÃ†Â°Ã¡Â»Â£t nÃƒÂ y rÃ¡Â»â€œi.', lixi: await getLixiInfoForUser(teleId) });
+            return res.status(400).json({ error: 'BÃƒÂ¡Ã‚ÂºÃ‚Â¡n Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Â£ nhÃƒÂ¡Ã‚ÂºÃ‚Â­n lÃƒÆ’Ã‚Â¬ xÃƒÆ’Ã‚Â¬ ÃƒÂ¡Ã‚Â»Ã…Â¸ lÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£t nÃƒÆ’Ã‚Â y rÃƒÂ¡Ã‚Â»Ã¢â‚¬Å“i.', lixi: await getLixiInfoForUser(teleId) });
         }
 
         if (state.cooldownEndsAt || state.remainingClaims <= 0) {
             await connection.commit();
-            return res.status(400).json({ error: 'LÃ†Â°Ã¡Â»Â£t lÃƒÂ¬ xÃƒÂ¬ Ã„â€˜ÃƒÂ£ hÃ¡ÂºÂ¿t, vui lÃƒÂ²ng quay lÃ¡ÂºÂ¡i sau.', lixi: await getLixiInfoForUser(teleId) });
+            return res.status(400).json({ error: 'LÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£t lÃƒÆ’Ã‚Â¬ xÃƒÆ’Ã‚Â¬ Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Â£ hÃƒÂ¡Ã‚ÂºÃ‚Â¿t, vui lÃƒÆ’Ã‚Â²ng quay lÃƒÂ¡Ã‚ÂºÃ‚Â¡i sau.', lixi: await getLixiInfoForUser(teleId) });
         }
 
         const [progressRows] = await connection.query(
@@ -1280,7 +1405,7 @@ app.post('/api/lixi/claim', authMiddleware, newbieTaskLockMiddleware, async (req
         if (existingClaimRows.length > 0) {
             await connection.commit();
             return res.status(400).json({
-                error: 'BÃ¡ÂºÂ¡n Ã„â€˜ÃƒÂ£ nhÃ¡ÂºÂ­n lÃƒÂ¬ xÃƒÂ¬ Ã¡Â»Å¸ lÃ†Â°Ã¡Â»Â£t nÃƒÂ y rÃ¡Â»â€œi.',
+                error: 'BÃƒÂ¡Ã‚ÂºÃ‚Â¡n Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Â£ nhÃƒÂ¡Ã‚ÂºÃ‚Â­n lÃƒÆ’Ã‚Â¬ xÃƒÆ’Ã‚Â¬ ÃƒÂ¡Ã‚Â»Ã…Â¸ lÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£t nÃƒÆ’Ã‚Â y rÃƒÂ¡Ã‚Â»Ã¢â‚¬Å“i.',
                 lixi: {
                     config,
                     state,
@@ -1297,7 +1422,7 @@ app.post('/api/lixi/claim', authMiddleware, newbieTaskLockMiddleware, async (req
         if (watchedAdViews < config.requiredAdViews) {
             await connection.commit();
             return res.status(400).json({
-                error: `BÃ¡ÂºÂ¡n cÃ¡ÂºÂ§n xem Ã„â€˜Ã¡Â»Â§ ${config.requiredAdViews} video mÃ¡Â»â€ºi nhÃ¡ÂºÂ­n Ã„â€˜Ã†Â°Ã¡Â»Â£c lÃƒÂ¬ xÃƒÂ¬.`,
+                error: `BÃƒÂ¡Ã‚ÂºÃ‚Â¡n cÃƒÂ¡Ã‚ÂºÃ‚Â§n xem Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã‚Â§ ${config.requiredAdViews} video mÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi nhÃƒÂ¡Ã‚ÂºÃ‚Â­n Ãƒâ€žÃ¢â‚¬ËœÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£c lÃƒÆ’Ã‚Â¬ xÃƒÆ’Ã‚Â¬.`,
                 lixi: await getLixiInfoForUser(teleId),
             });
         }
@@ -1305,7 +1430,7 @@ app.post('/api/lixi/claim', authMiddleware, newbieTaskLockMiddleware, async (req
         if (state.cooldownEndsAt || state.remainingClaims <= 0) {
             await connection.commit();
             return res.status(400).json({
-                error: 'LÃ†Â°Ã¡Â»Â£t lÃƒÂ¬ xÃƒÂ¬ Ã„â€˜ÃƒÂ£ hÃ¡ÂºÂ¿t, vui lÃƒÂ²ng quay lÃ¡ÂºÂ¡i sau.',
+                error: 'LÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£t lÃƒÆ’Ã‚Â¬ xÃƒÆ’Ã‚Â¬ Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Â£ hÃƒÂ¡Ã‚ÂºÃ‚Â¿t, vui lÃƒÆ’Ã‚Â²ng quay lÃƒÂ¡Ã‚ÂºÃ‚Â¡i sau.',
                 lixi: {
                     config,
                     state,
@@ -1379,12 +1504,11 @@ app.post('/api/lixi/claim', authMiddleware, newbieTaskLockMiddleware, async (req
 
 app.get('/api/flappy/config', authMiddleware, async (req, res) => {
     try {
-        const [configRows] = await pool.query('SELECT rewardGold, rewardDiamonds FROM flappy_config WHERE id = 1');
+        const [configRows] = await pool.query('SELECT rewardGold FROM flappy_config WHERE id = 1');
         const [userRows] = await pool.query('SELECT flappyBestScore FROM users WHERE teleId = ?', [req.user.id]);
 
         res.json({
             rewardGold: configRows[0]?.rewardGold || 0,
-            rewardDiamonds: configRows[0]?.rewardDiamonds || 0,
             bestScore: userRows[0]?.flappyBestScore || 0
         });
     } catch (err) {
@@ -1404,16 +1528,15 @@ app.post('/api/flappy/submit-score', authMiddleware, newbieTaskLockMiddleware, a
         const user = users[0];
         const currentBest = Number(user.flappyBestScore || 0);
         if (score <= currentBest) {
-            return res.json({ success: true, isNewBest: false, bestScore: currentBest, rewardGold: 0, rewardDiamonds: 0, user });
+            return res.json({ success: true, isNewBest: false, bestScore: currentBest, rewardGold: 0, user });
         }
 
-        const [configRows] = await pool.query('SELECT rewardGold, rewardDiamonds FROM flappy_config WHERE id = 1');
+        const [configRows] = await pool.query('SELECT rewardGold FROM flappy_config WHERE id = 1');
         const rewardGold = Number(configRows[0]?.rewardGold || 0);
-        const rewardDiamonds = Number(configRows[0]?.rewardDiamonds || 0);
 
         await pool.query(
-            'UPDATE users SET flappyBestScore = ?, gold = gold + ?, goldBeforeShift = goldBeforeShift + ?, diamonds = diamonds + ? WHERE teleId = ?',
-            [score, rewardGold, rewardGold, rewardDiamonds, teleId]
+            'UPDATE users SET flappyBestScore = ?, gold = gold + ?, goldBeforeShift = goldBeforeShift + ? WHERE teleId = ?',
+            [score, rewardGold, rewardGold, teleId]
         );
 
         const [updatedUsers] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
@@ -1423,7 +1546,6 @@ app.post('/api/flappy/submit-score', authMiddleware, newbieTaskLockMiddleware, a
             isNewBest: true,
             bestScore: score,
             rewardGold,
-            rewardDiamonds,
             user: updatedUsers[0]
         });
     } catch (err) {
@@ -1437,7 +1559,7 @@ app.post('/api/flappy/submit-score', authMiddleware, newbieTaskLockMiddleware, a
 app.post('/api/user/redeem', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
     const { code } = req.body;
     const teleId = req.user.id;
-    if (!code) return res.json({ success: false, message: 'Vui lÃ²ng nháº­p mÃ£!' });
+    if (!code) return res.json({ success: false, message: 'Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p mÃƒÂ£!' });
 
     const cleanCode = code.toString().trim().toUpperCase();
 
@@ -1446,15 +1568,14 @@ app.post('/api/user/redeem', authMiddleware, newbieTaskLockMiddleware, async (re
         if (!user) return res.json({ success: false, message: 'User not found' });
 
         const [codes] = await pool.query('SELECT * FROM gift_codes WHERE code = ?', [cleanCode]);
-        if (codes.length === 0) return res.json({ success: false, message: 'MÃ£ khÃ´ng tá»“n táº¡i!' });
+        if (codes.length === 0) return res.json({ success: false, message: 'MÃƒÂ£ khÃƒÂ´ng tÃ¡Â»â€œn tÃ¡ÂºÂ¡i!' });
 
         const gift = codes[0];
-        if (gift.usedCount >= gift.maxUses) return res.json({ success: false, message: 'MÃ£ Ä‘Ã£ háº¿t lÆ°á»£t!' });
+        if (gift.usedCount >= gift.maxUses) return res.json({ success: false, message: 'MÃƒÂ£ Ã„â€˜ÃƒÂ£ hÃ¡ÂºÂ¿t lÃ†Â°Ã¡Â»Â£t!' });
 
         const [usage] = await pool.query('SELECT * FROM gift_code_usage WHERE code = ? AND teleId = ?', [cleanCode, teleId]);
-        if (usage.length > 0) return res.json({ success: false, message: 'Báº¡n Ä‘Ã£ dÃ¹ng mÃ£ nÃ y rá»“i!' });
+        if (usage.length > 0) return res.json({ success: false, message: 'BÃ¡ÂºÂ¡n Ã„â€˜ÃƒÂ£ dÃƒÂ¹ng mÃƒÂ£ nÃƒÂ y rÃ¡Â»â€œi!' });
 
-        if (gift.rewardDiamonds > 0) await pool.query('UPDATE users SET diamonds = diamonds + ? WHERE teleId = ?', [gift.rewardDiamonds, teleId]);
         if (gift.rewardGold > 0) await pool.query('UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ? WHERE teleId = ?', [gift.rewardGold, gift.rewardGold, teleId]);
 
         await pool.query('UPDATE gift_codes SET usedCount = usedCount + 1 WHERE code = ?', [cleanCode]);
@@ -1466,8 +1587,8 @@ app.post('/api/user/redeem', authMiddleware, newbieTaskLockMiddleware, async (re
 
         res.json({
             success: true,
-            rewardDiamonds: gift.rewardDiamonds,
             rewardGold: gift.rewardGold,
+            rewardUsd: 0,
             user: updatedUser
         });
     } catch (err) {
@@ -1496,7 +1617,7 @@ app.post('/api/withdraw/create', authMiddleware, newbieTaskLockMiddleware, async
             lowerBankName.includes('vnpt money') ||
             lowerBankName.includes('vnptmoney') ||
             lowerBankName.includes('wallet') ||
-            lowerBankName.includes('ví')
+            lowerBankName.includes('vÃ­')
         ) {
             return 'wallet';
         }
@@ -1525,16 +1646,16 @@ app.post('/api/withdraw/create', authMiddleware, newbieTaskLockMiddleware, async
             : Math.floor(rawAmount);
 
         if (!Number.isFinite(sourceAmount) || sourceAmount <= 0) {
-            return res.json({ success: false, message: 'Số lượng rút không hợp lệ!' });
+            return res.json({ success: false, message: 'Sá»‘ lÆ°á»£ng rÃºt khÃ´ng há»£p lá»‡!' });
         }
 
         const userGold = Number(user.gold || 0);
         const userUsdt = Number(user.usdtBalance || 0);
         if (sourceWallet === 'gold' && userGold < sourceAmount) {
-            return res.json({ success: false, message: 'Số dư vàng không đủ!' });
+            return res.json({ success: false, message: 'Sá»‘ dÆ° vÃ ng khÃ´ng Ä‘á»§!' });
         }
         if (sourceWallet === 'usdt' && userUsdt < sourceAmount) {
-            return res.json({ success: false, message: 'Số dư USDT không đủ!' });
+            return res.json({ success: false, message: 'Sá»‘ dÆ° $ khÃ´ng Ä‘á»§!' });
         }
 
         const usdToVndRate = Math.max(
@@ -1543,21 +1664,21 @@ app.post('/api/withdraw/create', authMiddleware, newbieTaskLockMiddleware, async
         );
 
         const grossVndAmount = sourceWallet === 'gold'
-            ? Math.floor(sourceAmount * economyConfig.withdrawVndPerGold)
+            ? Math.floor(sourceAmount * GOLD_TO_VND_RATE)
             : Math.floor(sourceAmount * usdToVndRate);
-        const minWithdrawVnd = Math.floor(economyConfig.withdrawMinGold * economyConfig.withdrawVndPerGold);
+        const minWithdrawVnd = Math.floor(economyConfig.withdrawMinGold * GOLD_TO_VND_RATE);
         const minWithdrawUsdt = minWithdrawVnd > 0 ? Number((minWithdrawVnd / usdToVndRate).toFixed(6)) : 0;
 
         if (sourceWallet === 'gold' && sourceAmount < economyConfig.withdrawMinGold) {
-            return res.json({ success: false, message: `Rút tối thiểu ${economyConfig.withdrawMinGold.toLocaleString('vi-VN')} Gold!` });
+            return res.json({ success: false, message: `RÃºt tá»‘i thiá»ƒu ${economyConfig.withdrawMinGold.toLocaleString('vi-VN')} Gold!` });
         }
 
         if (sourceWallet === 'usdt' && minWithdrawUsdt > 0 && sourceAmount < minWithdrawUsdt) {
-            return res.json({ success: false, message: `Rút tối thiểu ${minWithdrawUsdt.toLocaleString('en-US')} USDT!` });
+            return res.json({ success: false, message: `RÃºt tá»‘i thiá»ƒu ${minWithdrawUsdt.toLocaleString('en-US')} $!` });
         }
 
         if (grossVndAmount <= 0) {
-            return res.json({ success: false, message: 'Giá trị quy đổi quá thấp, không thể tạo lệnh rút.' });
+            return res.json({ success: false, message: 'GiÃ¡ trá»‹ quy Ä‘á»•i quÃ¡ tháº¥p, khÃ´ng thá»ƒ táº¡o lá»‡nh rÃºt.' });
         }
 
         const withdrawMethod = normalizeMethod(method, bankName);
@@ -1570,25 +1691,25 @@ app.post('/api/withdraw/create', authMiddleware, newbieTaskLockMiddleware, async
         const sanitizedAccountName = String(accountName || '').trim();
 
         if (!sanitizedAccountNumber) {
-            return res.json({ success: false, message: 'Thiếu số tài khoản / địa chỉ nhận!' });
+            return res.json({ success: false, message: 'Thiáº¿u sá»‘ tÃ i khoáº£n / Ä‘á»‹a chá»‰ nháº­n!' });
         }
         if (withdrawMethod !== 'usdt' && !sanitizedAccountName) {
-            return res.json({ success: false, message: 'Thiếu tên chủ tài khoản / chủ ví!' });
+            return res.json({ success: false, message: 'Thiáº¿u tÃªn chá»§ tÃ i khoáº£n / chá»§ vÃ­!' });
         }
         if (!sanitizedBankName && withdrawMethod !== 'usdt') {
-            return res.json({ success: false, message: 'Thiếu thông tin ngân hàng / ví điện tử!' });
+            return res.json({ success: false, message: 'Thiáº¿u thÃ´ng tin ngÃ¢n hÃ ng / vÃ­ Ä‘iá»‡n tá»­!' });
         }
 
         const feePercent = withdrawMethod === 'bank' || withdrawMethod === 'wallet' ? WITHDRAW_BANK_WALLET_FEE_PERCENT : 0;
         const feeAmount = feePercent > 0 ? Math.floor((grossVndAmount * feePercent) / 100) : 0;
         const netVndAmount = Math.max(0, grossVndAmount - feeAmount);
-        const payoutCurrency = withdrawMethod === 'usdt' ? 'USDT' : 'VND';
+        const payoutCurrency = withdrawMethod === 'usdt' ? '$' : 'VND';
         const payoutAmount = withdrawMethod === 'usdt'
             ? Number((grossVndAmount / usdToVndRate).toFixed(6))
             : netVndAmount;
         const storedVndAmount = withdrawMethod === 'usdt' ? grossVndAmount : netVndAmount;
         const savedBankName = withdrawMethod === 'usdt'
-            ? `USDT (${withdrawNetwork || 'TRC20'})`
+            ? `$ Wallet (${withdrawNetwork || 'TRC20'})`
             : sanitizedBankName;
 
         const qrUrl =
@@ -1615,7 +1736,7 @@ app.post('/api/withdraw/create', authMiddleware, newbieTaskLockMiddleware, async
                 teleId,
                 sourceAmount,
                 sourceWallet,
-                sourceWallet === 'usdt' ? 'USDT' : 'GOLD',
+                sourceWallet === 'usdt' ? '$' : 'GOLD',
                 sourceAmount,
                 withdrawMethod,
                 withdrawNetwork || null,
@@ -1627,7 +1748,7 @@ app.post('/api/withdraw/create', authMiddleware, newbieTaskLockMiddleware, async
                 withdrawMethod === 'usdt' ? '' : sanitizedBankBin,
                 savedBankName,
                 sanitizedAccountNumber,
-                sanitizedAccountName || 'USDT WALLET',
+                sanitizedAccountName || '$ WALLET',
                 qrUrl
             ]
         );
@@ -1645,32 +1766,9 @@ app.post('/api/withdraw/create', authMiddleware, newbieTaskLockMiddleware, async
     }
 });
 
-// Exchange Gold to Diamonds
+// Legacy exchange endpoint (disabled in gold + $ economy)
 app.post('/api/game/exchange', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
-    const { amount } = req.body; // Amount of gold to exchange
-    const teleId = req.user.id;
-
-    if (!amount || amount <= 0) return res.status(400).json({ error: 'Sá»‘ lÆ°á»£ng khÃ´ng há»£p lá»‡' });
-
-    try {
-        const user = await harvestMiningGold(teleId);
-        const economyConfig = await getEconomyConfig();
-        if (!user) return res.status(404).json({ error: 'User not found' });
-
-        if (Number(user.gold) < Number(amount)) return res.status(400).json({ error: 'Sá»‘ dÆ° khÃ´ng Ä‘á»§!' });
-
-        const diamonds = Math.floor(amount / economyConfig.exchangeGoldPerDiamond);
-        if (diamonds <= 0) return res.status(400).json({ error: 'Sá»‘ lÆ°á»£ng quÃ¡ nhá»!' });
-
-        await pool.query(
-            'UPDATE users SET gold = gold - ?, goldBeforeShift = goldBeforeShift - ?, diamonds = diamonds + ? WHERE teleId = ?',
-            [amount, amount, diamonds, teleId]
-        );
-
-        const [updatedUsers] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
-        broadcastAdminRefresh('exchange-completed', { teleId });
-        res.json({ success: true, user: updatedUsers[0] });
-    } catch (err) { res.status(500).json({ error: err.message }); }
+    res.status(410).json({ error: 'TÃ­nh nÄƒng Ä‘á»•i kim cÆ°Æ¡ng Ä‘Ã£ táº¯t. Há»‡ thá»‘ng hiá»‡n chá»‰ dÃ¹ng vÃ ng vÃ  $.' });
 });
 
 // Get User Data (Includes History from separate table)
@@ -1679,7 +1777,7 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
 
     // Ensure user can only fetch their own data, unless they are admin
     if (String(userId) !== String(req.user.id) && String(req.user.id) !== ADMIN_ID) {
-        return res.status(403).json({ error: 'KhÃ´ng cÃ³ quyá»n truy cáº­p dá»¯ liá»‡u ngÆ°á»i dÃ¹ng khÃ¡c' });
+        return res.status(403).json({ error: 'KhÃƒÂ´ng cÃƒÂ³ quyÃ¡Â»Ân truy cÃ¡ÂºÂ­p dÃ¡Â»Â¯ liÃ¡Â»â€¡u ngÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng khÃƒÂ¡c' });
     }
 
     if (!/^\d+$/.test(userId)) return res.status(400).json({ error: 'Invalid User ID' });
@@ -1692,17 +1790,37 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
         const tgUser = req.user;
         const realName = tgUser?.first_name
             ? (tgUser.last_name ? `${tgUser.first_name} ${tgUser.last_name}` : tgUser.first_name)
-            : (tgUser?.username || 'KhÃ¡ch');
+            : (tgUser?.username || 'KhÃƒÂ¡ch');
 
         const tgHandle = tgUser?.username || 'none';
 
         if (!user) {
             const startingGold = economyConfig.newUserGold;
-            const startingDiamonds = economyConfig.newUserDiamonds;
-            const newUser = [userId, realName, tgHandle, startingGold, startingGold, startingDiamonds, 0, 1, 7, 5000, false, null, null, 0, null, 0];
+            const level1Stats = await getLevelStats(1);
+            const level2Stats = await getLevelStats(2);
+            const newUser = [
+                userId,
+                realName,
+                tgHandle,
+                startingGold,
+                startingGold,
+                0,
+                0,
+                1,
+                level1Stats.dailyGoldCap,
+                level1Stats.miningRate,
+                0,
+                level2Stats.upgradeCost,
+                false,
+                null,
+                null,
+                0,
+                null,
+                0,
+            ];
             await pool.query(
-                `INSERT INTO users (teleId, username, tgHandle, gold, goldBeforeShift, diamonds, usdtBalance, level, miningRate, upgradeCost, isMining, miningStartTime, miningShiftStart, referrals, lastTaskClaim, flappyBestScore)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                `INSERT INTO users (teleId, username, tgHandle, gold, goldBeforeShift, diamonds, usdtBalance, level, dailyGoldCap, miningRate, miningShiftProgress, upgradeCost, isMining, miningStartTime, miningShiftStart, referrals, lastTaskClaim, flappyBestScore)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 newUser
             );
 
@@ -1718,14 +1836,13 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
 
                     if (inviters.length > 0) {
                         const rewardGold = economyConfig.referralRewardGold;
-                        const rewardDiamonds = economyConfig.referralRewardDiamonds;
                         const rewardUsdt = economyConfig.referralRewardUsdt;
                         const [refResult] = await pool.query(
                             'INSERT IGNORE INTO referrals (inviterId, invitedId, goldReward, diamondReward, usdtReward, status) VALUES (?, ?, ?, ?, ?, ?)',
-                            [referralId, userId, rewardGold, rewardDiamonds, rewardUsdt, 'pending']
+                            [referralId, userId, rewardGold, 0, rewardUsdt, 'pending']
                         );
-                        console.log(`ðŸŽ Referral record result for ${userId}:`, refResult);
-                        console.log(`ðŸŽ Referral created for ${referralId} -> ${userId}: waiting for newbie task completion (${rewardUsdt} USD)`);
+                        console.log(`Ã°Å¸Å½Â Referral record result for ${userId}:`, refResult);
+                        console.log(`Ã°Å¸Å½Â Referral created for ${referralId} -> ${userId}: waiting for newbie task completion (${rewardUsdt} USD)`);
                         broadcastAdminRefresh('referral-created', { inviterId: referralId, invitedId: userId });
                         await settleReferralRewardForInvitee(userId);
                     }
@@ -1749,7 +1866,7 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
         }
 
         // Save IP if not exists or update it (User requirement: "first time save first ip", but usually we track latest or first. 
-        // Request: "khi láº§n Ä‘áº§u sÃ i vÃ o Ä‘áº§u tiÃªn sáº½ lÆ°u ip truy cáº­p Ä‘áº§u tiÃªn". So only if null.)
+        // Request: "khi lÃ¡ÂºÂ§n Ã„â€˜Ã¡ÂºÂ§u sÃƒÂ i vÃƒÂ o Ã„â€˜Ã¡ÂºÂ§u tiÃƒÂªn sÃ¡ÂºÂ½ lÃ†Â°u ip truy cÃ¡ÂºÂ­p Ã„â€˜Ã¡ÂºÂ§u tiÃƒÂªn". So only if null.)
         const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
         if (!user.ip_address && clientIp) {
             await pool.query('UPDATE users SET ip_address = ? WHERE teleId = ?', [clientIp, userId]);
@@ -1794,7 +1911,7 @@ app.get('/api/user/referrals', authMiddleware, async (req, res) => {
     const teleId = req.user.id;
     try {
         const [rows] = await pool.query(`
-            SELECT r.*, COALESCE(NULLIF(u.username, ''), CONCAT('NgÆ°á»i dÃ¹ng ', r.invitedId)) as invitedName 
+            SELECT r.*, COALESCE(NULLIF(u.username, ''), CONCAT('NgÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng ', r.invitedId)) as invitedName 
             FROM referrals r
             LEFT JOIN users u ON r.invitedId = u.teleId
             WHERE r.inviterId = ?
@@ -1828,14 +1945,17 @@ app.get('/api/admin/referrals/:teleId', adminMiddleware, async (req, res) => {
 app.post('/api/game/start-mining', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
     const teleId = req.user.id;
     try {
-        const [users] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
-        if (users.length === 0) return res.status(404).json({ error: 'User not found' });
-        const user = users[0];
+        const user = await harvestMiningGold(teleId);
+        if (!user) return res.status(404).json({ error: 'User not found' });
 
-        if (user.isMining) return res.status(400).json({ error: 'Äang Ä‘Ã o rá»“i!' });
+        if (user.isMining) return res.status(400).json({ error: 'Ã„Âang Ã„â€˜ÃƒÂ o rÃ¡Â»â€œi!' });
 
+        const levelStats = await getLevelStats(user.level);
         const now = Date.now();
-        await pool.query('UPDATE users SET isMining = TRUE, miningStartTime = ?, miningShiftStart = ? WHERE teleId = ?', [now, now, teleId]);
+        await pool.query(
+            'UPDATE users SET isMining = TRUE, miningStartTime = ?, miningShiftStart = ?, miningShiftProgress = 0, dailyGoldCap = ?, miningRate = ? WHERE teleId = ?',
+            [now, now, levelStats.dailyGoldCap, levelStats.miningRate, teleId]
+        );
         broadcastAdminRefresh('mining-started', { teleId });
 
         res.json({ success: true, miningStartTime: now, miningShiftStart: now });
@@ -1857,7 +1977,7 @@ app.post('/api/game/claim-mining', authMiddleware, newbieTaskLockMiddleware, asy
 
         // Force stop mining
         await pool.query(
-            'UPDATE users SET isMining = FALSE, miningStartTime = NULL WHERE teleId = ?',
+            'UPDATE users SET isMining = FALSE, miningStartTime = NULL, miningShiftStart = NULL, miningShiftProgress = 0 WHERE teleId = ?',
             [teleId]
         );
         broadcastAdminRefresh('mining-stopped', { teleId });
@@ -1874,33 +1994,41 @@ app.post('/api/game/claim-mining', authMiddleware, newbieTaskLockMiddleware, asy
 app.post('/api/game/upgrade', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
     const teleId = req.user.id;
     try {
+        await harvestMiningGold(teleId);
         const [users] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
+        if (users.length === 0) return res.status(404).json({ error: 'User not found' });
         const user = users[0];
 
         const nextLevel = user.level + 1;
-        const [settings] = await pool.query('SELECT * FROM level_settings WHERE level = ?', [nextLevel]);
+        const nextSetting = await getLevelStats(nextLevel);
 
-        if (settings.length === 0) return res.status(400).json({ error: 'ÄÃ£ Ä‘áº¡t cáº¥p tá»‘i Ä‘a!' });
-        const nextSetting = settings[0];
+        if (!nextSetting.exists) return res.status(400).json({ error: 'Ã„ÂÃƒÂ£ Ã„â€˜Ã¡ÂºÂ¡t cÃ¡ÂºÂ¥p tÃ¡Â»â€˜i Ã„â€˜a!' });
 
-        if (Number(user.diamonds) < Number(nextSetting.upgradeCost)) return res.status(400).json({ error: 'KhÃ´ng Ä‘á»§ Kim CÆ°Æ¡ng!' });
+        if (Number(user.usdtBalance || 0) < Number(nextSetting.upgradeCost || 0)) {
+            return res.status(400).json({ error: 'KhÃƒÂ´ng Ã„â€˜Ã¡Â»Â§ $ Ä‘á»ƒ nÃ¢ng cáº¥p!' });
+        }
 
 
         await pool.query(
-            'UPDATE users SET diamonds = diamonds - ?, level = ?, miningRate = ?, upgradeCost = ? WHERE teleId = ?',
-            [nextSetting.upgradeCost, nextLevel, nextSetting.miningRate, nextSetting.upgradeCost, teleId]
+            'UPDATE users SET usdtBalance = usdtBalance - ?, level = ?, dailyGoldCap = ?, miningRate = ?, upgradeCost = ? WHERE teleId = ?',
+            [nextSetting.upgradeCost, nextLevel, nextSetting.dailyGoldCap, nextSetting.miningRate, nextSetting.upgradeCost, teleId]
         );
 
         // Fetch new next level for cost display
-        const [nextNextSettings] = await pool.query('SELECT * FROM level_settings WHERE level = ?', [nextLevel + 1]);
-        const nextUpgradeCost = nextNextSettings.length > 0 ? nextNextSettings[0].upgradeCost : 0;
-
-        if (nextNextSettings.length > 0) {
-            await pool.query('UPDATE users SET upgradeCost = ? WHERE teleId = ?', [nextUpgradeCost, teleId]);
-        }
+        const nextNextSetting = await getLevelStats(nextLevel + 1);
+        const nextUpgradeCost = nextNextSetting.exists ? nextNextSetting.upgradeCost : 0;
+        await pool.query('UPDATE users SET upgradeCost = ? WHERE teleId = ?', [nextUpgradeCost, teleId]);
 
         broadcastAdminRefresh('miner-upgraded', { teleId, level: nextLevel });
-        res.json({ success: true, level: nextLevel, miningRate: nextSetting.miningRate, diamonds: Number(user.diamonds) - Number(nextSetting.upgradeCost) });
+        const [updatedUsers] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
+        res.json({
+            success: true,
+            level: nextLevel,
+            miningRate: nextSetting.miningRate,
+            dailyGoldCap: nextSetting.dailyGoldCap,
+            usdtBalance: Number(updatedUsers[0]?.usdtBalance || 0),
+            upgradeCost: nextUpgradeCost,
+        });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
@@ -1909,7 +2037,7 @@ app.post('/api/user/:id', authMiddleware, async (req, res) => {
     const userId = req.params.id;
 
     if (String(userId) !== String(req.user.id)) {
-        return res.status(403).json({ error: 'KhÃ´ng cÃ³ quyá»n cáº­p nháº­t dá»¯ liá»‡u ngÆ°á»i dÃ¹ng khÃ¡c' });
+        return res.status(403).json({ error: 'KhÃƒÂ´ng cÃƒÂ³ quyÃ¡Â»Ân cÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t dÃ¡Â»Â¯ liÃ¡Â»â€¡u ngÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng khÃƒÂ¡c' });
     }
 
     // ONLY update safe fields. Ignore resources.
@@ -1935,7 +2063,7 @@ app.post('/api/admin/login', (req, res) => {
     if (username === 'khaidzs1tg' && password === ADMIN_PASSWORD) {
         return res.json({ success: true, token: ADMIN_PASSWORD });
     }
-    res.status(401).json({ success: false, message: 'Sai thÃ´ng tin Ä‘Äƒng nháº­p' });
+    res.status(401).json({ success: false, message: 'Sai thÃƒÂ´ng tin Ã„â€˜Ã„Æ’ng nhÃ¡ÂºÂ­p' });
 });
 
 
@@ -1962,7 +2090,7 @@ async function getAdminSnapshot() {
         SELECT w.*, u.username, u.tgHandle
         FROM withdrawals w
         JOIN users u ON w.teleId = u.teleId
-        WHERE w.status = 'Äang xá»­ lÃ½'
+        WHERE w.status = 'Ã„Âang xÃ¡Â»Â­ lÃƒÂ½'
         ORDER BY w.createdAt ASC
     `);
 
@@ -1992,10 +2120,10 @@ async function getAdminSnapshot() {
     }));
 
     let totalGold = 0;
-    let totalDiamonds = 0;
+    let totalUsdt = 0;
     users.forEach((u) => {
         totalGold += Number(u.gold || 0);
-        totalDiamonds += Number(u.diamonds || 0);
+        totalUsdt += Number(u.usdtBalance || 0);
     });
 
     const [levels] = await pool.query('SELECT * FROM level_settings ORDER BY level ASC');
@@ -2005,12 +2133,14 @@ async function getAdminSnapshot() {
     return {
         users,
         totalGold,
-        totalDiamonds,
+        totalUsdt,
         pendingWithdraws: formattedWithdraws,
         giftCodes,
         levels,
         tasks,
-        flappyConfig: flappyConfigRows[0] || { rewardGold: 0, rewardDiamonds: 0 },
+        flappyConfig: {
+            rewardGold: Number(flappyConfigRows[0]?.rewardGold || 0),
+        },
         economyConfig,
         lixiConfig,
         lixiState,
@@ -2043,12 +2173,27 @@ app.get('/api/admin/data', adminMiddleware, async (req, res) => {
 
 // Update Level Settings
 app.post('/api/admin/config/level', adminMiddleware, async (req, res) => {
-    const { level, miningRate, upgradeCost } = req.body;
+    const level = Math.max(1, Math.floor(Number(req.body?.level || 1)));
+    const requestedCap = Number(req.body?.dailyGoldCap);
+    const legacyRate = Number(req.body?.miningRate);
+    const dailyGoldCap = normalizeDailyGoldCap(
+        Number.isFinite(requestedCap) && requestedCap > 0 ? requestedCap : legacyRate * 86400,
+        DEFAULT_DAILY_GOLD_CAP
+    );
+    const miningRate = getMiningRatePerSecond(dailyGoldCap);
+    const upgradeCost = toUpgradeUsd(req.body?.upgradeCost, 0);
     try {
         await pool.query(
-            'INSERT INTO level_settings (level, miningRate, upgradeCost) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE miningRate = ?, upgradeCost = ?',
-            [level, miningRate, upgradeCost, miningRate, upgradeCost]
+            'INSERT INTO level_settings (level, miningRate, dailyGoldCap, upgradeCost) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE miningRate = ?, dailyGoldCap = ?, upgradeCost = ?',
+            [level, miningRate, dailyGoldCap, upgradeCost, miningRate, dailyGoldCap, upgradeCost]
         );
+        await pool.query(
+            'UPDATE users SET dailyGoldCap = ?, miningRate = ? WHERE level = ?',
+            [dailyGoldCap, miningRate, level]
+        );
+        if (level > 1) {
+            await pool.query('UPDATE users SET upgradeCost = ? WHERE level = ?', [upgradeCost, level - 1]);
+        }
         broadcastAdminRefresh('level-config-updated', { level });
         res.json({ success: true });
     } catch (err) { res.status(500).json({ error: err.message }); }
@@ -2056,12 +2201,11 @@ app.post('/api/admin/config/level', adminMiddleware, async (req, res) => {
 
 app.post('/api/admin/flappy/config', adminMiddleware, async (req, res) => {
     const rewardGold = Math.max(0, Math.floor(Number(req.body?.rewardGold || 0)));
-    const rewardDiamonds = Math.max(0, Math.floor(Number(req.body?.rewardDiamonds || 0)));
 
     try {
         await pool.query(
             'INSERT INTO flappy_config (id, rewardGold, rewardDiamonds) VALUES (1, ?, ?) ON DUPLICATE KEY UPDATE rewardGold = VALUES(rewardGold), rewardDiamonds = VALUES(rewardDiamonds)',
-            [rewardGold, rewardDiamonds]
+            [rewardGold, 0]
         );
         broadcastAdminRefresh('flappy-config-updated');
         res.json({ success: true });
@@ -2153,7 +2297,7 @@ app.post('/api/admin/config/task', adminMiddleware, async (req, res) => {
     const { id, title, icon, rewardType, rewardAmount, url, type, actionType, telegramChatId } = req.body;
     const normalizedActionType = ['click', 'join', 'react_heart'].includes(actionType) ? actionType : 'click';
     const normalizedType = ['community', 'daily', 'one_time', 'ad', 'newbie'].includes(type) ? type : 'community';
-    const normalizedRewardType = rewardType === 'diamond' || rewardType === 'diamonds' ? 'diamond' : 'gold';
+    const normalizedRewardType = rewardType === 'usdt' || rewardType === 'usd' ? 'usdt' : 'gold';
     const normalizedChatId = telegramChatId ? String(telegramChatId).trim() : null;
 
     if (!id || !title) {
@@ -2217,13 +2361,33 @@ app.post('/api/admin/user/create', adminMiddleware, async (req, res) => {
     try {
         const [existing] = await pool.query('SELECT * FROM users WHERE teleId = ?', [teleId]);
         if (existing.length > 0) {
-            return res.json({ success: false, message: 'User already exists' });
+            return res.status(409).json({ success: false, message: 'User already exists' });
         }
 
-        const newUser = [teleId, username || `Staff_${teleId}`, 1000, 1000, 1000, 0, 1, 7, 5000, false, null, null, 0, null, 0];
+        const level1Stats = await getLevelStats(1);
+        const level2Stats = await getLevelStats(2);
+        const newUser = [
+            teleId,
+            username || `Staff_${teleId}`,
+            1000,
+            1000,
+            0,
+            0,
+            1,
+            level1Stats.dailyGoldCap,
+            level1Stats.miningRate,
+            0,
+            level2Stats.upgradeCost,
+            false,
+            null,
+            null,
+            0,
+            null,
+            0,
+        ];
         await pool.query(
-            `INSERT INTO users (teleId, username, gold, goldBeforeShift, diamonds, usdtBalance, level, miningRate, upgradeCost, isMining, miningStartTime, miningShiftStart, referrals, lastTaskClaim, flappyBestScore)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            `INSERT INTO users (teleId, username, gold, goldBeforeShift, diamonds, usdtBalance, level, dailyGoldCap, miningRate, miningShiftProgress, upgradeCost, isMining, miningStartTime, miningShiftStart, referrals, lastTaskClaim, flappyBestScore)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             newUser
         );
         broadcastAdminRefresh('admin-user-created', { teleId });
@@ -2236,13 +2400,37 @@ app.post('/api/admin/user/create', adminMiddleware, async (req, res) => {
 app.post('/api/admin/adjust', adminMiddleware, async (req, res) => {
     const { targetTeleId, type, amount } = req.body;
     try {
-        const query = type === 'gold'
-            ? 'UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ? WHERE teleId = ?'
-            : 'UPDATE users SET diamonds = diamonds + ? WHERE teleId = ?';
+        const normalizedType = String(type || '').toLowerCase();
+        const parsedAmount = Number(amount);
+        if (!targetTeleId || !Number.isFinite(parsedAmount) || parsedAmount === 0) {
+            return res.status(400).json({ error: 'Invalid adjust payload' });
+        }
 
-        const params = type === 'gold' ? [amount, amount, targetTeleId] : [amount, targetTeleId];
+        const safeAmount = normalizedType === 'usdt'
+            ? Number(parsedAmount.toFixed(6))
+            : Math.trunc(parsedAmount);
+
+        if (!Number.isFinite(safeAmount) || safeAmount === 0) {
+            return res.status(400).json({ error: 'Adjust amount is too small' });
+        }
+
+        let query = '';
+        let params = [];
+        let resourceType = normalizedType;
+
+        if (normalizedType === 'gold') {
+            query = 'UPDATE users SET gold = GREATEST(0, gold + ?), goldBeforeShift = GREATEST(0, goldBeforeShift + ?) WHERE teleId = ?';
+            params = [safeAmount, safeAmount, targetTeleId];
+        } else if (normalizedType === 'usdt' || normalizedType === 'usd') {
+            query = 'UPDATE users SET usdtBalance = GREATEST(0, usdtBalance + ?) WHERE teleId = ?';
+            params = [safeAmount, targetTeleId];
+            resourceType = 'usdt';
+        } else {
+            return res.status(400).json({ error: 'Resource type is not supported anymore. Use gold or usdt.' });
+        }
+
         await pool.query(query, params);
-        broadcastAdminRefresh('admin-balance-adjusted', { teleId: targetTeleId, resourceType: type });
+        broadcastAdminRefresh('admin-balance-adjusted', { teleId: targetTeleId, resourceType, amount: safeAmount });
         res.json({ success: true });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -2271,27 +2459,25 @@ app.post('/api/admin/withdraw/status', adminMiddleware, async (req, res) => {
 });
 
 app.post('/api/admin/user/update', adminMiddleware, async (req, res) => {
-    const { teleId, gold, diamonds, isBanned } = req.body;
+    const { teleId, gold, usdtBalance } = req.body;
     try {
-        // dynamic update query depending on fields provided? Or just update all?
-        // Let's update explicitly passed fields. Actually, simpler to just update main stats.
+        const safeGold = Math.max(0, Math.floor(Number(gold || 0)));
+        const safeUsdt = Math.max(0, Number(Number(usdtBalance || 0).toFixed(6)));
         await pool.query(
-            'UPDATE users SET gold = ?, diamonds = ? WHERE teleId = ?',
-            [gold, diamonds, teleId]
+            'UPDATE users SET gold = ?, goldBeforeShift = ?, usdtBalance = ?, diamonds = 0 WHERE teleId = ?',
+            [safeGold, safeGold, safeUsdt, teleId]
         );
-        // If isBanned logic exists in DB schema (I don't recall seeing it in initDB but can add column if needed, 
-        // user didn't explicitly ask for banning but "manage users". I'll skip banning column for now to avoid schema drift unless requested).
         broadcastAdminRefresh('admin-user-updated', { teleId });
         res.json({ success: true });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 app.post('/api/admin/giftcode/add', adminMiddleware, async (req, res) => {
-    const { code, rewardDiamonds, rewardGold, maxUses } = req.body;
+    const { code, rewardGold, maxUses } = req.body;
     try {
         await pool.query(
             'INSERT INTO gift_codes (code, rewardDiamonds, rewardGold, maxUses) VALUES (?, ?, ?, ?)',
-            [code.trim().toUpperCase(), rewardDiamonds || 0, rewardGold || 0, maxUses]
+            [code.trim().toUpperCase(), 0, rewardGold || 0, maxUses]
         );
         broadcastAdminRefresh('giftcode-created', { code: code.trim().toUpperCase() });
         res.json({ success: true });
@@ -2338,11 +2524,11 @@ app.post('/api/lucky-draw/participate', authMiddleware, newbieTaskLockMiddleware
 
         // Check if already joined
         const [existing] = await pool.query('SELECT * FROM lucky_draw_participants WHERE teleId = ?', [teleId]);
-        if (existing.length > 0) return res.status(400).json({ error: 'Báº¡n Ä‘Ã£ tham gia rá»“i!' });
+        if (existing.length > 0) return res.status(400).json({ error: 'BÃ¡ÂºÂ¡n Ã„â€˜ÃƒÂ£ tham gia rÃ¡Â»â€œi!' });
 
         // Check user balance
         const [userRows] = await pool.query('SELECT gold FROM users WHERE teleId = ?', [teleId]);
-        if (userRows[0].gold < entryFee) return res.status(400).json({ error: 'KhÃ´ng Ä‘á»§ vÃ ng Ä‘á»ƒ tham gia!' });
+        if (userRows[0].gold < entryFee) return res.status(400).json({ error: 'KhÃƒÂ´ng Ã„â€˜Ã¡Â»Â§ vÃƒÂ ng Ã„â€˜Ã¡Â»Æ’ tham gia!' });
 
         // Deduct fee and join
         await pool.query('UPDATE users SET gold = gold - ? WHERE teleId = ?', [entryFee, teleId]);
@@ -2412,7 +2598,7 @@ app.delete('/api/admin/lucky-draw/schedule/:id', adminMiddleware, async (req, re
 
 // Drawing Logic
 async function performLuckyDraw() {
-    console.log("ðŸŽ² [LUCKY DRAW] Starting automated draw...");
+    console.log("Ã°Å¸Å½Â² [LUCKY DRAW] Starting automated draw...");
     const connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
@@ -2422,14 +2608,14 @@ async function performLuckyDraw() {
         const totalPrize = Number(config.totalPrize);
 
         if (totalPrize <= 0) {
-            console.log("ðŸŽ² [LUCKY DRAW] Skip: Total prize is 0.");
+            console.log("Ã°Å¸Å½Â² [LUCKY DRAW] Skip: Total prize is 0.");
             await connection.rollback();
             return;
         }
 
         const [participants] = await connection.query('SELECT p.teleId, u.username FROM lucky_draw_participants p JOIN users u ON p.teleId = u.teleId');
         if (participants.length === 0) {
-            console.log("ðŸŽ² [LUCKY DRAW] Skip: No participants.");
+            console.log("Ã°Å¸Å½Â² [LUCKY DRAW] Skip: No participants.");
             await connection.rollback();
             return;
         }
@@ -2470,7 +2656,7 @@ async function performLuckyDraw() {
                     } else {
                         // Designated user didn't join - we fetch their real name but still reward them (admin choice)
                         const [userRow] = await connection.query('SELECT username FROM users WHERE teleId = ?', [override.teleId]);
-                        const name = userRow[0]?.username || 'NgÆ°á»i dÃ¹ng áº©n';
+                        const name = userRow[0]?.username || 'NgÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng Ã¡ÂºÂ©n';
                         winner = { teleId: override.teleId, username: override.fakeName || name, isFake: false, reward };
                     }
                 } else if (override.fakeName) {
@@ -2524,10 +2710,10 @@ async function performLuckyDraw() {
 
         await connection.commit();
         broadcastAdminRefresh('lucky-draw-finished');
-        console.log("ðŸŽ² [LUCKY DRAW] Completed successfully.");
+        console.log("Ã°Å¸Å½Â² [LUCKY DRAW] Completed successfully.");
     } catch (err) {
         await connection.rollback();
-        console.error("ðŸŽ² [LUCKY DRAW] Error:", err);
+        console.error("Ã°Å¸Å½Â² [LUCKY DRAW] Error:", err);
     } finally {
         connection.release();
     }
@@ -2554,7 +2740,7 @@ setInterval(async () => {
             }
         }
     } catch (err) {
-        console.error("ðŸŽ² [LUCKY DRAW SCHEDULER ERROR]", err);
+        console.error("Ã°Å¸Å½Â² [LUCKY DRAW SCHEDULER ERROR]", err);
     }
 }, 60000);
 
@@ -2583,13 +2769,13 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                 const tgData = await tgRes.json();
 
                 if (!tgData.ok || ['left', 'kicked'].includes(tgData.result?.status)) {
-                    return res.status(400).json({ error: 'Báº¡n chÆ°a tham gia nhÃ³m/kÃªnh nÃ y!' });
+                    return res.status(400).json({ error: 'BÃ¡ÂºÂ¡n chÃ†Â°a tham gia nhÃƒÂ³m/kÃƒÂªnh nÃƒÂ y!' });
                 }
             } catch (err) {
                 console.error('[TG VERIFY ERROR]', err);
                 // If bot check fails, we might want to skip or fail? 
                 // Let's fail for security unless it's a temp network issue.
-                return res.status(500).json({ error: 'KhÃ´ng thá»ƒ xÃ¡c minh thÃ nh viÃªn lÃºc nÃ y.' });
+                return res.status(500).json({ error: 'KhÃƒÂ´ng thÃ¡Â»Æ’ xÃƒÂ¡c minh thÃƒÂ nh viÃƒÂªn lÃƒÂºc nÃƒÂ y.' });
             }
         }
 
@@ -2616,7 +2802,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
         const vnNow = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // Rough VN Time
 
         if (isSingleClaimTaskType(task.type)) {
-            if (claims.length > 0) return res.status(400).json({ error: 'Báº¡n Ä‘Ã£ lÃ m nhiá»‡m vá»¥ nÃ y rá»“i!' });
+            if (claims.length > 0) return res.status(400).json({ error: 'BÃ¡ÂºÂ¡n Ã„â€˜ÃƒÂ£ lÃƒÂ m nhiÃ¡Â»â€¡m vÃ¡Â»Â¥ nÃƒÂ y rÃ¡Â»â€œi!' });
         } else if (task.type === 'daily') {
             if (claims.length > 0) {
                 const lastClaim = new Date(claims[0].claimedAt);
@@ -2626,7 +2812,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                 if (vnNow.getUTCDate() === vnLast.getUTCDate() &&
                     vnNow.getUTCMonth() === vnLast.getUTCMonth() &&
                     vnNow.getUTCFullYear() === vnLast.getUTCFullYear()) {
-                    return res.status(400).json({ error: 'Nhiá»‡m vá»¥ nÃ y sáº½ reset vÃ o ngÃ y mai!' });
+                    return res.status(400).json({ error: 'NhiÃ¡Â»â€¡m vÃ¡Â»Â¥ nÃƒÂ y sÃ¡ÂºÂ½ reset vÃƒÂ o ngÃƒÂ y mai!' });
                 }
             }
         } else if (task.type === 'ad') {
@@ -2635,7 +2821,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                 const lastClaimTime = new Date(claims[0].claimedAt);
                 const minutesSince = (now - lastClaimTime) / (1000 * 60);
                 if (minutesSince < 15) {
-                    return res.status(400).json({ error: `Vui lÃ²ng chá» ${Math.ceil(15 - minutesSince)} phÃºt ná»¯a!` });
+                    return res.status(400).json({ error: `Vui lÃƒÂ²ng chÃ¡Â»Â ${Math.ceil(15 - minutesSince)} phÃƒÂºt nÃ¡Â»Â¯a!` });
                 }
 
                 const dateStr = vnNow.toISOString().split('T')[0];
@@ -2643,7 +2829,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                 const currentCount = logs.length > 0 ? logs[0].count : 0;
 
                 if (currentCount >= 4) {
-                    return res.status(400).json({ error: 'HÃ´m nay báº¡n Ä‘Ã£ xem Ä‘á»§ 4 láº§n rá»“i!' });
+                    return res.status(400).json({ error: 'HÃƒÂ´m nay bÃ¡ÂºÂ¡n Ã„â€˜ÃƒÂ£ xem Ã„â€˜Ã¡Â»Â§ 4 lÃ¡ÂºÂ§n rÃ¡Â»â€œi!' });
                 }
 
                 await pool.query('UPDATE ad_daily_log SET count = count + 1 WHERE teleId = ? AND taskId = ? AND logDate = ?', [teleId, taskId, dateStr]);
@@ -2662,18 +2848,23 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
         await pool.query('INSERT INTO task_claim_events (teleId, taskId) VALUES (?, ?)', [teleId, taskId]);
 
         // 5. Award Reward
-        const rewardAmount = Math.floor(Number(task.rewardAmount) || 0);
-        if (task.rewardType === 'gold' || task.rewardType === 'gold') { // match schema rewardType
+        const rawRewardAmount = Number(task.rewardAmount) || 0;
+        const rewardAmount = Math.max(0, Math.floor(rawRewardAmount));
+        const usdRewardAmount = Number(Math.max(0, rawRewardAmount).toFixed(6));
+        if (task.rewardType === 'usdt' || task.rewardType === 'usd') {
+            await pool.query('UPDATE users SET usdtBalance = usdtBalance + ? WHERE teleId = ?', [
+                usdRewardAmount,
+                teleId,
+            ]);
+        } else {
             await pool.query('UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ? WHERE teleId = ?', [rewardAmount, rewardAmount, teleId]);
-        } else if (task.rewardType === 'diamonds' || task.rewardType === 'diamond') {
-            await pool.query('UPDATE users SET diamonds = diamonds + ? WHERE teleId = ?', [rewardAmount, teleId]);
         }
 
         await settleReferralRewardForInvitee(teleId);
 
         let milestoneReward = null;
         const economyConfig = await getEconomyConfig();
-        const milestoneHasReward = economyConfig.taskMilestoneRewardGold > 0 || economyConfig.taskMilestoneRewardDiamonds > 0;
+        const milestoneHasReward = economyConfig.taskMilestoneRewardGold > 0;
         if (economyConfig.taskMilestoneCount > 0 && milestoneHasReward) {
             const rewardDate = vnNow.toISOString().split('T')[0];
             const [existingMilestoneRewards] = await pool.query(
@@ -2696,13 +2887,6 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                         );
                     }
 
-                    if (economyConfig.taskMilestoneRewardDiamonds > 0) {
-                        await pool.query(
-                            'UPDATE users SET diamonds = diamonds + ? WHERE teleId = ?',
-                            [economyConfig.taskMilestoneRewardDiamonds, teleId]
-                        );
-                    }
-
                     await pool.query(
                         'INSERT INTO task_milestone_rewards (teleId, rewardDate, taskCount, rewardGold, rewardDiamonds) VALUES (?, ?, ?, ?, ?)',
                         [
@@ -2710,7 +2894,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                             rewardDate,
                             completedCount,
                             economyConfig.taskMilestoneRewardGold,
-                            economyConfig.taskMilestoneRewardDiamonds,
+                            0,
                         ]
                     );
 
@@ -2718,7 +2902,6 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                         count: economyConfig.taskMilestoneCount,
                         completedCount,
                         gold: economyConfig.taskMilestoneRewardGold,
-                        diamonds: economyConfig.taskMilestoneRewardDiamonds,
                     };
                     broadcastAdminRefresh('task-milestone-earned', { teleId, taskId, completedCount });
                 }
@@ -2731,7 +2914,10 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
         broadcastAdminRefresh('task-claimed', { teleId, taskId });
         res.json({
             success: true,
-            reward: { type: task.rewardType, amount: rewardAmount },
+            reward: {
+                type: task.rewardType === 'usdt' || task.rewardType === 'usd' ? 'usdt' : 'gold',
+                amount: task.rewardType === 'usdt' || task.rewardType === 'usd' ? usdRewardAmount : rewardAmount,
+            },
             milestoneReward,
             user: {
                 ...users[0],
@@ -2749,7 +2935,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
 // Reset All Database
 app.post('/api/admin/reset-db', adminMiddleware, async (req, res) => {
     try {
-        console.log("âš ï¸ [ADMIN] Resetting entire database...");
+        console.log("Ã¢Å¡Â Ã¯Â¸Â [ADMIN] Resetting entire database...");
         await pool.query('DELETE FROM task_claims'); // Also clear task history
         await pool.query('DELETE FROM task_claim_events');
         await pool.query('DELETE FROM task_milestone_rewards');
@@ -2759,8 +2945,8 @@ app.post('/api/admin/reset-db', adminMiddleware, async (req, res) => {
         await pool.query('DELETE FROM referrals');
         await pool.query('DELETE FROM users');
         broadcastAdminRefresh('database-reset');
-        console.log("âœ… [ADMIN] Database reset successfully.");
-        res.json({ success: true, message: 'ÄÃ£ xÃ³a toÃ n bá»™ dá»¯ liá»‡u ngÆ°á»i dÃ¹ng!' });
+        console.log("Ã¢Å“â€¦ [ADMIN] Database reset successfully.");
+        res.json({ success: true, message: 'Ã„ÂÃƒÂ£ xÃƒÂ³a toÃƒÂ n bÃ¡Â»â„¢ dÃ¡Â»Â¯ liÃ¡Â»â€¡u ngÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng!' });
     } catch (err) {
         console.error('[RESET ERROR]', err);
         res.status(500).json({ error: err.message });
@@ -2789,7 +2975,7 @@ app.post(`/api/bot/webhook/${BOT_TOKEN}`, async (req, res) => {
     const text = message.text;
 
     if (text.startsWith('/start')) {
-        const welcomeMessage = `ðŸ§§ CHÃ€O Má»ªNG Báº N Äáº¾N Vá»šI ÄÃ€O VÃ€NG KHAI XUÃ‚N! ðŸ§§\n\nChÃºc báº¡n má»™t nÄƒm má»›i an khang thá»‹nh vÆ°á»£ng, váº¡n sá»± nhÆ° Ã½!\n\nHÃ£y nháº¥n nÃºt bÃªn dÆ°á»›i Ä‘á»ƒ báº¯t Ä‘áº§u khai xuÃ¢n vÃ  nháº­n nhá»¯ng pháº§n quÃ  háº¥p dáº«n nhÃ©! ðŸ§¨ðŸ’°`;
+        const welcomeMessage = `Ã°Å¸Â§Â§ CHÃƒâ‚¬O MÃ¡Â»ÂªNG BÃ¡ÂºÂ N Ã„ÂÃ¡ÂºÂ¾N VÃ¡Â»Å¡I Ã„ÂÃƒâ‚¬O VÃƒâ‚¬NG KHAI XUÃƒâ€šN! Ã°Å¸Â§Â§\n\nChÃƒÂºc bÃ¡ÂºÂ¡n mÃ¡Â»â„¢t nÃ„Æ’m mÃ¡Â»â€ºi an khang thÃ¡Â»â€¹nh vÃ†Â°Ã¡Â»Â£ng, vÃ¡ÂºÂ¡n sÃ¡Â»Â± nhÃ†Â° ÃƒÂ½!\n\nHÃƒÂ£y nhÃ¡ÂºÂ¥n nÃƒÂºt bÃƒÂªn dÃ†Â°Ã¡Â»â€ºi Ã„â€˜Ã¡Â»Æ’ bÃ¡ÂºÂ¯t Ã„â€˜Ã¡ÂºÂ§u khai xuÃƒÂ¢n vÃƒÂ  nhÃ¡ÂºÂ­n nhÃ¡Â»Â¯ng phÃ¡ÂºÂ§n quÃƒÂ  hÃ¡ÂºÂ¥p dÃ¡ÂºÂ«n nhÃƒÂ©! Ã°Å¸Â§Â¨Ã°Å¸â€™Â°`;
 
         const payload = {
             chat_id: chatId,
@@ -2798,19 +2984,19 @@ app.post(`/api/bot/webhook/${BOT_TOKEN}`, async (req, res) => {
                 inline_keyboard: [
                     [
                         {
-                            text: "ðŸ§§ Má»ž MINI APP ðŸ§§",
+                            text: "Ã°Å¸Â§Â§ MÃ¡Â»Å¾ MINI APP Ã°Å¸Â§Â§",
                             url: "https://t.me/Daoxu100_bot/Daoxu100"
                         }
                     ],
                     [
                         {
-                            text: "ðŸ“¢ Tham Gia KÃªnh",
+                            text: "Ã°Å¸â€œÂ¢ Tham Gia KÃƒÂªnh",
                             url: "https://t.me/daoxungaytet"
                         }
                     ],
                     [
                         {
-                            text: "ðŸ‘¨â€ðŸ’» LiÃªn Há»‡ Admin",
+                            text: "Ã°Å¸â€˜Â¨Ã¢â‚¬ÂÃ°Å¸â€™Â» LiÃƒÂªn HÃ¡Â»â€¡ Admin",
                             url: "https://t.me/addaoxu"
                         }
                     ]
@@ -2840,12 +3026,12 @@ async function setupBotWebhook() {
         const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/setWebhook?url=${PUBLIC_URL}/api/bot/webhook/${BOT_TOKEN}&allowed_updates=${allowedUpdates}`);
         const data = await res.json();
         if (data.ok) {
-            console.log("âœ… [BOT] Webhook set successfully.");
+            console.log("Ã¢Å“â€¦ [BOT] Webhook set successfully.");
         } else {
-            console.error("âŒ [BOT] Webhook setup failed:", data.description);
+            console.error("Ã¢ÂÅ’ [BOT] Webhook setup failed:", data.description);
         }
     } catch (err) {
-        console.error("âŒ [BOT] Could not reach Telegram API:", err.message);
+        console.error("Ã¢ÂÅ’ [BOT] Could not reach Telegram API:", err.message);
     }
 }
 
@@ -2856,8 +3042,10 @@ app.use((req, res) => {
 
 initDB().then(() => {
     app.listen(PORT, () => {
-        console.log(`ðŸš€ Server running on port ${PORT}`);
+        console.log(`Ã°Å¸Å¡â‚¬ Server running on port ${PORT}`);
         setupBotWebhook(); // Try to setup webhook
     });
 });
+
+
 

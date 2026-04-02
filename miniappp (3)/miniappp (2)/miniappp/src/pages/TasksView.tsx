@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import type { GameStore, Task } from "@/hooks/use-game-store";
 import { cn, formatNumber } from "@/lib/utils";
 import { showTaskRewardedSequence } from "@/lib/ad-service";
@@ -8,7 +8,6 @@ import {
   Check,
   CheckCircle2,
   Coins,
-  Gem,
   Heart,
   MousePointerClick,
   PlayCircle,
@@ -16,6 +15,7 @@ import {
   ShieldAlert,
   Sparkles,
   Users,
+  Wallet,
   type LucideIcon,
 } from "lucide-react";
 
@@ -84,12 +84,12 @@ function getTaskVisual(task: Task) {
 
 function getTaskHint(task: Task) {
   if (task.actionType === "react_heart") return "Mo tin nhan trong group, tha tym roi quay lai xac minh.";
-  if (task.actionType === "join") return "Mở nhóm hoặc kênh rồi quay lại xác minh.";
-  if (task.type === "ad") return "Xem đủ chuỗi quảng cáo để backend mở thưởng.";
-  if (task.type === "daily") return "Làm mới mỗi ngày theo thời gian máy chủ.";
-  if (task.type === "newbie") return "Hoàn tất chuỗi tân thủ để mở thưởng mời bạn và các quyền lợi đầu game.";
-  if (task.type === "community") return "Hoàn thành tương tác cộng đồng để nhận thưởng.";
-  return "Nhiệm vụ một lần, nhận thưởng trực tiếp từ backend.";
+  if (task.actionType === "join") return "Má»Ÿ nhÃ³m hoáº·c kÃªnh rá»“i quay láº¡i xÃ¡c minh.";
+  if (task.type === "ad") return "Xem Ä‘á»§ chuá»—i quáº£ng cÃ¡o Ä‘á»ƒ backend má»Ÿ thÆ°á»Ÿng.";
+  if (task.type === "daily") return "LÃ m má»›i má»—i ngÃ y theo thá»i gian mÃ¡y chá»§.";
+  if (task.type === "newbie") return "HoÃ n táº¥t chuá»—i tÃ¢n thá»§ Ä‘á»ƒ má»Ÿ thÆ°á»Ÿng má»i báº¡n vÃ  cÃ¡c quyá»n lá»£i Ä‘áº§u game.";
+  if (task.type === "community") return "HoÃ n thÃ nh tÆ°Æ¡ng tÃ¡c cá»™ng Ä‘á»“ng Ä‘á»ƒ nháº­n thÆ°á»Ÿng.";
+  return "Nhiá»‡m vá»¥ má»™t láº§n, nháº­n thÆ°á»Ÿng trá»±c tiáº¿p tá»« backend.";
 }
 
 function renderReward(task: Task) {
@@ -104,8 +104,8 @@ function renderReward(task: Task) {
           : "border-cyan-200/20 bg-[linear-gradient(180deg,rgba(9,80,95,0.78)_0%,rgba(3,49,59,0.9)_100%)] text-cyan-100",
       )}
     >
-      {isGold ? <Coins className="h-3.5 w-3.5" /> : <Gem className="h-3.5 w-3.5" />}
-      <span>+{formatNumber(task.reward)}</span>
+      {isGold ? <Coins className="h-3.5 w-3.5" /> : <Wallet className="h-3.5 w-3.5" />}
+      <span>{isGold ? `+${formatNumber(task.reward)}` : `+$${task.reward.toFixed(6)}`}</span>
     </div>
   );
 }
@@ -115,40 +115,38 @@ export function TasksView({ store }: { store: GameStore }) {
   const [pendingTaskId, setPendingTaskId] = useState<string | null>(null);
   const taskMilestoneCount = Math.max(0, store.economyConfig.taskMilestoneCount || 0);
   const taskMilestoneRewardGold = Math.max(0, store.economyConfig.taskMilestoneRewardGold || 0);
-  const taskMilestoneRewardDiamonds = Math.max(0, store.economyConfig.taskMilestoneRewardDiamonds || 0);
   const newbieLockRequired = store.newbieLock.required;
   const newbieTotalTasks = Math.max(0, store.newbieLock.totalNewbieTasks || 0);
   const newbieCompletedTasks = Math.max(0, store.newbieLock.completedNewbieTasks || 0);
   const newbieRemainingTasks = Math.max(0, store.newbieLock.remainingNewbieTasks || 0);
-  const hasTaskMilestone =
-    taskMilestoneCount > 0 && (taskMilestoneRewardGold > 0 || taskMilestoneRewardDiamonds > 0);
+  const hasTaskMilestone = taskMilestoneCount > 0 && taskMilestoneRewardGold > 0;
 
   const sections = useMemo(
     () =>
       [
         {
           key: "newbie",
-          title: "Nhiệm vụ tân thủ",
+          title: "Nhiá»‡m vá»¥ tÃ¢n thá»§",
           tasks: store.tasks.filter((task) => task.type === "newbie" && !task.done),
         },
         {
           key: "ad",
-          title: "Nhiệm vụ quảng cáo",
+          title: "Nhiá»‡m vá»¥ quáº£ng cÃ¡o",
           tasks: store.tasks.filter((task) => task.type === "ad"),
         },
         {
           key: "daily",
-          title: "Nhiệm vụ hằng ngày",
+          title: "Nhiá»‡m vá»¥ háº±ng ngÃ y",
           tasks: store.tasks.filter((task) => task.type === "daily"),
         },
         {
           key: "community",
-          title: "Nhiệm vụ cộng đồng",
+          title: "Nhiá»‡m vá»¥ cá»™ng Ä‘á»“ng",
           tasks: store.tasks.filter((task) => task.type === "community"),
         },
         {
           key: "once",
-          title: "Nhiệm vụ một lần",
+          title: "Nhiá»‡m vá»¥ má»™t láº§n",
           tasks: store.tasks.filter((task) => task.type === "one_time"),
         },
       ].filter((section) => section.tasks.length > 0),
@@ -159,29 +157,26 @@ export function TasksView({ store }: { store: GameStore }) {
     const result = await store.claimTask(task.id);
 
     if (!result.success) {
-      alert(result.error || "Không thể nhận thưởng nhiệm vụ.");
+      alert(result.error || "KhÃ´ng thá»ƒ nháº­n thÆ°á»Ÿng nhiá»‡m vá»¥.");
       return false;
     }
 
     const amount = result.reward?.amount ?? task.reward;
     const rewardType = result.reward?.type ?? task.rewardType;
     const alertLines = [
-      `Nhan thuong thanh cong: +${formatNumber(amount)} ${rewardType === "gold" ? "vang" : "KC"}`,
+      rewardType === "gold"
+        ? `Nhan thuong thanh cong: +${formatNumber(amount)} vang`
+        : `Nhan thuong thanh cong: +$${Number(amount).toFixed(6)}`,
     ];
     const milestoneGold = Math.max(0, result.milestoneReward?.gold ?? 0);
-    const milestoneDiamonds = Math.max(0, result.milestoneReward?.diamonds ?? 0);
 
-    if (milestoneGold > 0 || milestoneDiamonds > 0) {
+    if (milestoneGold > 0) {
       const rewardParts: string[] = [];
       const completedCount = Math.max(0, result.milestoneReward?.completedCount ?? 0);
       const milestoneCount = Math.max(taskMilestoneCount, result.milestoneReward?.count ?? 0);
 
       if (milestoneGold > 0) {
         rewardParts.push(`+${formatNumber(milestoneGold)} vang`);
-      }
-
-      if (milestoneDiamonds > 0) {
-        rewardParts.push(`+${formatNumber(milestoneDiamonds)} KC`);
       }
 
       alertLines.push(`Thuong moc task: ${rewardParts.join(" + ")}`);
@@ -197,20 +192,20 @@ export function TasksView({ store }: { store: GameStore }) {
 
   const showAdsSequence = async (count: number, onComplete: () => Promise<void>) => {
     if (!window.Adsgram) {
-      toast({ description: "Đang tải hệ thống quảng cáo Adsgram..." });
+      toast({ description: "Äang táº£i há»‡ thá»‘ng quáº£ng cÃ¡o Adsgram..." });
       return false;
     }
 
     for (let i = 0; i < count; i += 1) {
       const blockId = ADSGRAM_BLOCK_IDS[i] ?? ADSGRAM_BLOCK_IDS[0];
-      toast({ description: `Quảng cáo ${i + 1}/${count} đang tải...` });
+      toast({ description: `Quáº£ng cÃ¡o ${i + 1}/${count} Ä‘ang táº£i...` });
 
       try {
         const adController = window.Adsgram.init({ blockId });
         const result = await adController.show();
 
         if (!result.done) {
-          toast({ description: "Bạn cần xem hết chuỗi quảng cáo để nhận thưởng!" });
+          toast({ description: "Báº¡n cáº§n xem háº¿t chuá»—i quáº£ng cÃ¡o Ä‘á»ƒ nháº­n thÆ°á»Ÿng!" });
           return false;
         }
 
@@ -219,7 +214,7 @@ export function TasksView({ store }: { store: GameStore }) {
         }
       } catch (error) {
         console.error(`Adsgram error (block: ${blockId})`, error);
-        toast({ description: "Hệ thống quảng cáo đang bận, vui lòng thử lại sau!" });
+        toast({ description: "Há»‡ thá»‘ng quáº£ng cÃ¡o Ä‘ang báº­n, vui lÃ²ng thá»­ láº¡i sau!" });
         return false;
       }
     }
@@ -240,7 +235,7 @@ export function TasksView({ store }: { store: GameStore }) {
         alert("Mo tin nhan, tha tym roi quay lai bam lan nua de xac minh.");
         return;
       }
-      alert("Hãy tham gia nhóm hoặc kênh rồi quay lại bấm nhận lần nữa để xác minh.");
+      alert("HÃ£y tham gia nhÃ³m hoáº·c kÃªnh rá»“i quay láº¡i báº¥m nháº­n láº§n ná»¯a Ä‘á»ƒ xÃ¡c minh.");
       return;
     }
 
@@ -365,9 +360,9 @@ export function TasksView({ store }: { store: GameStore }) {
                   <span className="relative flex items-center justify-center gap-1.5">
                     {task.done && <CheckCircle2 className="h-4 w-4" />}
                     {task.done
-                      ? "Đã hoàn thành"
+                      ? "ÄÃ£ hoÃ n thÃ nh"
                       : isBusy
-                        ? "Đang xử lý"
+                        ? "Äang xá»­ lÃ½"
                         : task.type === "ad"
                           ? "Xem video"
                           : task.actionType === "join"
@@ -378,7 +373,7 @@ export function TasksView({ store }: { store: GameStore }) {
                               ? isPrepared
                                 ? "Xac minh"
                                 : "Tha tym"
-                            : "Nhận"}
+                            : "Nháº­n"}
                   </span>
                 </button>
               </div>
@@ -408,7 +403,7 @@ export function TasksView({ store }: { store: GameStore }) {
         </h1>
 
         <p className="mt-3 max-w-[18rem] text-sm leading-6 text-yellow-100/80">
-          Hoan thanh tung dau viec de nhan them vang va kim cuong theo dung logic backend hien tai.
+          Hoan thanh tung dau viec de nhan them vang va $.
         </p>
       </div>
 
@@ -426,7 +421,7 @@ export function TasksView({ store }: { store: GameStore }) {
                   Ban dang o che do tan thu do duoc moi. Hoan thanh nhiem vu tan thu de mo cac tab va tinh nang khac.
                 </p>
                 <p className="mt-2 text-xs font-bold uppercase tracking-[0.16em] text-rose-100/70">
-                  Tien do: {formatNumber(newbieCompletedTasks)}/{formatNumber(newbieTotalTasks)} • Con{" "}
+                  Tien do: {formatNumber(newbieCompletedTasks)}/{formatNumber(newbieTotalTasks)} â€¢ Con{" "}
                   {formatNumber(newbieRemainingTasks)} nhiem vu
                 </p>
               </div>
@@ -446,8 +441,7 @@ export function TasksView({ store }: { store: GameStore }) {
                 <p className="mt-2 text-sm leading-6 text-cyan-50/90">
                   Hoan thanh {formatNumber(taskMilestoneCount)} task de nhan them{" "}
                   {taskMilestoneRewardGold > 0 ? `${formatNumber(taskMilestoneRewardGold)} vang` : null}
-                  {taskMilestoneRewardGold > 0 && taskMilestoneRewardDiamonds > 0 ? " + " : null}
-                  {taskMilestoneRewardDiamonds > 0 ? `${formatNumber(taskMilestoneRewardDiamonds)} KC` : null}.
+                  .
                 </p>
               </div>
             </div>
@@ -466,3 +460,4 @@ export function TasksView({ store }: { store: GameStore }) {
     </div>
   );
 }
+

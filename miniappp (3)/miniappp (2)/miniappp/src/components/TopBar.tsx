@@ -1,4 +1,4 @@
-import { Coins, Gem, User } from "lucide-react";
+import { Coins, Wallet, User } from "lucide-react";
 
 import type { GameStore } from "@/hooks/use-game-store";
 import { formatNumber } from "@/lib/utils";
@@ -38,9 +38,9 @@ export function TopBar({ store }: { store: GameStore }) {
           </div>
 
           <div className="flex items-center gap-1 text-cyan-300">
-            <Gem className="h-3.5 w-3.5 animate-pulse text-cyan-300" />
+            <Wallet className="h-3.5 w-3.5 text-cyan-300" />
             <span className="font-display text-[13px] font-bold text-cyan-300">
-              {formatNumber(store.diamonds)}
+              ${store.usdtBalance.toFixed(6)}
             </span>
           </div>
         </div>
