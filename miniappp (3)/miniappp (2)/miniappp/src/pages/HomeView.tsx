@@ -112,38 +112,38 @@ export function HomeView({ store }: { store: GameStore }) {
     100,
     Math.max(0, (Math.min(lixiAdsWatched, safeLixiAdsRequired) / safeLixiAdsRequired) * 100),
   );
-  const lixiRewardRangeText = `${formatNumber(store.lixi.config.minGold)} - ${formatNumber(store.lixi.config.maxGold)} vang`;
-  const lixiRemainingClaimsText = `${formatNumber(store.lixi.state.remainingClaims)}/${formatNumber(store.lixi.state.maxClaimsPerRound)} suat`;
+  const lixiRewardRangeText = `${formatNumber(store.lixi.config.minGold)} - ${formatNumber(store.lixi.config.maxGold)} vàng`;
+  const lixiRemainingClaimsText = `${formatNumber(store.lixi.state.remainingClaims)}/${formatNumber(store.lixi.state.maxClaimsPerRound)} suất`;
 
-  let lixiStatusText = `Xem tron goi ${formatNumber(safeLixiAdsRequired)} video de mo li xi`;
-  let lixiGuideText = `Tien do ${formatNumber(lixiAdsWatched)}/${formatNumber(safeLixiAdsRequired)} video`;
-  let lixiActionText = `${formatNumber(safeLixiAdsRequired)} video 1 lan`;
+  let lixiStatusText = `Xem trọn gói ${formatNumber(safeLixiAdsRequired)} video để mở lì xì`;
+  let lixiGuideText = `Tiến độ ${formatNumber(lixiAdsWatched)}/${formatNumber(safeLixiAdsRequired)} video`;
+  let lixiActionText = `${formatNumber(safeLixiAdsRequired)} video / lần`;
 
   if (isClaimingLixi) {
-    lixiStatusText = "Dang chay goi video li xi...";
-    lixiGuideText = "Vui long doi den khi hoan tat";
-    lixiActionText = "Dang chay";
+    lixiStatusText = "Đang chạy gói video lì xì...";
+    lixiGuideText = "Vui lòng đợi đến khi hoàn tất";
+    lixiActionText = "Đang chạy";
   } else if (store.lixi.state.isCoolingDown) {
-    lixiStatusText = `Mo lai sau ${lixiMinutes}:${lixiSeconds}`;
-    lixiGuideText = "Dot hien tai da het suat";
-    lixiActionText = "The le";
+    lixiStatusText = `Mở lại sau ${lixiMinutes}:${lixiSeconds}`;
+    lixiGuideText = "Đợt hiện tại đã hết suất";
+    lixiActionText = "Thể lệ";
   } else if (store.lixi.user.hasClaimed) {
-    lixiStatusText = `Ban da nhan ${formatNumber(store.lixi.user.rewardGold)} vang`;
-    lixiGuideText = "Cho dot tiep theo de nhan lai";
-    lixiActionText = "Da nhan";
+    lixiStatusText = `Bạn đã nhận ${formatNumber(store.lixi.user.rewardGold)} vàng`;
+    lixiGuideText = "Chờ đợt tiếp theo để nhận lại";
+    lixiActionText = "Đã nhận";
   } else if (canClaimLixi) {
-    lixiStatusText = "Da du video, bam de nhan ngay";
-    lixiGuideText = "San sang quay thuong";
-    lixiActionText = "Nhan ngay";
+    lixiStatusText = "Đã đủ video, bấm để nhận ngay";
+    lixiGuideText = "Sẵn sàng quay thưởng";
+    lixiActionText = "Nhận ngay";
   }
 
   const lixiModalStatusText = store.lixi.state.isCoolingDown
-    ? `Dang reset, mo lai sau ${lixiMinutes}:${lixiSeconds}.`
+    ? `Đang reset, mở lại sau ${lixiMinutes}:${lixiSeconds}.`
     : store.lixi.user.hasClaimed
-      ? `Ban da nhan ${formatNumber(store.lixi.user.rewardGold)} vang o dot nay.`
+      ? `Bạn đã nhận ${formatNumber(store.lixi.user.rewardGold)} vàng ở đợt này.`
       : canClaimLixi
-        ? "Ban da du video, co the nhan ngay."
-        : `Bam 1 lan de chay lien tiep ${formatNumber(safeLixiAdsRequired)} video. Con ${formatNumber(lixiAdsRemaining)} video.`;
+        ? "Bạn đã đủ video, có thể nhận ngay."
+        : `Bấm 1 lần để chạy liên tiếp ${formatNumber(safeLixiAdsRequired)} video. Còn ${formatNumber(lixiAdsRemaining)} video.`;
 
   const handleLixiClick = async () => {
     if (isClaimingLixi) return;
@@ -161,19 +161,19 @@ export function HomeView({ store }: { store: GameStore }) {
         while (watchedCount < safeLixiAdsRequired) {
           const adResult = await showLixiRewardedAdStep(watchedCount);
           if (!adResult.success) {
-            alert("Ban can xem het goi video de du dieu kien nhan li xi.");
+            alert("Bạn cần xem hết gói video để đủ điều kiện nhận lì xì.");
             return;
           }
 
           const watchResult = await store.recordLixiAdView();
           if (!watchResult.success) {
-            alert(watchResult.error || "Khong the ghi nhan video li xi.");
+            alert(watchResult.error || "Không thể ghi nhận video lì xì.");
             return;
           }
 
           const nextWatchedCount = Math.min(safeLixiAdsRequired, watchResult.watchedAdViews ?? watchedCount + 1);
           if (nextWatchedCount <= watchedCount) {
-            alert("Khong cap nhat duoc tien do video li xi. Thu lai sau.");
+            alert("Không cập nhật được tiến độ video lì xì. Thử lại sau.");
             return;
           }
 
@@ -183,12 +183,12 @@ export function HomeView({ store }: { store: GameStore }) {
 
       const result = await store.claimLixi();
       if (!result.success) {
-        alert(result.error || "Khong the nhan li xi luc nay.");
+        alert(result.error || "Không thể nhận lì xì lúc này.");
         setIsLixiRulesOpen(true);
         return;
       }
 
-      alert(`Chuc mung! Ban nhan duoc ${formatNumber(result.rewardGold || 0)} vang tu li xi.`);
+      alert(`Chúc mừng! Bạn nhận được ${formatNumber(result.rewardGold || 0)} vàng từ lì xì.`);
     } finally {
       setIsClaimingLixi(false);
     }
@@ -210,7 +210,7 @@ export function HomeView({ store }: { store: GameStore }) {
       if (!store.isMining) {
         const adReady = await showMiningRewardedAd();
         if (!adReady) {
-          alert("Can xem quang cao truoc khi bat dau dao vang.");
+          alert("Cần xem quảng cáo trước khi bắt đầu đào vàng.");
           return;
         }
 
@@ -318,7 +318,7 @@ export function HomeView({ store }: { store: GameStore }) {
                     <Gift className="h-4 w-4 text-rose-100" />
                   </div>
                   <span className="rounded-full border border-white/14 bg-black/24 px-2.5 py-1 text-[10px] font-bold text-rose-100/85">
-                    Dot #{formatNumber(store.lixi.state.roundNumber)}
+                    Đợt #{formatNumber(store.lixi.state.roundNumber)}
                   </span>
                 </div>
 
@@ -342,7 +342,7 @@ export function HomeView({ store }: { store: GameStore }) {
             </div>
 
             <div className="relative flex items-center justify-between gap-2">
-              <p className="text-[11px] text-rose-50/80">Thuong {lixiRewardRangeText}</p>
+              <p className="text-[11px] text-rose-50/80">Thưởng {lixiRewardRangeText}</p>
               <span className="shrink-0 rounded-full border border-white/16 bg-black/24 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.13em] text-rose-100">
                 {lixiActionText}
               </span>
@@ -402,9 +402,9 @@ export function HomeView({ store }: { store: GameStore }) {
           <div className="w-full rounded-[1.75rem] border border-rose-200/18 bg-[linear-gradient(180deg,rgba(50,11,24,0.96)_0%,rgba(21,8,14,0.98)_100%)] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.42)]">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-sm font-black uppercase tracking-[0.16em] text-rose-100">The Le Li Xi</p>
+                <p className="text-sm font-black uppercase tracking-[0.16em] text-rose-100">Thể Lệ Lì Xì</p>
                 <p className="mt-2 text-sm leading-6 text-rose-50/78">
-                  Nhan ngau nhien {lixiRewardRangeText} vang sau khi xem du {formatNumber(safeLixiAdsRequired)} video.
+                  Nhận ngẫu nhiên {lixiRewardRangeText} sau khi xem đủ {formatNumber(safeLixiAdsRequired)} video.
                 </p>
               </div>
 
@@ -412,28 +412,28 @@ export function HomeView({ store }: { store: GameStore }) {
                 onClick={() => setIsLixiRulesOpen(false)}
                 className="rounded-full border border-white/10 bg-white/6 px-3 py-1.5 text-xs font-bold text-white"
               >
-                Dong
+                Đóng
               </button>
             </div>
 
             <div className="mt-4 grid grid-cols-3 gap-2 text-[11px] text-rose-100/80">
               <div className="rounded-[0.95rem] border border-white/10 bg-white/6 px-3 py-2">
-                <p className="text-[10px] uppercase tracking-[0.12em] text-rose-100/55">Dot</p>
+                <p className="text-[10px] uppercase tracking-[0.12em] text-rose-100/55">Đợt</p>
                 <p className="mt-1 text-sm font-bold text-rose-50">#{formatNumber(store.lixi.state.roundNumber)}</p>
               </div>
               <div className="rounded-[0.95rem] border border-white/10 bg-white/6 px-3 py-2">
-                <p className="text-[10px] uppercase tracking-[0.12em] text-rose-100/55">Con suat</p>
+                <p className="text-[10px] uppercase tracking-[0.12em] text-rose-100/55">Còn suất</p>
                 <p className="mt-1 text-sm font-bold text-rose-50">{lixiRemainingClaimsText}</p>
               </div>
               <div className="rounded-[0.95rem] border border-white/10 bg-white/6 px-3 py-2">
-                <p className="text-[10px] uppercase tracking-[0.12em] text-rose-100/55">Yeu cau</p>
+                <p className="text-[10px] uppercase tracking-[0.12em] text-rose-100/55">Yêu cầu</p>
                 <p className="mt-1 text-sm font-bold text-rose-50">{formatNumber(safeLixiAdsRequired)} video</p>
               </div>
             </div>
 
             <div className="mt-3 rounded-[1.2rem] border border-white/10 bg-white/5 p-3">
               <div className="flex items-center justify-between gap-2 text-[11px] text-rose-100/80">
-                <span className="font-bold uppercase tracking-[0.1em]">Tien do video</span>
+                <span className="font-bold uppercase tracking-[0.1em]">Tiến độ video</span>
                 <span>
                   {formatNumber(lixiAdsWatched)}/{formatNumber(safeLixiAdsRequired)}
                 </span>
@@ -448,17 +448,17 @@ export function HomeView({ store }: { store: GameStore }) {
             </div>
 
             <div className="mt-3 space-y-1.5 rounded-[1.2rem] border border-white/8 bg-white/4 px-3 py-3 text-xs leading-5 text-rose-50/78">
-              <p>Moi tai khoan chi nhan 1 lan trong 1 dot.</p>
-              <p>Thu tu video: Adsgram {"->"} Monetag {"->"} Adsgram.</p>
-              <p>Het suat se reset sau {formatNumber(store.lixi.state.cooldownMinutes)} phut.</p>
-              <p>Trang thai hien tai: Dot #{formatNumber(store.lixi.state.roundNumber)} con {lixiRemainingClaimsText}.</p>
+              <p>Mỗi tài khoản chỉ nhận 1 lần trong 1 đợt.</p>
+              <p>Thứ tự video: Adsgram {"->"} Monetag {"->"} Adsgram.</p>
+              <p>Mỗi phiên sẽ tự reset sau {formatNumber(store.lixi.state.cooldownMinutes)} phút hoặc khi hết suất.</p>
+              <p>Trạng thái hiện tại: Đợt #{formatNumber(store.lixi.state.roundNumber)} còn {lixiRemainingClaimsText}.</p>
             </div>
 
             <button
               onClick={() => setIsLixiRulesOpen(false)}
               className="mt-4 w-full rounded-2xl border border-rose-200/22 bg-rose-500/14 px-4 py-3 text-sm font-black uppercase tracking-[0.12em] text-rose-50"
             >
-              Da Hieu
+              Đã Hiểu
             </button>
           </div>
         </div>

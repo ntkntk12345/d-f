@@ -202,6 +202,11 @@ if (function_exists('mb_internal_encoding')) {
                                     <input type="number" id="gc-gold" value="0"
                                         class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
                                 </div>
+                                <div>
+                                    <label class="block text-slate-400 mb-1">USD ($)</label>
+                                    <input type="number" step="0.000001" id="gc-usd" value="0"
+                                        class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-white">
+                                </div>
                             </div>
                             <div>
                                 <label class="block text-slate-400 mb-1">Max Uses</label>
@@ -721,8 +726,8 @@ if (function_exists('mb_internal_encoding')) {
                     </td>
                     <td class="p-4 text-center">
                         <div class="flex items-center justify-center gap-2">
-                            <button onclick="editTask('${safeId}')" class="text-cyan-300 hover:text-cyan-200 transition text-xs font-bold bg-cyan-400/10 px-2 py-1 rounded border border-cyan-400/20">? Sua</button>
-                            <button onclick="deleteTask('${safeId}')" class="text-red-400 hover:text-red-300 transition text-xs font-bold bg-red-400/10 px-2 py-1 rounded border border-red-400/20">?? Xoa</button>
+                            <button onclick="editTask('${safeId}')" class="text-cyan-300 hover:text-cyan-200 transition text-xs font-bold bg-cyan-400/10 px-2 py-1 rounded border border-cyan-400/20">S&#7917;a</button>
+                            <button onclick="deleteTask('${safeId}')" class="text-red-400 hover:text-red-300 transition text-xs font-bold bg-red-400/10 px-2 py-1 rounded border border-red-400/20">X&#243;a</button>
                         </div>
                     </td>
                 </tr>
@@ -979,6 +984,7 @@ if (function_exists('mb_internal_encoding')) {
                     <td class="p-4 font-mono font-bold text-yellow-400">${g.code}</td>
                     <td class="p-4 text-xs">
                         ${g.rewardGold ? `<span class="text-yellow-500">${g.rewardGold.toLocaleString()} Gold</span>` : ''}
+                        ${g.rewardUsd ? `<span class="ml-2 text-emerald-400">+${Number(g.rewardUsd).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 6 })} $</span>` : ''}
                     </td>
                     <td class="p-4 text-xs text-slate-400">Max: ${g.maxUses}</td>
                     <td class="p-4">
@@ -994,6 +1000,7 @@ if (function_exists('mb_internal_encoding')) {
             const body = {
                 code: document.getElementById('gc-code').value,
                 rewardGold: document.getElementById('gc-gold').value,
+                rewardUsd: document.getElementById('gc-usd').value,
                 maxUses: document.getElementById('gc-max').value
             };
             const res = await fetchAdmin('/admin/giftcode/add', 'POST', body);

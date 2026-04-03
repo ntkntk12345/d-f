@@ -54,7 +54,7 @@ export function GiftcodeView({ store }: { store: GameStore }) {
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-yellow-500/20 bg-[#2e1b08]/55 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.32em] text-yellow-100/75 shadow-[inset_0_1px_0_rgba(255,231,173,0.1)]">
             <Gift className="h-3.5 w-3.5 text-yellow-400" />
-            Kho giftcode
+            Kho Giftcode
           </div>
 
           <h1 className="mt-4 bg-[linear-gradient(180deg,#fff7d0_0%,#ffd970_42%,#ae6309_100%)] bg-clip-text text-[2.1rem] font-black uppercase leading-none text-transparent">
@@ -62,14 +62,14 @@ export function GiftcodeView({ store }: { store: GameStore }) {
           </h1>
 
           <p className="mt-3 max-w-[18rem] text-sm leading-6 text-yellow-100/80">
-            Nhap ma qua de nhan vang hoac $ theo cau hinh backend.
+            Nhập mã quà để nhận vàng hoặc $ theo cấu hình backend.
           </p>
         </div>
 
         <button
           onClick={() => store.setCurrentPage("home")}
           className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] border border-yellow-300/15 bg-black/20 text-yellow-100 shadow-[0_10px_20px_rgba(0,0,0,0.18)] transition-colors hover:bg-black/28"
-          aria-label="Quay lai trang chinh"
+          aria-label="Quay lại trang chính"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
@@ -136,12 +136,12 @@ export function GiftcodeView({ store }: { store: GameStore }) {
       <div className="relative z-10 mt-7 rounded-[28px] border border-yellow-500/20 bg-[linear-gradient(180deg,rgba(70,41,10,0.78)_0%,rgba(35,20,7,0.94)_100%)] px-4 py-4 shadow-[0_16px_34px_rgba(0,0,0,0.26)]">
         <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-yellow-100/55">
           <Sparkles className="h-4 w-4 text-yellow-400" />
-          Lưu ý
+          Lưu Ý
         </div>
         <div className="mt-4 space-y-3">
           {[
             "Mỗi giftcode chỉ dùng được một lần trên tài khoản hiện tại.",
-            "Phần thưởng sẽ cộng trực tiếp theo phản hồi backend.",
+            "Phần thưởng có thể gồm cả vàng và USD tùy cấu hình admin.",
             "Nếu mở ngoài Telegram và thiếu xác thực, backend có thể từ chối xử lý.",
           ].map((tip) => (
             <div
@@ -156,4 +156,3 @@ export function GiftcodeView({ store }: { store: GameStore }) {
     </div>
   );
 }
-

@@ -1322,7 +1322,7 @@ export function useGameStore() {
         };
 
         if (!data.success) {
-          return { success: false, error: data.error || data.message || "Khong the luu diem." };
+          return { success: false, error: data.error || data.message || "Không thể lưu điểm." };
         }
 
         if (data.user) applyUserSnapshot(data.user);
@@ -1340,7 +1340,7 @@ export function useGameStore() {
           rewardGold: toNumber(data.rewardGold),
         };
       } catch (err) {
-        return { success: false, error: err instanceof Error ? err.message : "Khong the luu diem." };
+        return { success: false, error: err instanceof Error ? err.message : "Không thể lưu điểm." };
       }
     },
     [apiFetch, applyUserSnapshot, enforceNewbieTaskLock],
@@ -1510,7 +1510,7 @@ export function useGameStore() {
         })) as ApiResult;
 
         if (!data.success) {
-          return { success: false, error: data.error || data.message || "Khong the cap nhat thuong flappy." };
+          return { success: false, error: data.error || data.message || "Không thể cập nhật thưởng Flappy." };
         }
 
         setFlappyConfig((prev) => ({
@@ -1520,7 +1520,7 @@ export function useGameStore() {
         await fetchAdminData();
         return { success: true };
       } catch (err) {
-        return { success: false, error: err instanceof Error ? err.message : "Khong the cap nhat thuong flappy." };
+        return { success: false, error: err instanceof Error ? err.message : "Không thể cập nhật thưởng Flappy." };
       }
     },
     [apiFetch, fetchAdminData],
@@ -1538,7 +1538,7 @@ export function useGameStore() {
       })) as LixiClaimResult;
 
       if (!data.success) {
-        return { success: false, error: data.error || data.message || "Khong the nhan li xi luc nay." };
+        return { success: false, error: data.error || data.message || "Không thể nhận lì xì lúc này." };
       }
 
       if (data.user) {
@@ -1564,7 +1564,7 @@ export function useGameStore() {
         // ignore secondary refresh errors
       }
 
-      return { success: false, error: err instanceof Error ? err.message : "Khong the nhan li xi luc nay." };
+      return { success: false, error: err instanceof Error ? err.message : "Không thể nhận lì xì lúc này." };
     }
   }, [apiFetch, applyUserSnapshot, enforceNewbieTaskLock, fetchLixiInfo, triggerConfetti]);
 
@@ -1580,7 +1580,7 @@ export function useGameStore() {
       })) as LixiWatchAdResult;
 
       if (!data.success) {
-        return { success: false, error: data.error || data.message || "Khong the ghi nhan video li xi." };
+        return { success: false, error: data.error || data.message || "Không thể ghi nhận video lì xì." };
       }
 
       if (data.lixi) {
@@ -1605,14 +1605,23 @@ export function useGameStore() {
         // ignore secondary refresh errors
       }
 
-      return { success: false, error: err instanceof Error ? err.message : "Khong the ghi nhan video li xi." };
+      return { success: false, error: err instanceof Error ? err.message : "Không thể ghi nhận video lì xì." };
     }
   }, [apiFetch, enforceNewbieTaskLock, fetchLixiInfo, lixi.user.remainingAdViews, lixi.user.watchedAdViews]);
 
   const updateLixiConfig = useCallback(
-    async (minGold: number, maxGold: number) => {
-      const safeMinGold = Math.max(0, Math.floor(minGold));
-      const safeMaxGold = Math.max(safeMinGold, Math.floor(maxGold));
+    async (payload: {
+      minGold: number;
+      maxGold: number;
+      maxClaimsPerRound: number;
+      cooldownMinutes: number;
+      requiredAdViews: number;
+    }) => {
+      const safeMinGold = Math.max(0, Math.floor(payload.minGold));
+      const safeMaxGold = Math.max(safeMinGold, Math.floor(payload.maxGold));
+      const safeMaxClaimsPerRound = Math.max(1, Math.floor(payload.maxClaimsPerRound));
+      const safeCooldownMinutes = Math.max(1, Math.floor(payload.cooldownMinutes));
+      const safeRequiredAdViews = Math.max(1, Math.floor(payload.requiredAdViews));
 
       try {
         const data = (await apiFetch("/api/admin/lixi/config", {
@@ -1620,14 +1629,14 @@ export function useGameStore() {
           body: JSON.stringify({
             minGold: safeMinGold,
             maxGold: safeMaxGold,
-            maxClaimsPerRound: adminData.lixiConfig.maxClaimsPerRound,
-            cooldownMinutes: adminData.lixiConfig.cooldownMinutes,
-            requiredAdViews: adminData.lixiConfig.requiredAdViews,
+            maxClaimsPerRound: safeMaxClaimsPerRound,
+            cooldownMinutes: safeCooldownMinutes,
+            requiredAdViews: safeRequiredAdViews,
           }),
         })) as ApiResult;
 
         if (!data.success) {
-          return { success: false, error: data.error || data.message || "Khong the cap nhat cau hinh li xi." };
+          return { success: false, error: data.error || data.message || "Không thể cập nhật cấu hình lì xì." };
         }
 
         setLixi((current) => ({
@@ -1636,22 +1645,18 @@ export function useGameStore() {
             ...current.config,
             minGold: safeMinGold,
             maxGold: safeMaxGold,
+            maxClaimsPerRound: safeMaxClaimsPerRound,
+            cooldownMinutes: safeCooldownMinutes,
+            requiredAdViews: safeRequiredAdViews,
           },
         }));
         await Promise.all([fetchAdminData(), fetchLixiInfo()]);
         return { success: true };
       } catch (err) {
-        return { success: false, error: err instanceof Error ? err.message : "Khong the cap nhat cau hinh li xi." };
+        return { success: false, error: err instanceof Error ? err.message : "Không thể cập nhật cấu hình lì xì." };
       }
     },
-    [
-      adminData.lixiConfig.cooldownMinutes,
-      adminData.lixiConfig.maxClaimsPerRound,
-      adminData.lixiConfig.requiredAdViews,
-      apiFetch,
-      fetchAdminData,
-      fetchLixiInfo,
-    ],
+    [apiFetch, fetchAdminData, fetchLixiInfo],
   );
 
   return {

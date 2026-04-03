@@ -294,6 +294,7 @@ async function initDB() {
                 code VARCHAR(50) PRIMARY KEY,
                 rewardDiamonds DECIMAL(65, 0) DEFAULT 0,
                 rewardGold DECIMAL(65, 0) DEFAULT 0,
+                rewardUsd DECIMAL(24, 8) DEFAULT 0,
                 maxUses INT DEFAULT 999,
                 usedCount INT DEFAULT 0,
                 createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -302,6 +303,9 @@ async function initDB() {
         await safeAlter("ALTER TABLE gift_codes CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
         await safeAlter("ALTER TABLE gift_codes MODIFY COLUMN rewardDiamonds DECIMAL(65,0) DEFAULT 0");
         await safeAlter("ALTER TABLE gift_codes MODIFY COLUMN rewardGold DECIMAL(65,0) DEFAULT 0");
+        await safeAlter("ALTER TABLE gift_codes ADD COLUMN rewardUsd DECIMAL(24,8) DEFAULT 0 AFTER rewardGold");
+        await safeAlter("ALTER TABLE gift_codes MODIFY COLUMN rewardUsd DECIMAL(24,8) DEFAULT 0");
+        await connection.query("UPDATE gift_codes SET rewardUsd = 0 WHERE rewardUsd IS NULL");
 
         // 3. Gift Code Usage Table
         await connection.query(`
@@ -643,6 +647,7 @@ async function initDB() {
                 id INT PRIMARY KEY DEFAULT 1,
                 roundNumber INT DEFAULT 1,
                 remainingClaims INT DEFAULT 10,
+                roundEndsAt BIGINT NULL,
                 cooldownEndsAt BIGINT NULL,
                 updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
@@ -650,11 +655,13 @@ async function initDB() {
         await safeAlter("ALTER TABLE lixi_state CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
         await safeAlter("ALTER TABLE lixi_state MODIFY COLUMN roundNumber INT DEFAULT 1");
         await safeAlter("ALTER TABLE lixi_state MODIFY COLUMN remainingClaims INT DEFAULT 10");
+        await safeAlter("ALTER TABLE lixi_state ADD COLUMN roundEndsAt BIGINT NULL AFTER remainingClaims");
         await safeAlter("ALTER TABLE lixi_state ADD COLUMN cooldownEndsAt BIGINT NULL AFTER remainingClaims");
+        const initialLixiRoundEndsAt = Date.now() + DEFAULT_LIXI_CONFIG.cooldownMinutes * 60 * 1000;
         await connection.query(
-            `INSERT IGNORE INTO lixi_state (id, roundNumber, remainingClaims, cooldownEndsAt)
-             VALUES (?, ?, ?, NULL)`,
-            [1, 1, DEFAULT_LIXI_CONFIG.maxClaimsPerRound]
+            `INSERT IGNORE INTO lixi_state (id, roundNumber, remainingClaims, roundEndsAt, cooldownEndsAt)
+             VALUES (?, ?, ?, ?, NULL)`,
+            [1, 1, DEFAULT_LIXI_CONFIG.maxClaimsPerRound, initialLixiRoundEndsAt]
         );
 
         await connection.query(`
@@ -918,9 +925,10 @@ async function ensureLixiState(db = pool, configInput = null, options = {}) {
     let [rows] = await db.query(selectSql);
 
     if (rows.length === 0) {
+        const initialRoundEndsAt = Date.now() + config.cooldownMinutes * 60 * 1000;
         await db.query(
-            'INSERT INTO lixi_state (id, roundNumber, remainingClaims, cooldownEndsAt) VALUES (1, 1, ?, NULL)',
-            [config.maxClaimsPerRound]
+            'INSERT INTO lixi_state (id, roundNumber, remainingClaims, roundEndsAt, cooldownEndsAt) VALUES (1, 1, ?, ?, NULL)',
+            [config.maxClaimsPerRound, initialRoundEndsAt]
         );
         [rows] = await db.query(selectSql);
     }
@@ -928,16 +936,28 @@ async function ensureLixiState(db = pool, configInput = null, options = {}) {
     const rawState = rows[0] || {};
     let roundNumber = Math.max(1, Number(rawState.roundNumber || 1));
     let remainingClaims = Math.max(0, Math.floor(Number(rawState.remainingClaims ?? config.maxClaimsPerRound)));
+    let roundEndsAt = rawState.roundEndsAt ? Number(rawState.roundEndsAt) : null;
     let cooldownEndsAt = rawState.cooldownEndsAt ? Number(rawState.cooldownEndsAt) : null;
     const now = Date.now();
+    const maxRoundEndsAt = now + config.cooldownMinutes * 60 * 1000;
 
-    if (cooldownEndsAt && now >= cooldownEndsAt) {
+    const hasValidRoundEndsAt = Number.isFinite(roundEndsAt) && roundEndsAt > 0;
+    if (!hasValidRoundEndsAt) {
+        roundEndsAt = maxRoundEndsAt;
+        await db.query('UPDATE lixi_state SET roundEndsAt = ? WHERE id = 1', [roundEndsAt]);
+    } else if (roundEndsAt > maxRoundEndsAt) {
+        roundEndsAt = maxRoundEndsAt;
+        await db.query('UPDATE lixi_state SET roundEndsAt = ? WHERE id = 1', [roundEndsAt]);
+    }
+
+    if ((cooldownEndsAt && now >= cooldownEndsAt) || (roundEndsAt && now >= roundEndsAt)) {
         roundNumber += 1;
         remainingClaims = config.maxClaimsPerRound;
+        roundEndsAt = now + config.cooldownMinutes * 60 * 1000;
         cooldownEndsAt = null;
         await db.query(
-            'UPDATE lixi_state SET roundNumber = ?, remainingClaims = ?, cooldownEndsAt = NULL WHERE id = 1',
-            [roundNumber, remainingClaims]
+            'UPDATE lixi_state SET roundNumber = ?, remainingClaims = ?, roundEndsAt = ?, cooldownEndsAt = NULL WHERE id = 1',
+            [roundNumber, remainingClaims, roundEndsAt]
         );
     } else {
         const normalizedRemaining = Math.min(remainingClaims, config.maxClaimsPerRound);
@@ -948,8 +968,11 @@ async function ensureLixiState(db = pool, configInput = null, options = {}) {
         }
 
         if (!cooldownEndsAt && remainingClaims <= 0) {
-            cooldownEndsAt = now + config.cooldownMinutes * 60 * 1000;
+            cooldownEndsAt = Math.max(now + 1000, Number(roundEndsAt || maxRoundEndsAt));
             await db.query('UPDATE lixi_state SET remainingClaims = 0, cooldownEndsAt = ? WHERE id = 1', [cooldownEndsAt]);
+        } else if (cooldownEndsAt && roundEndsAt && cooldownEndsAt > roundEndsAt) {
+            cooldownEndsAt = roundEndsAt;
+            await db.query('UPDATE lixi_state SET cooldownEndsAt = ? WHERE id = 1', [cooldownEndsAt]);
         }
     }
 
@@ -957,6 +980,7 @@ async function ensureLixiState(db = pool, configInput = null, options = {}) {
         roundNumber,
         remainingClaims,
         claimedCount: Math.max(0, config.maxClaimsPerRound - remainingClaims),
+        roundEndsAt,
         cooldownEndsAt,
         maxClaimsPerRound: config.maxClaimsPerRound,
         cooldownMinutes: config.cooldownMinutes,
@@ -1442,7 +1466,7 @@ app.post('/api/lixi/claim', authMiddleware, newbieTaskLockMiddleware, async (req
         const rewardGold = config.minGold + Math.floor(Math.random() * (rewardRange + 1));
         const nextRemainingClaims = Math.max(0, state.remainingClaims - 1);
         const cooldownEndsAt = nextRemainingClaims === 0
-            ? Date.now() + config.cooldownMinutes * 60 * 1000
+            ? Math.max(Date.now() + 1000, Number(state.roundEndsAt || 0), Date.now() + config.cooldownMinutes * 60 * 1000)
             : null;
 
         await connection.query(
@@ -1570,7 +1594,15 @@ app.post('/api/user/redeem', authMiddleware, newbieTaskLockMiddleware, async (re
         const [usage] = await pool.query('SELECT * FROM gift_code_usage WHERE code = ? AND teleId = ?', [cleanCode, teleId]);
         if (usage.length > 0) return res.json({ success: false, message: 'Bạn đã dùng mã này rồi!' });
 
-        if (gift.rewardGold > 0) await pool.query('UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ? WHERE teleId = ?', [gift.rewardGold, gift.rewardGold, teleId]);
+        const rewardGold = Math.max(0, Math.floor(Number(gift.rewardGold || 0)));
+        const rewardUsd = Math.max(0, Number(Number(gift.rewardUsd || 0).toFixed(6)));
+
+        if (rewardGold > 0 || rewardUsd > 0) {
+            await pool.query(
+                'UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ?, usdtBalance = usdtBalance + ? WHERE teleId = ?',
+                [rewardGold, rewardGold, rewardUsd, teleId]
+            );
+        }
 
         await pool.query('UPDATE gift_codes SET usedCount = usedCount + 1 WHERE code = ?', [cleanCode]);
         await pool.query('INSERT INTO gift_code_usage (code, teleId) VALUES (?, ?)', [cleanCode, teleId]);
@@ -1581,8 +1613,8 @@ app.post('/api/user/redeem', authMiddleware, newbieTaskLockMiddleware, async (re
 
         res.json({
             success: true,
-            rewardGold: gift.rewardGold,
-            rewardUsd: 0,
+            rewardGold,
+            rewardUsd,
             user: updatedUser
         });
     } catch (err) {
@@ -2232,6 +2264,7 @@ app.post('/api/admin/lixi/config', adminMiddleware, async (req, res) => {
                 requiredAdViews = VALUES(requiredAdViews)`,
             [config.minGold, config.maxGold, config.maxClaimsPerRound, config.cooldownMinutes, config.requiredAdViews]
         );
+        await pool.query('UPDATE lixi_state SET roundEndsAt = ? WHERE id = 1', [Date.now() + config.cooldownMinutes * 60 * 1000]);
         const state = await ensureLixiState(pool, config);
         broadcastAdminRefresh('lixi-config-updated');
         res.json({ success: true, config, state });
@@ -2476,13 +2509,22 @@ app.post('/api/admin/user/update', adminMiddleware, async (req, res) => {
 });
 
 app.post('/api/admin/giftcode/add', adminMiddleware, async (req, res) => {
-    const { code, rewardGold, maxUses } = req.body;
+    const { code, rewardGold, rewardUsd, maxUses } = req.body;
     try {
+        const safeCode = String(code || '').trim().toUpperCase();
+        if (!safeCode) {
+            return res.status(400).json({ error: 'Gift code không hợp lệ.' });
+        }
+
+        const safeRewardGold = Math.max(0, Math.floor(Number(rewardGold || 0)));
+        const safeRewardUsd = Math.max(0, Number(Number(rewardUsd || 0).toFixed(6)));
+        const safeMaxUses = Math.max(1, Math.floor(Number(maxUses || 1)));
+
         await pool.query(
-            'INSERT INTO gift_codes (code, rewardDiamonds, rewardGold, maxUses) VALUES (?, ?, ?, ?)',
-            [code.trim().toUpperCase(), 0, rewardGold || 0, maxUses]
+            'INSERT INTO gift_codes (code, rewardDiamonds, rewardGold, rewardUsd, maxUses) VALUES (?, ?, ?, ?, ?)',
+            [safeCode, 0, safeRewardGold, safeRewardUsd, safeMaxUses]
         );
-        broadcastAdminRefresh('giftcode-created', { code: code.trim().toUpperCase() });
+        broadcastAdminRefresh('giftcode-created', { code: safeCode });
         res.json({ success: true });
     } catch (err) {
         res.status(500).json({ error: err.message });
