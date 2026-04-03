@@ -1,4 +1,4 @@
-﻿import { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { GameStore, Task } from "@/hooks/use-game-store";
 import { cn, formatNumber } from "@/lib/utils";
 import { showTaskRewardedSequence } from "@/lib/ad-service";
@@ -84,12 +84,12 @@ function getTaskVisual(task: Task) {
 
 function getTaskHint(task: Task) {
   if (task.actionType === "react_heart") return "Mo tin nhan trong group, tha tym roi quay lai xac minh.";
-  if (task.actionType === "join") return "Má»Ÿ nhÃ³m hoáº·c kÃªnh rá»“i quay láº¡i xÃ¡c minh.";
-  if (task.type === "ad") return "Xem Ä‘á»§ chuá»—i quáº£ng cÃ¡o Ä‘á»ƒ backend má»Ÿ thÆ°á»Ÿng.";
-  if (task.type === "daily") return "LÃ m má»›i má»—i ngÃ y theo thá»i gian mÃ¡y chá»§.";
-  if (task.type === "newbie") return "HoÃ n táº¥t chuá»—i tÃ¢n thá»§ Ä‘á»ƒ má»Ÿ thÆ°á»Ÿng má»i báº¡n vÃ  cÃ¡c quyá»n lá»£i Ä‘áº§u game.";
-  if (task.type === "community") return "HoÃ n thÃ nh tÆ°Æ¡ng tÃ¡c cá»™ng Ä‘á»“ng Ä‘á»ƒ nháº­n thÆ°á»Ÿng.";
-  return "Nhiá»‡m vá»¥ má»™t láº§n, nháº­n thÆ°á»Ÿng trá»±c tiáº¿p tá»« backend.";
+  if (task.actionType === "join") return "Mở nhóm hoặc kênh rồi quay lại xác minh.";
+  if (task.type === "ad") return "Xem đủ chuỗi quảng cáo để backend mở thưởng.";
+  if (task.type === "daily") return "Làm mới mỗi ngày theo thời gian máy chủ.";
+  if (task.type === "newbie") return "Hoàn tất chuỗi tân thủ để mở thưởng mời bạn và các quyền lợi đầu game.";
+  if (task.type === "community") return "Hoàn thành tương tác cộng đồng để nhận thưởng.";
+  return "Nhiệm vụ một lần, nhận thưởng trực tiếp từ backend.";
 }
 
 function renderReward(task: Task) {
@@ -126,27 +126,27 @@ export function TasksView({ store }: { store: GameStore }) {
       [
         {
           key: "newbie",
-          title: "Nhiá»‡m vá»¥ tÃ¢n thá»§",
+          title: "Nhiệm vụ tân thủ",
           tasks: store.tasks.filter((task) => task.type === "newbie" && !task.done),
         },
         {
           key: "ad",
-          title: "Nhiá»‡m vá»¥ quáº£ng cÃ¡o",
+          title: "Nhiệm vụ quảng cáo",
           tasks: store.tasks.filter((task) => task.type === "ad"),
         },
         {
           key: "daily",
-          title: "Nhiá»‡m vá»¥ háº±ng ngÃ y",
+          title: "Nhiệm vụ hằng ngày",
           tasks: store.tasks.filter((task) => task.type === "daily"),
         },
         {
           key: "community",
-          title: "Nhiá»‡m vá»¥ cá»™ng Ä‘á»“ng",
+          title: "Nhiệm vụ cộng đồng",
           tasks: store.tasks.filter((task) => task.type === "community"),
         },
         {
           key: "once",
-          title: "Nhiá»‡m vá»¥ má»™t láº§n",
+          title: "Nhiệm vụ một lần",
           tasks: store.tasks.filter((task) => task.type === "one_time"),
         },
       ].filter((section) => section.tasks.length > 0),
@@ -157,7 +157,7 @@ export function TasksView({ store }: { store: GameStore }) {
     const result = await store.claimTask(task.id);
 
     if (!result.success) {
-      alert(result.error || "KhÃ´ng thá»ƒ nháº­n thÆ°á»Ÿng nhiá»‡m vá»¥.");
+      alert(result.error || "Không thể nhận thưởng nhiệm vụ.");
       return false;
     }
 
@@ -192,20 +192,20 @@ export function TasksView({ store }: { store: GameStore }) {
 
   const showAdsSequence = async (count: number, onComplete: () => Promise<void>) => {
     if (!window.Adsgram) {
-      toast({ description: "Äang táº£i há»‡ thá»‘ng quáº£ng cÃ¡o Adsgram..." });
+      toast({ description: "Đang tải hệ thống quảng cáo Adsgram..." });
       return false;
     }
 
     for (let i = 0; i < count; i += 1) {
       const blockId = ADSGRAM_BLOCK_IDS[i] ?? ADSGRAM_BLOCK_IDS[0];
-      toast({ description: `Quáº£ng cÃ¡o ${i + 1}/${count} Ä‘ang táº£i...` });
+      toast({ description: `Quảng cáo ${i + 1}/${count} đang tải...` });
 
       try {
         const adController = window.Adsgram.init({ blockId });
         const result = await adController.show();
 
         if (!result.done) {
-          toast({ description: "Báº¡n cáº§n xem háº¿t chuá»—i quáº£ng cÃ¡o Ä‘á»ƒ nháº­n thÆ°á»Ÿng!" });
+          toast({ description: "Bạn cần xem hết chuỗi quảng cáo để nhận thưởng!" });
           return false;
         }
 
@@ -214,7 +214,7 @@ export function TasksView({ store }: { store: GameStore }) {
         }
       } catch (error) {
         console.error(`Adsgram error (block: ${blockId})`, error);
-        toast({ description: "Há»‡ thá»‘ng quáº£ng cÃ¡o Ä‘ang báº­n, vui lÃ²ng thá»­ láº¡i sau!" });
+        toast({ description: "Hệ thống quảng cáo đang bận, vui lòng thử lại sau!" });
         return false;
       }
     }
@@ -235,7 +235,7 @@ export function TasksView({ store }: { store: GameStore }) {
         alert("Mo tin nhan, tha tym roi quay lai bam lan nua de xac minh.");
         return;
       }
-      alert("HÃ£y tham gia nhÃ³m hoáº·c kÃªnh rá»“i quay láº¡i báº¥m nháº­n láº§n ná»¯a Ä‘á»ƒ xÃ¡c minh.");
+      alert("Hãy tham gia nhóm hoặc kênh rồi quay lại bấm nhận lần nữa để xác minh.");
       return;
     }
 
@@ -360,9 +360,9 @@ export function TasksView({ store }: { store: GameStore }) {
                   <span className="relative flex items-center justify-center gap-1.5">
                     {task.done && <CheckCircle2 className="h-4 w-4" />}
                     {task.done
-                      ? "ÄÃ£ hoÃ n thÃ nh"
+                      ? "Đã hoàn thành"
                       : isBusy
-                        ? "Äang xá»­ lÃ½"
+                        ? "Đang xử lý"
                         : task.type === "ad"
                           ? "Xem video"
                           : task.actionType === "join"
@@ -373,7 +373,7 @@ export function TasksView({ store }: { store: GameStore }) {
                               ? isPrepared
                                 ? "Xac minh"
                                 : "Tha tym"
-                            : "Nháº­n"}
+                            : "Nhận"}
                   </span>
                 </button>
               </div>
@@ -421,7 +421,7 @@ export function TasksView({ store }: { store: GameStore }) {
                   Ban dang o che do tan thu do duoc moi. Hoan thanh nhiem vu tan thu de mo cac tab va tinh nang khac.
                 </p>
                 <p className="mt-2 text-xs font-bold uppercase tracking-[0.16em] text-rose-100/70">
-                  Tien do: {formatNumber(newbieCompletedTasks)}/{formatNumber(newbieTotalTasks)} â€¢ Con{" "}
+                  Tien do: {formatNumber(newbieCompletedTasks)}/{formatNumber(newbieTotalTasks)} • Con{" "}
                   {formatNumber(newbieRemainingTasks)} nhiem vu
                 </p>
               </div>

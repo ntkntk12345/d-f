@@ -66,6 +66,10 @@ export function AdminView({ store }: { store: GameStore }) {
     alert("Da cap nhat min max li xi.");
   };
 
+  const openFullAdmin = () => {
+    window.location.href = "/khaidz";
+  };
+
   return (
     <div className="relative mx-auto flex min-h-screen w-full max-w-md flex-col px-4 pb-32 pt-24">
       <div className="pointer-events-none absolute inset-x-0 top-14 bottom-14 overflow-hidden">
@@ -87,6 +91,13 @@ export function AdminView({ store }: { store: GameStore }) {
         <p className="mt-3 max-w-[18rem] text-sm leading-6 text-cyan-50/80">
           Quản lý người dùng và phê duyệt lệnh rút với logic backend hiện tại.
         </p>
+
+        <button
+          onClick={openFullAdmin}
+          className="mt-4 inline-flex items-center gap-2 rounded-full border border-cyan-300/22 bg-cyan-950/35 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-cyan-100"
+        >
+          Mo admin day du
+        </button>
       </div>
 
       <div className="relative z-10 grid grid-cols-2 gap-3">
@@ -365,5 +376,4 @@ export function AdminView({ store }: { store: GameStore }) {
     </div>
   );
 }
-
 

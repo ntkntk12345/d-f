@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import type { GameStore, LevelInfo } from "@/hooks/use-game-store";
 import { cn, formatNumber } from "@/lib/utils";
 import {
@@ -96,11 +96,11 @@ export function ShopView({ store }: { store: GameStore }) {
       <div className="relative z-10 mb-8 px-1">
         <div className="inline-flex items-center gap-2 rounded-full border border-yellow-500/20 bg-[#2e1b08]/55 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.32em] text-yellow-100/75 shadow-[inset_0_1px_0_rgba(255,231,173,0.1)]">
           <Pickaxe className="h-3.5 w-3.5 text-yellow-400" />
-          XÆ°á»Ÿng nÃ¢ng cáº¥p
+          Xưởng nâng cấp
         </div>
 
         <h1 className="mt-4 bg-[linear-gradient(180deg,#fff7d0_0%,#ffd970_42%,#ae6309_100%)] bg-clip-text text-[2.1rem] font-black uppercase leading-none text-transparent">
-          NÃ¢ng cáº¥p má»
+          Nâng cấp mỏ
         </h1>
 
         <p className="mt-3 max-w-[18rem] text-sm leading-6 text-yellow-100/80">
@@ -111,7 +111,7 @@ export function ShopView({ store }: { store: GameStore }) {
       <div className="relative z-10 mb-7 grid grid-cols-2 gap-3">
         <div className="rounded-[26px] border border-yellow-500/25 bg-[radial-gradient(circle_at_top,rgba(255,216,118,0.16),transparent_45%),linear-gradient(180deg,rgba(73,43,10,0.9)_0%,rgba(37,21,7,0.96)_100%)] px-4 py-4 shadow-[0_16px_34px_rgba(0,0,0,0.26)]">
           <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-yellow-100/55">
-            Má» hiá»‡n táº¡i
+            Mỏ hiện tại
           </span>
           <div className="mt-2 text-lg font-black text-[#fff3d4]">{currentLevel.name}</div>
           <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-yellow-300/15 bg-yellow-100/8 px-3 py-1 text-sm font-bold text-yellow-200">
@@ -122,10 +122,10 @@ export function ShopView({ store }: { store: GameStore }) {
 
         <div className="rounded-[26px] border border-cyan-400/20 bg-[radial-gradient(circle_at_top,rgba(102,220,255,0.12),transparent_46%),linear-gradient(180deg,rgba(18,56,64,0.88)_0%,rgba(8,28,34,0.96)_100%)] px-4 py-4 shadow-[0_16px_34px_rgba(0,0,0,0.26)]">
           <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-cyan-100/55">
-            Má»‘c káº¿ tiáº¿p
+            Mốc kế tiếp
           </span>
           <div className="mt-2 text-lg font-black text-cyan-50">
-            {nextLevel ? nextLevel.name : "ÄÃ£ tá»‘i Ä‘a"}
+            {nextLevel ? nextLevel.name : "Đã tối đa"}
           </div>
           <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-cyan-300/15 bg-cyan-100/8 px-3 py-1 text-sm font-bold text-cyan-100">
             <Wallet className="h-3.5 w-3.5" />
@@ -169,14 +169,14 @@ export function ShopView({ store }: { store: GameStore }) {
                       <div>
                         <div className="text-base font-extrabold text-[#fff3d4]">{level.name}</div>
                         <div className="mt-1 text-xs font-bold uppercase tracking-[0.22em] text-yellow-100/45">
-                          Báº­c {level.level}
+                          Bậc {level.level}
                         </div>
                       </div>
 
                       {state === "current" && (
                         <div className="inline-flex items-center gap-1 rounded-full border border-yellow-200/20 bg-yellow-100/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.2em] text-yellow-100">
                           <Crown className="h-3.5 w-3.5" />
-                          Hiá»‡n táº¡i
+                          Hiện tại
                         </div>
                       )}
                     </div>
@@ -203,34 +203,34 @@ export function ShopView({ store }: { store: GameStore }) {
                 <div className="mt-4 flex items-center justify-between gap-3 rounded-[22px] border border-yellow-400/10 bg-black/16 px-4 py-3">
                   <div>
                     <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-yellow-100/45">
-                      Tráº¡ng thÃ¡i
+                      Trạng thái
                     </div>
                     <div className="mt-1 text-sm font-bold text-yellow-50/90">
-                      {state === "current" && "Äang khai thÃ¡c"}
-                      {state === "next" && "CÃ³ thá»ƒ má»Ÿ khÃ³a ngay"}
-                      {state === "unlocked" && "ÄÃ£ má»Ÿ trÆ°á»›c Ä‘Ã³"}
-                      {state === "locked" && "ChÆ°a tá»›i cáº¥p nÃ y"}
+                      {state === "current" && "Đang khai thác"}
+                      {state === "next" && "Có thể mở khóa ngay"}
+                      {state === "unlocked" && "Đã mở trước đó"}
+                      {state === "locked" && "Chưa tới cấp này"}
                     </div>
                   </div>
 
                   {state === "current" && (
                     <div className="inline-flex items-center gap-2 rounded-full border border-yellow-300/20 bg-yellow-100/8 px-4 py-2 text-sm font-bold text-yellow-100">
                       <CheckCircle2 className="h-4 w-4" />
-                      Äang dÃ¹ng
+                      Đang dùng
                     </div>
                   )}
 
                   {state === "unlocked" && (
                     <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-100/8 px-4 py-2 text-sm font-bold text-emerald-100">
                       <CheckCircle2 className="h-4 w-4" />
-                      ÄÃ£ má»Ÿ
+                      Đã mở
                     </div>
                   )}
 
                   {state === "locked" && (
                     <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-bold text-white/55">
                       <Lock className="h-4 w-4" />
-                      KhÃ³a
+                      Khóa
                     </div>
                   )}
 
@@ -258,7 +258,7 @@ export function ShopView({ store }: { store: GameStore }) {
       <div className="relative z-10 mt-7 rounded-[28px] border border-yellow-500/20 bg-[linear-gradient(180deg,rgba(70,41,10,0.78)_0%,rgba(35,20,7,0.94)_100%)] px-4 py-4 shadow-[0_16px_34px_rgba(0,0,0,0.26)]">
         <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-yellow-100/55">
           <Sparkles className="h-4 w-4 text-yellow-400" />
-          Máº¹o nÃ¢ng cáº¥p
+          Mẹo nâng cấp
         </div>
         <p className="mt-3 text-sm leading-6 text-yellow-100/76">
           Admin co the set daily cap theo tung level. Nang cap bang $ se mo cap cao hon va tang tong vang toi da moi ngay.

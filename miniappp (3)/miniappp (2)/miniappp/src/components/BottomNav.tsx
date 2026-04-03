@@ -1,4 +1,4 @@
-﻿import {
+import {
   CheckSquare,
   Coins,
   Pickaxe,
@@ -17,15 +17,15 @@ interface BottomNavProps {
 }
 
 const LEFT_TABS = [
-  { id: "shop", icon: Pickaxe, label: "NÃ¢ng Cáº¥p" },
-  { id: "tasks", icon: CheckSquare, label: "Nhiá»‡m Vá»¥" },
-  { id: "friends", icon: Users, label: "Báº¡n BÃ¨" },
+  { id: "shop", icon: Pickaxe, label: "Nâng Cấp" },
+  { id: "tasks", icon: CheckSquare, label: "Nhiệm Vụ" },
+  { id: "friends", icon: Users, label: "Bạn Bè" },
 ] as const;
 
 const RIGHT_TABS = [
-  { id: "lucky", icon: Sparkles, label: "Váº­n May" },
+  { id: "lucky", icon: Sparkles, label: "Vận May" },
   { id: "giftcode", icon: Sparkles, label: "Giftcode" },
-  { id: "withdraw", icon: Wallet, label: "RÃºt Tiá»n" },
+  { id: "withdraw", icon: Wallet, label: "Rút Tiền" },
 ] as const;
 
 export function BottomNav({ currentPage, onChange, isAdmin = false }: BottomNavProps) {
@@ -115,8 +115,8 @@ export function BottomNav({ currentPage, onChange, isAdmin = false }: BottomNavP
           >
             <div className="pointer-events-none absolute inset-[0.28rem] rounded-full border border-white/18" />
             <Coins className="h-6 w-6 drop-shadow-[0_3px_10px_rgba(0,0,0,0.24)]" />
-            <span className="mt-1 text-[10px] font-black uppercase tracking-[0.16em]">ÄÃ o</span>
-            <span className="text-[10px] font-black uppercase tracking-[0.16em]">VÃ ng</span>
+            <span className="mt-1 text-[10px] font-black uppercase tracking-[0.16em]">Đào</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.16em]">Vàng</span>
           </button>
         </div>
       </div>

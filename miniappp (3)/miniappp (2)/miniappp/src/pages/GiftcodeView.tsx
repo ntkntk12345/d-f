@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import type { GameStore } from "@/hooks/use-game-store";
 import { cn, formatNumber } from "@/lib/utils";
 import { ArrowLeft, Gift, Sparkles, TicketPercent } from "lucide-react";
@@ -23,13 +23,13 @@ export function GiftcodeView({ store }: { store: GameStore }) {
     if (result.success === false) {
       setNotice({
         type: "error",
-        text: result.error || "Giftcode khÃ´ng há»£p lá»‡ hoáº·c Ä‘Ã£ háº¿t háº¡n.",
+        text: result.error || "Giftcode không hợp lệ hoặc đã hết hạn.",
       });
       return;
     }
 
     const rewardText = [
-      result.rewardGold ? `+${formatNumber(result.rewardGold)} vÃ ng` : "",
+      result.rewardGold ? `+${formatNumber(result.rewardGold)} vàng` : "",
       result.rewardUsd ? `+$${result.rewardUsd.toFixed(6)}` : "",
     ]
       .filter(Boolean)
@@ -37,7 +37,7 @@ export function GiftcodeView({ store }: { store: GameStore }) {
 
     setNotice({
       type: "success",
-      text: rewardText ? `Nháº­n thÆ°á»Ÿng thÃ nh cÃ´ng: ${rewardText}` : "Äá»•i giftcode thÃ nh cÃ´ng.",
+      text: rewardText ? `Nhận thưởng thành công: ${rewardText}` : "Đổi giftcode thành công.",
     });
     setGiftCode("");
   };
@@ -86,9 +86,9 @@ export function GiftcodeView({ store }: { store: GameStore }) {
             </div>
 
             <div className="min-w-0 flex-1">
-              <div className="text-base font-extrabold text-[#fff3d4]">Nháº­p giftcode</div>
+              <div className="text-base font-extrabold text-[#fff3d4]">Nhập giftcode</div>
               <div className="mt-1 text-sm text-yellow-100/70">
-                Má»—i mÃ£ sáº½ Ä‘Æ°á»£c backend xÃ¡c minh vÃ  cá»™ng thÆ°á»Ÿng ngay vÃ o tÃ i khoáº£n.
+                Mỗi mã sẽ được backend xác minh và cộng thưởng ngay vào tài khoản.
               </div>
             </div>
           </div>
@@ -97,7 +97,7 @@ export function GiftcodeView({ store }: { store: GameStore }) {
             <Gift className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-fuchsia-200" />
             <input
               type="text"
-              placeholder="Nháº­p giftcode..."
+              placeholder="Nhập giftcode..."
               value={giftCode}
               onChange={(event) => {
                 setGiftCode(event.target.value.toUpperCase());
@@ -114,7 +114,7 @@ export function GiftcodeView({ store }: { store: GameStore }) {
           >
             <span className="flex items-center justify-center gap-2">
               <Gift className="h-5 w-5" />
-              {isSubmitting ? "Äang kiá»ƒm tra" : "Nháº­n quÃ  ngay"}
+              {isSubmitting ? "Đang kiểm tra" : "Nhận quà ngay"}
             </span>
           </button>
 
@@ -136,13 +136,13 @@ export function GiftcodeView({ store }: { store: GameStore }) {
       <div className="relative z-10 mt-7 rounded-[28px] border border-yellow-500/20 bg-[linear-gradient(180deg,rgba(70,41,10,0.78)_0%,rgba(35,20,7,0.94)_100%)] px-4 py-4 shadow-[0_16px_34px_rgba(0,0,0,0.26)]">
         <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-yellow-100/55">
           <Sparkles className="h-4 w-4 text-yellow-400" />
-          LÆ°u Ã½
+          Lưu ý
         </div>
         <div className="mt-4 space-y-3">
           {[
-            "Má»—i giftcode chá»‰ dÃ¹ng Ä‘Æ°á»£c má»™t láº§n trÃªn tÃ i khoáº£n hiá»‡n táº¡i.",
-            "Pháº§n thÆ°á»Ÿng sáº½ cá»™ng trá»±c tiáº¿p theo pháº£n há»“i backend.",
-            "Náº¿u má»Ÿ ngoÃ i Telegram vÃ  thiáº¿u xÃ¡c thá»±c, backend cÃ³ thá»ƒ tá»« chá»‘i xá»­ lÃ½.",
+            "Mỗi giftcode chỉ dùng được một lần trên tài khoản hiện tại.",
+            "Phần thưởng sẽ cộng trực tiếp theo phản hồi backend.",
+            "Nếu mở ngoài Telegram và thiếu xác thực, backend có thể từ chối xử lý.",
           ].map((tip) => (
             <div
               key={tip}

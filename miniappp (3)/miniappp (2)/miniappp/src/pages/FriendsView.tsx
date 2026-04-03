@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import type { GameStore } from "@/hooks/use-game-store";
 import { formatNumber } from "@/lib/utils";
 import { Award, Copy, Share2, Sparkles, UserPlus, Users } from "lucide-react";
@@ -24,12 +24,12 @@ export function FriendsView({ store }: { store: GameStore }) {
       window.setTimeout(() => setCopied(false), 1800);
       return;
     }
-    window.alert("KhÃ´ng thá»ƒ sao chÃ©p liÃªn káº¿t lÃºc nÃ y.");
+    window.alert("Không thể sao chép liên kết lúc này.");
   };
 
   const handleShare = () => {
     if (!store.inviteLink) {
-      window.alert("ChÆ°a cÃ³ link má»i. HÃ£y má»Ÿ app trong Telegram.");
+      window.alert("Chưa có link mời. Hãy mở app trong Telegram.");
       return;
     }
 
@@ -47,21 +47,21 @@ export function FriendsView({ store }: { store: GameStore }) {
       <div className="relative z-10 mb-8 px-1">
         <div className="inline-flex items-center gap-2 rounded-full border border-yellow-500/20 bg-[#2e1b08]/55 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.32em] text-yellow-100/75 shadow-[inset_0_1px_0_rgba(255,231,173,0.1)]">
           <Users className="h-3.5 w-3.5 text-yellow-400" />
-          Khu má»i báº¡n
+          Khu mời bạn
         </div>
 
         <h1 className="mt-4 bg-[linear-gradient(180deg,#fff7d0_0%,#ffd970_42%,#ae6309_100%)] bg-clip-text text-[2.1rem] font-black uppercase leading-none text-transparent">
-          Báº¡n bÃ¨
+          Bạn bè
         </h1>
 
         <p className="mt-3 max-w-[18rem] text-sm leading-6 text-yellow-100/80">
-          Má»i ngÆ°á»i chÆ¡i má»›i tham gia. ThÆ°á»Ÿng referral chá»‰ má»Ÿ khi ngÆ°á»i Ä‘Æ°á»£c má»i hoÃ n táº¥t toÃ n bá»™ nhiá»‡m vá»¥ tÃ¢n thá»§.
+          Mời người chơi mới tham gia. Thưởng referral chỉ mở khi người được mời hoàn tất toàn bộ nhiệm vụ tân thủ.
         </p>
         <div className="mt-3 rounded-2xl border border-cyan-200/20 bg-cyan-950/28 px-3 py-3 text-xs leading-5 text-cyan-100/90">
-          Äiá»u kiá»‡n tÃ­nh 1 lÆ°á»£t má»i:
-          <br />1. NgÆ°á»i Ä‘Æ°á»£c má»i vÃ o app báº±ng link cá»§a báº¡n.
-          <br />2. HoÃ n thÃ nh Ä‘á»§ 100% nhiá»‡m vá»¥ loáº¡i <span className="font-black">newbie/tÃ¢n thá»§</span>.
-          <br />3. Sau khi hoÃ n thÃ nh, há»‡ thá»‘ng má»›i cá»™ng thÆ°á»Ÿng vÃ o vÃ­ $ cá»§a ngÆ°á»i má»i.
+          Điều kiện tính 1 lượt mời:
+          <br />1. Người được mời vào app bằng link của bạn.
+          <br />2. Hoàn thành đủ 100% nhiệm vụ loại <span className="font-black">newbie/tân thủ</span>.
+          <br />3. Sau khi hoàn thành, hệ thống mới cộng thưởng vào ví $ của người mời.
         </div>
       </div>
 
@@ -76,7 +76,7 @@ export function FriendsView({ store }: { store: GameStore }) {
             </div>
 
             <div className="min-w-0 flex-1">
-              <div className="text-base font-extrabold text-[#fff3d4]">Má»—i lÆ°á»£t má»i thÃ nh cÃ´ng</div>
+              <div className="text-base font-extrabold text-[#fff3d4]">Mỗi lượt mời thành công</div>
               <div className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-yellow-300/15 bg-yellow-100/8 px-3 py-1 text-sm font-black text-yellow-100">
                 <Sparkles className="h-3.5 w-3.5 text-yellow-400" />
                 +${formatUsdt(perInviteUsdt)}
@@ -88,7 +88,7 @@ export function FriendsView({ store }: { store: GameStore }) {
             <div className="rounded-[22px] border border-yellow-400/12 bg-black/18 px-4 py-4 text-center">
               <UserPlus className="mx-auto h-5 w-5 text-yellow-300" />
               <div className="mt-2 text-[10px] font-bold uppercase tracking-[0.26em] text-yellow-100/50">
-                ÄÃ£ má»i
+                Đã mời
               </div>
               <div className="mt-1 text-2xl font-black text-[#fff3d4]">{invitedCount}</div>
             </div>
@@ -96,7 +96,7 @@ export function FriendsView({ store }: { store: GameStore }) {
             <div className="rounded-[22px] border border-emerald-300/12 bg-black/18 px-4 py-4 text-center">
               <Award className="mx-auto h-5 w-5 text-emerald-300" />
               <div className="mt-2 text-[10px] font-bold uppercase tracking-[0.26em] text-yellow-100/50">
-                Tá»•ng thÆ°á»Ÿng
+                Tổng thưởng
               </div>
               <div className="mt-1 text-xl font-black text-emerald-200">
                 +${formatUsdt(totalUsdtBonus)}
@@ -106,17 +106,17 @@ export function FriendsView({ store }: { store: GameStore }) {
 
           <div className="mt-5 rounded-[24px] border border-yellow-300/12 bg-black/20 p-3">
             <div className="text-[10px] font-bold uppercase tracking-[0.26em] text-yellow-100/50">
-              LiÃªn káº¿t giá»›i thiá»‡u
+              Liên kết giới thiệu
             </div>
 
             <div className="mt-3 flex items-center gap-2 rounded-[18px] border border-yellow-200/10 bg-[#170d05]/70 px-3 py-3">
               <span className="min-w-0 flex-1 truncate font-mono text-sm text-yellow-100/80">
-                {store.inviteLink || "ChÆ°a cÃ³ liÃªn káº¿t, hÃ£y má»Ÿ app trong Telegram"}
+                {store.inviteLink || "Chưa có liên kết, hãy mở app trong Telegram"}
               </span>
               <button
                 onClick={() => void handleCopy()}
                 className="flex h-11 w-11 items-center justify-center rounded-[14px] border border-yellow-200/10 bg-white/6 text-yellow-100 transition-colors hover:bg-white/12"
-                aria-label="Sao chÃ©p liÃªn káº¿t"
+                aria-label="Sao chép liên kết"
               >
                 <Copy className="h-4.5 w-4.5" />
               </button>
@@ -124,7 +124,7 @@ export function FriendsView({ store }: { store: GameStore }) {
 
             <div className="mt-3 flex items-center justify-between gap-3">
               <span className="text-xs font-bold text-emerald-200/90">
-                {copied ? "ÄÃ£ sao chÃ©p liÃªn káº¿t" : "Chia sáº» Ä‘á»ƒ nháº­n thÃªm lÆ°á»£t má»i"}
+                {copied ? "Đã sao chép liên kết" : "Chia sẻ để nhận thêm lượt mời"}
               </span>
               <button
                 onClick={handleShare}
@@ -133,7 +133,7 @@ export function FriendsView({ store }: { store: GameStore }) {
               >
                 <span className="flex items-center justify-center gap-2">
                   <Share2 className="h-4.5 w-4.5" />
-                  Má»i ngay
+                  Mời ngay
                 </span>
               </button>
             </div>
@@ -145,7 +145,7 @@ export function FriendsView({ store }: { store: GameStore }) {
         <div className="flex items-center gap-2 px-1">
           <Sparkles className="h-4 w-4 text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.45)]" />
           <h2 className="bg-[linear-gradient(180deg,#fff4c7_0%,#f7c23e_46%,#a25908_100%)] bg-clip-text text-[1.15rem] font-black uppercase tracking-[0.16em] text-transparent">
-            Danh sÃ¡ch báº¡n bÃ¨
+            Danh sách bạn bè
           </h2>
           <div className="h-px flex-1 bg-gradient-to-r from-yellow-400/45 via-yellow-500/15 to-transparent" />
         </div>
@@ -155,7 +155,7 @@ export function FriendsView({ store }: { store: GameStore }) {
             {store.referrals.map((friend, index) => {
               const joined = new Date(friend.createdAt);
               const joinedText = Number.isNaN(joined.getTime())
-                ? "KhÃ´ng rÃµ thá»i gian"
+                ? "Không rõ thời gian"
                 : joined.toLocaleString("vi-VN");
 
               return (
@@ -188,13 +188,13 @@ export function FriendsView({ store }: { store: GameStore }) {
                         >
                           {friend.status === "rewarded"
                             ? `+$${formatUsdt(friend.usdtReward)}`
-                            : "Chá» hoÃ n táº¥t tÃ¢n thá»§"}
+                            : "Chờ hoàn tất tân thủ"}
                         </div>
                       </div>
 
                       <div className="mt-3 flex flex-wrap items-center gap-2">
                         <div className="inline-flex items-center gap-2 rounded-full border border-white/8 bg-white/5 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-white/65">
-                          Báº¡n má»i #{index + 1}
+                          Bạn mời #{index + 1}
                         </div>
                         <div
                           className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] ${
@@ -203,7 +203,7 @@ export function FriendsView({ store }: { store: GameStore }) {
                               : "border-cyan-200/18 bg-cyan-400/10 text-cyan-100"
                           }`}
                         >
-                          {friend.status === "rewarded" ? "ÄÃ£ má»Ÿ thÆ°á»Ÿng" : "Äang lÃ m tÃ¢n thá»§"}
+                          {friend.status === "rewarded" ? "Đã mở thưởng" : "Đang làm tân thủ"}
                         </div>
                       </div>
                     </div>
@@ -216,7 +216,7 @@ export function FriendsView({ store }: { store: GameStore }) {
           <div className="rounded-[28px] border border-yellow-500/20 bg-[linear-gradient(180deg,rgba(70,41,10,0.78)_0%,rgba(35,20,7,0.94)_100%)] px-4 py-8 text-center shadow-[0_16px_34px_rgba(0,0,0,0.26)]">
             <Users className="mx-auto h-10 w-10 text-yellow-100/25" />
             <p className="mt-3 text-sm leading-6 text-yellow-100/55">
-              ChÆ°a cÃ³ báº¡n bÃ¨ nÃ o tham gia. HÃ£y gá»­i link má»i Ä‘á»ƒ báº¯t Ä‘áº§u nháº­n thÆ°á»Ÿng.
+              Chưa có bạn bè nào tham gia. Hãy gửi link mời để bắt đầu nhận thưởng.
             </p>
           </div>
         )}

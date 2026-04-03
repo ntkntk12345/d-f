@@ -1,4 +1,4 @@
-﻿import express from 'express';
+import express from 'express';
 import cors from 'cors';
 import mysql from 'mysql2/promise';
 import path from 'path';
@@ -30,7 +30,7 @@ const DEFAULT_USD_TO_VND_RATE_K = (() => {
     const raw = Number(process.env.USD_TO_VND_RATE_K || process.env.USDT_VND_RATE_K || 28);
     return Number.isFinite(raw) && raw > 0 ? raw : 28;
 })();
-const HEART_REACTIONS = new Set(['Ã¢ÂÂ¤', 'Ã¢ÂÂ¤Ã¯Â¸Â', 'Ã¢â„¢Â¥', 'Ã¢â„¢Â¥Ã¯Â¸Â']);
+const HEART_REACTIONS = new Set(['❤', '❤️', '♥', '♥️']);
 
 
 function verifyTelegramInitData(initData) {
@@ -58,19 +58,19 @@ function verifyTelegramInitData(initData) {
 const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ error: 'ThiÃ¡ÂºÂ¿u thÃƒÂ´ng tin xÃƒÂ¡c thÃ¡Â»Â±c' });
+        return res.status(401).json({ error: 'Thiếu thông tin xác thực' });
     }
 
     const initData = authHeader.split(' ')[1];
 
     if (!verifyTelegramInitData(initData)) {
-        return res.status(403).json({ error: 'ThÃƒÂ´ng tin xÃƒÂ¡c thÃ¡Â»Â±c khÃƒÂ´ng hÃ¡Â»Â£p lÃ¡Â»â€¡' });
+        return res.status(403).json({ error: 'Thông tin xác thực không hợp lệ' });
     }
 
     try {
         const urlParams = new URLSearchParams(initData);
         const userStr = urlParams.get('user');
-        if (!userStr) return res.status(400).json({ error: 'DÃ¡Â»Â¯ liÃ¡Â»â€¡u ngÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng khÃƒÂ´ng hÃ¡Â»Â£p lÃ¡Â»â€¡' });
+        if (!userStr) return res.status(400).json({ error: 'Dữ liệu người dùng không hợp lệ' });
         req.user = JSON.parse(userStr);
 
         // Extract referral from start_param if exists
@@ -79,7 +79,7 @@ const authMiddleware = (req, res, next) => {
 
         next();
     } catch (e) {
-        res.status(400).json({ error: 'LÃ¡Â»â€”i Ã„â€˜Ã¡Â»â€¹nh dÃ¡ÂºÂ¡ng dÃ¡Â»Â¯ liÃ¡Â»â€¡u ngÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng' });
+        res.status(400).json({ error: 'Lỗi định dạng dữ liệu người dùng' });
     }
 };
 
@@ -163,7 +163,7 @@ const adminMiddleware = (req, res, next) => {
 
     authMiddleware(req, res, () => {
         if (String(req.user.id) !== ADMIN_ID) {
-            return res.status(403).json({ error: 'Truy cÃ¡ÂºÂ­p bÃ¡Â»â€¹ tÃ¡Â»Â« chÃ¡Â»â€˜i: KhÃƒÂ´ng phÃ¡ÂºÂ£i admin' });
+            return res.status(403).json({ error: 'Truy cập bị từ chối: Không phải admin' });
         }
         next();
     });
@@ -204,13 +204,13 @@ const DEFAULT_LIXI_CONFIG = Object.freeze({
 });
 
 async function initDB() {
-    console.log("Ã°Å¸â€ºÂ Ã¯Â¸Â Initializing Database...");
+    console.log("🛠️ Initializing Database...");
     try {
         pool = mysql.createPool(dbConfig);
-        console.log("Ã°Å¸â€œÂ¡ Connection pool created.");
+        console.log("📡 Connection pool created.");
 
         const connection = await pool.getConnection();
-        console.log("Ã°Å¸â€Å’ Database connected successfully.");
+        console.log("🔌 Database connected successfully.");
 
         // Helper to run ALTER commands silently (ignore errors if already applied)
         const safeAlter = async (sql) => {
@@ -336,7 +336,7 @@ async function initDB() {
                 bankName VARCHAR(255),
                 accountNumber VARCHAR(255),
                 accountName VARCHAR(255),
-                status VARCHAR(50) DEFAULT 'Ã„Âang xÃ¡Â»Â­ lÃƒÂ½',
+                status VARCHAR(50) DEFAULT 'Đang xử lý',
                 qrUrl TEXT,
                 createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
@@ -688,7 +688,7 @@ async function initDB() {
         // Populate Default Levels if empty or incomplete
         const [levs] = await connection.query("SELECT COUNT(*) as count FROM level_settings");
         if (levs[0].count < 100) {
-            console.log(`Ã°Å¸â€œÂ¦ Populating default level settings (Current count: ${levs[0].count})...`);
+            console.log(`📦 Populating default level settings (Current count: ${levs[0].count})...`);
             for (let i = 1; i <= 100; i++) {
                 const dailyGoldCap = DEFAULT_DAILY_GOLD_CAP;
                 const rate = dailyGoldCap / 86400;
@@ -699,23 +699,23 @@ async function initDB() {
                     [i, rate, dailyGoldCap, cost, rate, dailyGoldCap, cost]
                 );
             }
-            console.log("Ã¢Å“â€¦ Level settings updated.");
+            console.log("✅ Level settings updated.");
         }
 
         // Populate Default Tasks if empty
         const [task_count] = await connection.query("SELECT COUNT(*) as count FROM tasks");
         if (task_count[0].count === 0) {
-            console.log("Ã°Å¸â€œÂ¦ Populating default tasks...");
+            console.log("📦 Populating default tasks...");
             // JOIN TASK Example (Uses verification)
-            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type, actionType, telegramChatId) VALUES ('tg_join', 'Tham Gia Channel', 'Ã°Å¸â€œÂ¢', 'gold', 10000, 'https://t.me/GomXuDaoVang', 'community', 'join', '-1002360813959')");
+            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type, actionType, telegramChatId) VALUES ('tg_join', 'Tham Gia Channel', '📢', 'gold', 10000, 'https://t.me/GomXuDaoVang', 'community', 'join', '-1002360813959')");
 
             // CLICK TASK Example (Just click to reward)
-            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type, actionType) VALUES ('tg_group', 'NhÃƒÂ³m ThÃ¡ÂºÂ£o LuÃ¡ÂºÂ­n', 'Ã°Å¸â€™Â¬', 'gold', 10000, 'https://t.me/GomXuDaoVangGroup', 'community', 'click')");
+            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type, actionType) VALUES ('tg_group', 'Nhóm Thảo Luận', '💬', 'gold', 10000, 'https://t.me/GomXuDaoVangGroup', 'community', 'click')");
 
             // AD TASKS
-            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type) VALUES ('daily_ad_gold', 'Xem QuÃ¡ÂºÂ£ng CÃƒÂ¡o VÃƒÂ ng', 'Ã°Å¸Å½Â¬', 'gold', 20000, null, 'ad')");
-            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type) VALUES ('daily_ad_bonus', 'Xem QuÃ¡ÂºÂ£ng CÃƒÂ¡o Bonus', 'Ã°Å¸â€™Å½', 'gold', 50, null, 'ad')");
-            console.log("Ã¢Å“â€¦ Default tasks added.");
+            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type) VALUES ('daily_ad_gold', 'Xem Quảng Cáo Vàng', '🎬', 'gold', 20000, null, 'ad')");
+            await connection.query("INSERT INTO tasks (id, title, icon, rewardType, rewardAmount, url, type) VALUES ('daily_ad_bonus', 'Xem Quảng Cáo Bonus', '💎', 'gold', 50, null, 'ad')");
+            console.log("✅ Default tasks added.");
         }
 
         // 11. Referrals Table (Moved earlier)
@@ -724,7 +724,7 @@ async function initDB() {
         // --- MIGRATION LOGIC ---
         const [cols] = await connection.query("SHOW COLUMNS FROM users LIKE 'withdrawHistory'");
         if (cols.length > 0) {
-            console.log("Ã°Å¸â€â€ž Migrating old withdrawal history...");
+            console.log("🔄 Migrating old withdrawal history...");
             const [oldUsers] = await connection.query("SELECT teleId, withdrawHistory FROM users WHERE withdrawHistory IS NOT NULL");
             for (const user of oldUsers) {
                 let history = [];
@@ -737,13 +737,13 @@ async function initDB() {
                         await connection.query(
                             `INSERT IGNORE INTO withdrawals (teleId, amount, vndAmount, bankBin, bankName, accountNumber, accountName, status, qrUrl, createdAt) 
                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-                            [user.teleId, w.gold || w.amount || 0, w.vnd || 0, w.bankBin || '', w.bankName || '', w.accountNumber || '', w.accountName || '', w.status || 'Ã„Âang xÃ¡Â»Â­ lÃƒÂ½', w.qrUrl || null, new Date(w.date || Date.now())]
+                            [user.teleId, w.gold || w.amount || 0, w.vnd || 0, w.bankBin || '', w.bankName || '', w.accountNumber || '', w.accountName || '', w.status || 'Đang xử lý', w.qrUrl || null, new Date(w.date || Date.now())]
                         );
                     }
                 }
             }
             await connection.query("ALTER TABLE users DROP COLUMN withdrawHistory");
-            console.log("Ã¢Å“â€¦ Migration complete.");
+            console.log("✅ Migration complete.");
         }
 
         await connection.query('UPDATE users SET diamonds = 0');
@@ -792,9 +792,9 @@ async function initDB() {
         `, [DEFAULT_DAILY_GOLD_CAP, DEFAULT_DAILY_GOLD_CAP]);
 
         connection.release();
-        console.log("Ã¢Å“â€¦ Database Setup Complete");
+        console.log("✅ Database Setup Complete");
     } catch (err) {
-        console.error("Ã¢ÂÅ’ MySQL Setup Failed:", err);
+        console.error("❌ MySQL Setup Failed:", err);
     }
 }
 
@@ -1331,12 +1331,12 @@ app.post('/api/lixi/watch-ad', authMiddleware, newbieTaskLockMiddleware, async (
 
         if (claimRows.length > 0) {
             await connection.commit();
-            return res.status(400).json({ error: 'BÃƒÂ¡Ã‚ÂºÃ‚Â¡n Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Â£ nhÃƒÂ¡Ã‚ÂºÃ‚Â­n lÃƒÆ’Ã‚Â¬ xÃƒÆ’Ã‚Â¬ ÃƒÂ¡Ã‚Â»Ã…Â¸ lÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£t nÃƒÆ’Ã‚Â y rÃƒÂ¡Ã‚Â»Ã¢â‚¬Å“i.', lixi: await getLixiInfoForUser(teleId) });
+            return res.status(400).json({ error: 'Bạn đã nhận lì xì ở lượt này rồi.', lixi: await getLixiInfoForUser(teleId) });
         }
 
         if (state.cooldownEndsAt || state.remainingClaims <= 0) {
             await connection.commit();
-            return res.status(400).json({ error: 'LÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£t lÃƒÆ’Ã‚Â¬ xÃƒÆ’Ã‚Â¬ Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Â£ hÃƒÂ¡Ã‚ÂºÃ‚Â¿t, vui lÃƒÆ’Ã‚Â²ng quay lÃƒÂ¡Ã‚ÂºÃ‚Â¡i sau.', lixi: await getLixiInfoForUser(teleId) });
+            return res.status(400).json({ error: 'Lượt lì xì đã hết, vui lòng quay lại sau.', lixi: await getLixiInfoForUser(teleId) });
         }
 
         const [progressRows] = await connection.query(
@@ -1405,7 +1405,7 @@ app.post('/api/lixi/claim', authMiddleware, newbieTaskLockMiddleware, async (req
         if (existingClaimRows.length > 0) {
             await connection.commit();
             return res.status(400).json({
-                error: 'BÃƒÂ¡Ã‚ÂºÃ‚Â¡n Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Â£ nhÃƒÂ¡Ã‚ÂºÃ‚Â­n lÃƒÆ’Ã‚Â¬ xÃƒÆ’Ã‚Â¬ ÃƒÂ¡Ã‚Â»Ã…Â¸ lÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£t nÃƒÆ’Ã‚Â y rÃƒÂ¡Ã‚Â»Ã¢â‚¬Å“i.',
+                error: 'Bạn đã nhận lì xì ở lượt này rồi.',
                 lixi: {
                     config,
                     state,
@@ -1422,7 +1422,7 @@ app.post('/api/lixi/claim', authMiddleware, newbieTaskLockMiddleware, async (req
         if (watchedAdViews < config.requiredAdViews) {
             await connection.commit();
             return res.status(400).json({
-                error: `BÃƒÂ¡Ã‚ÂºÃ‚Â¡n cÃƒÂ¡Ã‚ÂºÃ‚Â§n xem Ãƒâ€žÃ¢â‚¬ËœÃƒÂ¡Ã‚Â»Ã‚Â§ ${config.requiredAdViews} video mÃƒÂ¡Ã‚Â»Ã¢â‚¬Âºi nhÃƒÂ¡Ã‚ÂºÃ‚Â­n Ãƒâ€žÃ¢â‚¬ËœÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£c lÃƒÆ’Ã‚Â¬ xÃƒÆ’Ã‚Â¬.`,
+                error: `Bạn cần xem đủ ${config.requiredAdViews} video mới nhận được lì xì.`,
                 lixi: await getLixiInfoForUser(teleId),
             });
         }
@@ -1430,7 +1430,7 @@ app.post('/api/lixi/claim', authMiddleware, newbieTaskLockMiddleware, async (req
         if (state.cooldownEndsAt || state.remainingClaims <= 0) {
             await connection.commit();
             return res.status(400).json({
-                error: 'LÃƒâ€ Ã‚Â°ÃƒÂ¡Ã‚Â»Ã‚Â£t lÃƒÆ’Ã‚Â¬ xÃƒÆ’Ã‚Â¬ Ãƒâ€žÃ¢â‚¬ËœÃƒÆ’Ã‚Â£ hÃƒÂ¡Ã‚ÂºÃ‚Â¿t, vui lÃƒÆ’Ã‚Â²ng quay lÃƒÂ¡Ã‚ÂºÃ‚Â¡i sau.',
+                error: 'Lượt lì xì đã hết, vui lòng quay lại sau.',
                 lixi: {
                     config,
                     state,
@@ -1559,7 +1559,7 @@ app.post('/api/flappy/submit-score', authMiddleware, newbieTaskLockMiddleware, a
 app.post('/api/user/redeem', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
     const { code } = req.body;
     const teleId = req.user.id;
-    if (!code) return res.json({ success: false, message: 'Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p mÃƒÂ£!' });
+    if (!code) return res.json({ success: false, message: 'Vui lòng nhập mã!' });
 
     const cleanCode = code.toString().trim().toUpperCase();
 
@@ -1568,13 +1568,13 @@ app.post('/api/user/redeem', authMiddleware, newbieTaskLockMiddleware, async (re
         if (!user) return res.json({ success: false, message: 'User not found' });
 
         const [codes] = await pool.query('SELECT * FROM gift_codes WHERE code = ?', [cleanCode]);
-        if (codes.length === 0) return res.json({ success: false, message: 'MÃƒÂ£ khÃƒÂ´ng tÃ¡Â»â€œn tÃ¡ÂºÂ¡i!' });
+        if (codes.length === 0) return res.json({ success: false, message: 'Mã không tồn tại!' });
 
         const gift = codes[0];
-        if (gift.usedCount >= gift.maxUses) return res.json({ success: false, message: 'MÃƒÂ£ Ã„â€˜ÃƒÂ£ hÃ¡ÂºÂ¿t lÃ†Â°Ã¡Â»Â£t!' });
+        if (gift.usedCount >= gift.maxUses) return res.json({ success: false, message: 'Mã đã hết lượt!' });
 
         const [usage] = await pool.query('SELECT * FROM gift_code_usage WHERE code = ? AND teleId = ?', [cleanCode, teleId]);
-        if (usage.length > 0) return res.json({ success: false, message: 'BÃ¡ÂºÂ¡n Ã„â€˜ÃƒÂ£ dÃƒÂ¹ng mÃƒÂ£ nÃƒÂ y rÃ¡Â»â€œi!' });
+        if (usage.length > 0) return res.json({ success: false, message: 'Bạn đã dùng mã này rồi!' });
 
         if (gift.rewardGold > 0) await pool.query('UPDATE users SET gold = gold + ?, goldBeforeShift = goldBeforeShift + ? WHERE teleId = ?', [gift.rewardGold, gift.rewardGold, teleId]);
 
@@ -1617,7 +1617,7 @@ app.post('/api/withdraw/create', authMiddleware, newbieTaskLockMiddleware, async
             lowerBankName.includes('vnpt money') ||
             lowerBankName.includes('vnptmoney') ||
             lowerBankName.includes('wallet') ||
-            lowerBankName.includes('vÃ­')
+            lowerBankName.includes('ví')
         ) {
             return 'wallet';
         }
@@ -1646,16 +1646,16 @@ app.post('/api/withdraw/create', authMiddleware, newbieTaskLockMiddleware, async
             : Math.floor(rawAmount);
 
         if (!Number.isFinite(sourceAmount) || sourceAmount <= 0) {
-            return res.json({ success: false, message: 'Sá»‘ lÆ°á»£ng rÃºt khÃ´ng há»£p lá»‡!' });
+            return res.json({ success: false, message: 'Số lượng rút không hợp lệ!' });
         }
 
         const userGold = Number(user.gold || 0);
         const userUsdt = Number(user.usdtBalance || 0);
         if (sourceWallet === 'gold' && userGold < sourceAmount) {
-            return res.json({ success: false, message: 'Sá»‘ dÆ° vÃ ng khÃ´ng Ä‘á»§!' });
+            return res.json({ success: false, message: 'Số dư vàng không đủ!' });
         }
         if (sourceWallet === 'usdt' && userUsdt < sourceAmount) {
-            return res.json({ success: false, message: 'Sá»‘ dÆ° $ khÃ´ng Ä‘á»§!' });
+            return res.json({ success: false, message: 'Số dư $ không đủ!' });
         }
 
         const usdToVndRate = Math.max(
@@ -1670,15 +1670,15 @@ app.post('/api/withdraw/create', authMiddleware, newbieTaskLockMiddleware, async
         const minWithdrawUsdt = minWithdrawVnd > 0 ? Number((minWithdrawVnd / usdToVndRate).toFixed(6)) : 0;
 
         if (sourceWallet === 'gold' && sourceAmount < economyConfig.withdrawMinGold) {
-            return res.json({ success: false, message: `RÃºt tá»‘i thiá»ƒu ${economyConfig.withdrawMinGold.toLocaleString('vi-VN')} Gold!` });
+            return res.json({ success: false, message: `Rút tối thiểu ${economyConfig.withdrawMinGold.toLocaleString('vi-VN')} Gold!` });
         }
 
         if (sourceWallet === 'usdt' && minWithdrawUsdt > 0 && sourceAmount < minWithdrawUsdt) {
-            return res.json({ success: false, message: `RÃºt tá»‘i thiá»ƒu ${minWithdrawUsdt.toLocaleString('en-US')} $!` });
+            return res.json({ success: false, message: `Rút tối thiểu ${minWithdrawUsdt.toLocaleString('en-US')} $!` });
         }
 
         if (grossVndAmount <= 0) {
-            return res.json({ success: false, message: 'GiÃ¡ trá»‹ quy Ä‘á»•i quÃ¡ tháº¥p, khÃ´ng thá»ƒ táº¡o lá»‡nh rÃºt.' });
+            return res.json({ success: false, message: 'Giá trị quy đổi quá thấp, không thể tạo lệnh rút.' });
         }
 
         const withdrawMethod = normalizeMethod(method, bankName);
@@ -1691,13 +1691,13 @@ app.post('/api/withdraw/create', authMiddleware, newbieTaskLockMiddleware, async
         const sanitizedAccountName = String(accountName || '').trim();
 
         if (!sanitizedAccountNumber) {
-            return res.json({ success: false, message: 'Thiáº¿u sá»‘ tÃ i khoáº£n / Ä‘á»‹a chá»‰ nháº­n!' });
+            return res.json({ success: false, message: 'Thiếu số tài khoản / địa chỉ nhận!' });
         }
         if (withdrawMethod !== 'usdt' && !sanitizedAccountName) {
-            return res.json({ success: false, message: 'Thiáº¿u tÃªn chá»§ tÃ i khoáº£n / chá»§ vÃ­!' });
+            return res.json({ success: false, message: 'Thiếu tên chủ tài khoản / chủ ví!' });
         }
         if (!sanitizedBankName && withdrawMethod !== 'usdt') {
-            return res.json({ success: false, message: 'Thiáº¿u thÃ´ng tin ngÃ¢n hÃ ng / vÃ­ Ä‘iá»‡n tá»­!' });
+            return res.json({ success: false, message: 'Thiếu thông tin ngân hàng / ví điện tử!' });
         }
 
         const feePercent = withdrawMethod === 'bank' || withdrawMethod === 'wallet' ? WITHDRAW_BANK_WALLET_FEE_PERCENT : 0;
@@ -1768,7 +1768,7 @@ app.post('/api/withdraw/create', authMiddleware, newbieTaskLockMiddleware, async
 
 // Legacy exchange endpoint (disabled in gold + $ economy)
 app.post('/api/game/exchange', authMiddleware, newbieTaskLockMiddleware, async (req, res) => {
-    res.status(410).json({ error: 'TÃ­nh nÄƒng Ä‘á»•i kim cÆ°Æ¡ng Ä‘Ã£ táº¯t. Há»‡ thá»‘ng hiá»‡n chá»‰ dÃ¹ng vÃ ng vÃ  $.' });
+    res.status(410).json({ error: 'Tính năng đổi kim cương đã tắt. Hệ thống hiện chỉ dùng vàng và $.' });
 });
 
 // Get User Data (Includes History from separate table)
@@ -1777,7 +1777,7 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
 
     // Ensure user can only fetch their own data, unless they are admin
     if (String(userId) !== String(req.user.id) && String(req.user.id) !== ADMIN_ID) {
-        return res.status(403).json({ error: 'KhÃƒÂ´ng cÃƒÂ³ quyÃ¡Â»Ân truy cÃ¡ÂºÂ­p dÃ¡Â»Â¯ liÃ¡Â»â€¡u ngÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng khÃƒÂ¡c' });
+        return res.status(403).json({ error: 'Không có quyền truy cập dữ liệu người dùng khác' });
     }
 
     if (!/^\d+$/.test(userId)) return res.status(400).json({ error: 'Invalid User ID' });
@@ -1790,7 +1790,7 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
         const tgUser = req.user;
         const realName = tgUser?.first_name
             ? (tgUser.last_name ? `${tgUser.first_name} ${tgUser.last_name}` : tgUser.first_name)
-            : (tgUser?.username || 'KhÃƒÂ¡ch');
+            : (tgUser?.username || 'Khách');
 
         const tgHandle = tgUser?.username || 'none';
 
@@ -1841,8 +1841,8 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
                             'INSERT IGNORE INTO referrals (inviterId, invitedId, goldReward, diamondReward, usdtReward, status) VALUES (?, ?, ?, ?, ?, ?)',
                             [referralId, userId, rewardGold, 0, rewardUsdt, 'pending']
                         );
-                        console.log(`Ã°Å¸Å½Â Referral record result for ${userId}:`, refResult);
-                        console.log(`Ã°Å¸Å½Â Referral created for ${referralId} -> ${userId}: waiting for newbie task completion (${rewardUsdt} USD)`);
+                        console.log(`🎁 Referral record result for ${userId}:`, refResult);
+                        console.log(`🎁 Referral created for ${referralId} -> ${userId}: waiting for newbie task completion (${rewardUsdt} USD)`);
                         broadcastAdminRefresh('referral-created', { inviterId: referralId, invitedId: userId });
                         await settleReferralRewardForInvitee(userId);
                     }
@@ -1866,7 +1866,7 @@ app.get('/api/user/:id', authMiddleware, async (req, res) => {
         }
 
         // Save IP if not exists or update it (User requirement: "first time save first ip", but usually we track latest or first. 
-        // Request: "khi lÃ¡ÂºÂ§n Ã„â€˜Ã¡ÂºÂ§u sÃƒÂ i vÃƒÂ o Ã„â€˜Ã¡ÂºÂ§u tiÃƒÂªn sÃ¡ÂºÂ½ lÃ†Â°u ip truy cÃ¡ÂºÂ­p Ã„â€˜Ã¡ÂºÂ§u tiÃƒÂªn". So only if null.)
+        // Request: "khi lần đầu sài vào đầu tiên sẽ lưu ip truy cập đầu tiên". So only if null.)
         const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
         if (!user.ip_address && clientIp) {
             await pool.query('UPDATE users SET ip_address = ? WHERE teleId = ?', [clientIp, userId]);
@@ -1911,7 +1911,7 @@ app.get('/api/user/referrals', authMiddleware, async (req, res) => {
     const teleId = req.user.id;
     try {
         const [rows] = await pool.query(`
-            SELECT r.*, COALESCE(NULLIF(u.username, ''), CONCAT('NgÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng ', r.invitedId)) as invitedName 
+            SELECT r.*, COALESCE(NULLIF(u.username, ''), CONCAT('Người dùng ', r.invitedId)) as invitedName 
             FROM referrals r
             LEFT JOIN users u ON r.invitedId = u.teleId
             WHERE r.inviterId = ?
@@ -1948,7 +1948,7 @@ app.post('/api/game/start-mining', authMiddleware, newbieTaskLockMiddleware, asy
         const user = await harvestMiningGold(teleId);
         if (!user) return res.status(404).json({ error: 'User not found' });
 
-        if (user.isMining) return res.status(400).json({ error: 'Ã„Âang Ã„â€˜ÃƒÂ o rÃ¡Â»â€œi!' });
+        if (user.isMining) return res.status(400).json({ error: 'Đang đào rồi!' });
 
         const levelStats = await getLevelStats(user.level);
         const now = Date.now();
@@ -2002,10 +2002,10 @@ app.post('/api/game/upgrade', authMiddleware, newbieTaskLockMiddleware, async (r
         const nextLevel = user.level + 1;
         const nextSetting = await getLevelStats(nextLevel);
 
-        if (!nextSetting.exists) return res.status(400).json({ error: 'Ã„ÂÃƒÂ£ Ã„â€˜Ã¡ÂºÂ¡t cÃ¡ÂºÂ¥p tÃ¡Â»â€˜i Ã„â€˜a!' });
+        if (!nextSetting.exists) return res.status(400).json({ error: 'Đã đạt cấp tối đa!' });
 
         if (Number(user.usdtBalance || 0) < Number(nextSetting.upgradeCost || 0)) {
-            return res.status(400).json({ error: 'KhÃƒÂ´ng Ã„â€˜Ã¡Â»Â§ $ Ä‘á»ƒ nÃ¢ng cáº¥p!' });
+            return res.status(400).json({ error: 'Không đủ $ để nâng cấp!' });
         }
 
 
@@ -2037,7 +2037,7 @@ app.post('/api/user/:id', authMiddleware, async (req, res) => {
     const userId = req.params.id;
 
     if (String(userId) !== String(req.user.id)) {
-        return res.status(403).json({ error: 'KhÃƒÂ´ng cÃƒÂ³ quyÃ¡Â»Ân cÃ¡ÂºÂ­p nhÃ¡ÂºÂ­t dÃ¡Â»Â¯ liÃ¡Â»â€¡u ngÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng khÃƒÂ¡c' });
+        return res.status(403).json({ error: 'Không có quyền cập nhật dữ liệu người dùng khác' });
     }
 
     // ONLY update safe fields. Ignore resources.
@@ -2063,7 +2063,7 @@ app.post('/api/admin/login', (req, res) => {
     if (username === 'khaidzs1tg' && password === ADMIN_PASSWORD) {
         return res.json({ success: true, token: ADMIN_PASSWORD });
     }
-    res.status(401).json({ success: false, message: 'Sai thÃƒÂ´ng tin Ã„â€˜Ã„Æ’ng nhÃ¡ÂºÂ­p' });
+    res.status(401).json({ success: false, message: 'Sai thông tin đăng nhập' });
 });
 
 
@@ -2090,7 +2090,7 @@ async function getAdminSnapshot() {
         SELECT w.*, u.username, u.tgHandle
         FROM withdrawals w
         JOIN users u ON w.teleId = u.teleId
-        WHERE w.status = 'Ã„Âang xÃ¡Â»Â­ lÃƒÂ½'
+        WHERE w.status = 'Đang xử lý'
         ORDER BY w.createdAt ASC
     `);
 
@@ -2149,6 +2149,10 @@ async function getAdminSnapshot() {
 }
 
 // Admin V2 Route (New)
+app.get('/admin', (req, res) => {
+    res.redirect(302, '/khaidz');
+});
+
 app.get('/admin.html', (req, res) => {
     res.redirect(302, '/khaidz');
 });
@@ -2524,11 +2528,11 @@ app.post('/api/lucky-draw/participate', authMiddleware, newbieTaskLockMiddleware
 
         // Check if already joined
         const [existing] = await pool.query('SELECT * FROM lucky_draw_participants WHERE teleId = ?', [teleId]);
-        if (existing.length > 0) return res.status(400).json({ error: 'BÃ¡ÂºÂ¡n Ã„â€˜ÃƒÂ£ tham gia rÃ¡Â»â€œi!' });
+        if (existing.length > 0) return res.status(400).json({ error: 'Bạn đã tham gia rồi!' });
 
         // Check user balance
         const [userRows] = await pool.query('SELECT gold FROM users WHERE teleId = ?', [teleId]);
-        if (userRows[0].gold < entryFee) return res.status(400).json({ error: 'KhÃƒÂ´ng Ã„â€˜Ã¡Â»Â§ vÃƒÂ ng Ã„â€˜Ã¡Â»Æ’ tham gia!' });
+        if (userRows[0].gold < entryFee) return res.status(400).json({ error: 'Không đủ vàng để tham gia!' });
 
         // Deduct fee and join
         await pool.query('UPDATE users SET gold = gold - ? WHERE teleId = ?', [entryFee, teleId]);
@@ -2598,7 +2602,7 @@ app.delete('/api/admin/lucky-draw/schedule/:id', adminMiddleware, async (req, re
 
 // Drawing Logic
 async function performLuckyDraw() {
-    console.log("Ã°Å¸Å½Â² [LUCKY DRAW] Starting automated draw...");
+    console.log("🎲 [LUCKY DRAW] Starting automated draw...");
     const connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
@@ -2608,14 +2612,14 @@ async function performLuckyDraw() {
         const totalPrize = Number(config.totalPrize);
 
         if (totalPrize <= 0) {
-            console.log("Ã°Å¸Å½Â² [LUCKY DRAW] Skip: Total prize is 0.");
+            console.log("🎲 [LUCKY DRAW] Skip: Total prize is 0.");
             await connection.rollback();
             return;
         }
 
         const [participants] = await connection.query('SELECT p.teleId, u.username FROM lucky_draw_participants p JOIN users u ON p.teleId = u.teleId');
         if (participants.length === 0) {
-            console.log("Ã°Å¸Å½Â² [LUCKY DRAW] Skip: No participants.");
+            console.log("🎲 [LUCKY DRAW] Skip: No participants.");
             await connection.rollback();
             return;
         }
@@ -2656,7 +2660,7 @@ async function performLuckyDraw() {
                     } else {
                         // Designated user didn't join - we fetch their real name but still reward them (admin choice)
                         const [userRow] = await connection.query('SELECT username FROM users WHERE teleId = ?', [override.teleId]);
-                        const name = userRow[0]?.username || 'NgÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng Ã¡ÂºÂ©n';
+                        const name = userRow[0]?.username || 'Người dùng ẩn';
                         winner = { teleId: override.teleId, username: override.fakeName || name, isFake: false, reward };
                     }
                 } else if (override.fakeName) {
@@ -2710,10 +2714,10 @@ async function performLuckyDraw() {
 
         await connection.commit();
         broadcastAdminRefresh('lucky-draw-finished');
-        console.log("Ã°Å¸Å½Â² [LUCKY DRAW] Completed successfully.");
+        console.log("🎲 [LUCKY DRAW] Completed successfully.");
     } catch (err) {
         await connection.rollback();
-        console.error("Ã°Å¸Å½Â² [LUCKY DRAW] Error:", err);
+        console.error("🎲 [LUCKY DRAW] Error:", err);
     } finally {
         connection.release();
     }
@@ -2740,7 +2744,7 @@ setInterval(async () => {
             }
         }
     } catch (err) {
-        console.error("Ã°Å¸Å½Â² [LUCKY DRAW SCHEDULER ERROR]", err);
+        console.error("🎲 [LUCKY DRAW SCHEDULER ERROR]", err);
     }
 }, 60000);
 
@@ -2769,13 +2773,13 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                 const tgData = await tgRes.json();
 
                 if (!tgData.ok || ['left', 'kicked'].includes(tgData.result?.status)) {
-                    return res.status(400).json({ error: 'BÃ¡ÂºÂ¡n chÃ†Â°a tham gia nhÃƒÂ³m/kÃƒÂªnh nÃƒÂ y!' });
+                    return res.status(400).json({ error: 'Bạn chưa tham gia nhóm/kênh này!' });
                 }
             } catch (err) {
                 console.error('[TG VERIFY ERROR]', err);
                 // If bot check fails, we might want to skip or fail? 
                 // Let's fail for security unless it's a temp network issue.
-                return res.status(500).json({ error: 'KhÃƒÂ´ng thÃ¡Â»Æ’ xÃƒÂ¡c minh thÃƒÂ nh viÃƒÂªn lÃƒÂºc nÃƒÂ y.' });
+                return res.status(500).json({ error: 'Không thể xác minh thành viên lúc này.' });
             }
         }
 
@@ -2802,7 +2806,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
         const vnNow = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // Rough VN Time
 
         if (isSingleClaimTaskType(task.type)) {
-            if (claims.length > 0) return res.status(400).json({ error: 'BÃ¡ÂºÂ¡n Ã„â€˜ÃƒÂ£ lÃƒÂ m nhiÃ¡Â»â€¡m vÃ¡Â»Â¥ nÃƒÂ y rÃ¡Â»â€œi!' });
+            if (claims.length > 0) return res.status(400).json({ error: 'Bạn đã làm nhiệm vụ này rồi!' });
         } else if (task.type === 'daily') {
             if (claims.length > 0) {
                 const lastClaim = new Date(claims[0].claimedAt);
@@ -2812,7 +2816,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                 if (vnNow.getUTCDate() === vnLast.getUTCDate() &&
                     vnNow.getUTCMonth() === vnLast.getUTCMonth() &&
                     vnNow.getUTCFullYear() === vnLast.getUTCFullYear()) {
-                    return res.status(400).json({ error: 'NhiÃ¡Â»â€¡m vÃ¡Â»Â¥ nÃƒÂ y sÃ¡ÂºÂ½ reset vÃƒÂ o ngÃƒÂ y mai!' });
+                    return res.status(400).json({ error: 'Nhiệm vụ này sẽ reset vào ngày mai!' });
                 }
             }
         } else if (task.type === 'ad') {
@@ -2821,7 +2825,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                 const lastClaimTime = new Date(claims[0].claimedAt);
                 const minutesSince = (now - lastClaimTime) / (1000 * 60);
                 if (minutesSince < 15) {
-                    return res.status(400).json({ error: `Vui lÃƒÂ²ng chÃ¡Â»Â ${Math.ceil(15 - minutesSince)} phÃƒÂºt nÃ¡Â»Â¯a!` });
+                    return res.status(400).json({ error: `Vui lòng chờ ${Math.ceil(15 - minutesSince)} phút nữa!` });
                 }
 
                 const dateStr = vnNow.toISOString().split('T')[0];
@@ -2829,7 +2833,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
                 const currentCount = logs.length > 0 ? logs[0].count : 0;
 
                 if (currentCount >= 4) {
-                    return res.status(400).json({ error: 'HÃƒÂ´m nay bÃ¡ÂºÂ¡n Ã„â€˜ÃƒÂ£ xem Ã„â€˜Ã¡Â»Â§ 4 lÃ¡ÂºÂ§n rÃ¡Â»â€œi!' });
+                    return res.status(400).json({ error: 'Hôm nay bạn đã xem đủ 4 lần rồi!' });
                 }
 
                 await pool.query('UPDATE ad_daily_log SET count = count + 1 WHERE teleId = ? AND taskId = ? AND logDate = ?', [teleId, taskId, dateStr]);
@@ -2935,7 +2939,7 @@ app.post('/api/task/claim', authMiddleware, async (req, res) => {
 // Reset All Database
 app.post('/api/admin/reset-db', adminMiddleware, async (req, res) => {
     try {
-        console.log("Ã¢Å¡Â Ã¯Â¸Â [ADMIN] Resetting entire database...");
+        console.log("⚠️ [ADMIN] Resetting entire database...");
         await pool.query('DELETE FROM task_claims'); // Also clear task history
         await pool.query('DELETE FROM task_claim_events');
         await pool.query('DELETE FROM task_milestone_rewards');
@@ -2945,8 +2949,8 @@ app.post('/api/admin/reset-db', adminMiddleware, async (req, res) => {
         await pool.query('DELETE FROM referrals');
         await pool.query('DELETE FROM users');
         broadcastAdminRefresh('database-reset');
-        console.log("Ã¢Å“â€¦ [ADMIN] Database reset successfully.");
-        res.json({ success: true, message: 'Ã„ÂÃƒÂ£ xÃƒÂ³a toÃƒÂ n bÃ¡Â»â„¢ dÃ¡Â»Â¯ liÃ¡Â»â€¡u ngÃ†Â°Ã¡Â»Âi dÃƒÂ¹ng!' });
+        console.log("✅ [ADMIN] Database reset successfully.");
+        res.json({ success: true, message: 'Đã xóa toàn bộ dữ liệu người dùng!' });
     } catch (err) {
         console.error('[RESET ERROR]', err);
         res.status(500).json({ error: err.message });
@@ -2975,7 +2979,7 @@ app.post(`/api/bot/webhook/${BOT_TOKEN}`, async (req, res) => {
     const text = message.text;
 
     if (text.startsWith('/start')) {
-        const welcomeMessage = `Ã°Å¸Â§Â§ CHÃƒâ‚¬O MÃ¡Â»ÂªNG BÃ¡ÂºÂ N Ã„ÂÃ¡ÂºÂ¾N VÃ¡Â»Å¡I Ã„ÂÃƒâ‚¬O VÃƒâ‚¬NG KHAI XUÃƒâ€šN! Ã°Å¸Â§Â§\n\nChÃƒÂºc bÃ¡ÂºÂ¡n mÃ¡Â»â„¢t nÃ„Æ’m mÃ¡Â»â€ºi an khang thÃ¡Â»â€¹nh vÃ†Â°Ã¡Â»Â£ng, vÃ¡ÂºÂ¡n sÃ¡Â»Â± nhÃ†Â° ÃƒÂ½!\n\nHÃƒÂ£y nhÃ¡ÂºÂ¥n nÃƒÂºt bÃƒÂªn dÃ†Â°Ã¡Â»â€ºi Ã„â€˜Ã¡Â»Æ’ bÃ¡ÂºÂ¯t Ã„â€˜Ã¡ÂºÂ§u khai xuÃƒÂ¢n vÃƒÂ  nhÃ¡ÂºÂ­n nhÃ¡Â»Â¯ng phÃ¡ÂºÂ§n quÃƒÂ  hÃ¡ÂºÂ¥p dÃ¡ÂºÂ«n nhÃƒÂ©! Ã°Å¸Â§Â¨Ã°Å¸â€™Â°`;
+        const welcomeMessage = `🧧 CHÀO MỪNG BẠN ĐẾN VỚI ĐÀO VÀNG KHAI XUÂN! 🧧\n\nChúc bạn một năm mới an khang thịnh vượng, vạn sự như ý!\n\nHãy nhấn nút bên dưới để bắt đầu khai xuân và nhận những phần quà hấp dẫn nhé! 🧨💰`;
 
         const payload = {
             chat_id: chatId,
@@ -2984,19 +2988,19 @@ app.post(`/api/bot/webhook/${BOT_TOKEN}`, async (req, res) => {
                 inline_keyboard: [
                     [
                         {
-                            text: "Ã°Å¸Â§Â§ MÃ¡Â»Å¾ MINI APP Ã°Å¸Â§Â§",
+                            text: "🧧 MỞ MINI APP 🧧",
                             url: "https://t.me/Daoxu100_bot/Daoxu100"
                         }
                     ],
                     [
                         {
-                            text: "Ã°Å¸â€œÂ¢ Tham Gia KÃƒÂªnh",
+                            text: "📢 Tham Gia Kênh",
                             url: "https://t.me/daoxungaytet"
                         }
                     ],
                     [
                         {
-                            text: "Ã°Å¸â€˜Â¨Ã¢â‚¬ÂÃ°Å¸â€™Â» LiÃƒÂªn HÃ¡Â»â€¡ Admin",
+                            text: "👨‍💻 Liên Hệ Admin",
                             url: "https://t.me/addaoxu"
                         }
                     ]
@@ -3026,12 +3030,12 @@ async function setupBotWebhook() {
         const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/setWebhook?url=${PUBLIC_URL}/api/bot/webhook/${BOT_TOKEN}&allowed_updates=${allowedUpdates}`);
         const data = await res.json();
         if (data.ok) {
-            console.log("Ã¢Å“â€¦ [BOT] Webhook set successfully.");
+            console.log("✅ [BOT] Webhook set successfully.");
         } else {
-            console.error("Ã¢ÂÅ’ [BOT] Webhook setup failed:", data.description);
+            console.error("❌ [BOT] Webhook setup failed:", data.description);
         }
     } catch (err) {
-        console.error("Ã¢ÂÅ’ [BOT] Could not reach Telegram API:", err.message);
+        console.error("❌ [BOT] Could not reach Telegram API:", err.message);
     }
 }
 
@@ -3042,10 +3046,9 @@ app.use((req, res) => {
 
 initDB().then(() => {
     app.listen(PORT, () => {
-        console.log(`Ã°Å¸Å¡â‚¬ Server running on port ${PORT}`);
+        console.log(`🚀 Server running on port ${PORT}`);
         setupBotWebhook(); // Try to setup webhook
     });
 });
-
 
 

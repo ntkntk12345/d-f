@@ -58,7 +58,7 @@ export function KhaidzAdminWebView() {
   const [taskForm, setTaskForm] = useState<any>({
     id: "",
     title: "",
-    icon: "??",
+    icon: "TASK",
     rewardType: "gold",
     rewardAmount: 1000,
     url: "",
@@ -82,7 +82,7 @@ export function KhaidzAdminWebView() {
 
   const api = useCallback(
     async (path: string, method = "GET", body?: unknown) => {
-      if (!token) throw new Error("Thi?u token admin.");
+      if (!token) throw new Error("Thieu token admin.");
       const res = await fetch(`${API}${path}`, {
         method,
         headers: { Authorization: `AdminPass ${token}`, "Content-Type": "application/json" },
@@ -116,7 +116,7 @@ export function KhaidzAdminWebView() {
       );
       setSchedules(Array.isArray(lucky) ? lucky : []);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Không t?i du?c d? li?u.");
+      setError(e instanceof Error ? e.message : "Khong tai duoc du lieu.");
     } finally {
       setLoading(false);
     }
@@ -153,13 +153,13 @@ export function KhaidzAdminWebView() {
       });
       const data = await res.json();
       if (!res.ok || !data?.success || !data?.token) {
-        setLoginError(data?.message || "Ðang nh?p th?t b?i.");
+        setLoginError(data?.message || "Dang nhap that bai.");
         return;
       }
       localStorage.setItem(TOKEN_KEY, data.token);
       setToken(data.token);
     } catch {
-      setLoginError("Không k?t n?i du?c server.");
+      setLoginError("Khong ket noi duoc server.");
     }
   };
 
@@ -211,7 +211,7 @@ export function KhaidzAdminWebView() {
       telegramChatId: String(taskForm.telegramChatId || "").trim() || null,
     });
     setTaskIdEditing("");
-    setTaskForm({ id: "", title: "", icon: "??", rewardType: "gold", rewardAmount: 1000, url: "", type: "community", actionType: "click", telegramChatId: "" });
+    setTaskForm({ id: "", title: "", icon: "TASK", rewardType: "gold", rewardAmount: 1000, url: "", type: "community", actionType: "click", telegramChatId: "" });
     await loadData();
   };
 
@@ -221,7 +221,7 @@ export function KhaidzAdminWebView() {
   };
 
   const removeTask = async (id: string) => {
-    if (!window.confirm(`Xóa nhi?m v? "${id}"?`)) return;
+    if (!window.confirm(`Xoa nhiem vu "${id}"?`)) return;
     await api(`/admin/config/task/${encodeURIComponent(id)}`, "DELETE");
     await loadData();
   };
@@ -236,14 +236,14 @@ export function KhaidzAdminWebView() {
   };
 
   const removeGift = async (code: string) => {
-    if (!window.confirm(`Xóa giftcode "${code}"?`)) return;
+    if (!window.confirm(`Xoa giftcode "${code}"?`)) return;
     await api("/admin/giftcode/delete", "POST", { code });
     await loadData();
   };
 
   const changeWithdraw = async (id: number, status: string) => {
-    const reason = status === "B? t? ch?i" ? window.prompt("Lý do t? ch?i:", "Vi ph?m chính sách") || "" : "";
-    if (!window.confirm(`C?p nh?t don #${id} => ${status}?`)) return;
+    const reason = status === "Bi tu choi" ? window.prompt("Ly do tu choi:", "Vi pham chinh sach") || "" : "";
+    if (!window.confirm(`Cap nhat don #${id} => ${status}?`)) return;
     await api("/admin/withdraw/status", "POST", { withdrawId: id, newStatus: status, reason });
     await loadData();
   };
@@ -276,19 +276,19 @@ export function KhaidzAdminWebView() {
   };
 
   const removeSchedule = async (id: number) => {
-    if (!window.confirm("Xóa l?ch này?")) return;
+    if (!window.confirm("Xoa lich nay?")) return;
     await api(`/admin/lucky-draw/schedule/${id}`, "DELETE");
     await loadData();
   };
 
   const triggerLucky = async () => {
-    if (!window.confirm("Ch?y lucky draw ngay bây gi??")) return;
+    if (!window.confirm("Chay lucky draw ngay bay gio?")) return;
     await api("/admin/lucky-draw/trigger", "POST");
     await loadData();
   };
 
   const resetUsers = async () => {
-    if (!window.confirm("Xóa toàn b? d? li?u user d? test?")) return;
+    if (!window.confirm("Xoa toan bo du lieu user de test?")) return;
     await api("/admin/reset-db", "POST");
     await loadData();
   };
@@ -300,7 +300,7 @@ export function KhaidzAdminWebView() {
           <h1 className="text-2xl font-bold text-cyan-400">Admin Login</h1>
           <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" placeholder="Username" value={loginUser} onChange={(e) => setLoginUser(e.target.value)} />
           <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" placeholder="Password" type="password" value={loginPass} onChange={(e) => setLoginPass(e.target.value)} />
-          <button className="w-full py-2 rounded bg-cyan-600 hover:bg-cyan-500">Ðang nh?p</button>
+          <button className="w-full py-2 rounded bg-cyan-600 hover:bg-cyan-500">Dang nhap</button>
           {loginError ? <p className="text-sm text-red-400">{loginError}</p> : null}
         </form>
       </main>
@@ -308,7 +308,7 @@ export function KhaidzAdminWebView() {
   }
 
   const tabs: Array<{ k: Tab; l: string }> = [
-    { k: "dashboard", l: "T?ng quan" }, { k: "users", l: "Ngu?i dùng" }, { k: "tasks", l: "Nhi?m v?" }, { k: "withdrawals", l: "Rút ti?n" }, { k: "giftcodes", l: "Giftcode" }, { k: "economy", l: "Kinh t?" }, { k: "lucky", l: "L?ch quay" },
+    { k: "dashboard", l: "Tong quan" }, { k: "users", l: "Nguoi dung" }, { k: "tasks", l: "Nhiem vu" }, { k: "withdrawals", l: "Rut tien" }, { k: "giftcodes", l: "Giftcode" }, { k: "economy", l: "Kinh te" }, { k: "lucky", l: "Lich quay" },
   ];
 
   return (
@@ -324,7 +324,7 @@ export function KhaidzAdminWebView() {
         </div>
       </header>
       <section className="max-w-7xl mx-auto px-4 py-4 space-y-4">
-        {loading ? <p className="text-slate-400 text-sm">Ðang t?i...</p> : null}
+        {loading ? <p className="text-slate-400 text-sm">Dang tai...</p> : null}
         {error ? <p className="text-red-400 text-sm">{error}</p> : null}
 
         {tab === "dashboard" ? (
@@ -340,17 +340,17 @@ export function KhaidzAdminWebView() {
           <div className="space-y-3">
             <div className="grid md:grid-cols-3 gap-3">
               <form onSubmit={createUser} className="rounded border border-slate-700 bg-slate-900 p-3 space-y-2">
-                <p className="font-semibold text-cyan-300">T?o user</p>
+                <p className="font-semibold text-cyan-300">Tao user</p>
                 <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" placeholder="TeleID" value={newUserId} onChange={(e) => setNewUserId(e.target.value)} />
                 <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" placeholder="Username" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} />
-                <button className="w-full py-2 rounded bg-cyan-600 hover:bg-cyan-500">T?o</button>
+                <button className="w-full py-2 rounded bg-cyan-600 hover:bg-cyan-500">Tao</button>
               </form>
               <form onSubmit={adjust} className="rounded border border-slate-700 bg-slate-900 p-3 space-y-2">
-                <p className="font-semibold text-cyan-300">C?ng / tr? nhanh</p>
+                <p className="font-semibold text-cyan-300">Cong / tru nhanh</p>
                 <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" placeholder="TeleID" value={adjUserId} onChange={(e) => setAdjUserId(e.target.value)} />
                 <select className="w-full p-2 rounded bg-slate-800 border border-slate-700" value={adjType} onChange={(e) => setAdjType(e.target.value as "gold" | "usdt")}><option value="gold">Gold</option><option value="usdt">$</option></select>
                 <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" placeholder="Amount (+/-)" value={adjAmount} onChange={(e) => setAdjAmount(e.target.value)} />
-                <button className="w-full py-2 rounded bg-cyan-600 hover:bg-cyan-500">Áp d?ng</button>
+                <button className="w-full py-2 rounded bg-cyan-600 hover:bg-cyan-500">Ap dung</button>
               </form>
               <div className="rounded border border-slate-700 bg-slate-900 p-3 space-y-2">
                 <p className="font-semibold text-cyan-300">Tools</p>
@@ -371,7 +371,7 @@ export function KhaidzAdminWebView() {
         {tab === "tasks" ? (
           <div className="grid md:grid-cols-[340px_1fr] gap-3">
             <form onSubmit={saveTask} className="rounded border border-slate-700 bg-slate-900 p-3 space-y-2">
-              <p className="font-semibold text-cyan-300">{taskIdEditing ? `S?a task ${taskIdEditing}` : "T?o task"}</p>
+              <p className="font-semibold text-cyan-300">{taskIdEditing ? `Sua task ${taskIdEditing}` : "Tao task"}</p>
               <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" placeholder="id" value={taskForm.id} readOnly={!!taskIdEditing} onChange={(e) => setTaskForm((v: any) => ({ ...v, id: e.target.value }))} />
               <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" placeholder="title" value={taskForm.title} onChange={(e) => setTaskForm((v: any) => ({ ...v, title: e.target.value }))} />
               <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" placeholder="icon" value={taskForm.icon} onChange={(e) => setTaskForm((v: any) => ({ ...v, icon: e.target.value }))} />
@@ -386,14 +386,14 @@ export function KhaidzAdminWebView() {
               </div>
               {taskForm.actionType === "join" || taskForm.actionType === "react_heart" ? <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" placeholder="telegramChatId" value={taskForm.telegramChatId || ""} onChange={(e) => setTaskForm((v: any) => ({ ...v, telegramChatId: e.target.value }))} /> : null}
               <div className="flex gap-2">
-                <button className="flex-1 py-2 rounded bg-cyan-600 hover:bg-cyan-500">{taskIdEditing ? "C?p nh?t" : "Luu"}</button>
-                {taskIdEditing ? <button type="button" onClick={() => { setTaskIdEditing(""); setTaskForm({ id: "", title: "", icon: "??", rewardType: "gold", rewardAmount: 1000, url: "", type: "community", actionType: "click", telegramChatId: "" }); }} className="py-2 px-3 rounded bg-slate-700 hover:bg-slate-600">H?y</button> : null}
+                <button className="flex-1 py-2 rounded bg-cyan-600 hover:bg-cyan-500">{taskIdEditing ? "Cap nhat" : "Luu"}</button>
+                {taskIdEditing ? <button type="button" onClick={() => { setTaskIdEditing(""); setTaskForm({ id: "", title: "", icon: "TASK", rewardType: "gold", rewardAmount: 1000, url: "", type: "community", actionType: "click", telegramChatId: "" }); }} className="py-2 px-3 rounded bg-slate-700 hover:bg-slate-600">Huy</button> : null}
               </div>
             </form>
             <div className="overflow-auto rounded border border-slate-700">
               <table className="w-full text-sm">
                 <thead className="bg-slate-900"><tr><th className="p-2 text-left">Task</th><th className="p-2 text-left">Reward</th><th className="p-2 text-left">Type</th><th className="p-2 text-left">Action</th></tr></thead>
-                <tbody>{(snapshot.tasks || []).map((t: any) => <tr key={t.id} className="border-t border-slate-800"><td className="p-2"><div>{t.icon || "??"} {t.title}</div><div className="text-xs text-slate-500">{t.id}</div></td><td className="p-2">{t.rewardType === "usdt" ? fmtUsd(t.rewardAmount) : `${fmtInt(t.rewardAmount)} gold`}</td><td className="p-2">{t.type}</td><td className="p-2"><div className="flex gap-2"><button onClick={() => editTask(t)} className="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600">Edit</button><button onClick={() => void removeTask(String(t.id))} className="px-2 py-1 rounded bg-red-600 hover:bg-red-500">Delete</button></div></td></tr>)}</tbody>
+                <tbody>{(snapshot.tasks || []).map((t: any) => <tr key={t.id} className="border-t border-slate-800"><td className="p-2"><div>{t.icon || "TASK"} {t.title}</div><div className="text-xs text-slate-500">{t.id}</div></td><td className="p-2">{t.rewardType === "usdt" ? fmtUsd(t.rewardAmount) : `${fmtInt(t.rewardAmount)} gold`}</td><td className="p-2">{t.type}</td><td className="p-2"><div className="flex gap-2"><button onClick={() => editTask(t)} className="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600">Edit</button><button onClick={() => void removeTask(String(t.id))} className="px-2 py-1 rounded bg-red-600 hover:bg-red-500">Delete</button></div></td></tr>)}</tbody>
               </table>
             </div>
           </div>
@@ -403,7 +403,7 @@ export function KhaidzAdminWebView() {
           <div className="overflow-auto rounded border border-slate-700">
             <table className="w-full text-sm">
               <thead className="bg-slate-900"><tr><th className="p-2 text-left">ID</th><th className="p-2 text-left">User</th><th className="p-2 text-left">Source</th><th className="p-2 text-left">Payout</th><th className="p-2 text-left">To</th><th className="p-2 text-left">Action</th></tr></thead>
-              <tbody>{(snapshot.pendingWithdraws || []).map((w: any) => <tr key={w.id} className="border-t border-slate-800"><td className="p-2">#{w.id}<div className="text-xs text-slate-500">{w.createdAt ? new Date(w.createdAt).toLocaleString("vi-VN") : ""}</div></td><td className="p-2">{w.username}<div className="text-xs text-slate-500">{w.userTeleId || w.teleId}</div></td><td className="p-2">{w.sourceWallet === "usdt" ? `${fmtUsd(w.sourceAmount)} ($)` : `${fmtInt(w.sourceAmount)} gold`}</td><td className="p-2">{w.payoutCurrency === "$" ? fmtUsd(w.payoutAmount) : `${fmtInt(w.vnd)} VND`}<div className="text-xs text-slate-500">fee {n(w.feePercent)}%</div></td><td className="p-2"><div>{w.bankName}</div><div className="text-xs text-slate-500">{w.accountNumber}</div><div className="text-xs text-slate-500">{w.accountName}</div></td><td className="p-2"><div className="flex gap-2"><button onClick={() => void changeWithdraw(n(w.id), "Thành công")} className="px-2 py-1 rounded bg-emerald-600 hover:bg-emerald-500">Duy?t</button><button onClick={() => void changeWithdraw(n(w.id), "B? t? ch?i")} className="px-2 py-1 rounded bg-red-600 hover:bg-red-500">T? ch?i</button></div></td></tr>)}</tbody>
+              <tbody>{(snapshot.pendingWithdraws || []).map((w: any) => <tr key={w.id} className="border-t border-slate-800"><td className="p-2">#{w.id}<div className="text-xs text-slate-500">{w.createdAt ? new Date(w.createdAt).toLocaleString("vi-VN") : ""}</div></td><td className="p-2">{w.username}<div className="text-xs text-slate-500">{w.userTeleId || w.teleId}</div></td><td className="p-2">{w.sourceWallet === "usdt" ? `${fmtUsd(w.sourceAmount)} ($)` : `${fmtInt(w.sourceAmount)} gold`}</td><td className="p-2">{w.payoutCurrency === "$" ? fmtUsd(w.payoutAmount) : `${fmtInt(w.vnd)} VND`}<div className="text-xs text-slate-500">fee {n(w.feePercent)}%</div></td><td className="p-2"><div>{w.bankName}</div><div className="text-xs text-slate-500">{w.accountNumber}</div><div className="text-xs text-slate-500">{w.accountName}</div></td><td className="p-2"><div className="flex gap-2"><button onClick={() => void changeWithdraw(n(w.id), "Thanh cong")} className="px-2 py-1 rounded bg-emerald-600 hover:bg-emerald-500">Duyet</button><button onClick={() => void changeWithdraw(n(w.id), "Bi tu choi")} className="px-2 py-1 rounded bg-red-600 hover:bg-red-500">Tu choi</button></div></td></tr>)}</tbody>
             </table>
           </div>
         ) : null}
@@ -411,7 +411,7 @@ export function KhaidzAdminWebView() {
         {tab === "giftcodes" ? (
           <div className="grid md:grid-cols-[320px_1fr] gap-3">
             <form onSubmit={saveGift} className="rounded border border-slate-700 bg-slate-900 p-3 space-y-2">
-              <p className="font-semibold text-cyan-300">T?o giftcode</p>
+              <p className="font-semibold text-cyan-300">Tao giftcode</p>
               <input className="w-full p-2 rounded bg-slate-800 border border-slate-700 uppercase" placeholder="CODE" value={giftCode} onChange={(e) => setGiftCode(e.target.value.toUpperCase())} />
               <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" type="number" value={giftGold} onChange={(e) => setGiftGold(Number(e.target.value))} placeholder="reward gold" />
               <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" type="number" value={giftMax} onChange={(e) => setGiftMax(Number(e.target.value))} placeholder="max uses" />
@@ -429,7 +429,7 @@ export function KhaidzAdminWebView() {
         {tab === "economy" ? (
           <div className="space-y-3">
             <form onSubmit={saveEconomy} className="rounded border border-slate-700 bg-slate-900 p-3 grid md:grid-cols-2 gap-2">
-              <p className="md:col-span-2 font-semibold text-cyan-300">Economy (ch? gold + $)</p>
+              <p className="md:col-span-2 font-semibold text-cyan-300">Economy (chi gold + $)</p>
               <input className="p-2 rounded bg-slate-800 border border-slate-700" type="number" value={economy.newUserGold} onChange={(e) => setEconomy((v) => ({ ...v, newUserGold: Number(e.target.value) }))} placeholder="newUserGold" />
               <input className="p-2 rounded bg-slate-800 border border-slate-700" type="number" value={economy.referralRewardGold} onChange={(e) => setEconomy((v) => ({ ...v, referralRewardGold: Number(e.target.value) }))} placeholder="referralRewardGold" />
               <input className="p-2 rounded bg-slate-800 border border-slate-700" type="number" step="0.000001" value={economy.referralRewardUsdt} onChange={(e) => setEconomy((v) => ({ ...v, referralRewardUsdt: Number(e.target.value) }))} placeholder="referralReward$" />
@@ -458,15 +458,15 @@ export function KhaidzAdminWebView() {
         {tab === "lucky" ? (
           <div className="grid md:grid-cols-[340px_1fr] gap-3">
             <form onSubmit={saveSchedule} className="rounded border border-slate-700 bg-slate-900 p-3 space-y-2">
-              <p className="font-semibold text-cyan-300">Lên l?ch trúng thu?ng</p>
+              <p className="font-semibold text-cyan-300">Len lich trung thuong</p>
               <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" type="date" value={schDate} onChange={(e) => setSchDate(e.target.value)} required />
               <select className="w-full p-2 rounded bg-slate-800 border border-slate-700" value={schRank} onChange={(e) => setSchRank(Number(e.target.value))}><option value={1}>Top 1</option><option value={2}>Top 2</option><option value={3}>Top 3</option><option value={4}>Top 4</option><option value={5}>Top 5</option></select>
               <div className="flex gap-2"><button type="button" onClick={() => setSchType("fake")} className={`flex-1 py-1.5 rounded ${schType === "fake" ? "bg-cyan-600" : "bg-slate-700"}`}>Fake</button><button type="button" onClick={() => setSchType("real")} className={`flex-1 py-1.5 rounded ${schType === "real" ? "bg-cyan-600" : "bg-slate-700"}`}>TeleID</button></div>
-              <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" value={schValue} onChange={(e) => setSchValue(e.target.value)} placeholder={schType === "fake" ? "Tên gi?" : "TeleID"} required />
-              <button className="w-full py-2 rounded bg-cyan-600 hover:bg-cyan-500">Luu l?ch</button>
+              <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" value={schValue} onChange={(e) => setSchValue(e.target.value)} placeholder={schType === "fake" ? "Ten gia" : "TeleID"} required />
+              <button className="w-full py-2 rounded bg-cyan-600 hover:bg-cyan-500">Luu lich</button>
               <button type="button" onClick={() => void triggerLucky()} className="w-full py-2 rounded bg-indigo-600 hover:bg-indigo-500">Trigger ngay</button>
             </form>
-            <div className="space-y-2">{schedules.map((s: any) => <div key={s.id} className="rounded border border-slate-700 bg-slate-900 p-3 flex justify-between items-center"><div><p className="font-semibold">Top {n(s.rankPos)} - {String(s.drawDate || "").split("T")[0]}</p><p className="text-sm text-slate-400">{s.fakeName ? `Fake: ${s.fakeName}` : `TeleID: ${s.teleId}`}</p></div><button onClick={() => void removeSchedule(n(s.id))} className="px-2 py-1 rounded bg-red-600 hover:bg-red-500">Delete</button></div>)}{schedules.length === 0 ? <p className="text-sm text-slate-500">Chua có l?ch.</p> : null}</div>
+            <div className="space-y-2">{schedules.map((s: any) => <div key={s.id} className="rounded border border-slate-700 bg-slate-900 p-3 flex justify-between items-center"><div><p className="font-semibold">Top {n(s.rankPos)} - {String(s.drawDate || "").split("T")[0]}</p><p className="text-sm text-slate-400">{s.fakeName ? `Fake: ${s.fakeName}` : `TeleID: ${s.teleId}`}</p></div><button onClick={() => void removeSchedule(n(s.id))} className="px-2 py-1 rounded bg-red-600 hover:bg-red-500">Delete</button></div>)}{schedules.length === 0 ? <p className="text-sm text-slate-500">Chua co lich.</p> : null}</div>
           </div>
         ) : null}
       </section>
@@ -474,10 +474,10 @@ export function KhaidzAdminWebView() {
       {editUserId !== null ? (
         <div className="fixed inset-0 z-30 bg-black/70 flex items-center justify-center p-4">
           <div className="w-full max-w-md rounded border border-slate-700 bg-slate-900 p-4 space-y-2">
-            <p className="font-semibold text-cyan-300">S?a user #{editUserId}</p>
+            <p className="font-semibold text-cyan-300">Sua user #{editUserId}</p>
             <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" type="number" value={editGold} onChange={(e) => setEditGold(Number(e.target.value))} />
             <input className="w-full p-2 rounded bg-slate-800 border border-slate-700" type="number" step="0.000001" value={editUsd} onChange={(e) => setEditUsd(Number(e.target.value))} />
-            <div className="flex gap-2"><button onClick={() => void saveUser()} className="flex-1 py-2 rounded bg-cyan-600 hover:bg-cyan-500">Luu</button><button onClick={() => setEditUserId(null)} className="flex-1 py-2 rounded bg-slate-700 hover:bg-slate-600">H?y</button></div>
+            <div className="flex gap-2"><button onClick={() => void saveUser()} className="flex-1 py-2 rounded bg-cyan-600 hover:bg-cyan-500">Luu</button><button onClick={() => setEditUserId(null)} className="flex-1 py-2 rounded bg-slate-700 hover:bg-slate-600">Huy</button></div>
           </div>
         </div>
       ) : null}
