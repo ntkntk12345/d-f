@@ -26,10 +26,8 @@ const SHIFT_DURATION_MS = 6 * 60 * 60 * 1000;
 const SHIFT_COUNT_PER_DAY = 4;
 const DEFAULT_DAILY_GOLD_CAP = 1000;
 const GOLD_TO_VND_RATE = 1;
-const DEFAULT_USD_TO_VND_RATE_K = (() => {
-    const raw = Number(process.env.USD_TO_VND_RATE_K || process.env.USDT_VND_RATE_K || 28);
-    return Number.isFinite(raw) && raw > 0 ? raw : 28;
-})();
+const USD_TO_VND_RATE_K = 28;
+const DEFAULT_USD_TO_VND_RATE_K = USD_TO_VND_RATE_K;
 const HEART_REACTIONS = new Set(['❤', '❤️', '♥', '♥️']);
 
 
@@ -775,7 +773,7 @@ async function initDB() {
                 referralRewardDiamonds = 0,
                 exchangeGoldPerDiamond = 0,
                 withdrawVndPerGold = ?,
-                usdToVndRateK = GREATEST(1, COALESCE(usdToVndRateK, ?)),
+                usdToVndRateK = ?,
                 taskMilestoneRewardDiamonds = 0
             WHERE id = 1
         `, [GOLD_TO_VND_RATE, DEFAULT_USD_TO_VND_RATE_K]);
@@ -808,10 +806,6 @@ function normalizeEconomyConfig(row = {}) {
         const parsed = Number(value);
         return Number.isFinite(parsed) ? Math.max(0, Math.floor(parsed)) : fallback;
     };
-    const toRate = (value, fallback) => {
-        const parsed = Number(value);
-        return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
-    };
     const toDecimal = (value, fallback) => {
         const parsed = Number(value);
         if (!Number.isFinite(parsed) || parsed < 0) {
@@ -829,7 +823,7 @@ function normalizeEconomyConfig(row = {}) {
         exchangeGoldPerDiamond: 0,
         withdrawMinGold: toInt(row.withdrawMinGold, DEFAULT_ECONOMY_CONFIG.withdrawMinGold),
         withdrawVndPerGold: GOLD_TO_VND_RATE,
-        usdToVndRateK: Math.max(1, toRate(row.usdToVndRateK, DEFAULT_ECONOMY_CONFIG.usdToVndRateK)),
+        usdToVndRateK: DEFAULT_USD_TO_VND_RATE_K,
         taskMilestoneCount: toInt(row.taskMilestoneCount, DEFAULT_ECONOMY_CONFIG.taskMilestoneCount),
         taskMilestoneRewardGold: toInt(row.taskMilestoneRewardGold, DEFAULT_ECONOMY_CONFIG.taskMilestoneRewardGold),
         taskMilestoneRewardDiamonds: 0,
@@ -1659,7 +1653,7 @@ app.post('/api/withdraw/create', authMiddleware, newbieTaskLockMiddleware, async
         }
 
         const usdToVndRate = Math.max(
-            1,
+            DEFAULT_USD_TO_VND_RATE_K * 1000,
             Number(economyConfig.usdToVndRateK || DEFAULT_USD_TO_VND_RATE_K) * 1000
         );
 
@@ -2075,6 +2069,7 @@ function sendAdminApp(req, res) {
         return res.status(503).send('Admin app is not built yet. Run "npm run build" first.');
     }
 
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.sendFile(adminAppPath);
 }
 
@@ -2154,6 +2149,10 @@ app.get('/admin', (req, res) => {
 });
 
 app.get('/admin.html', (req, res) => {
+    res.redirect(302, '/khaidz');
+});
+
+app.get('/admin/index.php', (req, res) => {
     res.redirect(302, '/khaidz');
 });
 
@@ -3039,8 +3038,32 @@ async function setupBotWebhook() {
     }
 }
 
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'dist'), {
+    setHeaders: (res, filePath) => {
+        const ext = path.extname(filePath).toLowerCase();
+        if (ext === '.html') {
+            res.setHeader('Content-Type', 'text/html; charset=utf-8');
+            return;
+        }
+        if (ext === '.js' || ext === '.mjs') {
+            res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+            return;
+        }
+        if (ext === '.css') {
+            res.setHeader('Content-Type', 'text/css; charset=utf-8');
+            return;
+        }
+        if (ext === '.json') {
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            return;
+        }
+        if (ext === '.svg') {
+            res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
+        }
+    }
+}));
 app.use((req, res) => {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
@@ -3050,5 +3073,3 @@ initDB().then(() => {
         setupBotWebhook(); // Try to setup webhook
     });
 });
-
-

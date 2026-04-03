@@ -1,4 +1,13 @@
 <?php
+declare(strict_types=1);
+
+if (!headers_sent()) {
+    header('Content-Type: text/html; charset=UTF-8');
+}
+
+if (function_exists('mb_internal_encoding')) {
+    mb_internal_encoding('UTF-8');
+}
 // PHP Ad Page for Gom Xu Đào Vàng - Mini App Style
 ?>
 <!DOCTYPE html>

@@ -163,7 +163,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
   const MIN_WITHDRAW = Math.max(0, store.economyConfig.withdrawMinGold);
   const WITHDRAW_RATE = store.economyConfig.withdrawVndPerGold > 0 ? store.economyConfig.withdrawVndPerGold : 1;
   const usdtVndRate = Math.max(
-    1,
+    DEFAULT_USDT_VND_RATE,
     (store.economyConfig.usdToVndRateK > 0 ? store.economyConfig.usdToVndRateK : DEFAULT_USDT_VND_RATE / 1000) * 1000,
   );
   const withdrawAmount =
@@ -324,7 +324,7 @@ export function WithdrawView({ store }: { store: GameStore }) {
           <br />1. Chon nguon rut: Vi vang hoac Vi $.
           <br />2. Ngan hang/vi dien tu: phi 10% tren gia tri quy doi.
           <br />3. $ wallet: khong thu phi.
-          <br />4. Gia 1$ duoc admin cap nhat theo muc x nghin VND (vi du 25 = 25,000 VND).
+          <br />4. Ty gia ap dung: 1 vang = 1 VND, 28.000 vang = 28.000 VND = 1$.
         </div>
       </div>
 
