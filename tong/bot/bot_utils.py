@@ -388,5 +388,6 @@ def extract_keywords_from_text(text, all_keywords, keyword_levels=None):
 
 def normalize_district_name(district):
     import unicodedata
-    text = unicodedata.normalize('NFD', district).encode('ascii', 'ignore').decode('utf-8')
+    normalized = str(district).replace('Đ', 'D').replace('đ', 'd')
+    text = unicodedata.normalize('NFD', normalized).encode('ascii', 'ignore').decode('utf-8')
     return text.lower().replace(' ', '')

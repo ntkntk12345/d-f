@@ -28,6 +28,30 @@ BOT_SERVICE_CONTROL_FILE = os.path.join(BOT_DIR, "bot_service_control.json")
 BOT_SERVICE_STATUS_FILE = os.path.join(BOT_DIR, "bot_service_status.json")
 BOT_SERVICE_FILE_LOCK = threading.Lock()
 VN_TZ = timezone(timedelta(hours=7))
+DISTRICT_FILE_KEYS = [
+    "badinh",
+    "bactuliem",
+    "caugiay",
+    "dongda",
+    "hadong",
+    "haibatrung",
+    "hoaiduc",
+    "hoangmai",
+    "hoankiem",
+    "khaicute",
+    "longbien",
+    "mydinh",
+    "namtuliem",
+    "tayho",
+    "thanhtri",
+    "thanhxuan",
+]
+DISTRICT_STORAGE_DIRS = {
+    "legacy": os.path.join(BOT_DIR, "districts"),
+    "summary": os.path.join(BOT_DIR, "districts_ok"),
+    "summary_fallback": os.path.join(BOT_DIR, "districts_summary"),
+    "full": os.path.join(BOT_DIR, "districts_full"),
+}
 
 
 def _utc_now_iso():
@@ -589,6 +613,34 @@ class SenderBot:
         
         print(f"[INIT] ✓ Created {created_count} new district files.")
     
+    def _init_district_files(self):
+        """Create all district storage directories used by the sender and build pipeline."""
+        print("[INIT] Creating district JSON files...")
+
+        created_count = 0
+        for directory_path in DISTRICT_STORAGE_DIRS.values():
+            os.makedirs(directory_path, exist_ok=True)
+
+        for district_key in DISTRICT_FILE_KEYS:
+            file_paths = [
+                os.path.join(DISTRICT_STORAGE_DIRS["legacy"], f"{district_key}.json"),
+                os.path.join(DISTRICT_STORAGE_DIRS["legacy"], f"{district_key}1.json"),
+                os.path.join(DISTRICT_STORAGE_DIRS["summary"], f"{district_key}.json"),
+                os.path.join(DISTRICT_STORAGE_DIRS["summary_fallback"], f"{district_key}.json"),
+                os.path.join(DISTRICT_STORAGE_DIRS["full"], f"{district_key}.json"),
+            ]
+
+            for file_path in file_paths:
+                if os.path.exists(file_path):
+                    continue
+                try:
+                    self._write_json_file(file_path, [])
+                    created_count += 1
+                except Exception as e:
+                    print(f"[INIT] Error creating {file_path}: {e}")
+
+        print(f"[INIT] Created {created_count} new district files.")
+
     def _map_sender_groups(self, api):
         """Helper to scan and map groups for a sender"""
         output_groups_map = {}
@@ -1584,6 +1636,255 @@ class SenderBot:
                 return formatted
         return ""
     
+
+    def _normalize_search_text(self, value):
+        normalized = unicodedata.normalize("NFD", str(value or ""))
+        normalized = "".join(ch for ch in normalized if unicodedata.category(ch) != "Mn")
+        return re.sub(r"[^a-z0-9]+", " ", normalized.lower()).strip()
+
+    def _extract_room_type(self, text):
+        normalized = self._normalize_search_text(text)
+        room_type_patterns = [
+            ("Studio", ["studio"]),
+            ("1N1K", ["1n1k", "1pn1k", "1 ngu 1 khach", "1 phong ngu 1 khach"]),
+            ("1N1B", ["1n1b", "1pn1b", "1 ngu 1 bep", "1 phong ngu 1 bep"]),
+            ("2N1K", ["2n1k", "2pn1k", "2 ngu 1 khach", "2 phong ngu 1 khach"]),
+            ("2N1B", ["2n1b", "2pn1b", "2 ngu 1 bep", "2 phong ngu 1 bep"]),
+            ("1 ng\u1ee7", ["1 phong ngu", "1 ngu", "1pn"]),
+            ("2 ng\u1ee7", ["2 phong ngu", "2 ngu", "2pn"]),
+            ("G\u00e1c x\u1ebfp", ["gac xep", "duplex", "loft", "mezzanine"]),
+            ("Gi\u01b0\u1eddng t\u1ea7ng", ["giuong tang", "ktx", "bedspace", "dorm"]),
+        ]
+
+        for label, patterns in room_type_patterns:
+            if any(pattern in normalized for pattern in patterns):
+                return label
+
+        return None
+
+    def _extract_price_tokens(self, value):
+        normalized = unicodedata.normalize("NFD", str(value or ""))
+        normalized = "".join(ch for ch in normalized if unicodedata.category(ch) != "Mn")
+        normalized = normalized.lower().replace("trieu", "tr")
+        normalized = re.sub(r"[^a-z0-9.,]+", "", normalized)
+        return re.findall(r"\d{1,3}(?:[.,]\d{3})+|\d+(?:[.,]\d+)?(?:tr\d+|tr|k|ty\d+|ty)", normalized)
+
+    def _parse_price_token_to_vnd(self, value):
+        raw = str(value or "").strip().lower().replace(" ", "")
+        if not raw:
+            return 0
+
+        if re.fullmatch(r"\d{1,3}(?:[.,]\d{3})+", raw):
+            digits = re.sub(r"[^\d]", "", raw)
+            try:
+                return int(digits)
+            except Exception:
+                return 0
+
+        normalized = raw.replace(",", ".")
+
+        if "ty" in normalized:
+            major, _, minor = normalized.partition("ty")
+            try:
+                base = float(major or "0")
+                fraction = float(f"0.{re.sub(r'[^\\d]', '', minor)}") if re.search(r"\d", minor) else 0.0
+                return int(round((base + fraction) * 1_000_000_000))
+            except Exception:
+                return 0
+
+        if "tr" in normalized:
+            major, _, minor = normalized.partition("tr")
+            try:
+                base = float(major or "0")
+                if not re.search(r"\d", minor):
+                    return int(round(base * 1_000_000))
+
+                digits = re.sub(r"[^\d]", "", minor)
+                decimal_places = len(digits)
+                fraction = int(digits) / (10 ** decimal_places) if decimal_places > 0 else 0
+                return int(round((base + fraction) * 1_000_000))
+            except Exception:
+                return 0
+
+        if normalized.endswith("k"):
+            try:
+                return int(round(float(normalized[:-1] or "0") * 1_000))
+            except Exception:
+                return 0
+
+        try:
+            numeric = float(normalized)
+        except Exception:
+            return 0
+
+        if numeric <= 0:
+            return 0
+        if numeric < 1000:
+            return int(round(numeric * 1_000_000))
+        return int(round(numeric))
+
+    def _extract_price_bounds(self, text, price_label=""):
+        candidates = []
+        for source in (price_label, text):
+            for token in self._extract_price_tokens(source):
+                value = self._parse_price_token_to_vnd(token)
+                if value > 0:
+                    candidates.append(value)
+
+        if not candidates:
+            return 0, 0
+
+        return min(candidates), max(candidates)
+
+    def _resolve_session_id(self, item):
+        for key in ("instance_id", "session_id", "source_session_id"):
+            value = str(item.get(key, "")).strip()
+            if value:
+                return value
+        return str(int(time.time() * 1000))
+
+    def _resolve_session_timestamp(self, item, session_id):
+        candidates = []
+
+        for bucket in (item.get("timeline", []), item.get("texts", []), item.get("photos", []), item.get("videos", [])):
+            if not isinstance(bucket, list):
+                continue
+            for entry in bucket:
+                if isinstance(entry, dict):
+                    timestamp = entry.get("timestamp")
+                    if isinstance(timestamp, (int, float)) and timestamp > 0:
+                        candidates.append(float(timestamp))
+
+        if candidates:
+            return max(candidates)
+
+        try:
+            return int(str(session_id)[:13]) / 1000.0
+        except Exception:
+            return time.time()
+
+    def _append_unique_record(self, file_path, record):
+        payload = self._load_json_file(file_path, [])
+        if not isinstance(payload, list):
+            payload = []
+
+        record_id = str(record.get("id", "")).strip()
+        replaced = False
+
+        if record_id:
+            for index, current in enumerate(payload):
+                if not isinstance(current, dict):
+                    continue
+                if str(current.get("id", "")).strip() == record_id:
+                    payload[index] = record
+                    replaced = True
+                    break
+
+        if not replaced:
+            payload.append(record)
+
+        self._write_json_file(file_path, payload)
+
+    def _save_to_area_files(self, item):
+        if item.get("session_type") == "featured_post":
+            return
+
+        texts = item.get("texts", [])
+        full_text = " ".join([t.get("text", "") if isinstance(t, dict) else str(t) for t in texts]).strip()
+        original_full_text = " ".join(
+            [
+                (t.get("original_text") or t.get("text") or "")
+                if isinstance(t, dict)
+                else str(t)
+                for t in texts
+            ]
+        ).strip()
+        source_text = original_full_text or full_text
+        keywords = bot_utils.extract_keywords_from_text(source_text, self.all_keywords, self.keyword_levels)
+
+        print(f"[SAVE] Full text: {full_text[:100]}...")
+        print(f"[SAVE] Found keywords: {keywords}")
+
+        districts = set()
+        for kw in keywords:
+            level = self.keyword_levels.get(kw)
+            if level in ["district", "area"]:
+                districts.add(kw)
+
+        print(f"[SAVE] Districts from keywords: {districts}")
+
+        if not districts:
+            for kw in keywords:
+                level = self.keyword_levels.get(kw)
+                if level in ["ward", "street"]:
+                    parent_set = self.keyword_parents.get(kw)
+                    if not parent_set:
+                        continue
+                    for parent in parent_set:
+                        districts.add(parent)
+            print(f"[SAVE] Districts from parent lookup: {districts}")
+
+        if not districts:
+            print("[SAVE] No districts found. Skipping save.")
+            return
+
+        session_id = self._resolve_session_id(item)
+        session_timestamp = self._resolve_session_timestamp(item, session_id)
+        property_text = full_text or source_text
+        address = self._extract_address(property_text)
+        price_label = self._extract_price(property_text)
+        price1, price2 = self._extract_price_bounds(property_text, price_label)
+        room_type = self._extract_room_type(source_text or property_text)
+
+        full_data = {
+            "id": session_id,
+            "text": full_text,
+            "original_text": source_text,
+            "texts": texts,
+            "photos": item.get("photos", []),
+            "videos": item.get("videos", []),
+            "timeline": item.get("timeline", []),
+            "timestamp": session_timestamp,
+            "symbol": item.get("symbol", ""),
+            "keywords": keywords,
+            "source_info": item.get("source_info", ""),
+            "source_thread_id": str(item.get("source_thread_id", "")).strip(),
+            "source_author_id": str(item.get("source_author_id", "")).strip(),
+        }
+
+        for district_name in districts:
+            district_key = bot_utils.normalize_district_name(district_name)
+            if not district_key:
+                continue
+
+            summary_data = {
+                "id": session_id,
+                "address": address,
+                "price": price_label,
+                "price1": price1,
+                "price2": price2,
+                "type": room_type,
+                "raw_text": full_text,
+                "original_raw_text": source_text,
+                "district_key": district_key,
+                "district_label": district_name,
+                "source_info": item.get("source_info", ""),
+            }
+
+            file_map = {
+                os.path.join(DISTRICT_STORAGE_DIRS["legacy"], f"{district_key}.json"): summary_data,
+                os.path.join(DISTRICT_STORAGE_DIRS["legacy"], f"{district_key}1.json"): full_data,
+                os.path.join(DISTRICT_STORAGE_DIRS["summary"], f"{district_key}.json"): summary_data,
+                os.path.join(DISTRICT_STORAGE_DIRS["summary_fallback"], f"{district_key}.json"): summary_data,
+                os.path.join(DISTRICT_STORAGE_DIRS["full"], f"{district_key}.json"): full_data,
+            }
+
+            for file_path, payload in file_map.items():
+                try:
+                    self._append_unique_record(file_path, payload)
+                    print(f"[SAVE] Saved data to {file_path}")
+                except Exception as e:
+                    print(f"[SAVE] Error saving data to {file_path}: {e}")
 
     def _take_rest(self):
         dur = random.randint(*self.rest_duration_range)

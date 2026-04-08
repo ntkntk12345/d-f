@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "1775646284987",
+    "address": "khaicute",
+    "price": "2tr3",
+    "price1": 4000,
+    "price2": 2300000,
+    "type": null,
+    "raw_text": "11A Địa chỉ : khaicute\n\nTrống phòng tầng 4 thang bộ\nGiá thuê : 2tr3\n\nNội thất : điều hòa. Nóng lạnh. Giường. Tủ quần áo … vskk\n\nDịch vụ : Điện : 4k/ số\nNước 120k /ng\nWifi 50k/ng\nDịch vụ chung: 150k/ng\n\n:",
+    "original_raw_text": "Địa chỉ : khaicute\n\nTrống phòng tầng 4 thang bộ \nGiá thuê : 2tr3\n\nNội thất : điều hòa.  Nóng lạnh.  Giường.  Tủ quần áo … vskk \n\nDịch vụ : Điện : 4k/ số \nNước 120k /ng \nWifi 50k/ng\nDịch vụ chung: 150k/ng\n\nHh : 25%",
+    "district_key": "khaicute",
+    "district_label": "Khaicute",
+    "source_info": "Manual Flush 876862981116821092"
+  }
+]

@@ -18,6 +18,7 @@ export interface RawPropertyVideo {
 
 export interface RawPropertyText {
   text: string;
+  original_text?: string;
   timestamp?: number;
 }
 
@@ -30,6 +31,7 @@ export interface RawPropertyTimelineEntry {
 export interface RawDistrictProperty {
   id: string;
   text?: string;
+  original_text?: string;
   texts?: Array<RawPropertyText | string>;
   photos?: RawPropertyPhoto[];
   videos?: RawPropertyVideo[];
@@ -47,6 +49,7 @@ export interface RawDistrictSummary {
   price2?: string | number;
   type?: string | null;
   raw_text?: string;
+  original_raw_text?: string;
 }
 
 export type PropertyTimelineItem =

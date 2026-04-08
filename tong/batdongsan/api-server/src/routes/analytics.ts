@@ -1,5 +1,6 @@
 import { Router, type Request, type Response } from "express";
 import { desc, gte } from "drizzle-orm";
+import { z } from "zod";
 import { db } from "../../db";
 import { trafficVisitsTable, usersTable } from "../../db/schema";
 import {
@@ -24,9 +25,11 @@ import {
   type FeaturedPostRecord,
 } from "../lib/featured-posts";
 import { getBotServicesDashboard, isBotServiceName, setBotServiceEnabled } from "../lib/bot-services";
+import { getBichHaCommissionIndex } from "../lib/bichha-commission-index";
 import { getPropertyPostingAvailability, setPropertyPostingEnabled } from "../lib/posting-settings";
 import { getSiteContactControl, normalizeSiteContactLink, setSiteContactLink } from "../lib/site-contact";
 import { getSiteMaintenanceStatus, setSiteMaintenanceEnabled } from "../lib/site-maintenance";
+import { listBichHaCommissionGroups } from "../../../src/lib/bichha-commission-search";
 
 const router = Router();
 
@@ -34,6 +37,15 @@ const BICHHA_ADMIN_USERNAME = process.env.BICHHA_ADMIN_USERNAME || "admin";
 const BICHHA_ADMIN_PASSWORD = process.env.BICHHA_ADMIN_PASSWORD || "BichHa0101@";
 const DASHBOARD_TIMEZONE = "Asia/Ho_Chi_Minh";
 const MAX_DASHBOARD_DAYS = 30;
+const BICHHA_COMMISSION_SEARCH_QUERY = z.object({
+  keyword: z.coerce.string().optional(),
+  district: z.coerce.string().optional(),
+  roomType: z.coerce.string().optional(),
+  commissionMin: z.coerce.number().optional(),
+  sort: z.enum(["commission-desc", "recent-desc"]).optional(),
+  page: z.coerce.number().optional().default(1),
+  limit: z.coerce.number().optional().default(12),
+});
 
 type VisitEntry = {
   visitDate: string;
@@ -249,6 +261,36 @@ function sendCtvAccountError(res: Response, error: unknown) {
   res.status(500).json({ message: "Khong the cap nhat tai khoan CTV" });
 }
 
+async function handleBichHaCommissionSearch(req: Request, res: Response) {
+  try {
+    const rawQuery = BICHHA_COMMISSION_SEARCH_QUERY.parse(req.query);
+    const query = {
+      ...rawQuery,
+      page: Math.max(1, Math.trunc(rawQuery.page)),
+      limit: Math.min(50, Math.max(1, Math.trunc(rawQuery.limit))),
+    };
+    const commissionIndex = await getBichHaCommissionIndex();
+    const result = listBichHaCommissionGroups(commissionIndex.groups, query);
+
+    res.json({
+      generatedAt: commissionIndex.generatedAt,
+      availableDistricts: commissionIndex.availableDistricts,
+      availableRoomTypes: commissionIndex.availableRoomTypes,
+      totalRecords: commissionIndex.totalRecords,
+      totalGroups: commissionIndex.totalGroups,
+      ...result,
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ message: "Bo loc hoa hong khong hop le" });
+      return;
+    }
+
+    console.error("[bichha.commissions.search]", error);
+    res.status(500).json({ message: "Khong the tai du lieu hoa hong" });
+  }
+}
+
 router.post("/analytics/track", optionalAuth, async (req, res) => {
   try {
     const path = normalizePath(req.body?.path);
@@ -429,6 +471,9 @@ router.get("/ctv/bichha/dashboard", requireBichHaCtv, async (req, res) => {
     res.status(500).json({ message: "Khong the tai dashboard CTV" });
   }
 });
+
+router.get("/admin/bichha/commissions/search", requireBichHaAdmin, handleBichHaCommissionSearch);
+router.get("/ctv/bichha/commissions/search", requireBichHaCtv, handleBichHaCommissionSearch);
 
 router.post("/admin/bichha/posting-status", requireBichHaAdmin, async (req, res) => {
   try {

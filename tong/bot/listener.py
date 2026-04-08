@@ -485,8 +485,27 @@ class ZaloListener(ZaloAPI):
                 return item_dict
             
             if content_type == "text":
-                print(f"[DEBUG_BUFFER] Adding text to buffer: {repr(content_data[:50])}")
-                text_obj = add_with_mid({"text": content_data, "timestamp": now})
+                if isinstance(content_data, dict):
+                    processed_text = str(content_data.get("text", "")).strip()
+                    original_text = str(content_data.get("original_text", processed_text)).strip()
+                    text_preview = processed_text[:50]
+                    text_obj = {
+                        "text": processed_text,
+                        "original_text": original_text or processed_text,
+                        "timestamp": now,
+                    }
+                    if content_data.get("is_reply"):
+                        text_obj["is_reply"] = True
+                else:
+                    processed_text = str(content_data).strip()
+                    text_preview = processed_text[:50]
+                    text_obj = {
+                        "text": processed_text,
+                        "original_text": processed_text,
+                        "timestamp": now,
+                    }
+                print(f"[DEBUG_BUFFER] Adding text to buffer: {repr(text_preview)}")
+                text_obj = add_with_mid(text_obj)
                 buffer["texts"].append(text_obj)
                 buffer["timeline"].append({"type": "text", "data": text_obj, "timestamp": now})
                 
@@ -523,6 +542,29 @@ class ZaloListener(ZaloAPI):
                 buffer["photos"] = [p for p in buffer["photos"] if p.get("mid") != msg_id_str]
                 buffer["videos"] = [v for v in buffer["videos"] if v.get("mid") != msg_id_str]
 
+    def _build_queue_item(self, session_key, buffer, source_info):
+        return {
+            "instance_id": str(buffer.get("instance_id", "")).strip(),
+            "texts": buffer.get("texts", []),
+            "photos": buffer.get("photos", []),
+            "videos": buffer.get("videos", []),
+            "stickers": [],
+            "timeline": buffer.get("timeline", []),
+            "symbol": buffer.get("symbol", ""),
+            "source_thread_id": str(session_key[0]),
+            "source_author_id": str(session_key[1]),
+            "source_info": source_info,
+        }
+
+    def _build_text_payload(self, processed_text, original_text, is_reply=False):
+        payload = {
+            "text": processed_text,
+            "original_text": original_text,
+        }
+        if is_reply:
+            payload["is_reply"] = True
+        return payload
+
     def _flush_immediate(self, session_key):
         with self.session_lock:
             buffer = self.session_buffers.get(session_key)
@@ -556,6 +598,34 @@ class ZaloListener(ZaloAPI):
             elif idle_time >= self.session_max_timeout:
                 if has_media and not has_text:
                     print(f"{Fore.YELLOW}[DISCARD] 🗑️ Bỏ qua session chỉ có ảnh/video (không có text){Style.RESET_ALL}")
+                self.session_buffers.pop(session_key)
+
+    def _flush_immediate(self, session_key):
+        with self.session_lock:
+            buffer = self.session_buffers.get(session_key)
+            if not buffer:
+                return
+            if buffer.get("timer"):
+                buffer["timer"].cancel()
+            self._enqueue_task(self._build_queue_item(session_key, buffer, f"Manual Flush {session_key[1]}"))
+            self.session_buffers.pop(session_key)
+
+    def _check_and_flush(self, session_key, instance_id):
+        with self.session_lock:
+            buffer = self.session_buffers.get(session_key)
+            if not buffer or buffer.get("instance_id") != instance_id:
+                return
+
+            has_text = len(buffer.get("texts", [])) > 0
+            has_media = len(buffer.get("photos", [])) > 0 or len(buffer.get("videos", [])) > 0
+            idle_time = time.time() - buffer["last_activity"]
+
+            if has_text and has_media:
+                self._enqueue_task(self._build_queue_item(session_key, buffer, f"Session {session_key[1]}"))
+                self.session_buffers.pop(session_key)
+            elif idle_time >= self.session_max_timeout:
+                if has_media and not has_text:
+                    print(f"{Fore.YELLOW}[DISCARD] Skip media-only session without text{Style.RESET_ALL}")
                 self.session_buffers.pop(session_key)
 
     def _extract_glid_from_quote(self, quote):
@@ -709,7 +779,13 @@ class ZaloListener(ZaloAPI):
                                             del self.photo_cache[cache_key]
                                 
                                 # 2. Tạo reply text object
-                                reply_obj = {"text": processed, "timestamp": now, "mid": mid_str, "is_reply": True}
+                                reply_obj = {
+                                    "text": processed,
+                                    "original_text": text,
+                                    "timestamp": now,
+                                    "mid": mid_str,
+                                    "is_reply": True,
+                                }
                                 buffer["texts"].append(reply_obj)
                                 buffer["last_activity"] = now
                                 
@@ -750,7 +826,14 @@ class ZaloListener(ZaloAPI):
                             # Text thường (không phải reply) trong nhóm đặc biệt
                             processed = bot_utils.process_message(text, symbol, add_prefix_override=False)
                             if not processed: return
-                            self._add_to_session(thread_id_str, author_id_str, "text", processed, symbol, mid=mid_str)
+                            self._add_to_session(
+                                thread_id_str,
+                                author_id_str,
+                                "text",
+                                self._build_text_payload(processed, text),
+                                symbol,
+                                mid=mid_str,
+                            )
                     else:
                         with self.session_lock:
                             buffer = self.session_buffers.get((thread_id_str, author_id_str))
@@ -758,7 +841,14 @@ class ZaloListener(ZaloAPI):
                         
                         processed = bot_utils.process_message(text, symbol, add_prefix_override=is_first)
                         if not processed: return
-                        self._add_to_session(thread_id_str, author_id_str, "text", processed, symbol, mid=mid_str)
+                        self._add_to_session(
+                            thread_id_str,
+                            author_id_str,
+                            "text",
+                            self._build_text_payload(processed, text),
+                            symbol,
+                            mid=mid_str,
+                        )
 
             elif msg_type in ["chat.video", "chat.video.msg"]:
                 if content.get("href"):

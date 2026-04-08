@@ -151,6 +151,8 @@ export default defineConfig(({ mode }) => {
   const appRootDir = path.resolve(import.meta.dirname);
   const env = loadEnv(mode, import.meta.dirname, "");
   const isDevelopment = mode === "development";
+  const propertyDataWatchEnv = readRuntimeEnv("VITE_PROPERTY_DATA_WATCH", env);
+  const enablePropertyDataWatch = propertyDataWatchEnv === "1";
   const clientPort = readRuntimeEnv("CLIENT_PORT", env);
   const vitePort = readRuntimeEnv("VITE_PORT", env);
   const portEnv = readRuntimeEnv("PORT", env);
@@ -177,7 +179,7 @@ export default defineConfig(({ mode }) => {
       react(),
       tailwindcss(),
       runtimeErrorOverlay(),
-      propertyDataSyncPlugin(appRootDir),
+      ...(enablePropertyDataWatch ? [propertyDataSyncPlugin(appRootDir)] : []),
     ],
     resolve: {
       alias: {

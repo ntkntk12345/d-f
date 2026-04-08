@@ -1,0 +1,21 @@
+{
+  "listener": {
+    "running": true,
+    "state": "running",
+    "lastHeartbeatAt": "2026-04-08T11:50:36Z",
+    "lastWorkAt": "2026-04-08T11:48:53Z",
+    "restartCount": 4,
+    "lastError": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\trong\\\\Downloads\\\\tong\\\\bot\\\\bot_service_status.json.tmp' -> 'C:\\\\Users\\\\trong\\\\Downloads\\\\tong\\\\bot\\\\bot_service_status.json'",
+    "updatedAt": "2026-04-08T11:50:36Z"
+  },
+  "sender": {
+    "running": true,
+    "state": "running",
+    "lastHeartbeatAt": "2026-04-08T11:50:44Z",
+    "lastWorkAt": "2026-04-08T11:50:18Z",
+    "restartCount": 3,
+    "lastError": null,
+    "updatedAt": "2026-04-08T11:50:44Z"
+  },
+  "updatedAt": "2026-04-08T11:50:44Z"
+}

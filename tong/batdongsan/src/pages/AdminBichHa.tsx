@@ -1,5 +1,6 @@
 import { type ChangeEvent, type FormEvent, useEffect, useMemo, useState } from "react";
 import { Copy, Link2, LogOut, Plus, Power, RefreshCw, ShieldCheck, Trash2 } from "lucide-react";
+import { BichHaCommissionSearchPanel } from "@/components/bichha/BichHaCommissionSearchPanel";
 import { CollageImagePreview } from "@/components/media/CollageImagePreview";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -455,6 +456,7 @@ export function AdminBichHa() {
             <TabsTrigger value="bot" className="border bg-white data-[state=active]:border-primary">Bot & Site</TabsTrigger>
             <TabsTrigger value="featured" className="border bg-white data-[state=active]:border-primary">Bai noi bat</TabsTrigger>
             <TabsTrigger value="ctv" className="border bg-white data-[state=active]:border-primary">CTV</TabsTrigger>
+            <TabsTrigger value="hh" className="border bg-white data-[state=active]:border-primary">Hoa hong</TabsTrigger>
             <TabsTrigger value="traffic" className="border bg-white data-[state=active]:border-primary">Traffic</TabsTrigger>
             <TabsTrigger value="accounts" className="border bg-white data-[state=active]:border-primary">Tai khoan</TabsTrigger>
           </TabsList>
@@ -731,6 +733,15 @@ export function AdminBichHa() {
                 );
               })}
             </div>
+          </TabsContent>
+
+          <TabsContent value="hh">
+            <BichHaCommissionSearchPanel
+              token={token}
+              endpoint="/admin/bichha/commissions/search"
+              title="Tra hoa hong theo can"
+              description="So sanh cac bien the cua cung mot can de uu tien gioi thieu can co HH cao nhat cho khach."
+            />
           </TabsContent>
 
           <TabsContent value="traffic" className="space-y-4">

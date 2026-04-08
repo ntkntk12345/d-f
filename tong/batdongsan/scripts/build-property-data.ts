@@ -4,9 +4,14 @@ import {
   buildPropertyCollection,
   type DistrictSource,
   type Property,
-  type RawDistrictProperty,
   type RawDistrictSummary,
 } from "../src/lib/property-normalizer.ts";
+import {
+  buildBichHaCommissionGroupId,
+  buildBichHaCommissionIndex,
+  extractBichHaCommissionInfo,
+  type BichHaCommissionRecord,
+} from "../src/lib/bichha-commission-search.ts";
 import { resolvePropertyDataInputDirs } from "./property-data-paths.ts";
 
 type PropertyPreview = {
@@ -56,14 +61,76 @@ const ROOT_DIR = path.resolve(import.meta.dirname, "..");
 const PROPERTY_DATA_DIRS = resolvePropertyDataInputDirs(ROOT_DIR);
 const FULL_DISTRICT_DIR = PROPERTY_DATA_DIRS.fullDir;
 const SUMMARY_DISTRICT_DIR = PROPERTY_DATA_DIRS.summaryDir;
-const OUTPUT_DIR = path.join(ROOT_DIR, "public", "data", "properties");
-const OUTPUT_DISTRICT_DIR = path.join(OUTPUT_DIR, "districts");
+const PUBLIC_OUTPUT_DIR = path.join(ROOT_DIR, "public", "data", "properties");
+const PUBLIC_OUTPUT_DISTRICT_DIR = path.join(PUBLIC_OUTPUT_DIR, "districts");
+const PRIVATE_COMMISSION_OUTPUT_DIR = path.join(ROOT_DIR, "data", "bichha-commissions");
+const PRIVATE_COMMISSION_DISTRICT_DIR = path.join(PRIVATE_COMMISSION_OUTPUT_DIR, "districts");
 const HOME_LATEST_SECTION_ITEM_LIMIT = 8;
-const OUTPUT_TOP_LEVEL_FILES = ["home.json", "manifest.json", "index.json"] as const;
+const PUBLIC_OUTPUT_TOP_LEVEL_FILES = ["home.json", "manifest.json", "index.json"] as const;
+const PRIVATE_COMMISSION_TOP_LEVEL_FILES = ["index.json"] as const;
 const BUILD_LOCK_DIR = path.join(ROOT_DIR, ".property-data-build.lock");
 const TEMP_BUILD_ROOT_DIR = path.join(ROOT_DIR, ".tmp-property-data");
 const BUILD_LOCK_RETRY_MS = 500;
 const BUILD_LOCK_TIMEOUT_MS = 5 * 60 * 1000;
+
+const DISTRICT_LABELS: Record<string, string> = {
+  badinh: "Ba \u0110\u00ecnh",
+  bactuliem: "B\u1eafc T\u1eeb Li\u00eam",
+  caugiay: "C\u1ea7u Gi\u1ea5y",
+  dongda: "\u0110\u1ed1ng \u0110a",
+  hadong: "H\u00e0 \u0110\u00f4ng",
+  haibatrung: "Hai B\u00e0 Tr\u01b0ng",
+  hoaiduc: "Ho\u00e0i \u0110\u1ee9c",
+  hoangmai: "Ho\u00e0ng Mai",
+  hoankiem: "Ho\u00e0n Ki\u1ebfm",
+  khaicute: "Khaicute",
+  longbien: "Long Bi\u00ean",
+  mydinh: "M\u1ef9 \u0110\u00ecnh",
+  namtuliem: "Nam T\u1eeb Li\u00eam",
+  tayho: "T\u00e2y H\u1ed3",
+  thanhtri: "Thanh Tr\u00ec",
+  thanhxuan: "Thanh Xu\u00e2n",
+};
+
+const DISTRICT_CANONICAL_LABELS: Record<string, string> = {
+  "ba dinh": "Ba \u0110\u00ecnh",
+  "bac tu liem": "B\u1eafc T\u1eeb Li\u00eam",
+  "cau giay": "C\u1ea7u Gi\u1ea5y",
+  "dong da": "\u0110\u1ed1ng \u0110a",
+  "ha dong": "H\u00e0 \u0110\u00f4ng",
+  "hai ba trung": "Hai B\u00e0 Tr\u01b0ng",
+  "hoai duc": "Ho\u00e0i \u0110\u1ee9c",
+  "hoang mai": "Ho\u00e0ng Mai",
+  "hoan kiem": "Ho\u00e0n Ki\u1ebfm",
+  "long bien": "Long Bi\u00ean",
+  "my dinh": "M\u1ef9 \u0110\u00ecnh",
+  "nam tu liem": "Nam T\u1eeb Li\u00eam",
+  "tay ho": "T\u00e2y H\u1ed3",
+  "thanh tri": "Thanh Tr\u00ec",
+  "thanh xuan": "Thanh Xu\u00e2n",
+};
+
+const PROVINCE_CANONICAL_LABELS: Record<string, string> = {
+  "ha noi": "H\u00e0 N\u1ed9i",
+};
+
+const ROOM_TYPE_CANONICAL_LABELS: Record<string, string> = {
+  studio: "Studio",
+  "1k1n": "1N1K",
+  "1n1k": "1N1K",
+  "1n1k1b": "1N1K",
+  "1n1b": "1N1B",
+  "2n1b": "2N1B",
+  "2n1k": "2N1K",
+  "3n1k": "3N1K",
+  "1 ngu": "1 ng\u1ee7",
+  "2 ngu": "2 ng\u1ee7",
+  "gac xep": "G\u00e1c x\u1ebfp",
+  "giuong tang": "Gi\u01b0\u1eddng t\u1ea7ng",
+  vsc: "VSC",
+  vskk: "VSKK",
+  "don vskk": "VSKK",
+};
 
 const LATEST_PRICE_BUCKETS = [
   { key: "4-5", label: "4-5 trieu", min: 4, max: 5 },
@@ -83,6 +150,28 @@ function normalizeSearchText(value: string) {
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]+/g, " ")
     .trim();
+}
+
+function collapseWhitespace(value: string) {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+function canonicalizeLabel(
+  value: string | null | undefined,
+  labelMap: Record<string, string>,
+) {
+  const trimmedValue = collapseWhitespace(value || "");
+  if (!trimmedValue) return null;
+
+  return labelMap[normalizeSearchText(trimmedValue)] || trimmedValue;
+}
+
+function canonicalizeDistrictLabel(value: string | null | undefined) {
+  return canonicalizeLabel(value, DISTRICT_CANONICAL_LABELS);
+}
+
+function canonicalizeProvinceLabel(value: string | null | undefined) {
+  return canonicalizeLabel(value, PROVINCE_CANONICAL_LABELS);
 }
 
 function formatGroupTitle(value: string) {
@@ -116,6 +205,177 @@ function formatCategoryTitle(value: string) {
   return titleMap[value] || formatGroupTitle(value.replace(/-/g, " "));
 }
 
+function fileNameToDistrictKey(sourceFile: string) {
+  return sourceFile.split("/").pop()?.replace(/\.json$/i, "") || sourceFile;
+}
+
+function toPropertyLookupKey(sourceFile: string, rawId: string) {
+  return `${sourceFile}:${rawId}`;
+}
+
+function parseMoneyToMillions(value: string | number | null | undefined): number | null {
+  if (value == null) return null;
+
+  const raw = String(value).trim();
+  if (!raw) return null;
+
+  const compact = raw
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/trieu/g, "tr")
+    .replace(/nghin/g, "k")
+    .replace(/\s+/g, "")
+    .replace(/,/g, ".");
+
+  if (/^\d{1,3}(?:[.,]\d{3})+$/.test(raw.replace(/\s+/g, ""))) {
+    const numeric = Number.parseInt(raw.replace(/[^\d]/g, ""), 10);
+    return Number.isNaN(numeric) ? null : Number.parseFloat((numeric / 1_000_000).toFixed(2));
+  }
+
+  if (compact.includes("ty")) {
+    const [major, minor = ""] = compact.split("ty");
+    const base = Number.parseFloat(major || "0");
+    if (Number.isNaN(base)) return null;
+    const fraction = minor ? Number.parseFloat(`0.${minor}`) : 0;
+    return Number.parseFloat(((base + fraction) * 1000).toFixed(2));
+  }
+
+  if (compact.includes("tr")) {
+    const [major, minor = ""] = compact.split("tr");
+    const base = Number.parseFloat(major || "0");
+    if (Number.isNaN(base)) return null;
+    if (!minor) return Number.parseFloat(base.toFixed(2));
+    const divider = minor.length === 1 ? 10 : 100;
+    return Number.parseFloat((base + Number.parseFloat(minor) / divider).toFixed(2));
+  }
+
+  if (compact.endsWith("k")) {
+    const base = Number.parseFloat(compact.slice(0, -1));
+    return Number.isNaN(base) ? null : Number.parseFloat((base / 1000).toFixed(2));
+  }
+
+  const parsed = Number.parseFloat(compact);
+  if (Number.isNaN(parsed)) return null;
+  if (parsed > 1000) {
+    return Number.parseFloat((parsed / 1_000_000).toFixed(2));
+  }
+
+  return Number.parseFloat(parsed.toFixed(2));
+}
+
+function extractAreaFromText(text: string): number | null {
+  const areaMatch = text.match(/(\d+(?:[.,]\d+)?)\s*(?:-|to)?\s*(\d+(?:[.,]\d+)?)?\s*m(?:2|²)/i);
+  if (!areaMatch) return null;
+
+  const min = Number.parseFloat(areaMatch[1].replace(",", "."));
+  const max = areaMatch[2] ? Number.parseFloat(areaMatch[2].replace(",", ".")) : min;
+
+  if (Number.isNaN(min)) return null;
+  if (Number.isNaN(max)) return Number.parseFloat(min.toFixed(2));
+
+  return Number.parseFloat((((min + max) / 2)).toFixed(2));
+}
+
+function normalizeRoomTypeLabel(value: string | null | undefined) {
+  const normalized = normalizeSearchText(value || "");
+
+  if (!normalized) return null;
+  if (normalized === "null" || normalized === "undefined") return null;
+
+  if (ROOM_TYPE_CANONICAL_LABELS[normalized]) {
+    return ROOM_TYPE_CANONICAL_LABELS[normalized];
+  }
+
+  return detectRoomTypeFromText(value || "");
+}
+
+function detectRoomTypeFromText(text: string) {
+  const normalized = normalizeSearchText(text);
+
+  if (normalized.includes("3n1k")) return "3N1K";
+  if (normalized.includes("2n1b")) return "2N1B";
+  if (normalized.includes("2n1k")) return "2N1K";
+  if (normalized.includes("1n1k1b") || normalized.includes("1k1n")) return "1N1K";
+  if (normalized.includes("1n1k")) return "1N1K";
+  if (normalized.includes("1n1b")) return "1N1B";
+  if (normalized.includes("studio")) return "Studio";
+  if (normalized.includes("gac xep") || normalized.includes("duplex") || normalized.includes("loft")) {
+    return "G\u00e1c x\u1ebfp";
+  }
+  if (normalized.includes("giuong tang") || normalized.includes("ktx") || normalized.includes("bedspace")) {
+    return "Gi\u01b0\u1eddng t\u1ea7ng";
+  }
+  if (normalized.includes("2 phong ngu") || normalized.includes("2 ngu")) return "2 ng\u1ee7";
+  if (normalized.includes("1 phong ngu") || normalized.includes("1 ngu")) return "1 ng\u1ee7";
+  if (normalized.includes("don vskk") || normalized.includes("vskk")) return "VSKK";
+  if (normalized.includes("vsc")) return "VSC";
+
+  return null;
+}
+
+function extractAddressFromText(text: string) {
+  const lines = text
+    .replace(/\r/g, "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  for (const line of lines) {
+    if (/^(?:[🏠🏡🏪📍]|(?:dia chi|địa chỉ)\b|dc\b)/iu.test(line)) {
+      const parts = line.split(/[:\-]/);
+      if (parts.length > 1) {
+        const value = collapseWhitespace(parts.slice(1).join(" "));
+        if (value) return value;
+      }
+
+      return collapseWhitespace(line.replace(/^(?:[🏠🏡🏪📍]\s*)?((?:dia chi|địa chỉ|dc)\s*:?)/iu, ""));
+    }
+  }
+
+  return null;
+}
+
+function buildCommissionRecordTitle(input: {
+  address: string;
+  district: string;
+  roomType: string | null;
+  price: number | null;
+  area: number | null;
+}) {
+  const roomLabel = input.roomType || "Phong tro";
+  const areaLabel = input.area != null && input.area > 0 ? `${input.area}m2` : "";
+  const priceLabel = input.price != null && input.price > 0 ? `${input.price} trieu/thang` : "";
+
+  return [roomLabel, areaLabel, input.district, priceLabel || input.address].filter(Boolean).join(" - ");
+}
+
+function buildCommissionSearchHaystack(input: {
+  title: string;
+  address: string;
+  district: string;
+  province: string;
+  roomType: string | null;
+  sourceSymbol: string | null;
+  commissionLabel: string;
+  commissionScope: string;
+  rawText: string;
+}) {
+  return normalizeSearchText(
+    [
+      input.title,
+      input.address,
+      input.district,
+      input.province,
+      input.roomType || "",
+      input.sourceSymbol || "",
+      input.commissionLabel,
+      input.commissionScope,
+      input.rawText,
+    ].join(" "),
+  );
+}
+
 async function readJsonFile<T>(filePath: string): Promise<T> {
   const fileContents = await fs.readFile(filePath, "utf8");
   return JSON.parse(fileContents) as T;
@@ -134,7 +394,7 @@ async function loadDistrictSources(): Promise<DistrictSource[]> {
       .sort((left, right) => left.localeCompare(right))
       .map(async (fileName) => {
         const [fullRecords, summaryRecords] = await Promise.all([
-          readJsonFile<RawDistrictProperty[]>(path.join(FULL_DISTRICT_DIR, fileName)),
+          readJsonFile<DistrictSource["fullRecords"]>(path.join(FULL_DISTRICT_DIR, fileName)),
           summaryFileSet.has(fileName)
             ? readJsonFile<RawDistrictSummary[]>(path.join(SUMMARY_DISTRICT_DIR, fileName))
             : Promise.resolve([]),
@@ -279,6 +539,157 @@ function buildLatestSections(properties: PropertyPreview[]): HomePropertySection
     });
 }
 
+function buildPropertyLookup(properties: Property[]) {
+  return new Map(
+    properties.map((property) => [
+      toPropertyLookupKey(property.sourceFile, String(property.sourceRawId)),
+      property,
+    ]),
+  );
+}
+
+function buildCommissionRecords(
+  districtSources: DistrictSource[],
+  propertyLookup: Map<string, Property>,
+) {
+  const recordsByDistrict = new Map<string, BichHaCommissionRecord[]>();
+
+  for (const source of districtSources) {
+    const districtKey = fileNameToDistrictKey(source.sourceFile);
+    const districtLabel = DISTRICT_LABELS[districtKey] || districtKey;
+    const summaryById = new Map(
+      (source.summaryRecords || []).map((record) => [String(record.id), record] as const),
+    );
+
+    for (const record of source.fullRecords) {
+      const sourceRawId = String(record.id || "");
+      const summary = summaryById.get(sourceRawId);
+      const rawText = String(
+        record.original_text
+        || summary?.original_raw_text
+        || record.text
+        || summary?.raw_text
+        || "",
+      )
+        .replace(/\r/g, "")
+        .trim();
+
+      if (!rawText) continue;
+
+      const commissionInfo = extractBichHaCommissionInfo(rawText);
+      if (!commissionInfo) continue;
+
+      const property = propertyLookup.get(toPropertyLookupKey(source.sourceFile, sourceRawId));
+      const address =
+        property?.address
+        || collapseWhitespace(String(summary?.address || "").trim())
+        || extractAddressFromText(rawText)
+        || "Dang cap nhat";
+      const roomType =
+        normalizeRoomTypeLabel(property?.roomType)
+        || normalizeRoomTypeLabel(summary?.type)
+        || detectRoomTypeFromText(rawText);
+      const priceFrom = property?.priceFrom ?? parseMoneyToMillions(summary?.price1 ?? summary?.price);
+      const priceTo = property?.priceTo ?? parseMoneyToMillions(summary?.price2 ?? summary?.price1 ?? summary?.price);
+      const price = property?.price ?? priceFrom ?? priceTo;
+      const area = property?.area && property.area > 0 ? property.area : extractAreaFromText(rawText);
+      const district = canonicalizeDistrictLabel(property?.district || districtLabel) || districtLabel;
+      const province =
+        canonicalizeProvinceLabel(property?.province || "H\u00e0 N\u1ed9i")
+        || "H\u00e0 N\u1ed9i";
+      const propertyImages = property?.images?.slice(0, 4) || [];
+      const fallbackImages = (record.photos || []).map((photo) => photo.url).filter(Boolean).slice(0, 4);
+      const images = propertyImages.length > 0 ? propertyImages : fallbackImages;
+      const imageUrl = images[0] || (record.videos || []).map((video) => video.thumb).find(Boolean) || null;
+      const title = property?.title || buildCommissionRecordTitle({
+        address,
+        district,
+        roomType,
+        price,
+        area,
+      });
+      const fallbackPostedMs =
+        typeof record.timestamp === "number" && record.timestamp > 0
+          ? record.timestamp * 1000
+          : Number.parseInt(sourceRawId, 10) || Date.now();
+      const postedAt = property?.postedAt || new Date(fallbackPostedMs).toISOString();
+      const sourceSymbol = record.symbol || property?.sourceSymbol || null;
+      const groupId = buildBichHaCommissionGroupId({
+        districtKey,
+        address,
+        roomType,
+        priceFrom: priceFrom ?? null,
+        priceTo: priceTo ?? priceFrom ?? null,
+        area: area ?? null,
+        rawText,
+      });
+
+      const commissionRecord: BichHaCommissionRecord = {
+        id: sourceRawId,
+        groupId,
+        propertyId: property?.id ?? null,
+        propertyUrl: property ? `/property/${property.id}` : null,
+        title,
+        address,
+        province,
+        district,
+        districtKey,
+        roomType,
+        price: price ?? null,
+        priceFrom: priceFrom ?? null,
+        priceTo: priceTo ?? priceFrom ?? null,
+        area: area ?? null,
+        imageUrl,
+        images,
+        sourceFile: source.sourceFile,
+        sourceSymbol,
+        sourceRawId,
+        commissionLabel: commissionInfo.label,
+        commissionScope: commissionInfo.scope,
+        commissionUnit: commissionInfo.unit,
+        commissionValue: commissionInfo.value,
+        commissionMin: commissionInfo.min,
+        commissionMax: commissionInfo.max,
+        rawText,
+        postedAt,
+        searchHaystack: buildCommissionSearchHaystack({
+          title,
+          address,
+          district,
+          province,
+          roomType,
+          sourceSymbol,
+          commissionLabel: commissionInfo.label,
+          commissionScope: commissionInfo.scope,
+          rawText,
+        }),
+      };
+
+      const districtRecords = recordsByDistrict.get(districtKey) || [];
+      districtRecords.push(commissionRecord);
+      recordsByDistrict.set(districtKey, districtRecords);
+    }
+  }
+
+  const sortedRecordsByDistrict = new Map(
+    Array.from(recordsByDistrict.entries()).map(([districtKey, records]) => [
+      districtKey,
+      records.slice().sort((left, right) => {
+        if (right.commissionValue !== left.commissionValue) {
+          return right.commissionValue - left.commissionValue;
+        }
+
+        return new Date(right.postedAt).getTime() - new Date(left.postedAt).getTime();
+      }),
+    ]),
+  );
+
+  return {
+    allRecords: Array.from(sortedRecordsByDistrict.values()).flat(),
+    recordsByDistrict: sortedRecordsByDistrict,
+  };
+}
+
 async function writeJsonFile(filePath: string, value: unknown) {
   await fs.mkdir(path.dirname(filePath), { recursive: true });
   await fs.writeFile(filePath, JSON.stringify(value));
@@ -320,7 +731,7 @@ async function copyFileIntoPlace(sourcePath: string, targetPath: string) {
   await fs.copyFile(sourcePath, targetPath);
 }
 
-async function syncDistrictOutput(sourceDir: string, targetDir: string) {
+async function syncJsonDirectory(sourceDir: string, targetDir: string) {
   await fs.mkdir(targetDir, { recursive: true });
 
   const [sourceEntries, targetEntries] = await Promise.all([
@@ -344,8 +755,8 @@ async function syncDistrictOutput(sourceDir: string, targetDir: string) {
   }
 }
 
-async function removeStaleTopLevelEntries(outputDir: string) {
-  const expectedEntries = new Set<string>(["districts", ...OUTPUT_TOP_LEVEL_FILES]);
+async function removeStaleTopLevelEntries(outputDir: string, expectedTopLevelFiles: readonly string[]) {
+  const expectedEntries = new Set<string>(["districts", ...expectedTopLevelFiles]);
   const currentEntries = await fs.readdir(outputDir, { withFileTypes: true }).catch(() => []);
 
   for (const entry of currentEntries) {
@@ -355,16 +766,21 @@ async function removeStaleTopLevelEntries(outputDir: string) {
   }
 }
 
-async function syncGeneratedOutput(tempOutputDir: string) {
+async function syncGeneratedOutput(
+  tempOutputDir: string,
+  targetDir: string,
+  targetDistrictDir: string,
+  topLevelFiles: readonly string[],
+) {
   const tempDistrictDir = path.join(tempOutputDir, "districts");
 
-  await syncDistrictOutput(tempDistrictDir, OUTPUT_DISTRICT_DIR);
+  await syncJsonDirectory(tempDistrictDir, targetDistrictDir);
 
-  for (const fileName of OUTPUT_TOP_LEVEL_FILES) {
-    await copyFileIntoPlace(path.join(tempOutputDir, fileName), path.join(OUTPUT_DIR, fileName));
+  for (const fileName of topLevelFiles) {
+    await copyFileIntoPlace(path.join(tempOutputDir, fileName), path.join(targetDir, fileName));
   }
 
-  await removeStaleTopLevelEntries(OUTPUT_DIR);
+  await removeStaleTopLevelEntries(targetDir, topLevelFiles);
 }
 
 async function main() {
@@ -376,7 +792,9 @@ async function main() {
     buildLockAcquired = true;
 
     const districtSources = await loadDistrictSources();
+    const generatedAt = new Date().toISOString();
     const allProperties = buildPropertyCollection(districtSources);
+    const propertyLookup = buildPropertyLookup(allProperties);
     const propertyIndex = allProperties.map(toPropertyPreview);
     const propertyManifest = Object.fromEntries(
       allProperties.map((property) => [String(property.id), property.districtKey]),
@@ -384,6 +802,11 @@ async function main() {
     const latestSections = buildLatestSections(propertyIndex);
     const availableDistricts = buildAvailableDistricts(propertyIndex);
     const locationSuggestions = buildLocationSuggestions(propertyIndex);
+    const {
+      allRecords: commissionRecords,
+      recordsByDistrict: commissionRecordsByDistrict,
+    } = buildCommissionRecords(districtSources, propertyLookup);
+    const commissionIndex = buildBichHaCommissionIndex(commissionRecords, generatedAt);
     const propertiesByDistrict = allProperties.reduce((groups, property) => {
       const currentDistrictProperties = groups.get(property.districtKey) || [];
       currentDistrictProperties.push(property);
@@ -392,39 +815,67 @@ async function main() {
     }, new Map<string, Property[]>());
 
     tempBuildDir = path.join(TEMP_BUILD_ROOT_DIR, `properties-${process.pid}-${Date.now()}`);
-    const tempOutputDir = path.join(tempBuildDir, "properties");
-    const tempOutputDistrictDir = path.join(tempOutputDir, "districts");
+    const tempPublicOutputDir = path.join(tempBuildDir, "properties");
+    const tempPublicOutputDistrictDir = path.join(tempPublicOutputDir, "districts");
+    const tempPrivateCommissionOutputDir = path.join(tempBuildDir, "bichha-commissions");
+    const tempPrivateCommissionDistrictDir = path.join(tempPrivateCommissionOutputDir, "districts");
 
     await fs.rm(tempBuildDir, { recursive: true, force: true });
-    await fs.mkdir(tempOutputDistrictDir, { recursive: true });
+    await Promise.all([
+      fs.mkdir(tempPublicOutputDistrictDir, { recursive: true }),
+      fs.mkdir(tempPrivateCommissionDistrictDir, { recursive: true }),
+    ]);
 
     await Promise.all([
-      writeJsonFile(path.join(tempOutputDir, "index.json"), propertyIndex),
+      writeJsonFile(path.join(tempPublicOutputDir, "index.json"), propertyIndex),
       writeJsonFile(
-        path.join(tempOutputDir, "home.json"),
+        path.join(tempPublicOutputDir, "home.json"),
         {
           availableDistricts,
           locationSuggestions,
           latestSections,
         },
       ),
-      writeJsonFile(path.join(tempOutputDir, "manifest.json"), propertyManifest),
+      writeJsonFile(path.join(tempPublicOutputDir, "manifest.json"), propertyManifest),
+      writeJsonFile(path.join(tempPrivateCommissionOutputDir, "index.json"), commissionIndex),
     ]);
 
     await Promise.all(
       Array.from(propertiesByDistrict.entries()).map(([districtKey, districtProperties]) =>
-        writeJsonFile(path.join(tempOutputDistrictDir, `${districtKey}.json`), districtProperties),
+        writeJsonFile(path.join(tempPublicOutputDistrictDir, `${districtKey}.json`), districtProperties),
       ),
     );
 
-    await syncGeneratedOutput(tempOutputDir);
+    await Promise.all(
+      Array.from(commissionRecordsByDistrict.entries()).map(([districtKey, districtRecords]) =>
+        writeJsonFile(path.join(tempPrivateCommissionDistrictDir, `${districtKey}.json`), districtRecords),
+      ),
+    );
+
+    await Promise.all([
+      syncGeneratedOutput(
+        tempPublicOutputDir,
+        PUBLIC_OUTPUT_DIR,
+        PUBLIC_OUTPUT_DISTRICT_DIR,
+        PUBLIC_OUTPUT_TOP_LEVEL_FILES,
+      ),
+      syncGeneratedOutput(
+        tempPrivateCommissionOutputDir,
+        PRIVATE_COMMISSION_OUTPUT_DIR,
+        PRIVATE_COMMISSION_DISTRICT_DIR,
+        PRIVATE_COMMISSION_TOP_LEVEL_FILES,
+      ),
+    ]);
 
     console.log(
       JSON.stringify(
         {
           properties: allProperties.length,
           districts: propertiesByDistrict.size,
-          outputDir: path.relative(ROOT_DIR, OUTPUT_DIR),
+          commissionRecords: commissionIndex.totalRecords,
+          commissionGroups: commissionIndex.totalGroups,
+          publicOutputDir: path.relative(ROOT_DIR, PUBLIC_OUTPUT_DIR),
+          privateCommissionOutputDir: path.relative(ROOT_DIR, PRIVATE_COMMISSION_OUTPUT_DIR),
           inputDirs: {
             full: path.relative(ROOT_DIR, FULL_DISTRICT_DIR),
             summary: path.relative(ROOT_DIR, SUMMARY_DISTRICT_DIR),

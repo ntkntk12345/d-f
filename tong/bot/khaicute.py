@@ -198,32 +198,12 @@ class WebBot(ZaloAPI):
 
                 self.send(Message(text="⏳ Đang tải thông tin phòng..."), thread_str, ThreadType.USER)
 
-                # ── Tìm summary (districts_ok) + full (districts_full) ──
-                # Giống hệt logic send_room_to_zalo, nhưng tìm trên TẤT CẢ quận
-                room_summary = None
-                room_full    = None
-
-                if os.path.exists(DISTRICTS_OK):
-                    for fname in os.listdir(DISTRICTS_OK):
-                        if not fname.endswith(".json"): continue
-                        try:
-                            with open(os.path.join(DISTRICTS_OK, fname), "r", encoding="utf-8") as f:
-                                for r in json.load(f):
-                                    if str(r.get("id", "")) == clean_id:
-                                        room_summary = r; break
-                        except: pass
-                        if room_summary: break
-
-                if os.path.exists(DISTRICTS_FULL):
-                    for fname in os.listdir(DISTRICTS_FULL):
-                        if not fname.endswith(".json"): continue
-                        try:
-                            with open(os.path.join(DISTRICTS_FULL, fname), "r", encoding="utf-8") as f:
-                                for r in json.load(f):
-                                    if str(r.get("id", "")) == clean_id:
-                                        room_full = r; break
-                        except: pass
-                        if room_full: break
+                # Ưu tiên snapshot chuẩn của website, fallback về districts_ok/full cũ.
+                room_summary = _find_room_summary(clean_id)
+                room_full = _find_room_full(
+                    clean_id,
+                    room_summary.get("district_key") if room_summary else None,
+                )
 
                 if not room_full and not room_summary:
                     self.send(Message(text=f"❌ Không tìm thấy phòng ID: {clean_id}\nKiểm tra lại ID trong danh sách đã nhận."), thread_str, ThreadType.USER)
@@ -497,6 +477,479 @@ def load_all_rooms(district_key=None, addr_keyword=None, price_min=None, price_m
     return all_rooms
 
 
+DISTRICT_LABELS = {
+    "bactuliem": "Bắc Từ Liêm",
+    "badinh": "Ba Đình",
+    "caugiay": "Cầu Giấy",
+    "dongda": "Đống Đa",
+    "hadong": "Hà Đông",
+    "haibatrung": "Hai Bà Trưng",
+    "hoaiduc": "Hoài Đức",
+    "hoangmai": "Hoàng Mai",
+    "hoankiem": "Hoàn Kiếm",
+    "longbien": "Long Biên",
+    "mydinh": "Mỹ Đình",
+    "namtuliem": "Nam Từ Liêm",
+    "tayho": "Tây Hồ",
+    "thanhtri": "Thanh Trì",
+    "thanhxuan": "Thanh Xuân",
+    "khaicute": "Khaicute",
+}
+
+STANDARD_PROPERTY_DISTRICTS_ENV = "BICHHA_PROPERTY_DISTRICTS_DIR"
+
+
+def _safe_load_json(file_path, default=None):
+    if default is None:
+        default = []
+
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return default
+
+
+def _list_json_district_keys(directory_path):
+    if not directory_path or not os.path.isdir(directory_path):
+        return []
+
+    try:
+        return sorted(
+            fname.replace(".json", "")
+            for fname in os.listdir(directory_path)
+            if fname.endswith(".json")
+        )
+    except Exception:
+        return []
+
+
+def _get_standard_property_districts_dir():
+    override = os.environ.get(STANDARD_PROPERTY_DISTRICTS_ENV, "").strip()
+    candidates = []
+
+    if override:
+        candidates.append(os.path.abspath(override))
+
+    candidates.append(
+        os.path.abspath(
+            os.path.join(BASE_DIR, "..", "batdongsan", "public", "data", "properties", "districts")
+        )
+    )
+
+    for candidate in candidates:
+        if candidate and _list_json_district_keys(candidate):
+            return candidate
+
+    return None
+
+
+def _get_known_district_keys():
+    keys = []
+
+    for directory_path in (_get_standard_property_districts_dir(), DISTRICTS_OK, DISTRICTS_FULL):
+        keys.extend(_list_json_district_keys(directory_path))
+
+    return sorted(set(keys))
+
+
+def _get_candidate_district_keys(district_key=None):
+    if district_key and district_key != "all":
+        return [district_key]
+
+    return _get_known_district_keys()
+
+
+def _parse_price_value(val):
+    if val in (None, "", 0):
+        return 0
+
+    s = str(val).strip()
+    if not s:
+        return 0
+
+    if s.count(".") > 1 or s.count(",") > 1:
+        s = s.replace(".", "").replace(",", "")
+    else:
+        match = re.search(r"[.,](\d+)$", s)
+        if match:
+            if len(match.group(1)) == 3:
+                s = s.replace(".", "").replace(",", "")
+            else:
+                s = s.replace(",", ".")
+
+    try:
+        n = float(s)
+        if 0 < n < 1000:
+            n *= 1_000_000
+        return int(n)
+    except Exception:
+        return 0
+
+
+def _load_full_room_cache(district_key):
+    full_path = os.path.join(DISTRICTS_FULL, f"{district_key}.json")
+    cache = {}
+
+    if not os.path.exists(full_path):
+        return cache
+
+    for room in _safe_load_json(full_path, []):
+        room_id = str(room.get("id", "")).strip()
+        if room_id:
+            cache[room_id] = room
+
+    return cache
+
+
+def _get_room_photo_urls(full_info):
+    photo_urls = []
+    for photo in full_info.get("photos") or []:
+        photo_url = photo.get("url") or photo.get("hd") or photo.get("href")
+        if photo_url:
+            photo_urls.append(photo_url)
+    return photo_urls[:10]
+
+
+def _posted_at_to_timestamp(posted_at, fallback_room_id):
+    if posted_at:
+        try:
+            return datetime.fromisoformat(str(posted_at).replace("Z", "+00:00")).timestamp()
+        except Exception:
+            pass
+
+    try:
+        return int(str(fallback_room_id)[:13]) / 1000.0
+    except Exception:
+        return 0
+
+
+def _format_million_value(value):
+    try:
+        numeric = float(value)
+    except Exception:
+        return ""
+
+    if abs(numeric - round(numeric)) < 0.0001:
+        return str(int(round(numeric)))
+
+    return f"{numeric:.2f}".rstrip("0").rstrip(".")
+
+
+def _to_vnd_from_million(value):
+    try:
+        numeric = float(value)
+        if numeric <= 0:
+            return 0
+        return int(round(numeric * 1_000_000))
+    except Exception:
+        return 0
+
+
+def _build_property_price_label(property_item):
+    price_from = property_item.get("priceFrom")
+    price_to = property_item.get("priceTo")
+    price = property_item.get("price")
+    price_unit = str(property_item.get("priceUnit") or "triệu/tháng").strip()
+
+    if price_from and price_to and abs(float(price_to) - float(price_from)) >= 0.01:
+        return f"{_format_million_value(price_from)}-{_format_million_value(price_to)} {price_unit}"
+    if price_from:
+        return f"{_format_million_value(price_from)} {price_unit}"
+    if price:
+        return f"{_format_million_value(price)} {price_unit}"
+
+    return "N/A"
+
+
+def _build_pseudo_full_from_property(property_item, room_id):
+    photo_items = property_item.get("photoItems") or []
+    if not photo_items:
+        photo_items = [{"url": url} for url in (property_item.get("images") or []) if url]
+
+    return {
+        "id": room_id,
+        "text": str(property_item.get("sourceText") or property_item.get("description") or "").strip(),
+        "photos": photo_items,
+        "videos": property_item.get("videoItems") or [],
+        "timestamp": _posted_at_to_timestamp(property_item.get("postedAt"), room_id),
+    }
+
+
+def _build_standard_room_summary(property_item, district_key, full_info=None):
+    room_id = str(property_item.get("sourceRawId") or property_item.get("id") or "").strip()
+    if not room_id:
+        return None
+
+    price_from = property_item.get("priceFrom")
+    price_to = property_item.get("priceTo")
+    price_value = property_item.get("price")
+    photos = []
+
+    if full_info:
+        photos = _get_room_photo_urls(full_info)
+
+    if not photos:
+        photos = [str(url).strip() for url in (property_item.get("images") or []) if str(url).strip()]
+
+    room_type = str(property_item.get("roomType") or "").strip()
+    search_text = remove_accents(
+        " ".join(
+            [
+                str(property_item.get("title") or ""),
+                str(property_item.get("address") or ""),
+                str(property_item.get("district") or ""),
+                str(property_item.get("sourceText") or ""),
+                str(property_item.get("description") or ""),
+                room_type,
+            ]
+        )
+    ).replace(" ", "")
+
+    return {
+        "id": room_id,
+        "property_id": property_item.get("id"),
+        "address": str(property_item.get("address") or "").strip(),
+        "price": _build_property_price_label(property_item),
+        "price1": _to_vnd_from_million(price_from if price_from is not None else price_value),
+        "price2": _to_vnd_from_million(
+            price_to if price_to is not None else price_from if price_from is not None else price_value
+        ),
+        "type": room_type,
+        "district_key": str(property_item.get("districtKey") or district_key),
+        "district_label": str(property_item.get("district") or DISTRICT_LABELS.get(district_key, district_key)),
+        "_ts": _posted_at_to_timestamp(property_item.get("postedAt"), room_id),
+        "_search_text": search_text,
+        "full_text": (
+            str(full_info.get("text") or "").strip()
+            if full_info
+            else str(property_item.get("sourceText") or property_item.get("description") or "").strip()
+        ),
+        "all_photos": photos[:10],
+        "thumb_url": photos[0] if photos else "",
+        "_pseudo_full": full_info or _build_pseudo_full_from_property(property_item, room_id),
+    }
+
+
+def _load_all_rooms_from_standard_data(district_key=None, addr_keyword=None, price_min=None, price_max=None, room_type=None):
+    standard_dir = _get_standard_property_districts_dir()
+    if not standard_dir:
+        return []
+
+    all_rooms = []
+    candidate_districts = _get_candidate_district_keys(district_key)
+    norm_kw = remove_accents(addr_keyword).replace(" ", "") if addr_keyword and addr_keyword.strip() else None
+    room_type_filter = remove_accents(room_type).replace(" ", "") if room_type and room_type != "all" else ""
+    cutoff = time.time() - (7 * 24 * 3600)
+
+    for d_key in candidate_districts:
+        district_file = os.path.join(standard_dir, f"{d_key}.json")
+        if not os.path.exists(district_file):
+            continue
+
+        properties = _safe_load_json(district_file, [])
+        full_data_cache = _load_full_room_cache(d_key)
+
+        for property_item in properties:
+            room_id = str(property_item.get("sourceRawId") or property_item.get("id") or "").strip()
+            if not room_id:
+                continue
+
+            room = _build_standard_room_summary(property_item, d_key, full_data_cache.get(room_id))
+            if not room:
+                continue
+
+            if room_type_filter:
+                normalized_type = remove_accents(room.get("type", "")).replace(" ", "")
+                if room_type_filter not in normalized_type:
+                    continue
+
+            if norm_kw and norm_kw not in room.get("_search_text", ""):
+                continue
+
+            p1 = _parse_price_value(room.get("price1"))
+            p2 = _parse_price_value(room.get("price2")) or p1
+
+            if price_min is not None and p2 < price_min:
+                continue
+            if price_max is not None and p1 > price_max:
+                continue
+            if room.get("_ts", 0) < cutoff:
+                continue
+            if not room.get("all_photos"):
+                continue
+
+            room.pop("_search_text", None)
+            room.pop("_pseudo_full", None)
+            all_rooms.append(room)
+
+    all_rooms.sort(key=lambda room: room.get("_ts", 0), reverse=True)
+    return all_rooms
+
+
+def _load_all_rooms_from_raw_data(district_key=None, addr_keyword=None, price_min=None, price_max=None, room_type=None):
+    all_rooms = []
+
+    if district_key and district_key != "all":
+        ok_files = [os.path.join(DISTRICTS_OK, f"{district_key}.json")]
+    else:
+        ok_files = [
+            os.path.join(DISTRICTS_OK, f)
+            for f in (os.listdir(DISTRICTS_OK) if os.path.exists(DISTRICTS_OK) else [])
+            if f.endswith(".json")
+        ]
+
+    norm_kw = remove_accents(addr_keyword).replace(" ", "") if addr_keyword and addr_keyword.strip() else None
+
+    for fpath in ok_files:
+        d_key = os.path.basename(fpath).replace(".json", "")
+        if not os.path.exists(fpath):
+            continue
+
+        full_data_cache = _load_full_room_cache(d_key)
+
+        try:
+            with open(fpath, "r", encoding="utf-8") as f:
+                rooms = json.load(f)
+            for room in rooms:
+                if room_type and room_type != "all":
+                    r_type = str(room.get("type", "")).lower()
+                    if room_type.lower() not in r_type:
+                        continue
+
+                if norm_kw:
+                    addr_norm = remove_accents(room.get("address", "")).replace(" ", "")
+                    if norm_kw not in addr_norm:
+                        continue
+
+                if price_min is not None or price_max is not None:
+                    p1 = _parse_price_value(room.get("price1"))
+                    p2 = _parse_price_value(room.get("price2")) or p1
+
+                    if price_min is not None and p2 < price_min:
+                        continue
+                    if price_max is not None and p1 > price_max:
+                        continue
+
+                room["district_key"] = d_key
+                room["district_label"] = DISTRICT_LABELS.get(d_key, d_key)
+                try:
+                    r_ts = int(room.get("id", 0)) / 1000.0
+                except Exception:
+                    r_ts = 0
+
+                cutoff = time.time() - (7 * 24 * 3600)
+                if r_ts < cutoff:
+                    continue
+
+                full_info = full_data_cache.get(str(room.get("id", "")))
+                if not full_info:
+                    continue
+
+                room["_ts"] = r_ts
+                room["full_text"] = full_info.get("text", "")
+                room["all_photos"] = _get_room_photo_urls(full_info)
+
+                if not room["all_photos"]:
+                    continue
+
+                room["thumb_url"] = room["all_photos"][0]
+                all_rooms.append(room)
+        except Exception as e:
+            print(f"[LOAD] Lỗi đọc {fpath}: {e}")
+
+    all_rooms.sort(key=lambda r: r.get("_ts", 0), reverse=True)
+    return all_rooms
+
+
+def _find_standard_property(room_id, district_key=None):
+    standard_dir = _get_standard_property_districts_dir()
+    if not standard_dir:
+        return None, None
+
+    target_id = str(room_id).strip()
+    for d_key in _get_candidate_district_keys(district_key):
+        district_file = os.path.join(standard_dir, f"{d_key}.json")
+        if not os.path.exists(district_file):
+            continue
+
+        for property_item in _safe_load_json(district_file, []):
+            source_raw_id = str(property_item.get("sourceRawId") or "").strip()
+            property_id = str(property_item.get("id") or "").strip()
+            if target_id in {source_raw_id, property_id}:
+                return d_key, property_item
+
+    return None, None
+
+
+def _find_room_summary_from_standard(room_id, district_key=None):
+    d_key, property_item = _find_standard_property(room_id, district_key)
+    if not property_item:
+        return None
+
+    room_id = str(property_item.get("sourceRawId") or property_item.get("id") or "").strip()
+    full_info = _load_full_room_cache(d_key).get(room_id)
+    return _build_standard_room_summary(property_item, d_key, full_info)
+
+
+def _find_room_summary_from_raw(room_id, district_key=None):
+    target_id = str(room_id).strip()
+    candidate_districts = _get_candidate_district_keys(district_key)
+
+    for d_key in candidate_districts:
+        ok_path = os.path.join(DISTRICTS_OK, f"{d_key}.json")
+        if not os.path.exists(ok_path):
+            continue
+
+        for room in _safe_load_json(ok_path, []):
+            if str(room.get("id", "")).strip() == target_id:
+                room["district_key"] = d_key
+                room["district_label"] = DISTRICT_LABELS.get(d_key, d_key)
+                return room
+
+    return None
+
+
+def _find_room_summary(room_id, district_key=None):
+    return _find_room_summary_from_standard(room_id, district_key) or _find_room_summary_from_raw(room_id, district_key)
+
+
+def _find_room_full(room_id, district_key=None):
+    target_id = str(room_id).strip()
+    candidate_districts = _get_candidate_district_keys(district_key)
+
+    for d_key in candidate_districts:
+        full_info = _load_full_room_cache(d_key).get(target_id)
+        if full_info:
+            return full_info
+
+    room_summary = _find_room_summary_from_standard(room_id, district_key)
+    if room_summary:
+        return room_summary.get("_pseudo_full")
+
+    return None
+
+
+def get_districts():
+    district_keys = _get_known_district_keys()
+    return [{"key": key, "label": DISTRICT_LABELS.get(key, key)} for key in district_keys]
+
+
+def load_all_rooms(district_key=None, addr_keyword=None, price_min=None, price_max=None, room_type=None):
+    """Ưu tiên data build chuẩn của website, fallback về districts_ok cũ nếu chưa có snapshot."""
+    standard_dir = _get_standard_property_districts_dir()
+    if standard_dir:
+        candidate_districts = _get_candidate_district_keys(district_key)
+        has_standard_files = any(
+            os.path.exists(os.path.join(standard_dir, f"{d_key}.json"))
+            for d_key in candidate_districts
+        )
+        if has_standard_files:
+            return _load_all_rooms_from_standard_data(district_key, addr_keyword, price_min, price_max, room_type)
+
+    return _load_all_rooms_from_raw_data(district_key, addr_keyword, price_min, price_max, room_type)
+
+
 
 # ── Auto-cron: Xóa phòng > 7 ngày ──────────────────────────────────────────
 def _delete_old_rooms_once():
@@ -612,28 +1065,9 @@ def send_room_to_zalo(room_id, district_key):
     if not bot:
         return False, "Không kết nối được Zalo bot"
 
-    # --- Lấy thông tin summary từ districts_ok ---
-    ok_path = os.path.join(DISTRICTS_OK, f"{district_key}.json")
-    room_summary = None
-    if os.path.exists(ok_path):
-        with open(ok_path, "r", encoding="utf-8") as f:
-            for r in json.load(f):
-                if r.get("id") == room_id:
-                    room_summary = r
-                    break
-
-    # --- Lấy full data từ districts_full ---
-    full_path = os.path.join(DISTRICTS_FULL, f"{district_key}.json")
-    room_full = None
-    if os.path.exists(full_path):
-        try:
-            with open(full_path, "r", encoding="utf-8") as f:
-                for r in json.load(f):
-                    if r.get("id") == room_id:
-                        room_full = r
-                        break
-        except:
-            pass
+    room_summary = _find_room_summary(room_id, district_key)
+    resolved_district_key = room_summary.get("district_key", district_key) if room_summary else district_key
+    room_full = _find_room_full(room_id, resolved_district_key)
 
     # Tạo text thông tin phòng
     if room_summary:
@@ -926,17 +1360,12 @@ def api_create_task():
             rid = item.get("id")
             dk = item.get("district_key")
             if not rid or not dk: continue
-            
-            # Load room info từ file
-            fpath = os.path.join(DISTRICTS_OK, f"{dk}.json")
-            if os.path.exists(fpath):
-                try:
-                    with open(fpath, "r", encoding="utf-8") as f:
-                        for r in json.load(f):
-                            if str(r.get("id")) == str(rid):
-                                rooms.append(r)
-                                break
-                except: pass
+
+            room_summary = _find_room_summary(rid, dk)
+            if room_summary:
+                room_summary.pop("_pseudo_full", None)
+                room_summary.pop("_search_text", None)
+                rooms.append(room_summary)
     else:
         # Nếu không có ID chọn sẵn -> Lọc theo bộ lọc như cũ
         price_min = price_max = None
@@ -989,27 +1418,7 @@ def api_create_task():
             if not room_id: continue
             
             # --- Lấy full text và media ---
-            room_full = None
-            if not dk:
-                # Tìm dk nếu thiếu (thường có sẵn trong load_all_rooms)
-                for fname in os.listdir(DISTRICTS_FULL):
-                    if fname.endswith(".json"):
-                        try:
-                            with open(os.path.join(DISTRICTS_FULL, fname), "r", encoding="utf-8") as f:
-                                for r in json.load(f):
-                                    if str(r.get("id")) == str(room_id):
-                                        room_full = r; dk = fname.replace(".json",""); break
-                        except: pass
-                    if room_full: break
-            else:
-                fpath = os.path.join(DISTRICTS_FULL, f"{dk}.json")
-                if os.path.exists(fpath):
-                    try:
-                        with open(fpath, "r", encoding="utf-8") as f:
-                            for r in json.load(f):
-                                if str(r.get("id")) == str(room_id):
-                                    room_full = r; break
-                    except: pass
+            room_full = _find_room_full(room_id, dk)
 
             # --- Gửi text ---
             addr = room.get("address", "N/A")
@@ -1164,24 +1573,9 @@ def api_send_to_phone():
 
         # Nếu có kèm phòng → gửi thêm thông tin phòng
         if room_id and district_key:
-            ok_path  = os.path.join(DISTRICTS_OK, f"{district_key}.json")
-            full_path = os.path.join(DISTRICTS_FULL, f"{district_key}.json")
-            room_summary = None
-            room_full    = None
-
-            if os.path.exists(ok_path):
-                with open(ok_path, "r", encoding="utf-8") as f:
-                    for r in json.load(f):
-                        if r.get("id") == room_id:
-                            room_summary = r; break
-
-            if os.path.exists(full_path):
-                try:
-                    with open(full_path, "r", encoding="utf-8") as f:
-                        for r in json.load(f):
-                            if r.get("id") == room_id:
-                                room_full = r; break
-                except: pass
+            room_summary = _find_room_summary(room_id, district_key)
+            resolved_district_key = room_summary.get("district_key", district_key) if room_summary else district_key
+            room_full = _find_room_full(room_id, resolved_district_key)
 
             if room_summary:
                 addr  = room_summary.get("address", "N/A")
@@ -2357,20 +2751,7 @@ def api_chat_set_name():
 @app.route("/anh/<room_id>")
 def gallery_page(room_id):
     room_id = str(room_id)
-    room_full = None
-    
-    # Tìm trong districts_full để lấy media
-    if os.path.exists(DISTRICTS_FULL):
-        for fname in os.listdir(DISTRICTS_FULL):
-            if not fname.endswith(".json"): continue
-            try:
-                with open(os.path.join(DISTRICTS_FULL, fname), "r", encoding="utf-8") as f:
-                    for r in json.load(f):
-                        if str(r.get("id", "")) == room_id:
-                            room_full = r
-                            break
-            except: pass
-            if room_full: break
+    room_full = _find_room_full(room_id)
             
     if not room_full:
         return f"<h3>Không tìm thấy dữ liệu ảnh cho phòng ID: {room_id}</h3>", 404
