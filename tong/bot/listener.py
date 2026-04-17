@@ -376,10 +376,10 @@ class ZaloListener(ZaloAPI):
             for gid_str, data in grid_map.items():
                 name = data.get("name", "") if isinstance(data, dict) else getattr(data, "name", "")
                 if name:
-                    for dv_name, symbol in self.group_symbols.items():
-                        if dv_name.lower() in name.lower() or name.lower() in dv_name.lower():
-                            self.input_groups[gid_str] = symbol
-                            print(f"[Input] ✓ Found: {name} → {symbol}")
+                    symbol = bot_utils.resolve_symbol_for_group_name(name, self.group_symbols)
+                    if symbol:
+                        self.input_groups[gid_str] = symbol
+                        print(f"[Input] ✓ Found: {name} → {symbol}")
             print(f"[LISTENER] ✓ Scanned {len(self.input_groups)} input groups.")
         except Exception as e:
             print(f"[LISTENER] Error scanning: {e}")

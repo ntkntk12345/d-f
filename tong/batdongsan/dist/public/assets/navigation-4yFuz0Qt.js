@@ -1,1 +1,0 @@
-import{c as e}from"./index-CG2StmKM.js";const n=[["path",{d:"m12 19-7-7 7-7",key:"1l729n"}],["path",{d:"M19 12H5",key:"x3x0zl"}]],i=e("arrow-left",n);function a(o,t){if(typeof window<"u"&&window.history.length>1){window.history.back();return}o(t)}export{i as A,a as g};

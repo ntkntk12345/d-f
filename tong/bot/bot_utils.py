@@ -28,8 +28,75 @@ DAUVAO_FILE = "dauvao.txt"
 DAURA_FILE = "daura.json"
 
 # ==================== LOAD CONFIG ====================
+_EMOJI_STRIP_RE = re.compile(
+    "["
+    "\U0001F1E0-\U0001F1FF"
+    "\U0001F300-\U0001F5FF"
+    "\U0001F600-\U0001F64F"
+    "\U0001F680-\U0001F6FF"
+    "\U0001F700-\U0001F77F"
+    "\U0001F780-\U0001F7FF"
+    "\U0001F800-\U0001F8FF"
+    "\U0001F900-\U0001F9FF"
+    "\U0001FA00-\U0001FA6F"
+    "\U0001FA70-\U0001FAFF"
+    "\U00002702-\U000027B0"
+    "\U000024C2-\U0001F251"
+    "\uFE0F"
+    "]+",
+    flags=re.UNICODE,
+)
+
+
+def normalize_group_match_key(text):
+    """Chuẩn hoá tên nhóm để so khớp với dòng trong dauvao.txt (bỏ emoji, NFC, lower)."""
+    if not text:
+        return ""
+    s = unicodedata.normalize("NFC", str(text)).lower().strip()
+    s = _EMOJI_STRIP_RE.sub("", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+
+def resolve_symbol_for_group_name(group_name, group_symbols):
+    """
+    Chọn ký hiệu đúng từ dauvao.txt cho tên nhóm Zalo.
+
+    Trước đây dùng khớp `in` theo thứ tự dict → dễ lấy nhầm khi nhiều dòng chứa lẫn nhau
+    (vd nhiều dòng TNR / PHÒNG TỐT / vietquoc...).
+
+    Ưu tiên: trùng khớp chuẩn hoá > tên trong dauvao là substring của tên nhóm (dài nhất)
+    > tên nhóm là substring của tên trong dauvao (điểm theo độ dài tên nhóm).
+    """
+    if not group_name or not group_symbols:
+        return None
+    g = normalize_group_match_key(group_name)
+    if not g:
+        return None
+    best = None  # (tier, score, symbol, dv_name)
+    for dv_name, symbol in group_symbols.items():
+        if not dv_name or not symbol:
+            continue
+        d = normalize_group_match_key(dv_name)
+        if not d:
+            continue
+        tier = 0
+        score = 0
+        if d == g:
+            tier, score = 3, len(d)
+        elif d in g:
+            tier, score = 2, len(d)
+        elif g in d:
+            tier, score = 1, len(g)
+        else:
+            continue
+        if best is None or (tier, score) > (best[0], best[1]):
+            best = (tier, score, symbol.strip(), dv_name)
+    return best[2] if best else None
+
+
 def load_dauvao():
-    """Load mapping từ dauvao.txt: {group_id: ký hiệu}"""
+    """Load mapping từ dauvao.txt: {ten_nhom_zalo: ky_hieu} (giữ thứ tự dòng trong file)."""
     group_names = {}
     if not os.path.exists(DAUVAO_FILE):
         print(f"[CONFIG] Không tìm thấy {DAUVAO_FILE}")
@@ -143,6 +210,15 @@ def _generate_rules():
         "vietquoc": {"add_prefix": True, "format_price": True},
         "vietquoc1": {"add_prefix": True, "format_price": True},
         "tc home": {"add_prefix": True, "format_price": True, "remove_phone": True},
+        # dauvao.txt ~50–63: căn hộ / mặt bằng TC (ký hiệu ngắn "tc")
+        "tc": {"add_prefix": True, "format_price": True, "remove_phone": True},
+        "tài land": {"add_prefix": True, "format_price": True, "remove_phone": True},
+        "tài phát": {"add_prefix": True, "format_price": True, "remove_phone": True},
+        "nd": {"add_prefix": True, "format_price": True, "remove_phone": True},
+        "phongtot": {"add_prefix": True, "format_price": True, "remove_phone": True},
+        "dl homes": {"add_prefix": True, "format_price": True},
+        "phương thảo": {"add_prefix": True, "format_price": True},
+        "npland": {"add_prefix": True, "format_price": True, "remove_phone": True},
         "9a": {"remove_commission": True, "add_prefix": True, "format_price": True},
         "chdv": {"remove_phone": True, "add_prefix": True, "format_price": True},
         "chdv hưng phát": {"add_prefix": True},

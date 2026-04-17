@@ -17,6 +17,52 @@ import { apiJsonFetch } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import type { BichHaCommissionGroup } from "@/lib/bichha-commission-search";
 
+type ApiPropertyDetail = {
+  id: number;
+  title: string;
+  type: string;
+  category: string;
+  price: number;
+  priceUnit: string;
+  area: number;
+  address: string;
+  province: string;
+  district: string;
+  ward?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  floors?: number;
+  description: string;
+  images?: string[];
+  contactName?: string;
+  contactPhone?: string;
+  contactLink?: string;
+  isFeatured?: boolean;
+  isVerified?: boolean;
+  postedAt: string;
+  expiresAt?: string;
+  views: number;
+  pricePerSqm?: number;
+};
+
+function extractPropertyIdFromUrl(url: string) {
+  const candidate = String(url || "").trim();
+  if (!candidate) return null;
+
+  // Examples we try to support:
+  // - /property/123
+  // - /properties/123
+  // - https://domain.tld/property/123?x=y
+  const match =
+    candidate.match(/\/property\/(\d+)(?:[/?#]|$)/i)
+    || candidate.match(/\/properties\/(\d+)(?:[/?#]|$)/i)
+    || candidate.match(/[?&]id=(\d+)(?:[&#]|$)/i);
+  if (!match?.[1]) return null;
+
+  const id = Number(match[1]);
+  return Number.isFinite(id) && id > 0 ? id : null;
+}
+
 type BichHaCommissionSearchResponse = {
   generatedAt: string;
   availableDistricts: string[];
@@ -104,6 +150,20 @@ function summarizeRawText(value: string) {
   return `${compact.slice(0, 220)}...`;
 }
 
+function shouldHideAdminGroup(group: {
+  price?: number | null;
+  priceFrom?: number | null;
+  priceTo?: number | null;
+  latestPostedAt?: string;
+}) {
+  const effectivePrice = group.price ?? group.priceFrom ?? group.priceTo ?? null;
+  if (effectivePrice !== 210) return false;
+  const latestMs = new Date(group.latestPostedAt || "").getTime();
+  if (!Number.isFinite(latestMs)) return false;
+  const excludedMs = new Date("2026-04-17T08:57:00+07:00").getTime();
+  return Math.abs(latestMs - excludedMs) <= 60_000;
+}
+
 function buildSearchParams(query: AppliedQuery, page: number) {
   const params = new URLSearchParams();
 
@@ -131,6 +191,20 @@ export function BichHaCommissionSearchPanel({
   const [response, setResponse] = useState<BichHaCommissionSearchResponse>(EMPTY_RESPONSE);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [webCache, setWebCache] = useState<
+    Record<
+      number,
+      {
+        status: "idle" | "loading" | "ready" | "error";
+        description?: string;
+        title?: string;
+        address?: string;
+        errorMessage?: string;
+        statusCode?: number;
+        source?: "api" | "static-data" | "web-html";
+      }
+    >
+  >({});
 
   useEffect(() => {
     let cancelled = false;
@@ -194,6 +268,208 @@ export function BichHaCommissionSearchPanel({
     } catch {
       toast({ title: "Khong the copy tin nhan", variant: "destructive" });
     }
+  }
+
+  async function ensureWebDetail(propertyId: number, propertyUrl?: string | null) {
+    const primaryId = propertyId > 0 ? propertyId : 0;
+    const fallbackId = extractPropertyIdFromUrl(propertyUrl || "") || 0;
+    const attemptIds = Array.from(new Set([primaryId, fallbackId].filter((value) => value > 0)));
+
+    if (attemptIds.length === 0) {
+      setWebCache((current) => ({
+        ...current,
+        [propertyId]: {
+          status: "error",
+          errorMessage: "Khong co propertyId hop le de tai tin web.",
+          statusCode: 400,
+        },
+      }));
+      return;
+    }
+
+    setWebCache((current) => {
+      const existing = current[primaryId] || (fallbackId ? current[fallbackId] : undefined);
+      if (existing && (existing.status === "loading" || existing.status === "ready")) return current;
+      const next = { ...current };
+      for (const id of attemptIds) {
+        next[id] = { status: "loading" };
+      }
+      return next;
+    });
+
+    async function fetchPropertyDetail(id: number) {
+      const unauth = await apiJsonFetch<ApiPropertyDetail | null>(`/properties/${id}`, null);
+      if (unauth.res.ok && unauth.data) return unauth;
+      if (token) {
+        const authed = await apiJsonFetch<ApiPropertyDetail | null>(`/properties/${id}`, null, {}, token);
+        return authed;
+      }
+      return unauth;
+    }
+
+    async function fetchPropertyFromStaticData(id: number) {
+      const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+      const manifestRes = await fetch(`${base}/data/properties/manifest.json`, { method: "GET" });
+      if (!manifestRes.ok) {
+        return null;
+      }
+
+      const manifest = (await manifestRes.json()) as Record<string, string>;
+      const districtKey = manifest[String(id)];
+      if (!districtKey) {
+        return null;
+      }
+
+      const districtRes = await fetch(`${base}/data/properties/districts/${districtKey}.json`, { method: "GET" });
+      if (!districtRes.ok) {
+        return null;
+      }
+
+      const districtPayload = (await districtRes.json()) as Array<{ id: number; description?: string; title?: string; address?: string }>;
+      const found = districtPayload.find((property) => property?.id === id);
+      if (!found) {
+        return null;
+      }
+
+      return {
+        id,
+        title: String(found.title || ""),
+        address: String(found.address || ""),
+        description: String(found.description || ""),
+      };
+    }
+
+    let successId: number | null = null;
+    let successData: ApiPropertyDetail | null = null;
+    let lastError: { status: number; message: string } | null = null;
+
+    for (const id of attemptIds) {
+      const { res, data } = await fetchPropertyDetail(id);
+      if (res.ok && data) {
+        successId = id;
+        successData = data;
+        break;
+      }
+
+      const message =
+        typeof (data as unknown as { message?: string })?.message === "string"
+          ? (data as unknown as { message?: string }).message
+          : res.statusText || "Khong tai duoc tin web.";
+      lastError = { status: res.status, message: String(message) };
+    }
+
+    if (!successId || !successData) {
+      // Fallback 1: static data in public/data (manifest + districts/*.json)
+      for (const id of attemptIds) {
+        try {
+          const staticFound = await fetchPropertyFromStaticData(id);
+          if (staticFound) {
+            const payload = {
+              status: "ready" as const,
+              description: staticFound.description || "Khong co noi dung",
+              title: staticFound.title || "",
+              address: staticFound.address || "",
+              source: "static-data" as const,
+            };
+            setWebCache((current) => {
+              const next = { ...current };
+              for (const key of attemptIds) {
+                next[key] = payload;
+              }
+              return next;
+            });
+            return;
+          }
+        } catch {
+          // ignore
+        }
+      }
+
+      // Fallback: fetch HTML directly from propertyUrl (same-origin deployment),
+      // so user can read "tin web" without opening a new tab.
+      const urlToFetch = String(propertyUrl || "").trim();
+      if (urlToFetch) {
+        try {
+          const htmlRes = await fetch(urlToFetch, { method: "GET" });
+          const htmlText = await htmlRes.text();
+          if (htmlRes.ok && htmlText) {
+            const doc = new DOMParser().parseFromString(htmlText, "text/html");
+            const titleText = (doc.querySelector("title")?.textContent || "").trim();
+            // Remove scripts/styles so we don't pick up injected JS text.
+            doc.querySelectorAll("script, style, noscript").forEach((node) => node.remove());
+
+            const rootNode =
+              doc.querySelector("main")
+              || doc.querySelector("article")
+              || doc.querySelector('[role="main"]')
+              || doc.querySelector("#root")
+              || doc.body;
+
+            const pickHeadline = () => {
+              if (!rootNode) return "";
+              const headline = rootNode.querySelector("h1, h2, .title, [data-title]");
+              return (headline?.textContent || "").replace(/\s+/g, " ").trim();
+            };
+
+            const compactText = (value: string) => value.replace(/\s+/g, " ").trim();
+            const rawTextContent = compactText(rootNode?.textContent || "");
+
+            // Prefer short meaningful headline; fallback to first 800 chars of content.
+            const headlineText = pickHeadline();
+            const extractedBase = headlineText || rawTextContent || "Dang cap nhat du lieu";
+            const extracted = extractedBase.length > 800 ? `${extractedBase.slice(0, 800)}...` : extractedBase;
+            const payload = {
+              status: "ready" as const,
+              description: extracted,
+              title: titleText,
+              address: "",
+              source: "web-html" as const,
+            };
+
+            setWebCache((current) => {
+              const next = { ...current };
+              // Store under both ids so UI can read it
+              for (const id of attemptIds) {
+                next[id] = payload;
+              }
+              return next;
+            });
+            return;
+          }
+        } catch {
+          // ignore, show API error below
+        }
+      }
+
+      const statusCode = lastError?.status ?? 404;
+      const baseMessage = lastError?.message || "Khong tai duoc tin web.";
+      const attemptMessage =
+        attemptIds.length > 1 ? ` (da thu: ${attemptIds.join(", ")})` : "";
+
+      setWebCache((current) => {
+        const next = { ...current };
+        for (const id of attemptIds) {
+          next[id] = { status: "error", errorMessage: `${baseMessage}${attemptMessage}`, statusCode };
+        }
+        return next;
+      });
+      return;
+    }
+
+    const readyPayload = {
+      status: "ready" as const,
+      description: successData.description || "",
+      title: successData.title || "",
+      address: successData.address || "",
+      source: "api" as const,
+    };
+
+    // Save under success id, and also alias under primary id so UI can read even when primaryId is wrong.
+    setWebCache((current) => ({
+      ...current,
+      [successId]: readyPayload,
+      ...(primaryId && primaryId !== successId ? { [primaryId]: readyPayload } : {}),
+    }));
   }
 
   return (
@@ -344,10 +620,17 @@ export function BichHaCommissionSearchPanel({
         </div>
       ) : (
         <div className="space-y-4">
-          {response.data.map((group) => (
+          {response.data.filter((group) => !shouldHideAdminGroup(group)).map((group) => (
             <div key={group.id} className="overflow-hidden rounded-3xl border bg-white shadow-sm">
               <div className="grid gap-0 xl:grid-cols-[240px_1fr]">
                 <div className="relative min-h-[220px] bg-[radial-gradient(circle_at_top,_#dff7ea,_#f8fafc_55%,_#e2e8f0)]">
+                  {group.variants?.[0]?.sourceSymbol ? (
+                    <div className="absolute left-3 top-3 z-10">
+                      <Badge className="bg-slate-950/90 text-white shadow-md backdrop-blur hover:bg-slate-950/90">
+                        {group.variants[0].sourceSymbol}
+                      </Badge>
+                    </div>
+                  ) : null}
                   {group.imageUrl ? (
                     <img
                       src={group.imageUrl}
@@ -465,6 +748,79 @@ export function BichHaCommissionSearchPanel({
                             {variant.rawText}
                           </pre>
                         </details>
+
+                        {variant.propertyId || variant.propertyUrl ? (
+                          <details
+                            className="mt-3 rounded-xl border bg-white/85 p-3"
+                            onToggle={(event) => {
+                              const element = event.currentTarget;
+                              if (element.open) {
+                                void ensureWebDetail(Number(variant.propertyId || 0), variant.propertyUrl);
+                              }
+                            }}
+                          >
+                            <summary className="cursor-pointer text-sm font-semibold text-foreground">
+                              Xem tin web (khong can mo web)
+                            </summary>
+                            <div className="mt-3 space-y-2 text-xs leading-6 text-slate-700">
+                              {(() => {
+                                const cacheKey =
+                                  (typeof variant.propertyId === "number" && variant.propertyId > 0
+                                    ? variant.propertyId
+                                    : extractPropertyIdFromUrl(variant.propertyUrl || "") || 0) || 0;
+                                const cached = cacheKey ? webCache[cacheKey] : undefined;
+
+                                if (cached?.status === "loading") {
+                                  return (
+                                <div className="flex items-center gap-2 text-muted-foreground">
+                                  <Loader2 className="h-4 w-4 animate-spin" /> Dang tai tin web...
+                                </div>
+                                  );
+                                }
+
+                                if (cached?.status === "error") {
+                                  return (
+                                <div className="space-y-1 text-red-600">
+                                  <div>Khong tai duoc tin web.</div>
+                                  <div className="text-[11px] text-red-700/80">
+                                    {cached?.statusCode
+                                      ? `HTTP ${cached?.statusCode}: `
+                                      : ""}
+                                    {cached?.errorMessage || ""}
+                                  </div>
+                                </div>
+                                  );
+                                }
+
+                                if (cached?.status === "ready") {
+                                  return (
+                                    <div className="space-y-2">
+                                      <div className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                                        Nguon:{" "}
+                                        <span className="text-foreground">
+                                          {cached?.source === "static-data"
+                                            ? "public/data"
+                                            : cached?.source === "web-html"
+                                              ? "web-html"
+                                              : "api"}
+                                        </span>
+                                      </div>
+                                      <pre className="whitespace-pre-wrap">
+                                        {cached?.description || "Khong co noi dung"}
+                                      </pre>
+                                    </div>
+                                  );
+                                }
+
+                                return (
+                                  <div className="text-muted-foreground">
+                                    Mo muc nay de tai noi dung web.
+                                  </div>
+                                );
+                              })()}
+                            </div>
+                          </details>
+                        ) : null}
                       </div>
                     ))}
                   </div>

@@ -974,8 +974,20 @@ class SenderBot:
             # --- ROUTING LOGIC ---
             symbol_lower = symbol.lower().strip() if symbol else ""
             mbkd_keywords = ["mbkd", "mặt bằng", "văn phòng", "sang nhượng", "kho xưởng", "cửa hàng"]
-            special_symbols = ["taiphat", "taiphat1", "vietquoc", "vietquoc1", "tc home",
-                               "chdv", "chdv hưng phát", "chdv chọn lọc", "chdv chinh trần"]
+            special_symbols = [
+                "taiphat",
+                "taiphat1",
+                "tài phát",
+                "vietquoc",
+                "vietquoc1",
+                "tc home",
+                "tc",
+                "tài land",
+                "chdv",
+                "chdv hưng phát",
+                "chdv chọn lọc",
+                "chdv chinh trần",
+            ]
             target_groups = set()
             keywords = []
             
@@ -1067,7 +1079,7 @@ class SenderBot:
                 if symbol_lower in ["vietquoc", "vietquoc1"]: should_add_nguyencan = True
                 elif symbol_lower in ["chdv", "chdv hưng phát", "chdv chọn lọc", "chdv chinh trần"]:
                     should_add_chdv = True
-                elif symbol_lower in ["tc home", "taiphat", "taiphat1"]:
+                elif symbol_lower in ["tc home", "tc", "taiphat", "taiphat1", "tài phát", "tài land"]:
                     if has_keyword(full_text, mbkd_keywords): should_add_mbkd = True
                     else: should_add_nguyencan = True
                 
